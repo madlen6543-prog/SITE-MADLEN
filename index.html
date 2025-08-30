@@ -11,7 +11,7 @@
     <style>
         body {
             font-family: 'Assistant', sans-serif;
-            background-color: #100b14; /* Even darker background */
+            background-color: #0a060e; /* Even darker background */
             color: #d1d5db;
             overflow-x: hidden;
             position: relative;
@@ -78,6 +78,9 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
             transition: transform 0.6s ease-out, opacity 0.6s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
         }
+        .glass-card-darker {
+            background-color: rgba(10, 6, 14, 0.4);
+        }
         .glass-card:hover {
             border-color: rgba(236, 72, 153, 0.5);
             box-shadow: 0 0 20px rgba(236, 72, 153, 0.2), 0 4px 30px rgba(0, 0, 0, 0.3);
@@ -91,31 +94,41 @@
             transform: translateY(0);
             opacity: 1;
         }
-        .section-title, .hero-gradient-text, .benefits-list strong {
-            background-image: linear-gradient(to right, #f9a8d4, #f472b6, #ec4899, #d8b4fe);
+        .section-title, .hero-gradient-text, .benefits-list strong, .for-you-list strong, .two-color-title, .hero-subtitle-highlight {
+            background-image: linear-gradient(to right, #f472b6, #ec4899, #d8b4fe);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .hero-subtitle-highlight {
+             font-weight: 700;
+        }
+         .two-color-title {
+            background-image: linear-gradient(to right, #ec4899, #a855f7);
+            font-size: 2.8rem; /* Made larger */
+        }
         .section-title {  font-size: 2rem; font-weight: 700; }
-        .benefits-list strong { font-weight: 800; }
+        .benefits-list strong, .for-you-list strong { font-weight: 800; }
 
         @keyframes pulse-whatsapp {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+        .card-price, .galaxy-bg {
+            background: #0a060e radial-gradient(ellipse at bottom, #1e293b 0%, #0a060e 70%);
+        }
         .card-price {
-            background-color: #2e1056;
             border-radius: 1rem;
             padding: 1rem;
             border: 2px solid #f0abfc;
             text-align: center;
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.1), 0 8px 30px rgba(236, 72, 153, 0.2);
         }
         .card-price:hover {
             transform: scale(1.02);
-            box-shadow: 0 8px 30px rgba(236, 72, 153, 0.2);
+            box-shadow: 0 0 35px rgba(255, 255, 255, 0.15), 0 8px 30px rgba(236, 72, 153, 0.3);
         }
         .card-price .original-price {
             text-decoration: line-through;
@@ -126,10 +139,10 @@
         .modal-input:focus { background-color: rgba(255, 255, 255, 0.15); border-color: #d8b4fe; outline: none; box-shadow: none; }
         .modal-input:invalid { border-color: #ec4899; }
         
-        #countdown-timer { display: flex; gap: 1rem; justify-content: center; }
-        .timer-box { background: rgba(216, 180, 254, 0.1); padding: 0.5rem 1rem; border-radius: 0.5rem; text-align: center; border: 1px solid rgba(216, 180, 254, 0.2); }
-        .timer-box span { display: block; font-size: 2rem; font-weight: 700; color: #a78bfa; }
-        .timer-box p { font-size: 0.75rem; color: #d1d5db; }
+        #countdown-timer { display: flex; gap: 0.5rem; justify-content: center; }
+        .timer-box { background: rgba(252, 211, 77, 0.1); padding: 0.25rem 0.5rem; border-radius: 0.5rem; text-align: center; border: 1px solid rgba(252, 211, 77, 0.2); }
+        .timer-box span { display: block; font-size: 1.5rem; font-weight: 700; color: #fcd34d; }
+        .timer-box p { font-size: 0.7rem; color: #d1d5db; margin-top: -2px; }
 
         .popular-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background-image: linear-gradient(to right, #d8b4fe, #ec4899); color: #0b071e; padding: 0.25rem 1rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 800; }
 
@@ -138,65 +151,144 @@
             border-radius: 0.75rem;
             padding: 1rem;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
+            text-align: right;
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
         .what-is-inside-item:hover {
              background-color: rgba(255, 255, 255, 0.15);
-             transform: translateY(-5px);
+             transform: translateX(5px);
         }
-        .what-is-inside-item span { font-size: 2rem; margin-bottom: 0.5rem; }
+        .what-is-inside-item span { font-size: 1.75rem; margin-left: 0.75rem; }
 
+        .testimonial-bubble-container {
+            position: relative;
+        }
         .testimonial-bubble {
-            background-color: #f1f0f0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(247,250,252,0.9) 100%);
             color: #1f2937;
-            border-radius: 1.25rem;
-            padding: 1rem 1.5rem;
-            max-width: 90%;
-            margin: 0 auto;
+            border-radius: .75rem;
+            padding: 0.75rem 1rem;
+            max-width: 60%; /* Made smaller */
             position: relative;
+            margin-left: auto;
+            margin-right: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1;
         }
+         .testimonial-bubble:hover {
+            transform: scale(1.03) rotate(-1.5deg);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        .testimonial-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            right: -8px;
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 10px 0 0 20px;
+            border-color: transparent transparent transparent rgba(247,250,252,0.9);
+        }
+        .testimonial-bubble-container::before { /* Glow effect */
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.3) 0%, rgba(167, 139, 250, 0) 70%);
+            filter: blur(15px);
+            z-index: 0;
+            transition: opacity 0.3s ease;
+        }
+
         .testimonial-bubble p {
-            font-size: 1rem;
+            font-size: 0.8rem; /* Made smaller */
             font-weight: 500;
+            line-height: 1.5;
         }
-         .testimonial-bubble .author {
-            text-align: left;
-            font-size: 0.9rem;
-            font-weight: bold;
+        .testimonial-author-line {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            font-size: 0.75rem;
             color: #6b7280;
-            margin-top: 0.75rem;
+            margin-top: 0.5rem;
         }
-        .special-nudge {
-             border: 2px solid #ec4899;
-             box-shadow: 0 0 25px rgba(236, 72, 153, 0.3);
-        }
-        .faq-item { margin-bottom: 1.5rem; }
-        .faq-question {
-            background-color: #2e1056;
-            padding: 1rem 1.5rem;
-            border-radius: 1rem;
+        .testimonial-author-line span:first-child {
             font-weight: bold;
-            color: #d8b4fe;
-            text-align: right;
-            position: relative;
         }
-        .faq-answer {
-             background-color: rgba(255,255,255,0.08);
-             padding: 1rem 1.5rem;
-             border-radius: 1rem;
-             margin-top: 0.5rem;
-             text-align: right;
-             font-size: 0.9rem;
+        .testimonial-author-line .ticks {
+            margin-right: 4px;
+            color: #34b7f1;
         }
+        
+        .magical-text-section.is-visible .magical-text {
+             animation: magical-glow 2.5s ease-in-out;
+        }
+        
+        @keyframes magical-glow {
+            0%, 100% { text-shadow: 0 0 15px rgba(236, 72, 153, 0.5), 0 0 5px rgba(216, 180, 254, 0.5); }
+            50% { text-shadow: 0 0 25px rgba(236, 72, 153, 0.8), 0 0 10px rgba(216, 180, 254, 0.8); }
+        }
+
+        .magical-text strong {
+            background-image: linear-gradient(to right, #f472b6, #d8b4fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+        }
+
         .about-me-text strong {
              background-image: linear-gradient(to right, #f9a8d4, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
              font-weight: 700;
+        }
+        
+        .faq-accordion-item {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            transition: background-color 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+        .faq-accordion-item[open] {
+             background-color: rgba(255, 255, 255, 0.05);
+        }
+        .faq-accordion-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            font-weight: 700;
+            color: #f0abfc;
+            cursor: pointer;
+            list-style: none; /* Remove default marker */
+        }
+        .faq-accordion-question::-webkit-details-marker {
+            display: none; /* Hide default marker for Safari */
+        }
+        .faq-accordion-answer {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            color: #d1d5db;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .faq-icon {
+            font-size: 1.5rem;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+            color: #a78bfa;
+        }
+        .faq-accordion-item[open] .faq-icon {
+            transform: rotate(45deg);
+        }
+        .bonus-list strong {
+            font-weight: 800;
+            color: #ffffff; /* White text */
         }
     </style>
 </head>
@@ -212,48 +304,56 @@
                 <span class="hero-gradient-text">הגיע הזמן שתראו את עצמכם.</span>
             </h1>
             <p class="text-lg text-gray-400 max-w-2xl mx-auto mt-6">
-                זה המקום שבו מפסיקים להרגיש לבד עם המחשבות, ולומדים איך להפוך אותן לכוח שלכם.
+                המקום שבו מפסיקים להרגיש <span class="hero-subtitle-highlight">לבד עם המחשבות</span><br>ולומדים איך להפוך אותן לכוח שלכם.
             </p>
             <div class="mt-8">
-                <a href="#cta" class="btn bg-[#d8b4fe] hover:bg-[#a78bfa] text-xl font-bold text-gray-900 !p-4 !px-8">אני רוצה להתחיל את המסע שלי</a>
+                <a href="#cta" class="btn bg-[#d8b4fe] hover:bg-[#a78bfa] text-lg font-bold text-gray-900 !p-3 !px-6">אני רוצה להתחיל את המסע שלי</a>
             </div>
         </header>
 
         <!-- What You Will Get Section -->
         <section class="mb-16 glass-card p-8 animate-on-scroll">
-            <h2 class="section-title text-center mb-10">
+            <h2 class="section-title text-center mb-10 two-color-title">
                 הגיע הזמן לגעת בכאב<br>כדי לרפא אותו
             </h2>
             <div class="space-y-8">
                 <div class="text-center">
-                    <p class="font-bold text-2xl text-[#f0abfc]">
+                    <p class="font-bold text-xl text-[#f0abfc]">
                         🤯 מרגישים לבד גם כשאתם מוקפים באנשים?
                     </p>
                     <p class="text-md text-gray-300 mt-2 max-w-lg mx-auto">
-                        כאן תבינו למה, ותבנו מחדש את מערכת היחסים הכי חשובה שיש לכם – זו עם עצמכם.
+                        כאן תבינו למה, ותחזקו את מערכת היחסים הכי חשובה שיש לכם – זו עם עצמכם.
                     </p>
                 </div>
                 <div class="text-center">
-                    <p class="font-bold text-2xl text-[#f0abfc]">
-                        🤐 הקול הזה בראש שלא מפסיק לבקר אתכם?
+                    <p class="font-bold text-xl text-[#f0abfc]">
+                        🤐 קול בראש שלא מפסיק לבקר אתכם?
                     </p>
                     <p class="text-md text-gray-300 mt-2 max-w-lg mx-auto">
                         תלמדו איך להשתיק את המבקר הפנימי, ובמקומו ליצור קול חדש – חבר, תומך ומעצים.
                     </p>
                 </div>
                 <div class="text-center">
-                    <p class="font-bold text-2xl text-[#f0abfc]">
+                    <p class="font-bold text-xl text-[#f0abfc]">
                         😨 מפחדים להראות מי אתם באמת, כי "מה יחשבו"?
                     </p>
                     <p class="text-md text-gray-300 mt-2 max-w-lg mx-auto">
-                        תקבלו כלים מעשיים להתמודד עם הפחד, ולהתחיל לחיות בחופש מלא.
+                        תקבלו כלים מנטליים להבין לעומק את הפחדים שלכם, וללמוד איך לעבוד איתם.
+                    </p>
+                </div>
+                 <div class="text-center">
+                    <p class="font-bold text-xl text-[#f0abfc]">
+                        🤔 מרגישים הרבה בפנים, אבל מתקשים להוציא את זה החוצה?
+                    </p>
+                    <p class="text-md text-gray-300 mt-2 max-w-lg mx-auto">
+                        תגלו איך לתת לקול הפנימי שלכם מקום, ולהראות לעולם את מי שאתם באמת<br>בלי מלחמות פנימיות.
                     </p>
                 </div>
             </div>
         </section>
         
         <!-- About Me Section -->
-        <section class="mb-16 glass-card p-8 animate-on-scroll">
+        <section class="mb-16 glass-card glass-card-darker p-8 animate-on-scroll">
             <h2 class="section-title text-center mb-10">
                 הסיפור שלי<br>שהפך להיות החוברת שלכם
             </h2>
@@ -261,10 +361,13 @@
                 <img src="https://github.com/madlen6543-prog/IMAGES-/raw/965aa35f1406855fe2d170a499cd6fd98ebf60cb/%D7%AA%D7%9E%D7%95%D7%A0%D7%94%20%D7%A9%D7%9C%D7%99%20-%20%D7%A7%D7%A6%D7%AA%20%D7%A2%D7%9C%D7%99%D7%99.png" alt="מדלן פריד" class="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-4 border-[#f0abfc]">
                 <div class="text-base text-gray-300 space-y-4 about-me-text">
                     <p>
-                        אם הגעתם לכאן, כנראה שגם אתם מכירים את התחושה הזאת... להרגיש <strong>שקופים בחדר מלא אנשים</strong>. לחיות שנים עם לחישה קבועה בראש שאתם "יותר מדי" - יותר מדי שקטים, רגישים, או חושבים.
+                        אם הגעתם לכאן, כנראה שגם אתם מכירים את התחושה הזאת... להרגיש <strong>שלא באמת רואים אתכם</strong>.<br>להימנע מלבטא את עצמכם באמת, רק כדי לא להיות "יותר מדי" - רגישים, עמוקים או כבדים.
                     </p>
                     <p>
-                        עברתי את המסע הזה בעצמי. היו שנים שהרגשתי אבודה בתוך המחשבות של עצמי, בלי להבין איך יוצאים מזה. החוברת הזאת היא לא עוד קובץ PDF שתשכחו ממנו, <strong>היא הלב שלי</strong>. ריכזתי בה את כל הכלים האמיתיים, מהשטח, שעזרו לי <strong>להפוך את הרגישות לכוח</strong> ולהפסיק להתנצל על מי שאני.
+                        במשך שנים הרגשתי כלואה בתוך המחשבות שלי. היה לי קשה להסביר מה אני מרגישה, ורוב הזמן הייתי בטוחה שמשהו פשוט לא בסדר איתי.
+                    </p>
+                     <p>
+                        החוברת הזאת היא מסע אישי ומרתק.<br> ריכזתי בה את כל הכלים והתובנות מהמסע שלי, כדי לעזור לכם להפסיק להחביא את מי שאתם,<br>רק מהפחד אם יאהבו ויקבלו.
                     </p>
                 </div>
             </div>
@@ -277,82 +380,105 @@
                     "להכיר את עצמך לעומק"
                 </h2>
                 <p class="text-lg text-gray-400 mb-10">
-                    החוברת שתעזור לכם להרגיש בנוח להיות מי שאתם, בלי פילטרים.
+                    מרחב בטוח לביטוי עצמי.
                 </p>
+            </div>
 
-                <div class="text-right space-y-8">
-                    <div>
-                        <h3 class="font-bold text-xl mb-3 text-[#ec4899]">מה מחכה לכם בפנים?</h3>
-                        <p class="text-sm text-gray-300 mb-4">אז תכל'ס, מה זה? שכחו מתיאוריות. זאת חוברת עבודה אישית, שלכם, מלאה בכלים פרקטיים:</p>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs font-semibold">
-                            <div class="what-is-inside-item"><span>📝</span><p>שאלות ממוקדות</p></div>
-                            <div class="what-is-inside-item"><span>💪</span><p>תרגילים מעשיים</p></div>
-                            <div class="what-is-inside-item"><span>✍️</span><p>כתיבה חופשית</p></div>
-                            <div class="what-is-inside-item"><span>✨</span><p>הצהרות חיוביות</p></div>
-                            <div class="what-is-inside-item"><span>🎲</span><p>משחקונים</p></div>
-                            <div class="what-is-inside-item"><span>💖</span><p>ועוד הפתעות</p></div>
-                        </div>
-                    </div>
+            <div class="flex flex-col md:flex-row gap-8 items-center">
+                <!-- Image Column -->
+                <div class="md:w-1/2 w-full flex justify-center">
+                    <img src="https://github.com/madlen6543-prog/IMAGES-/raw/965aa35f1406855fe2d170a499cd6fd98ebf60cb/%D7%AA%D7%9E%D7%95%D7%A0%D7%94%20%D7%A9%D7%9C%20%D7%97%D7%95%D7%91%D7%A8%D7%AA%20%D7%A2%D7%9D%20%D7%A8%D7%A7%D7%A2.jpeg" alt="תמונה של החוברת להכיר את עצמך לעומק" class="rounded-lg w-full max-w-xs shadow-[0_0_35px_rgba(236,72,153,0.4)] transition-transform duration-500 ease-in-out hover:scale-105">
+                </div>
 
-                    <div>
-                        <h3 class="font-bold text-xl mb-3 text-[#ec4899]">למי החוברת מתאימה?</h3>
-                        <p class="text-sm text-gray-300">היא בול בשבילכם אם אתם:</p>
-                         <ul class="list-none space-y-2 text-sm text-gray-300 mt-2">
-                            <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>רוצים למצוא את הדרך לבטא את עצמכם בחופשיות.</span></li>
-                            <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>מחפשים לבנות ביטחון וערך עצמי שלא תלויים באחרים.</span></li>
-                            <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>עייפים מלצמצם ולהשתיק את עצמכם מהפחד 'מה יגידו'.</span></li>
-                            <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>רוצים להבין באמת מי אתם ומה אתם רוצים מהחיים.</span></li>
-                        </ul>
+                <!-- Text Column -->
+                <div class="md:w-1/2 text-right">
+                    <h3 class="font-bold text-xl mb-3 text-[#ec4899]">אז מה זה בעצם?</h3>
+                    <p class="text-sm text-gray-300 mb-4">
+                        אז תכל'ס, מה זה? זו לא עוד חוברת קריאה. זו חוברת עבודת עומק, מרחב אישי שלכם להיכנס פנימה. כל חלק בה בנוי כדי לתת לכם כלים פרקטיים, כאלה שבאמת עובדים, כדי ליצור שינוי אמיתי מבפנים:
+                    </p>
+                    <div class="space-y-3 text-sm font-semibold">
+                        <div class="what-is-inside-item"><span>📝</span><p>שאלות עומק</p></div>
+                        <div class="what-is-inside-item"><span>🧠</span><p>כלים לשינוי חשיבה</p></div>
+                        <div class="what-is-inside-item"><span>✍️</span><p>תרגילי כתיבה</p></div>
+                        <div class="what-is-inside-item"><span>🎯</span><p>משימות ליישום</p></div>
                     </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card-darker p-6 rounded-lg">
+                    <h3 class="font-bold text-xl mb-3 text-[#ec4899]">למי החוברת מתאימה?</h3>
+                    <p class="text-sm text-gray-300 mb-4">היא בול בשבילכם אם אתם:</p>
+                     <ul class="list-none space-y-2 text-sm text-gray-300 for-you-list">
+                        <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>רוצים למצוא את הדרך <strong>לבטא את עצמכם בחופשיות</strong>.</span></li>
+                        <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>מחפשים לבנות <strong>ביטחון וערך עצמי</strong> שלא תלויים באחרים.</span></li>
+                        <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>עייפים <strong>מלצמצם ולהשתיק</strong> את עצמכם מהפחד 'מה יגידו'.</span></li>
+                        <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>רוצים <strong>להבין באמת מי אתם</strong> ומה אתם רוצים מעצמכם.</span></li>
+                    </ul>
+                </div>
 
-                    <div>
-                        <h3 class="font-bold text-xl mb-3 text-[#ec4899]">ומה יוצא לכם מזה? (התכל'ס)</h3>
-                        <ul class="list-none space-y-2 text-sm text-gray-300 benefits-list">
-                            <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">✓</span><span><strong>תחושת ערך עצמי</strong> שלא תלויה באף אחד אחר.</span></li>
-                            <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">✓</span><span><strong>ביטחון לבטא</strong> את עצמכם בלי להתנצל.</span></li>
-                            <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">✓</span><span><strong>שקט פנימי</strong> והבנה עמוקה של הרגשות שלכם.</span></li>
-                            <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">✓</span><span><strong>כלים פרקטיים</strong> לניהול המחשבות ולקבלת פרופורציה.</span></li>
-                        </ul>
-                    </div>
+                <div class="glass-card-darker p-6 rounded-lg">
+                    <h3 class="font-bold text-xl mb-3 text-[#ec4899]">השינוי שתחוו בסוף התהליך</h3>
+                    <ul class="list-none space-y-2 text-sm text-gray-300 benefits-list">
+                        <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">✓</span><span><strong>תחושת ערך עצמי</strong> שלא תלויה באף אחד אחר.</span></li>
+                        <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">✓</span><span><strong>ביטחון לבטא</strong> את עצמכם בלי להתנצל.</span></li>
+                        <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">✓</span><span><strong>שקט פנימי</strong> והבנה עמוקה של הרגשות שלכם.</span></li>
+                        <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">✓</span><span><strong>כלים פרקטיים</strong> לניהול המחשבות ולקבלת פרופורציה.</span></li>
+                    </ul>
                 </div>
             </div>
         </section>
 
         <!-- Testimonial Section -->
         <section class="mb-16 animate-on-scroll space-y-6">
-            <div class="testimonial-bubble">
-                 <p>
-                    "וואו, סוף סוף הרגשתי שמישהו באמת קולט אותי. החוברת נתנה לי כלים אמיתיים להתמודד עם סיטואציות חברתיות שתמיד היו מלחיצות אותי רצח."
-                </p>
-                <p class="author">- נועה, 22</p>
+            <div class="testimonial-bubble-container">
+                 <div class="testimonial-bubble">
+                     <p>
+                        "וואו, סוף סוף הרגשתי שמישהו באמת קולט אותי. החוברת נתנה לי כלים אמיתיים להתמודד<br>עם סיטואציות חברתיות שתמיד היו מלחיצות אותי."
+                    </p>
+                    <div class="testimonial-author-line">
+                        <span>- נועה, 22</span>
+                        <span class="ticks">✓✓</span>
+                    </div>
+                </div>
             </div>
-             <div class="testimonial-bubble">
-                 <p>
-                    "התהליך עם החוברת פשוט פתח לי את הראש. למדתי להקשיב לעצמי במקום לכל הרעש מסביב. אחד הדברים הטובים שעשיתי לעצמי."
-                </p>
-                <p class="author">- יובל, 21</p>
+             <div class="testimonial-bubble-container">
+                 <div class="testimonial-bubble">
+                     <p>
+                        "התהליך עם החוברת פשוט פתח לי את הראש. למדתי להקשיב לעצמי במקום לכל הרעש מסביב.<br>אחד הדברים הטובים שעשיתי לעצמי."
+                    </p>
+                    <div class="testimonial-author-line">
+                        <span>- יובל, 21</span>
+                        <span class="ticks">✓✓</span>
+                    </div>
+                </div>
             </div>
-             <div class="testimonial-bubble">
-                 <p>
-                    "הקול הזה בראש שתמיד היה יורד עליי? בפעם הראשונה אני מרגישה שאני לומדת איך לדבר איתו אחרת. באמת משנה חיים."
-                </p>
-                <p class="author">- מאיה, 24</p>
+             <div class="testimonial-bubble-container">
+                 <div class="testimonial-bubble">
+                     <p>
+                        "הקול הזה בראש שתמיד היה יורד עליי? וואו, אני לא מאמינה שאני אומרת את זה, אבל בפעם הראשונה אני מרגישה שאני לומדת איך לנהל אותו. זה פשוט משנה את כל חוקי המשחק."
+                    </p>
+                    <div class="testimonial-author-line">
+                        <span>- מאיה, 24</span>
+                        <span class="ticks">✓✓</span>
+                    </div>
+                </div>
             </div>
         </section>
 
 
         <!-- Spiritual Nudge Section -->
-        <section class="mb-16 glass-card p-8 animate-on-scroll text-center special-nudge">
-            <h2 class="section-title mb-4">✨ רגע, שנייה לפני... ✨</h2>
-            <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                זה לא סתם שהגעתם לפה. <br>
+        <section class="my-24 animate-on-scroll text-center magical-text-section">
+            <h2 class="section-title mb-4 magical-text">✨ עצרו רגע... ✨</h2>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed magical-text">
+                לא סתם הגעתם לכאן.<br>
                 משהו בכם מחפש שינוי, והאמת? הגיע הזמן להקשיב לו. <br>
-                <strong>כי אתם לגמרי שווים את זה.</strong>
+                <strong class="magical-text">כי אתם לגמרי שווים את זה.</strong>
             </p>
         </section>
 
         <!-- Pricing Section -->
-        <section id="cta" class="glass-card p-8 mb-12 animate-on-scroll">
+        <section id="cta" class="glass-card p-8 mb-12 animate-on-scroll galaxy-bg">
             <div class="text-center mb-10">
                 <h2 class="section-title mb-4">בואו נצא לדרך.</h2>
                 <h3 class="text-xl font-bold text-[#f0abfc] mb-4">מחיר ההשקה המיוחד מסתיים בעוד:</h3>
@@ -365,93 +491,127 @@
             </div>
             
             <div class="flex flex-col md:flex-row gap-8 justify-center items-stretch">
-                 <!-- Option 2: Bonus Package (now first) -->
+                 <!-- Option 2: Bonus Package -->
                 <div class="card-price flex flex-col items-center flex-1 p-6 border-4 border-[#ec4899]">
                     <div class="popular-badge">הכי פופולרית</div>
-                    <h3 class="text-2xl font-bold mb-2">חבילת הבונוסים</h3>
-                    <div class="text-sm text-gray-400 mb-4 h-20 text-right">
-                        <ul class="list-none space-y-1 text-xs">
-                           <li>✓ החוברת הדיגיטלית המלאה</li>
-                           <li>✓ דפים להדפסה נוחה של דפי העבודה</li>
-                           <li>✓ צ'קליסט: שאלות לשיחת עומק</li>
-                           <li>✓ מדריך: טריק להרגעת לחץ במפגשים חברתיים</li>
+                    <h3 class="text-2xl font-bold mb-4">חבילת הבונוסים</h3>
+                    <img src="https://github.com/madlen6543-prog/IMAGES-/raw/7f44128be7272aefd423e0073142ad97de7421b8/%D7%A9%D7%99%D7%A0%D7%95%D7%99.png" alt="חבילת הבונוסים" class="w-60 h-auto rounded-lg mb-4 shadow-lg">
+                    <div class="text-sm text-gray-400 mb-4 text-right h-20 flex flex-col justify-center">
+                        <ul class="list-none space-y-1 text-xs bonus-list">
+                           <li>✓ <strong>החוברת הדיגיטלית</strong> המלאה</li>
+                           <li>✓ דפים <strong>להדפסה נוחה</strong> של דפי העבודה</li>
+                           <li>✓ <strong>צ'קליסט:</strong> שאלות לשיחת עומק</li>
+                           <li>✓ <strong>מדריך:</strong> טריק להרגעת לחץ במפגשים חברתיים</li>
                         </ul>
                     </div>
-                    <p class="text-4xl font-extrabold mb-2 text-[#d8b4fe]">197 ש"ח</p>
-                    <p class="original-price text-sm line-through">349 ש"ח</p>
-                    <p class="text-xs mt-2 font-bold text-[#ec4899]">מחיר השקה מיוחד!</p>
-                    <p class="text-xs mt-2 text-gray-400">
-                        *שימוש באייפד או הדפסת דפי עבודה בשחור-לבן.
-                    </p>
-                     <div class="mt-auto pt-6 w-full space-y-3">
-                        <button data-package="הבונוסים" data-price="197" class="btn btn-primary w-full purchase-btn">אני רוצה לרכוש!</button>
-                        <a href="https://wa.me/972524073915?text=היי%20מדלן,%20יש%20לי%20שאלה%20לגבי%20חבילת%20הבונוסים" target="_blank" class="btn btn-secondary w-full block">לשאלות ותמיכה</a>
+                    <div class="mt-auto pt-4 w-full">
+                        <p class="text-4xl font-extrabold mb-2 text-[#d8b4fe]">197 ש"ח</p>
+                        <p class="original-price text-sm line-through">349 ש"ח</p>
+                        <p class="text-xs mt-2 font-bold text-[#ec4899]">מחיר השקה מיוחד!</p>
+                        <p class="text-xs mt-2 text-gray-400">*קבצים להדפסה נוחה של חוברת התרגילים.</p>
+                         <div class="mt-6 w-full space-y-3">
+                            <button data-package="הבונוסים" data-price="197" class="btn btn-primary w-full purchase-btn">אני רוצה לרכוש!</button>
+                            <a href="https://wa.me/972524073915?text=היי%20מדלן,%20יש%20לי%20שאלה%20לגבי%20חבילת%20הבונוסים" target="_blank" class="btn btn-secondary w-full block">לשאלות ותמיכה</a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Option 1: Basic Package (now second) -->
+                <!-- Option 1: Basic Package -->
                 <div class="card-price flex flex-col items-center flex-1 p-6">
-                    <h3 class="text-2xl font-bold mb-2">חבילה בסיסית</h3>
-                    <div class="text-sm text-gray-400 mb-4 h-20 text-right">
+                    <h3 class="text-2xl font-bold mb-4">חבילה בסיסית</h3>
+                    <img src="https://github.com/madlen6543-prog/IMAGES-/raw/fcf3eddc23322c7fd6a7daa6ff6dfe6433b9c5fc/%D7%97%D7%95%D7%91%D7%A8%D7%AA%20%D7%A2%D7%91%D7%95%D7%93%D7%94%20%D7%A7%D7%A4%D7%99%D7%A6%D7%94%20%D7%9C%D7%A2%D7%9E%D7%95%D7%A7%D7%99%D7%9D%20(3).png" alt="חבילה בסיסית" class="w-48 h-auto rounded-lg mb-4 shadow-lg">
+                    <div class="text-sm text-gray-400 mb-4 text-right h-20 flex flex-col justify-center">
                          <ul class="list-none space-y-1 text-xs">
                            <li>✓ החוברת הדיגיטלית המלאה</li>
                         </ul>
                     </div>
-                    <p class="text-4xl font-extrabold mb-2 text-[#d8b4fe]">147 ש"ח</p>
-                    <p class="original-price text-sm line-through">249 ש"ח</p>
-                    <p class="text-xs mt-2 font-bold text-[#ec4899]">מחיר השקה מיוחד!</p>
-                    <p class="text-xs mt-2 text-gray-400">
-                        *ניתן להשתמש באמצעות אייפד או כמחברת פיזית לכתיבה
-                    </p>
-                    <div class="mt-auto pt-6 w-full space-y-3">
-                        <button data-package="הבסיסית" data-price="147" class="btn btn-primary w-full purchase-btn">אני רוצה לרכוש!</button>
-                        <a href="https://wa.me/972524073915?text=היי%20מדלן,%20יש%20לי%20שאלה%20לגבי%20החוברת" target="_blank" class="btn btn-secondary w-full block">לשאלות ותמיכה</a>
+                    <div class="mt-auto pt-4 w-full">
+                        <p class="text-4xl font-extrabold mb-2 text-[#d8b4fe]">147 ש"ח</p>
+                        <p class="original-price text-sm line-through">249 ש"ח</p>
+                        <p class="text-xs mt-2 font-bold text-[#ec4899]">מחיר השקה מיוחד!</p>
+                        <p class="text-xs mt-2 text-gray-400">*ניתן להשתמש באייפד או במחברת פיזית</p>
+                        <div class="mt-6 w-full space-y-3">
+                            <button data-package="הבסיסית" data-price="147" class="btn btn-primary w-full purchase-btn">אני רוצה לרכוש!</button>
+                            <a href="https://wa.me/972524073915?text=היי%20מדלן,%20יש%20לי%20שאלה%20לגבי%20החוברת" target="_blank" class="btn btn-secondary w-full block">לשאלות ותמיכה</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- FAQ Section -->
-        <section class="mb-16 glass-card p-8 animate-on-scroll">
+        <section class="mb-16 glass-card p-8 animate-on-scroll galaxy-bg">
             <h2 class="section-title text-center mb-10">שאלות נפוצות</h2>
-            <div class="space-y-6">
-                <div class="faq-item">
-                    <div class="faq-question">איך מקבלים את החוברת אחרי התשלום?</div>
-                    <div class="faq-answer">מיד אחרי שתאשרו את התשלום, קובץ PDF של החוברת יישלח אליכם ישירות למייל שהזנתם. פשוט וקל.</div>
-                </div>
-                 <div class="faq-item">
-                    <div class="faq-question">האם תהיה לי גישה לחוברת לתמיד?</div>
-                    <div class="faq-answer">כן. ברגע הרכישה החוברת שלך לתמיד. אפשר לחזור אליה מתי שרוצים.</div>
-                </div>
-                 <div class="faq-item">
-                    <div class="faq-question">ניסיתי דברים אחרים, איך זה שונה?</div>
-                    <div class="faq-answer">הייחוד כאן הוא המסע המובנה והאישי. אנחנו לא רק מדברים, אלא עושים. התרגילים המעשיים נועדו ליצור שינוי אמיתי מהשורש, מתוך ניסיון אישי ולא מתוך תיאוריה.</div>
-                </div>
-                 <div class="faq-item">
-                    <div class="faq-question">באיזה קצב מומלץ לעבוד?</div>
-                    <div class="faq-answer">הקצב הוא שלך. יש 5 חלקים, וההמלצה היא שבוע לכל חלק, אבל הכי חשוב זה להקשיב לעצמך. המטרה היא התהליך, לא המירוץ.</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Final CTA & Contact Section -->
-        <section class="glass-card p-8 text-center mb-12 animate-on-scroll">
-            <h2 class="text-3xl font-bold mb-4 text-[#ec4899]">
-                שאלות נוספות?
-            </h2>
-            <p class="text-xl font-bold text-[#d8b4fe] mb-6">
-                בואו נדבר. אני כאן לכל שאלה, מחשבה או התלבטות.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <a href="https://wa.me/972524073915?text=%D7%94%D7%99%D7%99%20%D7%9E%D7%93%D7%9C%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%93%D7%A3%20%D7%94%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%95%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%A9%D7%90%D7%9C%D7%94%20%D7%9C%D7%92%D7%91%D7%99%20%D7%94%D7%97%D7%95%D7%91%D7%A8%D7%AA." class="btn btn-primary text-lg flex items-center justify-center !p-4" target="_blank">
-                    <svg class="w-6 h-6 ml-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2.1c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.35 4.96L2.05 22l5.12-1.34c1.47.8 3.14 1.25 4.87 1.25 5.46 0 9.91-4.45 9.91-9.91s-4.45-9.91-9.91-9.91zm0 18.06c-1.46 0-2.88-.42-4.13-1.22L5.8 19.33l-3.32.87.89-3.26c-.78-1.39-1.2-2.98-1.2-4.62C2.17 6.45 6.62 2 12.08 2s9.91 4.45 9.91 9.91-4.45 9.91-9.91 9.91zm4.9-5.1a1.27 1.27 0 00-.89-.35 1.2 1.2 0 00-.89.35c-.19.19-.52.28-1.07.28-1.12 0-2.34-.6-3.46-1.72-1.12-1.12-1.72-2.34-1.72-3.46 0-.55.09-.88.28-1.07.35-.35.8-.52 1.2-.52.26 0 .4.09.52.21.12.12.19.26.28.42.09.16.18.3.26.46.12.16.16.21.28.44.12.21.21.35.3.49.16.26.26.35.3.44.09.12.16.21.26.3.12.12.21.26.3.35.09.09.16.12.26.16.23.09.35.12.42.12.09 0 .21-.04.3-.12.09-.09.18-.21.28-.35.12-.16.21-.3.3-.44.09-.16.16-.26.26-.35.12-.12.23-.23.35-.32.09-.09.19-.16.3-.16.35 0 .61.07.72.16.26.23.4.4.52.55.12.16.21.3.28.46.09.16.18.3.26.46.09.16.12.21.21.35.09.16.16.26.26.3.12.09.19.21.3.32.09.12.23.19.4.21.12.04.23.04.35 0 .44-.09.78-.3.94-.49-.23-.23-.49-.35-.72-.44.23-.09.49-.12.8-.23z"/></svg>
-                    שלחו לי הודעה בווטסאפ
-                </a>
-                
-                <a href="https://www.instagram.com/madlen.frid" class="btn btn-instagram text-lg flex items-center justify-center !p-4" target="_blank">
-                    <svg class="w-6 h-6 ml-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2.7c-2.4 0-4.3 1.9-4.3 4.3v6.7c0 2.4 1.9 4.3 4.3 4.3h6.7c2.4 0 4.3-1.9 4.3-4.3V9.5c0-2.4-1.9-4.3-4.3-4.3H7.6zm9.2 2.5a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zm-5 1.5a4.2 4.2 0 110 8.4 4.2 4.2 0 010-8.4zm0 2.2a2 2 0 100 4 2 2 0 000-4z"/></svg>
-                    שלחו לנו הודעה באינסטגרם
-                </a>
+            <div class="space-y-4">
+                 <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>איך הכי נכון להשתמש בחוברת?</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        ההמלצה היא להקדיש זמן שקט לעצמכם, בלי הפרעות. קחו מחברת ועט או פתחו את הקובץ באייפד, וענו על השאלות בכנות מלאה. אין כאן תשובות 'נכונות' או 'לא נכונות' - רק אתם. תנו לעצמכם להיות כנים, זה המקום הבטוח שלכם.
+                    </div>
+                </details>
+                <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>עדיף להדפיס או להשתמש בדיגיטל?</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        זה לגמרי תלוי בכם ובמה שמרגיש לכם הכי נכון.<br>
+                        • <strong>כתיבה פיזית:</strong> יש אנשים שמרגישים שהכתיבה במחברת חיצונית עוזרת להם להתחבר לעצמם יותר לעומק.<br>
+                        • <strong>שימוש דיגיטלי:</strong> אחרים מעדיפים את הנוחות של האייפד.<br>
+                        שתי הדרכים מעולות! חבילת הבונוסים כוללת גם קבצים מותאמים להדפסה נוחה.
+                    </div>
+                </details>
+                <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>איך מקבלים את החוברת אחרי התשלום?</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        מיד אחרי שתאשרו את התשלום, קובץ PDF של החוברת יישלח אליכם ישירות למייל שהזנתם. פשוט וקל.
+                    </div>
+                </details>
+                <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>ניסיתי דברים אחרים, איך זה שונה?</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        בניגוד לשיחות או תיאוריות, החוברת הזו היא כלי עבודה. היא לוקחת אתכם צעד-אחר-צעד במסע אישי ופרקטי. כל תרגיל נולד מתוך ניסיון אמיתי במטרה ליצור שינוי שמרגישים, לא רק מבינים.
+                    </div>
+                </details>
+                 <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>האם החוברת נשארת שלי לתמיד?</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        לגמרי כן! ברגע שרכשתם, החוברת היא שלכם לתמיד. תוכלו לחזור אליה בכל שלב בחיים, לקרוא מחדש את התשובות שלכם ולראות את הדרך המדהימה שעברתם.
+                    </div>
+                </details>
+                 <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>שאלות נוספות?</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        <p class="text-center text-lg font-bold text-[#d8b4fe] mb-4">
+                             אני כאן לכל שאלה, מחשבה או התלבטות.
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <a href="https://wa.me/972524073915?text=%D7%94%D7%99%D7%99%20%D7%9E%D7%93%D7%9C%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%93%D7%A3%20%D7%94%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%95%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%A9%D7%90%D7%9C%D7%94%20%D7%9C%D7%92%D7%91%D7%99%20%D7%94%D7%97%D7%95%D7%91%D7%A8%D7%AA." class="btn btn-primary text-md flex items-center justify-center" target="_blank">
+                                <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2.1c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.35 4.96L2.05 22l5.12-1.34c1.47.8 3.14 1.25 4.87 1.25 5.46 0 9.91-4.45 9.91-9.91s-4.45-9.91-9.91-9.91zm0 18.06c-1.46 0-2.88-.42-4.13-1.22L5.8 19.33l-3.32.87.89-3.26c-.78-1.39-1.2-2.98-1.2-4.62C2.17 6.45 6.62 2 12.08 2s9.91 4.45 9.91 9.91-4.45 9.91-9.91 9.91zm4.9-5.1a1.27 1.27 0 00-.89-.35 1.2 1.2 0 00-.89.35c-.19.19-.52.28-1.07.28-1.12 0-2.34-.6-3.46-1.72-1.12-1.12-1.72-2.34-1.72-3.46 0-.55.09-.88.28-1.07.35-.35.8-.52 1.2-.52.26 0 .4.09.52.21.12.12.19.26.28.42.09.16.18.3.26.46.12.16.16.21.28.44.12.21.21.35.3.49.16.26.26.35.3.44.09.12.16.21.26.3.12.12.21.26.3.35.09.09.16.12.26.16.23.09.35.12.42.12.09 0 .21-.04.3-.12.09-.09.18-.21.28-.35.12-.16.21-.3.3-.44.09-.16.16-.26.26-.35.12-.12.23-.23.35-.32.09-.09.19-.16.3-.16.35 0 .61.07.72.16.26.23.4.4.52.55.12.16.21.3.28.46.09.16.18.3.26.46.09.16.12.21.21.35.09.16.16.26.26.3.12.09.19.21.3.32.09.12.23.19.4.21.12.04.23.04.35 0 .44-.09.78-.3.94-.49-.23-.23-.49-.52-.72-.44.23-.09.49-.12.8-.23z"/></svg>
+                                ווטסאפ
+                            </a>
+                            <a href="https://www.instagram.com/madlen.frid" class="btn btn-instagram text-md flex items-center justify-center" target="_blank">
+                                <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2.7c-2.4 0-4.3 1.9-4.3 4.3v6.7c0 2.4 1.9 4.3 4.3 4.3h6.7c2.4 0 4.3-1.9 4.3-4.3V9.5c0-2.4-1.9-4.3-4.3-4.3H7.6zm9.2 2.5a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zm-5 1.5a4.2 4.2 0 110 8.4 4.2 4.2 0 010-8.4zm0 2.2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+                                אינסטגרם
+                            </a>
+                        </div>
+                    </div>
+                </details>
             </div>
         </section>
 
@@ -504,6 +664,14 @@
 
     <script>
         // --- EmailJS Configuration ---
+        // ----------------------------------------------------------------------------------
+        // --- מדריך להפעלת שליחת מיילים ---
+        // כדי שהטופס ישלח לך מייל עם פרטי הלקוח, יש לבצע 2 שלבים פשוטים:
+        // 1. הירשמי בחינם לאתר emailjs.com
+        // 2. אחרי ההרשמה, תקבלי 3 מפתחות. העתיקי והדביקי אותם כאן במקום הטקסטים באנגלית:
+        //    'YOUR_SERVICE_ID' , 'YOUR_TEMPLATE_ID' , 'YOUR_PUBLIC_KEY'
+        // וזהו! המערכת תתחיל לעבוד אוטומטית.
+        // ----------------------------------------------------------------------------------
         const emailJSConfig = { serviceID: 'YOUR_SERVICE_ID', templateID: 'YOUR_TEMPLATE_ID', publicKey: 'YOUR_PUBLIC_KEY' };
 
         // --- Globals ---
@@ -543,7 +711,7 @@
         };
 
         const handlePaymentConfirmation = () => {
-            const message = `היי מדלן, העברתי תשלום עבור חוברת "להכיר את עצמכם, לעומק" בחבילת *${customerDetails.packageType}*!\n\n*הפרטים שלי:*\nשם מלא: ${customerDetails.fullName}\nמייל: ${customerDetails.email}\nטלפון: ${customerDetails.phone}\n\n${customerDetails.reason ? `*מה גרם לי לרכוש את החוברת:*\n${customerDetails.reason}` : ''}\nתודה רבה!`.trim();
+            const message = `היי מדלן, העברתי תשלום עבור החוברת "להכיר את עצמך לעומק" ❤️ בחבילת *${customerDetails.packageType}*! אני ממש מתרגש/ת להתחיל.\n\n*הפרטים שלי:*\nשם מלא: ${customerDetails.fullName}\nמייל: ${customerDetails.email}\nטלפון: ${customerDetails.phone}\n\n${customerDetails.reason ? `*מה גרם לי לרכוש את החוברת:*\n${customerDetails.reason}` : ''}\nתודה רבה!`.trim();
             const whatsappUrl = `https://wa.me/972524073915?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
             closeModal(paymentModal);
@@ -585,7 +753,6 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
@@ -597,5 +764,4 @@
     </script>
 </body>
 </html>
-
 
