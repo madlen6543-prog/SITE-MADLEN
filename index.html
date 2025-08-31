@@ -290,6 +290,36 @@
             font-weight: 800;
             color: #ffffff; /* White text */
         }
+        .object-left-ish {
+            object-position: 28% 50%; /* Final adjustment */
+        }
+        .about-what-list strong {
+            font-weight: 700;
+            color: #f9a8d4;
+        }
+        .expression-list {
+             list-style: none; padding: 0;
+        }
+        .expression-list li {
+            padding-right: 1.5rem;
+            position: relative;
+        }
+        .expression-list li::before {
+             content: '•';
+             color: #f0abfc;
+             position: absolute;
+             right: 0;
+             top: 0;
+             font-size: 1.2em;
+             line-height: inherit;
+        }
+        .image-flipper.show-back img:first-child {
+            opacity: 0;
+        }
+        .image-flipper.show-back img:last-child {
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body class="p-4 sm:p-8">
@@ -300,11 +330,11 @@
         <!-- Hero Section -->
         <header class="text-center py-16 animate-on-scroll">
             <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight mb-4">
-                <span class="hero-gradient-text">עד מתי תחכו שהעולם יראה אתכם?</span><br>
-                <span class="hero-gradient-text">הגיע הזמן שתראו את עצמכם.</span>
+                <span class="hero-gradient-text">להפסיק לחכות שהעולם יראה אותך,</span><br>
+                <span class="hero-gradient-text">ולהחליט לראות את עצמך.</span>
             </h1>
             <p class="text-lg text-gray-400 max-w-2xl mx-auto mt-6">
-                המקום שבו מפסיקים להרגיש <span class="hero-subtitle-highlight">לבד עם המחשבות</span><br>ולומדים איך להפוך אותן לכוח שלכם.
+                הרגישות והעומק שלך הם לא חולשה.<br>הגיע הזמן להפוך אותם לקול בטוח.
             </p>
             <div class="mt-8">
                 <a href="#cta" class="btn bg-[#d8b4fe] hover:bg-[#a78bfa] text-lg font-bold text-gray-900 !p-3 !px-6">אני רוצה להתחיל את המסע שלי</a>
@@ -314,7 +344,7 @@
         <!-- What You Will Get Section -->
         <section class="mb-16 glass-card p-8 animate-on-scroll">
             <h2 class="section-title text-center mb-10 two-color-title">
-                הגיע הזמן לגעת בכאב<br>כדי לרפא אותו
+                הגיע הזמן להקשיב<br>למה שקורה בפנים
             </h2>
             <div class="space-y-8">
                 <div class="text-center">
@@ -360,13 +390,16 @@
             <div class="text-center">
                 <img src="https://github.com/madlen6543-prog/IMAGES-/raw/965aa35f1406855fe2d170a499cd6fd98ebf60cb/%D7%AA%D7%9E%D7%95%D7%A0%D7%94%20%D7%A9%D7%9C%D7%99%20-%20%D7%A7%D7%A6%D7%AA%20%D7%A2%D7%9C%D7%99%D7%99.png" alt="מדלן פריד" class="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-4 border-[#f0abfc]">
                 <div class="text-base text-gray-300 space-y-4 about-me-text">
-                    <p>
+                     <p>
                         אם הגעתם לכאן, כנראה מוכרת לכם התחושה הזאת:<br>
                         הפחד להיות <strong>"יותר מדי"</strong> - יותר מדי רגישים, עמוקים, או כבדים.<br>
                         התחושה שלא באמת רואים אתכם, ושעדיף פשוט להסתיר חלקים מכם.
                     </p>
                     <p>
-                        הייתי שם. שנים של תחושה שאני <strong>כלואה בתוך הראש של עצמי</strong>, בלי היכולת להסביר מה אני באמת מרגישה, ועם האמונה העמוקה <strong>שמשהו אצלי פשוט לא בסדר</strong>.
+                        הרבה מאוד זמן הרגשתי <strong>מכונסת בתוך עצמי</strong>, בלי היכולת להסביר מה אני באמת מרגישה,
+                    </p>
+                     <p>
+                        ועם האמונה העמוקה <strong>שמשהו אצלי פשוט לא בסדר</strong>.
                     </p>
                     <p>
                         החוברת הזאת היא התוצאה של המסע האישי שלי.<br>
@@ -391,15 +424,24 @@
             <div class="flex flex-col md:flex-row gap-8 items-center">
                 <!-- Image Column -->
                 <div class="md:w-1/2 w-full flex justify-center">
-                    <img src="https://github.com/madlen6543-prog/IMAGES-/raw/965aa35f1406855fe2d170a499cd6fd98ebf60cb/%D7%AA%D7%9E%D7%95%D7%A0%D7%94%20%D7%A9%D7%9C%20%D7%97%D7%95%D7%91%D7%A8%D7%AA%20%D7%A2%D7%9D%20%D7%A8%D7%A7%D7%A2.jpeg" alt="תמונה של החוברת להכיר את עצמך לעומק" class="rounded-lg w-full max-w-xs shadow-[0_0_35px_rgba(236,72,153,0.4)] transition-transform duration-500 ease-in-out hover:scale-105">
+                    <div id="image-flipper" class="relative w-full max-w-xs group transition-transform duration-500 ease-in-out hover:scale-105 aspect-[3/4] rounded-lg shadow-[0_0_35px_rgba(236,72,153,0.4)] overflow-hidden cursor-pointer image-flipper">
+                        <img src="https://github.com/madlen6543-prog/IMAGES-/raw/965aa35f1406855fe2d170a499cd6fd98ebf60cb/%D7%AA%D7%9E%D7%95%D7%A0%D7%94%20%D7%A9%D7%9C%20%D7%97%D7%95%D7%91%D7%A8%D7%AA%20%D7%A2%D7%9D%20%D7%A8%D7%A7%D7%A2.jpeg" alt="תמונה של החוברת להכיר את עצמך לעומק" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0">
+                        <img src="https://github.com/madlen6543-prog/IMAGES-/raw/60fb95a0725629124d29ba514b6202c5bf2b7801/8.jpeg" alt="תמונה נוספת של החוברת" class="absolute inset-0 w-full h-full object-cover object-left-ish transition-opacity duration-700 ease-in-out opacity-0 group-hover:opacity-100">
+                    </div>
                 </div>
 
                 <!-- Text Column -->
                 <div class="md:w-1/2 text-right">
                     <h3 class="font-bold text-xl mb-3 text-[#ec4899]">אז מה זה בעצם?</h3>
-                    <p class="text-sm text-gray-300 mb-4">
-                        אז תכל'ס, מה זה? זו לא עוד חוברת קריאה. זו חוברת עבודת עומק, מרחב אישי שלכם להיכנס פנימה. כל חלק בה בנוי כדי לתת לכם כלים פרקטיים, כאלה שבאמת עובדים, כדי ליצור שינוי אמיתי מבפנים:
-                    </p>
+                     <div class="text-sm text-gray-300 mb-4 space-y-4 about-what-list">
+                        <p>כמופנמים, הנטייה הטבעית שלנו היא להסתגר פנימה, אל תוך ה"קונכייה" שלנו. זה המקום הבטוח, אבל עמוק בפנים, הרצון האמיתי הוא להשתחרר ולאפשר לעולם להכיר את מי שאנחנו באמת.</p>
+                        <p>החוברת הזאת היא המסע הפרקטי שיעזור לכם לעשות בדיוק את זה, כי <strong>ביטוי עצמי</strong> הוא לא "תוספת נחמדה" - הוא הבסיס לכל מה שאנחנו רוצים בחיים:</p>
+                         <ul class="list-none space-y-1 pr-2 text-xs expression-list">
+                           <li>קשרים, חברויות וזוגיות.</li>
+                           <li>הצלחה בעבודה ובמטרות האישיות.</li>
+                           <li>נינוחות בסיטואציות יומיומיות.</li>
+                        </ul>
+                     </div>
                     <div class="space-y-3 text-sm font-semibold">
                         <div class="what-is-inside-item"><span>📝</span><p>שאלות עומק</p></div>
                         <div class="what-is-inside-item"><span>🧠</span><p>כלים לשינוי חשיבה</p></div>
@@ -430,6 +472,58 @@
                         <li class="flex items-start"><span class="text-[#f0abfc] ml-2 mt-1">✓</span><span><strong>כלים פרקטיים</strong> לניהול המחשבות ולקבלת פרופורציה.</span></li>
                     </ul>
                 </div>
+            </div>
+        </section>
+
+        <!-- Journey Breakdown Section -->
+        <section class="mb-16 glass-card p-8 animate-on-scroll">
+            <h2 class="section-title text-center mb-10">מה מחכה בחוברת</h2>
+            <div class="space-y-4">
+                 <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>חלק 1: היכרות מחודשת – מי אני עכשיו?</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        בשלב הראשון נבין איפה אתם עומדים היום. נזהה את הדפוסים האוטומטיים שמנהלים אתכם, נכיר את נקודות החוזק והחולשה, ונתחיל לשאול את השאלות החשובות באמת כדי ליצור בסיס איתן להמשך המסע.
+                    </div>
+                </details>
+                <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>חלק 2: הקול שבראש – המבקר הפנימי</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        נפגוש את המבקר הפנימי שמנהל לכם את ההצגה, נבין מאיפה הוא מגיע, ונקבל כלים פרקטיים להשתיק את הרעש ולהחליף אותו בקול תומך, חבר ומעצים שמגיע ממקום של חמלה עצמית.
+                    </div>
+                </details>
+                 <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>חלק 3: ערך עצמי – אני מספיק/ה</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        כאן נפרק את התלות באישור חיצוני ונבנה יסודות חזקים של ערך עצמי וביטחון שמגיעים מבפנים. תלמדו איך להעריך את עצמכם בזכות מי שאתם, לא משנה מה קורה בחוץ.
+                    </div>
+                </details>
+                 <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>חלק 4: ביטוי אותנטי – להראות את מי שאתם</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        השלב המעשי. בחלק הזה תלמדו איך לקחת את כל התובנות ולהפוך אותן לפעולה. איך לבטא את הרגשות והמחשבות שלכם בצורה חופשית, בטוחה ואותנטית, בלי הפחד להיות "יותר מדי".
+                    </div>
+                </details>
+                 <details class="faq-accordion-item">
+                    <summary class="faq-accordion-question">
+                        <span>חלק 5: הדרך קדימה – יישום בחיים</span>
+                        <span class="faq-icon">+</span>
+                    </summary>
+                    <div class="faq-accordion-answer">
+                        בסוף המסע, נבנה תוכנית אישית שתעזור לכם ליישם את השינוי בחיים האמיתיים. תלמדו איך לשמור על המומנטום, להתמודד עם אתגרים, ולהפוך את העבודה הפנימית לחלק בלתי נפרד מכם.
+                    </div>
+                </details>
             </div>
         </section>
 
@@ -574,7 +668,7 @@
                         <span class="faq-icon">+</span>
                     </summary>
                     <div class="faq-accordion-answer">
-                        מיד אחרי שתאשרו את התשלום, קובץ PDF של החוברת יישלח אליכם ישירות למייל שהזנתם. פשוט וקל.
+                        אחרי שתאשרו את התשלום, קובץ PDF של החוברת יישלח אליכם ישירות למייל שהזנתם. פשוט וקל.
                     </div>
                 </details>
                 <details class="faq-accordion-item">
@@ -691,6 +785,8 @@
         const paymentConfirmedBtn = document.getElementById('paymentConfirmedBtn');
         const successCloseBtn = document.getElementById('successCloseBtn');
         const phoneInput = document.getElementById('phone');
+        const imageFlipper = document.getElementById('image-flipper');
+
 
         // --- Functions ---
         const openModal = (modal) => modal.classList.remove('hidden');
@@ -751,6 +847,9 @@
         purchaseForm.addEventListener('submit', handlePurchaseFormSubmit);
         paymentConfirmedBtn.addEventListener('click', handlePaymentConfirmation);
         phoneInput.addEventListener('input', () => { phoneInput.value = phoneInput.value.replace(/[^0-9]/g, ''); });
+        imageFlipper.addEventListener('click', () => {
+            imageFlipper.classList.toggle('show-back');
+        });
 
         // --- Initializations ---
         const observer = new IntersectionObserver((entries) => {
@@ -764,10 +863,9 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             setupCountdown();
+            
         });
     </script>
 </body>
 </html>
-
-
 
