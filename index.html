@@ -48,6 +48,16 @@
             transform: scale(1.03);
             box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
         }
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            border: 2px solid #25D366;
+        }
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+            border-color: #128C7E;
+            transform: scale(1.05);
+        }
         .btn-secondary {
             background-color: transparent;
             color: #a78bfa;
@@ -313,7 +323,7 @@
                 <div class="md:w-1/2 text-right">
                     <h3 class="font-bold text-xl mb-3 text-[#ec4899]">אז מה זה בעצם?</h3>
                      <div class="text-sm text-gray-300 mb-4 space-y-4 about-what-list">
-                        <p>המטרה שלה היא לתת לכם מקום בטוח ומכיל לביטוי עצמי.</p>
+                        <p>זו לא חוברת לקרוא, זו חוברת לעבוד איתה. המטרה שלה היא לתת לכם מקום בטוח ומכיל לביטוי עצמי.</p>
                         <p>כמופנמים, הנטייה הטבעית שלנו היא להסתגר פנימה, אל ה"קונכייה" שלנו. זה המקום הבטוח, אבל עמוק בפנים, הרצון האמיתי הוא להשתחרר ולאפשר לעולם להכיר את מי שאנחנו באמת.</p>
                         <p>החוברת הזאת היא המסע שיעזור לכם לעשות בדיוק את זה, כי <strong>ביטוי עצמי</strong> הוא לא "תוספת נחמדה" - הוא הבסיס לכל מה שאנחנו רוצים בחיים:</p>
                          <ul class="list-none space-y-1 pr-2 text-sm expression-list">
@@ -323,6 +333,7 @@
                         </ul>
                      </div>
                     <div class="space-y-3 text-sm font-semibold">
+                        <div class="what-is-inside-item"><span>📖</span><p>60 עמודים של מסע אישי</p></div>
                         <div class="what-is-inside-item"><span>📝</span><p>שאלות עומק</p></div>
                         <div class="what-is-inside-item"><span>🧠</span><p>כלים לשינוי חשיבה</p></div>
                         <div class="what-is-inside-item"><span>✍️</span><p>תרגילי כתיבה</p></div>
@@ -350,25 +361,25 @@
             <div class="space-y-4">
                  <details class="faq-accordion-item">
                     <summary class="faq-accordion-question">
-                        <span>חלק 1: מפת דרך: נקודה A - נקודה B</span>
+                        <span>חלק 1. - מפת הדרך שלך | יצירת תמונה ברורה</span>
                         <span class="faq-icon">+</span>
                     </summary>
                     <div class="faq-accordion-answer">
-                        <strong>יצירת תמונה ברורה של איפה נמצאים ולאן רוצים להגיע.</strong>
+                        <strong>הבנה מדויקת של איפה נמצאים, לאן רוצים להגיע ואיך עושים את זה.</strong>
                     </div>
                 </details>
                 <details class="faq-accordion-item">
                     <summary class="faq-accordion-question">
-                        <span>חלק 2: לראות את עצמי באמת</span>
+                        <span>חלק 2. - לראות את עצמך באמת</span>
                         <span class="faq-icon">+</span>
                     </summary>
                      <div class="faq-accordion-answer">
-                        <strong>חוזקות, הצלחות, יצירת זהות חיובית.</strong>
+                        <strong>חיזוק הערך העצמי ויצירת פוקוס על הטוב שבך.</strong>
                     </div>
                 </details>
                  <details class="faq-accordion-item">
                     <summary class="faq-accordion-question">
-                        <span>חלק 3: לשבור את הקול הביקורתי</span>
+                        <span>חלק 3. - לשנות את הקול הביקורתי</span>
                         <span class="faq-icon">+</span>
                     </summary>
                      <div class="faq-accordion-answer">
@@ -377,7 +388,7 @@
                 </details>
                  <details class="faq-accordion-item">
                     <summary class="faq-accordion-question">
-                        <span>חלק 4: החופש להיות אני</span>
+                        <span>חלק 4. - החופש לבטא את עצמך</span>
                         <span class="faq-icon">+</span>
                     </summary>
                     <div class="faq-accordion-answer">
@@ -386,7 +397,7 @@
                 </details>
                  <details class="faq-accordion-item">
                     <summary class="faq-accordion-question">
-                        <span>חלק 5: סיפור חדש מתחיל | יישום וסגירה</span>
+                        <span>חלק 5. - סיכום ויישום</span>
                         <span class="faq-icon">+</span>
                     </summary>
                      <div class="faq-accordion-answer">
@@ -473,7 +484,7 @@
                         <p class="text-xs mt-2 font-bold text-[#ec4899]">מחיר השקה מיוחד!</p>
                         <p class="text-xs mt-2 text-gray-400">*קבצים להדפסה נוחה של חוברת התרגילים.</p>
                          <div class="mt-6 w-full space-y-3">
-                            <button data-package="הבונוסים" data-price="197" class="btn btn-purchase w-full purchase-btn">אני רוצה לרכוש!</button>
+                            <button class="btn btn-purchase w-full purchase-btn">אני רוצה לרכוש!</button>
                             <a href="https://wa.me/972524073915?text=היי%20מדלן,%20יש%20לי%20שאלה%20לגבי%20חבילת%20הבונוסים" target="_blank" class="btn btn-secondary w-full block">לשאלות ותמיכה</a>
                         </div>
                     </div>
@@ -494,7 +505,7 @@
                         <p class="text-xs mt-2 font-bold text-[#ec4899]">מחיר השקה מיוחד!</p>
                         <p class="text-xs mt-2 text-gray-400">*ניתן להשתמש באייפד או במחברת פיזית</p>
                         <div class="mt-6 w-full space-y-3">
-                            <button data-package="הבסיסית" data-price="147" class="btn btn-purchase w-full purchase-btn">אני רוצה לרכוש!</button>
+                            <button class="btn btn-purchase w-full purchase-btn">אני רוצה לרכוש!</button>
                             <a href="https://wa.me/972524073915?text=היי%20מדלן,%20יש%20לי%20שאלה%20לגבי%20החוברת" target="_blank" class="btn btn-secondary w-full block">לשאלות ותמיכה</a>
                         </div>
                     </div>
@@ -512,7 +523,7 @@
                         <span class="faq-icon">+</span>
                     </summary>
                     <div class="faq-accordion-answer">
-                        ההמלצה היא להקדיש זמן שקט לעצמכם, בלי הפרעות. קחו מחברת ועט או פתחו את הקובץ באייפד, וענו על השאלות בכנות מלאה. אין כאן תשובות 'נכונות' או 'לא נכונות' - רק אתם. הקצב המומלץ הוא להקדיש כשבוע לכל חלק, כדי לתת לתובנות זמן לחלחל, אבל כמובן שהכי חשוב שתעבדו בקצב שמרגיש לכם נכון.
+                        הכי חשוב לעבוד בקצב שמרגיש לכם נכון. ההמלצה היא לקחת בערך שבוע לכל חלק, כדי לתת לדברים זמן לחלחל. מצאו לכם פינה שקטה, בלי הפרעות, וענו על השאלות בכנות, בלי פילטרים. אין פה 'נכון' או 'לא נכון', רק אתם.
                     </div>
                 </details>
                 <details class="faq-accordion-item">
@@ -555,11 +566,11 @@
                              אני כאן לכל שאלה, מחשבה או התלבטות.
                         </p>
                         <div class="flex flex-col sm:flex-row justify-center gap-4">
-                            <a href="https://wa.me/972524073915?text=%D7%94%D7%99%D7%99%20%D7%9E%D7%93%D7%9C%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%93%D7%A3%20%D7%94%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%95%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%A9%D7%90%D7%9C%D7%94%20%D7%9C%D7%92%D7%91%D7%99%20%D7%94%D7%97%D7%95%D7%91%D7%A8%D7%AA." class="btn btn-primary text-md flex items-center justify-center" target="_blank">
+                            <a href="https://wa.me/972524073915?text=%D7%94%D7%99%D7%99%20%D7%9E%D7%93%D7%9C%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%93%D7%A3%20%D7%94%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%95%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%A9%D7%90%D7%9C%D7%94%20%D7%9C%D7%92%D7%91%D7%99%20%D7%94%D7%97%D7%95%D7%91%D7%A8%D7%AA." class="btn btn-whatsapp text-md flex items-center justify-center" target="_blank">
                                 <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2.1c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.35 4.96L2.05 22l5.12-1.34c1.47.8 3.14 1.25 4.87 1.25 5.46 0 9.91-4.45 9.91-9.91s-4.45-9.91-9.91-9.91zm0 18.06c-1.46 0-2.88-.42-4.13-1.22L5.8 19.33l-3.32.87.89-3.26c-.78-1.39-1.2-2.98-1.2-4.62C2.17 6.45 6.62 2 12.08 2s9.91 4.45 9.91 9.91-4.45 9.91-9.91 9.91zm4.9-5.1a1.27 1.27 0 00-.89-.35 1.2 1.2 0 00-.89.35c-.19.19-.52.28-1.07.28-1.12 0-2.34-.6-3.46-1.72-1.12-1.12-1.72-2.34-1.72-3.46 0-.55.09-.88.28-1.07.35-.35.8-.52 1.2-.52.26 0 .4.09.52.21.12.12.19.26.28.42.09.16.18.3.26.46.12.16.16.21.28.44.12.21.21.35.3.49.16.26.26.35.3.44.09.12.16.21.26.3.12.12.21.26.3.35.09.09.16.12.26.16.23.09.35.12.42.12.09 0 .21-.04.3-.12.09-.09.18-.21.28-.35.12-.16.21-.3.3-.44.09-.16.16-.26.26-.35.12-.12.23-.23.35-.32.09-.09.19-.16.3-.16.35 0 .61.07.72.16.26.23.4.4.52.55.12.16.21.3.28.46.09.16.18.3.26.46.09.16.12.21.21.35.09.16.16.26.26.3.12.09.19.21.3.32.09.12.23.19.4.21.12.04.23.04.35 0 .44-.09.78-.3.94-.49-.23-.23-.49-.52-.72-.44.23-.09.49-.12.8-.23z"/></svg>
                                 ווטסאפ
                             </a>
-                            <a href="https://www.instagram.com/madlen.frid" class="btn btn-instagram text-md flex items-center justify-center" target="_blank">
+                            <a href="https://www.instagram.com/madlen.frid/" class="btn btn-instagram text-md flex items-center justify-center" target="_blank">
                                 <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2.7c-2.4 0-4.3 1.9-4.3 4.3v6.7c0 2.4 1.9 4.3 4.3 4.3h6.7c2.4 0 4.3-1.9 4.3-4.3V9.5c0-2.4-1.9-4.3-4.3-4.3H7.6zm9.2 2.5a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zm-5 1.5a4.2 4.2 0 110 8.4 4.2 4.2 0 010-8.4zm0 2.2a2 2 0 100 4 2 2 0 000-4z"/></svg>
                                 אינסטגרם
                             </a>
@@ -571,6 +582,11 @@
 
         <!-- Footer -->
         <footer class="text-center text-gray-500 text-sm py-4">
+            <div class="mb-2">
+                <a href="https://www.instagram.com/madlen.frid/" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">
+                    שליחת הודעה באינסטגרם
+                </a>
+            </div>
             <p>&copy; 2025 מדלן פריד. כל הזכויות שמורות.</p>
         </footer>
     </div>
@@ -627,12 +643,5 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
 
 
