@@ -3,645 +3,508 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>להכיר את עצמכם, לעומק - מדלן פריד</title>
+    <title>מדלן פריד - לבטא את עצמך באותנטיות</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+
     <style>
         body {
-            font-family: 'Rubik', sans-serif;
-            background-color: #0a060e;
-            color: #d1d5db;
+            font-family: 'Assistant', sans-serif;
+            background-color: #0a0a0a;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(217, 70, 239, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(90, 34, 139, 0.1) 0%, transparent 40%),
+                url('https://www.transparenttextures.com/patterns/stardust.png');
+            min-height: 100vh;
+            color: #f3f4f6;
             overflow-x: hidden;
-            position: relative;
         }
-        .container {
-            max-width: 800px;
-        }
-        .aurora-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, rgba(236, 72, 153, 0.08) 0%, rgba(167, 139, 250, 0.08) 50%, rgba(236, 72, 153, 0.08) 100%);
-            background-size: 400% 400%;
-            animation: aurora-animation 60s ease infinite;
-            z-index: -2;
-        }
-        @keyframes aurora-animation {
-            0%{background-position:0% 50%}
-            50%{background-position:100% 50%}
-            100%{background-position:0% 50%}
-        }
-        .btn {
-            padding: 0.75rem 1.5rem;
-            font-weight: 700;
-            border-radius: 9999px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            text-align: center;
-            cursor: pointer;
-        }
-        .btn-purchase {
-            background-image: linear-gradient(to right, #ec4899, #a855f7);
-            color: white;
-            border: 2px solid transparent;
-        }
-        .btn-purchase:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
-        }
-        .btn-whatsapp {
-            background-color: #25D366;
-            color: white;
-            border: 2px solid #25D366;
-        }
-        .btn-whatsapp:hover {
-            background-color: #128C7E;
-            border-color: #128C7E;
-            transform: scale(1.05);
-        }
-        .btn-secondary {
-            background-color: transparent;
-            color: #a78bfa;
-            border: 2px solid #a78bfa;
-        }
-        .btn-secondary:hover {
-            background-color: #a78bfa;
-            color: #0b071e;
-        }
-        .btn-instagram {
-            background-image: linear-gradient(to right, #833AB4, #FD1D1D, #F56040, #FCAF45);
-            color: white;
-            border: 2px solid transparent;
-            position: relative;
-        }
-        .btn-instagram:hover {
-            transform: scale(1.05);
-        }
-        .glass-card {
-            background-color: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.6s ease-out, opacity 0.6s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .glass-card-darker {
-            background-color: rgba(10, 6, 14, 0.4);
-        }
-        .glass-card:hover {
-            border-color: rgba(236, 72, 153, 0.5);
-            box-shadow: 0 0 20px rgba(236, 72, 153, 0.2), 0 4px 30px rgba(0, 0, 0, 0.3);
-        }
-        .animate-on-scroll {
-            transform: translateY(30px);
-            opacity: 0;
-            transition: transform 0.8s ease-out, opacity 0.8s ease-out;
-        }
-        .animate-on-scroll.is-visible {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        .section-title, .hero-gradient-text, .benefits-list strong, .for-you-list strong, .two-color-title, .hero-subtitle-highlight {
-            background-image: linear-gradient(to right, #a855f7, #ec4899, #f9a8d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .two-color-title {
-            background-image: linear-gradient(to right, #a855f7, #ec4899, #f9a8d4);
-            font-size: 2.8rem;
-        }
-        .section-title {  
-            font-size: 2.5rem; 
-            font-weight: 700; 
-        }
-        @keyframes pulse-brand {
-            0% { transform: scale(1); box-shadow: 0 0 20px rgba(236, 72, 153, 0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(236, 72, 153, 0.6); }
-            100% { transform: scale(1); box-shadow: 0 0 20px rgba(236, 72, 153, 0.3); }
-        }
-        .card-price, .galaxy-bg {
-            background: #0a060e radial-gradient(ellipse at bottom, #1e293b 0%, #0a060e 70%);
-        }
-        .card-price {
-            border-radius: 1rem;
-            padding: 1rem;
-            border: 2px solid #f0abfc;
-            text-align: center;
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.1), 0 8px 30px rgba(236, 72, 153, 0.2);
-        }
-        .card-price:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 35px rgba(255, 255, 255, 0.15), 0 8px 30px rgba(236, 72, 153, 0.3);
-        }
-        .card-price .original-price {
-            text-decoration: line-through;
-            color: #9ca3af;
-        }
-        
-        .popular-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background-image: linear-gradient(to right, #d8b4fe, #ec4899); color: #0b071e; padding: 0.25rem 1rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 800; }
 
-        .what-is-inside-item {
-            background-color: rgba(255, 255, 255, 0.08);
-            border-radius: 0.75rem;
-            padding: 1rem;
-            display: flex;
-            align-items: center;
+        .glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .btn-main {
+            background: linear-gradient(135deg, #d946ef 0%, #7e22ce 100%);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px -5px rgba(217, 70, 239, 0.4);
+        }
+        .btn-main:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 35px -10px rgba(217, 70, 239, 0.6);
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.25s ease;
+            cursor: pointer;
             text-align: right;
-            transition: transform 0.3s ease, background-color 0.3s ease;
         }
-        .what-is-inside-item:hover {
-             background-color: rgba(255, 255, 255, 0.15);
-             transform: translateX(5px);
-        }
-        .what-is-inside-item span { font-size: 1.75rem; margin-left: 0.75rem; }
-        
-        .magical-text-section.is-visible .magical-text {
-             animation: magical-glow 2.5s ease-in-out;
-        }
-        
-        @keyframes magical-glow {
-            0%, 100% { text-shadow: 0 0 15px rgba(236, 72, 153, 0.5), 0 0 5px rgba(216, 180, 254, 0.5); }
-            50% { text-shadow: 0 0 25px rgba(236, 72, 153, 0.8), 0 0 10px rgba(216, 180, 254, 0.8); }
+        .option-card:hover {
+            border-color: #d946ef;
+            background: rgba(217, 70, 239, 0.08);
         }
 
-        .magical-text strong {
-            background-image: linear-gradient(to right, #f472b6, #d8b4fe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
-        }
-
-        .about-me-text strong, .hero-subtitle strong {
-             background-image: linear-gradient(to right, #f9a8d4, #f472b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-             font-weight: 700;
-        }
-        
-        .faq-accordion-item {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0.75rem;
-            transition: background-color 0.3s ease;
-            margin-bottom: 0.5rem;
-        }
-        .faq-accordion-item[open] {
-             background-color: rgba(255, 255, 255, 0.05);
-        }
-        .faq-accordion-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            font-weight: 700;
-            color: #f0abfc;
-            cursor: pointer;
-            list-style: none;
-        }
-        .faq-accordion-question::-webkit-details-marker {
+        .step-container {
             display: none;
+            animation: fadeIn 0.6s ease forwards;
         }
-        .faq-accordion-answer {
-            padding: 0 1.5rem 1.5rem 1.5rem;
-            color: #d1d5db;
-            font-size: 0.95rem;
-            line-height: 1.6;
+        .step-active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .faq-icon {
-            font-size: 1.5rem;
-            font-weight: 300;
-            transition: transform 0.3s ease;
-            color: #a78bfa;
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
         }
-        .faq-accordion-item[open] .faq-icon {
-            transform: rotate(45deg);
+        .progress-fill {
+            height: 100%;
+            background: #d946ef;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px #d946ef;
         }
-        .bonus-list strong {
-            font-weight: 800;
-            color: #ffffff;
+
+        .back-btn {
+            transition: all 0.2s ease;
+            color: rgba(255, 255, 255, 0.4);
         }
-        .object-left-ish {
-            object-position: 28% 50%;
+        .back-btn:hover { color: #d946ef; }
+
+        textarea, input {
+            background: rgba(255,255,255,0.05) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: white !important;
         }
-        .about-what-list strong {
-            font-weight: 700;
-            color: #f9a8d4;
-        }
-        .expression-list {
-             list-style: none; padding: 0;
-        }
-        .expression-list li {
-            padding-right: 1.5rem;
-            position: relative;
-        }
-        .expression-list li::before {
-             content: '•';
-             color: #f0abfc;
-             position: absolute;
-             right: 0;
-             top: 0;
-             font-size: 1.2em;
-             line-height: inherit;
-        }
-        .image-flipper.show-back img:first-child {
-            opacity: 0;
-        }
-        .image-flipper.show-back img:last-child {
-            opacity: 1;
-        }
+        textarea:focus, input:focus { border-color: #d946ef !important; outline: none; }
+
+        /* Admin view visuals */
+        .admin-view-active { color: #1e293b; background: #f8fafc !important; background-image: none !important; }
+        .ai-loader { border: 3px solid #f3f3f3; border-top: 3px solid #d946ef; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .status-badge { padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700; }
+        .payment-bit { background: #dcfce7; color: #166534; }
+        .payment-bank { background: #dbeafe; color: #1e40af; }
     </style>
 </head>
-<body class="p-4 sm:p-8">
+<body class="flex items-center justify-center p-4 text-right transition-colors duration-500" dir="rtl">
 
-    <div class="aurora-bg"></div>
+    <div id="notification" class="fixed top-4 left-1/2 -translate-x-1/2 z-[100] pointer-events-none opacity-0 transition-opacity duration-300 text-center">
+        <div id="notification-content" class="bg-fuchsia-600 text-white px-6 py-3 rounded-full shadow-xl text-sm font-bold text-center"></div>
+    </div>
 
-    <div class="container mx-auto">
-        <!-- Hero Section -->
-        <header class="text-center py-16 animate-on-scroll">
-            <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight mb-4">
-                <span class="hero-gradient-text">להפסיק לחכות שהעולם יראה אותך,</span><br>
-                <span class="hero-gradient-text">ולהחליט לראות את עצמך.</span>
-            </h1>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto mt-6 hero-subtitle">
-                <strong>הרגישות</strong> ו<strong>העומק</strong> שלך הם לא חולשה.
-            </p>
-            <div class="mt-8">
-                <h2 class="mb-4 text-gray-300 text-xl font-bold">חוברת עבודה "להכיר את עצמך לעומק"</h2>
-                <a href="#cta" class="btn bg-[#d8b4fe] hover:bg-[#a78bfa] text-lg font-bold text-gray-900 !p-3 !px-6">אני רוצה להתחיל את המסע שלי</a>
+    <!-- AI Analysis Modal (Hidden) -->
+    <div id="ai-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm text-right">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-8 relative">
+            <button onclick="closeAIModal()" class="absolute top-6 left-6 text-slate-400 hover:text-slate-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-2xl">✨</span>
+                <h2 class="text-2xl font-black text-fuchsia-600">ניתוח תובנות חכם (AI)</h2>
             </div>
-        </header>
+            <div id="ai-content" class="text-slate-700 leading-relaxed space-y-4"></div>
+        </div>
+    </div>
+
+    <div id="app-wrapper" class="max-w-md w-full min-h-[90vh] flex flex-col justify-between py-6 relative z-10 text-white text-center">
         
-        <!-- About Me Section -->
-        <section class="mb-16 glass-card glass-card-darker p-8 animate-on-scroll">
-            <h2 class="section-title text-center mb-10">
-                הסיפור שלי<br>שהפך להיות החוברת שלכם
-            </h2>
-            <div class="text-center">
-                <img src="https://github.com/madlen6543-prog/IMAGES-/raw/965aa35f1406855fe2d170a499cd6fd98ebf60cb/%D7%AA%D7%9E%D7%95%D7%A0%D7%94%20%D7%A9%D7%9C%D7%99%20-%20%D7%A7%D7%A6%D7%AA%20%D7%A2%D7%9C%D7%99%D7%99.png" alt="מדלן פריד" class="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-4 border-[#f0abfc]">
-                <div class="text-base text-gray-300 space-y-4 about-me-text">
-                     <p>
-                        אם הגעתם לכאן, אתם מכירים את התחושה:<br>
-                        הפחד להיות <strong>"יותר מדי"</strong> - יותר מדי רגישים, עמוקים, או כבדים.<br>
-                        התחושה שלא באמת רואים אתכם, ושעדיף פשוט להסתיר חלקים מכם.
-                    </p>
-                    <p>
-                        הרבה מאוד זמן הרגשתי <strong>מכונסת בתוך עצמי</strong>,<br> בלי היכולת להסביר מה אני באמת מרגישה,
-                    </p>
-                     <p>
-                        ועם האמונה העמוקה <strong>שמשהו אצלי פשוט לא בסדר</strong>.
-                    </p>
-                    <p>
-                         החוברת הזאת נוצרה מתוך המסע האישי שלי.<br>
-                        שמתי בה את כל הכלים והתובנות מהדרך שלי.<br> 
-                        יצרתי אותה כדי לתת לכם את מה שלי היה חסר – מקום בטוח לביטוי עצמי.
-                    </p>
-                </div>
+        <!-- Navigation & Progress Bar -->
+        <div id="top-nav" class="mb-6 opacity-0 transition-opacity duration-300 pointer-events-none">
+            <div class="flex items-center justify-between mb-4 text-white">
+                <button onclick="goBack()" class="back-btn flex items-center gap-2 text-sm font-bold p-2 -mr-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    חזרה
+                </button>
+                <div class="text-[10px] uppercase tracking-widest opacity-60"><span>אבחון מותאם אישית</span></div>
             </div>
-        </section>
-        
-        <!-- Detailed Booklet Section -->
-        <section class="mb-16 glass-card p-8 animate-on-scroll">
-            <div class="text-center">
-                 <h2 class="text-3xl sm:text-4xl font-extrabold mb-2 hero-gradient-text">
-                    "להכיר את עצמך לעומק"
-                </h2>
-                 <p class="text-lg text-gray-400 mb-10">
-                    חוברת עבודת עומק | מרחב בטוח לביטוי עצמי.
-                </p>
-            </div>
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill" style="width: 0%;"></div></div>
+        </div>
 
-            <div class="flex flex-col md:flex-row gap-8 items-center">
-                <!-- Image Column -->
-                <div class="md:w-1/2 w-full flex justify-center">
-                    <div id="image-flipper" class="relative w-full max-w-xs group transition-transform duration-500 ease-in-out hover:scale-105 aspect-[3/4] rounded-lg shadow-[0_0_35px_rgba(236,72,153,0.4)] overflow-hidden cursor-pointer image-flipper">
-                        <img src="https://github.com/madlen6543-prog/IMAGES-/raw/965aa35f1406855fe2d170a499cd6fd98ebf60cb/%D7%AA%D7%9E%D7%95%D7%A0%D7%94%20%D7%A9%D7%9C%20%D7%97%D7%95%D7%91%D7%A8%D7%AA%20%D7%A2%D7%9D%20%D7%A8%D7%A7%D7%A2.jpeg" alt="תמונה של החוברת להכיר את עצמך לעומק" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0">
-                        <img src="https://github.com/madlen6543-prog/IMAGES-/raw/60fb95a0725629124d29ba514b6202c5bf2b7801/8.jpeg" alt="תמונה נוספת של החוברת" class="absolute inset-0 w-full h-full object-cover object-left-ish transition-opacity duration-700 ease-in-out opacity-0 group-hover:opacity-100">
-                    </div>
-                </div>
-
-                <!-- Text Column -->
-                <div class="md:w-1/2 text-right">
-                    <h3 class="font-bold text-xl mb-3 text-[#ec4899]">אז מה זה בעצם?</h3>
-                     <div class="text-sm text-gray-300 mb-4 space-y-4 about-what-list">
-                        <p>זו לא חוברת לקרוא, זו חוברת לעבוד איתה. המטרה שלה היא לתת לכם מקום בטוח ומכיל לביטוי עצמי.</p>
-                        <p>כמופנמים, הנטייה הטבעית שלנו היא להסתגר פנימה, אל ה"קונכייה" שלנו. זה המקום הבטוח, אבל עמוק בפנים, הרצון האמיתי הוא להשתחרר ולאפשר לעולם להכיר את מי שאנחנו באמת.</p>
-                        <p>החוברת הזאת היא המסע שיעזור לכם לעשות בדיוק את זה, כי <strong>ביטוי עצמי</strong> הוא לא "תוספת נחמדה" - הוא הבסיס לכל מה שאנחנו רוצים בחיים:</p>
-                         <ul class="list-none space-y-1 pr-2 text-sm expression-list">
-                           <li>קשרים, חברויות וזוגיות.</li>
-                           <li>הגעה למטרות אישיות.</li>
-                           <li>נינוחות בסיטואציות יומיומיות.</li>
-                        </ul>
-                     </div>
-                    <div class="space-y-3 text-sm font-semibold">
-                        <div class="what-is-inside-item"><span>📖</span><p>60 עמודים של מסע אישי</p></div>
-                        <div class="what-is-inside-item"><span>📝</span><p>שאלות עומק</p></div>
-                        <div class="what-is-inside-item"><span>🧠</span><p>כלים לשינוי חשיבה</p></div>
-                        <div class="what-is-inside-item"><span>✍️</span><p>תרגילי כתיבה</p></div>
-                    </div>
-                </div>
-            </div>
+        <main class="flex-grow flex flex-col justify-center">
             
-            <div class="mt-16">
-                 <div class="glass-card-darker p-6 rounded-lg">
-                    <h3 class="font-bold text-xl mb-3 text-center text-[#ec4899]">למי החוברת מתאימה?</h3>
-                     <p class="text-sm text-gray-300 mb-4 text-center">היא נוצרה במיוחד לאנשים ש:</p>
-                     <ul class="list-none space-y-2 text-sm text-gray-300 for-you-list text-center">
-                        <li class="flex items-start justify-center"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>רוצים למצוא את הדרך <strong>לבטא את עצמם בחופשיות</strong>.</span></li>
-                        <li class="flex items-start justify-center"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>מחפשים לבנות <strong>ביטחון וערך עצמי</strong> שלא תלויים באחרים.</span></li>
-                        <li class="flex items-start justify-center"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>נמאס להם <strong>מלצמצם ולהשתיק</strong> את עצמם מהפחד 'מה יגידו'.</span></li>
-                        <li class="flex items-start justify-center"><span class="text-[#f0abfc] ml-2 mt-1">•</span><span>רוצים <strong>להבין באמת מי הם</strong> ומה הם רוצים מעצמם.</span></li>
+            <!-- STEP 0: Hero Section -->
+            <div id="step-0" class="step-container step-active flex-col text-center">
+                <div class="mb-12 px-2 text-white">
+                    <div class="inline-block p-4 bg-fuchsia-500/10 rounded-full text-5xl mb-8 animate-pulse">🗣️</div>
+                    <h1 class="text-3xl md:text-4xl font-black mb-8 leading-tight tracking-tight">
+                        למה מול אנשים הרבה יותר קל לך <span class="text-fuchsia-500 text-shadow-lg">להיעלם ולהיסגר?</span>
+                    </h1>
+                    <div class="space-y-6 text-gray-300 text-lg md:text-xl font-medium max-w-[340px] mx-auto leading-relaxed text-center">
+                        <p>יש לך כל כך הרבה מה להגיד ולהראות,<br>אבל בחוץ המילים פשוט נתקעות.</p>
+                        <p class="text-white font-bold border-t border-white/10 pt-6">הגיע הזמן להפסיק לפחד<br>לבטא את עצמך באמת ולחזק את הביטחון שלך.</p>
+                    </div>
+                    <div class="mt-10">
+                        <span class="text-fuchsia-400 font-bold text-xl tracking-wide block mb-2 italic uppercase">איך משנים את זה?</span>
+                    </div>
+                </div>
+                <button onclick="startQuiz()" class="btn-main w-full py-6 px-4 rounded-3xl font-black text-lg shadow-2xl text-white">
+                    בואו נגלה: מה באמת חוסם אותך?
+                </button>
+            </div>
+
+            <!-- Quiz flow steps -->
+            <div id="quiz-flow">
+                <div id="step-1" class="step-container flex-col">
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">מה הכי מאתגר אותך כרגע?</h2>
+                    <div class="grid gap-4">
+                        <div onclick="selectOption(1, 'להראות מי אני באמת')" class="option-card p-5 rounded-2xl">להראות מי אני באמת מול אנשים</div>
+                        <div onclick="selectOption(1, 'להיבלע בקבוצה')" class="option-card p-5 rounded-2xl">אני נבלע בתוך קבוצות</div>
+                        <div onclick="selectOption(1, 'מחשבות יתר')" class="option-card p-5 rounded-2xl">מחשבות יתר לפני הדיבור</div>
+                        <div onclick="selectOption(1, 'פחד משיפוט')" class="option-card p-5 rounded-2xl">פחד ממה שיחשבו עלי</div>
+                        <div onclick="selectOption(1, 'מזדהה עם הכל')" class="option-card p-5 rounded-2xl border-fuchsia-500/30 bg-fuchsia-500/10 font-bold italic text-white text-center">מזדהה עם הכל</div>
+                    </div>
+                </div>
+
+                <div id="step-2" class="step-container flex-col">
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">איפה זה הכי מורגש אצלך?</h2>
+                    <div class="grid gap-4">
+                        <div onclick="selectOption(2, 'חברתי')" class="option-card p-5 rounded-2xl">באינטרקציות חברתיות וקבוצתיות</div>
+                        <div onclick="selectOption(2, 'חדשים')" class="option-card p-5 rounded-2xl">עם אנשים חדשים</div>
+                        <div onclick="selectOption(2, 'סביבה לא מוכרת')" class="option-card p-5 rounded-2xl text-white">במקומות חדשים ולא מוכרים</div>
+                        <div onclick="selectOption(2, 'מצלמה/רשת')" class="option-card p-5 rounded-2xl">ברשתות / מול מצלמה</div>
+                    </div>
+                </div>
+
+                <div id="step-3" class="step-container flex-col">
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-white text-center">מה הדבר שהכי מתסכל בזה?</h2>
+                    <div class="grid gap-4">
+                        <div onclick="selectOption(3, 'שתיקה')" class="option-card p-5 rounded-2xl">שיש לי מה להגיד – אבל אני שותק/ת</div>
+                        <div onclick="selectOption(3, 'לא מכירים באמת')" class="option-card p-5 rounded-2xl">שלא באמת מכירים את מי שאני</div>
+                        <div onclick="selectOption(3, 'חוסר ביטחון')" class="option-card p-5 rounded-2xl">תחושת חוסר ביטחון ושאני לא מספיק טוב/ה</div>
+                        <div onclick="selectOption(3, 'בדידות')" class="option-card p-5 rounded-2xl text-white">תחושת לבד ובדידות (גם בתוך קבוצה)</div>
+                    </div>
+                </div>
+
+                <div id="step-4" class="step-container flex-col">
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">איזה משפט הכי מדויק עבורך?</h2>
+                    <div class="grid gap-4 text-white text-right">
+                        <div onclick="selectOption(4, 'מופנמות')" class="option-card p-5 rounded-2xl">בגלל המופנמות שלי, קשה לאנשים באמת להתחבר אליי</div>
+                        <div onclick="selectOption(4, 'גמגום')" class="option-card p-5 rounded-2xl">הקושי בדיבור או הגמגום פשוט תוקע אותי בסיטואציות</div>
+                        <div onclick="selectOption(4, 'יותר מדי')" class="option-card p-5 rounded-2xl">אני מפחד/ת שאם אפתח באמת - אהיה "יותר מדי" לאחרים</div>
+                        <div onclick="selectOption(4, 'מחסום')" class="option-card p-5 rounded-2xl text-white">בא לי פשוט להשתחרר ולזרום, אבל משהו פשוט עוצר אותי</div>
+                    </div>
+                </div>
+
+                <div id="step-5" class="step-container flex-col">
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-white text-center">מה הכי בא לך להרגיש?</h2>
+                    <div class="grid gap-4">
+                        <div onclick="selectOption(5, 'ביטחון')" class="option-card p-5 rounded-2xl text-white">להרגיש ביטחון במי שאני כבר היום</div>
+                        <div onclick="selectOption(5, 'חופש')" class="option-card p-5 rounded-2xl text-white">חופש להגיד ולעשות מה שבא לי</div>
+                        <div onclick="selectOption(5, 'שייכות')" class="option-card p-5 rounded-2xl text-white">להרגיש שייכת ובנוח, פשוט ככה</div>
+                        <div onclick="selectOption(5, 'להפסיק להתאמץ')" class="option-card p-5 rounded-2xl text-white">להפסיק להתאמץ ופשוט להיות שם</div>
+                    </div>
+                </div>
+
+                <div id="step-6" class="step-container flex-col">
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-white">עד כמה זה מפריע לך ביום-יום?</h2>
+                    <div class="px-2 py-10 text-center">
+                        <input type="range" id="q6-slider" min="1" max="10" value="5" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-fuchsia-500">
+                        <div class="flex justify-between mt-6 text-2xl font-black text-fuchsia-500">
+                            <span>1</span><span id="slider-val" class="bg-fuchsia-500/20 px-6 py-2 rounded-2xl border border-fuchsia-500/30">5</span><span>10</span>
+                        </div>
+                    </div>
+                    <button onclick="saveSliderAndNext()" class="btn-main w-full py-5 rounded-3xl font-bold mt-8 text-white text-lg">המשך</button>
+                </div>
+
+                <div id="step-7" class="step-container flex-col">
+                    <h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white">במילים שלך - מה הכי בוער לך לשנות?</h2>
+                    <textarea id="q7-text" class="w-full p-5 rounded-2xl outline-none h-40 text-right text-lg text-white" placeholder="כתוב/כתבי כאן מה שעל הלב..."></textarea>
+                    <button onclick="saveTextAndNext()" class="btn-main w-full py-5 rounded-3xl font-bold mt-6 text-white text-lg">המשך</button>
+                </div>
+
+                <div id="step-details" class="step-container flex-col">
+                    <h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white">כדי שאוכל לחזור אליך בדיוק:</h2>
+                    <div class="space-y-4">
+                        <input type="text" id="userName" placeholder="שם מלא" class="w-full p-5 rounded-2xl text-white">
+                        <div class="flex gap-3">
+                            <input type="number" id="userAge" placeholder="גיל" class="w-1/3 p-5 rounded-2xl text-white">
+                            <input type="tel" id="userPhone" placeholder="וואטסאפ" class="w-2/3 p-5 rounded-2xl text-white">
+                        </div>
+                        <textarea id="userSessionNote" placeholder="מה הכי תפס אותך אצלי / התחברת אליו?" class="w-full p-5 rounded-2xl h-20 text-white"></textarea>
+                        <textarea id="userExpectations" placeholder="מה היית רוצה לקבל מהפגישה שלנו?" class="w-full p-5 rounded-2xl h-20 text-white"></textarea>
+                        <!-- Change: Simplified button text -->
+                        <button onclick="submitLeadData()" id="finalSubmitBtn" class="btn-main w-full py-5 rounded-3xl font-bold text-xl mt-4 text-white text-center">המשך</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transition to offer -->
+            <div id="step-transition" class="step-container flex-col text-center">
+                <div class="mb-10 text-white">
+                    <div class="text-5xl mb-6">✨</div>
+                    <h2 class="text-3xl font-black mb-6 text-fuchsia-400 text-center">חשוב שתדע/י - הכל בסדר אצלך.</h2>
+                    <p class="text-gray-300 text-right leading-relaxed text-lg mb-8">מה שכתבת מעיד על עומק ורגישות מדהימה. זה לא משהו שצריך "לתקן" - אלא דפוס שאפשר ללמוד לשחרר. הגיע הזמן לבנות ביטחון שמגיע מבפנים.</p>
+                </div>
+                <button onclick="showOffer()" class="btn-main w-full py-5 rounded-3xl font-bold text-xl text-white">איך מתקדמים?</button>
+            </div>
+
+            <!-- Offer Details -->
+            <div id="step-summary" class="step-container flex-col text-center text-white">
+                <div class="bg-fuchsia-500/5 p-8 rounded-[3rem] border border-fuchsia-500/20 mb-8 text-right shadow-2xl relative">
+                    <div class="inline-block px-3 py-1 bg-fuchsia-600/30 rounded-full text-[10px] font-bold text-fuchsia-300 mb-4 uppercase tracking-widest text-center">Most Popular</div>
+                    <h3 class="text-3xl font-black mb-3 text-white text-right">שיחת פיצוח אישית (1:1)</h3>
+                    <p class="text-gray-400 mb-6 text-base leading-relaxed text-right">פגישה ממוקדת של שעה בזום, שבה נעשה סדר בבלגן הפנימי ונהפוך את ה"תקיעות" לבהירות. זה המקום שבו המילים שלך מתחילות לקבל מקום.</p>
+                    
+                    <ul class="text-sm space-y-4 mb-8 text-gray-200 text-right">
+                        <li class="flex items-start gap-3"><span class="text-fuchsia-500 mt-1">✨</span><span><b>פיצוח המחסום:</b> נבין מה בדיוק קורה לך ברגע שבו המילים נעלמות.</span></li>
+                        <li class="flex items-start gap-3"><span class="text-fuchsia-500 mt-1">✨</span><span><b>מפת הדרכים שלך:</b> נזהה את הדפוסים שמעכבים אותך ואיך לשנות אותם.</span></li>
+                        <li class="flex items-start gap-3"><span class="text-fuchsia-500 mt-1">✨</span><span><b>ביטחון מיידי:</b> תצא/י עם כלי פרקטי אחד ליישום כבר בסיטואציה הבאה.</span></li>
                     </ul>
-                </div>
-            </div>
-        </section>
 
-        <!-- Journey Breakdown Section -->
-        <section class="mb-16 glass-card p-8 animate-on-scroll">
-            <h2 class="section-title text-center mb-10">מה מחכה בחוברת?</h2>
-            <div class="space-y-4">
-                 <details class="faq-accordion-item">
-                    <summary class="faq-accordion-question">
-                        <span>חלק 1. - מפת הדרך שלך | יצירת תמונה ברורה</span>
-                        <span class="faq-icon">+</span>
-                    </summary>
-                    <div class="faq-accordion-answer">
-                        <strong>הבנה מדויקת של איפה נמצאים, לאן רוצים להגיע ואיך עושים את זה.</strong>
-                    </div>
-                </details>
-                <details class="faq-accordion-item">
-                    <summary class="faq-accordion-question">
-                        <span>חלק 2. - לראות את עצמך באמת</span>
-                        <span class="faq-icon">+</span>
-                    </summary>
-                     <div class="faq-accordion-answer">
-                        <strong>חיזוק הערך העצמי ויצירת פוקוס על הטוב שבך.</strong>
-                    </div>
-                </details>
-                 <details class="faq-accordion-item">
-                    <summary class="faq-accordion-question">
-                        <span>חלק 3. - לשנות את הקול הביקורתי</span>
-                        <span class="faq-icon">+</span>
-                    </summary>
-                     <div class="faq-accordion-answer">
-                        <strong>לזהות את הקול שמוריד, ליצור קול פנימי תומך.</strong>
-                    </div>
-                </details>
-                 <details class="faq-accordion-item">
-                    <summary class="faq-accordion-question">
-                        <span>חלק 4. - החופש לבטא את עצמך</span>
-                        <span class="faq-icon">+</span>
-                    </summary>
-                    <div class="faq-accordion-answer">
-                        <strong>הפחדים בביטוי עצמי, אמונות מגבילות, איך להתבטא בביטחון.</strong>
-                    </div>
-                </details>
-                 <details class="faq-accordion-item">
-                    <summary class="faq-accordion-question">
-                        <span>חלק 5. - סיכום ויישום</span>
-                        <span class="faq-icon">+</span>
-                    </summary>
-                     <div class="faq-accordion-answer">
-                        <strong>סיכום, מכתב לדרך, פרקטיקה.</strong>
-                    </div>
-                </details>
-            </div>
-             <!-- Moved Section -->
-            <div class="mt-12 glass-card-darker p-8 animate-on-scroll">
-                <h3 class="text-xl text-center font-bold mb-6 two-color-title" style="font-size: 1.8rem;">
-                    הגיע הזמן להקשיב<br>למה שקורה בפנים
-                </h3>
-                <div class="space-y-6">
-                    <div class="text-center">
-                        <p class="font-bold text-lg text-[#f0abfc]">
-                            🤯 מרגישים לבד גם כשאתם מוקפים באנשים?
-                        </p>
-                        <p class="text-md text-gray-300 mt-2 max-w-lg mx-auto">
-                            נבין איך המחשבות גורמות לכם להרגיש שלא רואים אתכם,<br>ואיך אפשר לשנות את זה.
-                        </p>
-                    </div>
-                    <div class="text-center">
-                        <p class="font-bold text-lg text-[#f0abfc]">
-                            🤐 קול בראש שלא מפסיק לבקר אתכם?
-                        </p>
-                        <p class="text-md text-gray-300 mt-2 max-w-lg mx-auto">
-                            נלמד להנמיך את הקול המבקר, ובמקומו לחזק את הקול הפנימי שתומך בכם.
-                        </p>
-                    </div>
-                    <div class="text-center">
-                        <p class="font-bold text-lg text-[#f0abfc]">
-                            😨 מפחדים להראות מי אתם באמת, כי "מה יחשבו"?
-                        </p>
-                        <p class="text-md text-gray-300 mt-2 max-w-lg mx-auto">
-                           נבין לעומק את החששות, נגלה מה המטרה שלהם, ונלמד איך לעבוד איתם נכון.
-                        </p>
-                    </div>
-                     <div class="text-center">
-                        <p class="font-bold text-lg text-[#f0abfc]">
-                            🤔 מרגישים הרבה בפנים, אבל מתקשים להוציא את זה החוצה?
-                        </p>
-                        <p class="text-md text-gray-300 mt-2 max-w-lg mx-auto">
-                            נגלה איך לתת לעצמנו את המקום להתבטא ולהכיל את זה.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Spiritual Nudge Section -->
-        <section class="my-24 animate-on-scroll text-center magical-text-section">
-            <h2 class="section-title mb-4 magical-text">✨ עצרו רגע... ✨</h2>
-            <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed magical-text">
-                לא סתם הגעתם לכאן.<br>
-                משהו בכם מחפש שינוי, והאמת? הגיע הזמן להקשיב לו. <br>
-                <strong class="magical-text">כי אתם לגמרי שווים את זה.</strong>
-            </p>
-        </section>
-
-        <!-- Pricing Section -->
-        <section id="cta" class="glass-card p-8 mb-12 animate-on-scroll galaxy-bg">
-            <div class="text-center mb-10">
-                <h2 class="section-title mb-4">בואו נצא לדרך!</h2>
-            </div>
-            
-            <div class="flex flex-col md:flex-row gap-8 justify-center items-stretch">
-                 <!-- Option 2: Bonus Package -->
-                <div class="card-price flex flex-col items-center flex-1 p-6 border-4 border-[#ec4899]">
-                    <div class="popular-badge">הכי פופולרית</div>
-                    <h3 class="text-2xl font-bold mb-4">חבילת הבונוסים</h3>
-                    <img src="https://github.com/madlen6543-prog/IMAGES-/raw/7f44128be7272aefd423e0073142ad97de7421b8/%D7%A9%D7%99%D7%A0%D7%95%D7%99.png" alt="חבילת הבונוסים" class="w-60 h-auto rounded-lg mb-4 shadow-lg">
-                    <div class="text-sm text-gray-400 mb-4 text-right h-20 flex flex-col justify-center">
-                        <ul class="list-none space-y-1 text-xs bonus-list">
-                           <li>✓ <strong>החוברת הדיגיטלית</strong> המלאה</li>
-                           <li>✓ דפים <strong>להדפסה נוחה</strong> של דפי העבודה</li>
-                           <li>✓ <strong>צ'קליסט:</strong> שאלות לשיחת עומק</li>
-                           <li>✓ <strong>מדריך:</strong> טריק להרגעת לחץ במפגשים חברתיים</li>
-                        </ul>
-                    </div>
-                    <div class="mt-auto pt-4 w-full">
-                        <p class="text-4xl font-extrabold mb-2 text-[#d8b4fe]">197 ש"ח</p>
-                        <p class="original-price text-sm line-through">349 ש"ח</p>
-                        <p class="text-xs mt-2 font-bold text-[#ec4899]">מחיר השקה מיוחד!</p>
-                        <p class="text-xs mt-2 text-gray-400">*קבצים להדפסה נוחה של חוברת התרגילים.</p>
-                         <div class="mt-6 w-full space-y-3">
-                            <button class="btn btn-purchase w-full purchase-btn">אני רוצה לרכוש!</button>
-                            <a href="https://wa.me/972524073915?text=היי%20מדלן,%20יש%20לי%20שאלה%20לגבי%20חבילת%20הבונוסים" target="_blank" class="btn btn-secondary w-full block">לשאלות ותמיכה</a>
+                    <div class="flex items-center justify-between mt-8 bg-black/40 p-5 rounded-3xl">
+                        <div class="text-right leading-none">
+                            <span class="text-3xl font-black italic text-fuchsia-400 block">₪97</span>
+                            <span class="text-[10px] text-gray-500 italic">במקום ₪250</span>
                         </div>
+                        <button onclick="selectOffer('פגישת פיצוח')" class="btn-main px-8 py-3 rounded-2xl font-bold text-base shadow-none text-white text-center">אני רוצה לקבוע</button>
                     </div>
                 </div>
 
-                <!-- Option 1: Basic Package -->
-                <div class="card-price flex flex-col items-center flex-1 p-6">
-                    <h3 class="text-2xl font-bold mb-4">חבילה בסיסית</h3>
-                    <img src="https://github.com/madlen6543-prog/IMAGES-/raw/fcf3eddc23322c7fd6a7daa6ff6dfe6433b9c5fc/%D7%97%D7%95%D7%91%D7%A8%D7%AA%20%D7%A2%D7%91%D7%95%D7%93%D7%94%20%D7%A7%D7%A4%D7%99%D7%A6%D7%94%20%D7%9C%D7%A2%D7%9E%D7%95%D7%A7%D7%99%D7%9D%20(3).png" alt="חבילה בסיסית" class="w-48 h-auto rounded-lg mb-4 shadow-lg">
-                    <div class="text-sm text-gray-400 mb-4 text-right h-20 flex flex-col justify-center">
-                         <ul class="list-none space-y-1 text-xs">
-                           <li>✓ החוברת הדיגיטלית המלאה</li>
-                        </ul>
-                    </div>
-                    <div class="mt-auto pt-4 w-full">
-                        <p class="text-4xl font-extrabold mb-2 text-[#d8b4fe]">147 ש"ח</p>
-                        <p class="original-price text-sm line-through">249 ש"ח</p>
-                        <p class="text-xs mt-2 font-bold text-[#ec4899]">מחיר השקה מיוחד!</p>
-                        <p class="text-xs mt-2 text-gray-400">*ניתן להשתמש באייפד או במחברת פיזית</p>
-                        <div class="mt-6 w-full space-y-3">
-                            <button class="btn btn-purchase w-full purchase-btn">אני רוצה לרכוש!</button>
-                            <a href="https://wa.me/972524073915?text=היי%20מדלן,%20יש%20לי%20שאלה%20לגבי%20החוברת" target="_blank" class="btn btn-secondary w-full block">לשאלות ותמיכה</a>
-                        </div>
-                    </div>
+                <div class="p-8 rounded-[3rem] border border-white/10 bg-white/5 text-right mb-8">
+                    <h3 class="text-xl font-bold mb-2 text-fuchsia-300 italic">תהליך ליווי עמוק</h3>
+                    <button onclick="selectFullProcess()" class="text-white font-bold underline text-lg">אשמח לשמוע על ליווי 💬</button>
                 </div>
             </div>
-        </section>
 
-        <!-- FAQ Section -->
-        <section class="mb-16 glass-card p-8 animate-on-scroll galaxy-bg">
-            <h2 class="section-title text-center mb-10">שאלות נפוצות</h2>
-            <div class="space-y-4">
-                 <details class="faq-accordion-item">
-                    <summary class="faq-accordion-question">
-                        <span>איך הכי נכון להשתמש בחוברת?</span>
-                        <span class="faq-icon">+</span>
-                    </summary>
-                    <div class="faq-accordion-answer">
-                        הכי חשוב לעבוד בקצב שמרגיש לכם נכון. ההמלצה היא לקחת בערך שבוע לכל חלק, כדי לתת לדברים זמן לחלחל. מצאו לכם פינה שקטה, בלי הפרעות, וענו על השאלות בכנות, בלי פילטרים. אין פה 'נכון' או 'לא נכון', רק אתם.
-                    </div>
-                </details>
-                <details class="faq-accordion-item">
-                    <summary class="faq-accordion-question">
-                        <span>עדיף להדפיס או להשתמש בדיגיטל?</span>
-                        <span class="faq-icon">+</span>
-                    </summary>
-                    <div class="faq-accordion-answer">
-                        זה לגמרי תלוי בכם ובמה שמרגיש לכם הכי נכון.<br>
-                        • <strong>כתיבה פיזית:</strong> יש אנשים שמרגישים שהכתיבה במחברת חיצונית עוזרת להם להתחבר לעצמם יותר לעומק.<br>
-                        • <strong>שימוש דיגיטלי:</strong> אחרים מעדיפים את הנוחות של האייפד.<br>
-                        שתי הדרכים מעולות! חבילת הבונוסים כוללת גם קבצים מותאמים להדפסה נוחה.
-                    </div>
-                </details>
-                <details class="faq-accordion-item">
-                    <summary class="faq-accordion-question">
-                        <span>איך מקבלים את החוברת אחרי התשלום?</span>
-                        <span class="faq-icon">+</span>
-                    </summary>
-                    <div class="faq-accordion-answer">
-                        לאחר התשלום תקבלו הודעה בוואטסאפ עם פרטי הגישה לחוברת.
-                    </div>
-                </details>
-                 <details class="faq-accordion-item">
-                    <summary class="faq-accordion-question">
-                        <span>האם החוברת נשארת שלי לתמיד?</span>
-                        <span class="faq-icon">+</span>
-                    </summary>
-                    <div class="faq-accordion-answer">
-                        לגמרי כן! ברגע שרכשתם, החוברת היא שלכם לתמיד. תוכלו לחזור אליה בכל שלב בחיים, לקרוא מחדש את התשובות שלכם ולראות את הדרך המדהימה שעברתם.
-                    </div>
-                </details>
-                 <details class="faq-accordion-item">
-                    <summary class="faq-accordion-question">
-                        <span>שאלות נוספות?</span>
-                        <span class="faq-icon">+</span>
-                    </summary>
-                    <div class="faq-accordion-answer">
-                        <p class="text-center text-lg font-bold text-[#d8b4fe] mb-4">
-                             אני כאן לכל שאלה, מחשבה או התלבטות.
-                        </p>
-                        <div class="flex flex-col sm:flex-row justify-center gap-4">
-                            <a href="https://wa.me/972524073915?text=%D7%94%D7%99%D7%99%20%D7%9E%D7%93%D7%9C%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%93%D7%A3%20%D7%94%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%95%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%A9%D7%90%D7%9C%D7%94%20%D7%9C%D7%92%D7%91%D7%99%20%D7%94%D7%97%D7%95%D7%91%D7%A8%D7%AA." class="btn btn-whatsapp text-md flex items-center justify-center" target="_blank">
-                                <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2.1c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.35 4.96L2.05 22l5.12-1.34c1.47.8 3.14 1.25 4.87 1.25 5.46 0 9.91-4.45 9.91-9.91s-4.45-9.91-9.91-9.91zm0 18.06c-1.46 0-2.88-.42-4.13-1.22L5.8 19.33l-3.32.87.89-3.26c-.78-1.39-1.2-2.98-1.2-4.62C2.17 6.45 6.62 2 12.08 2s9.91 4.45 9.91 9.91-4.45 9.91-9.91 9.91zm4.9-5.1a1.27 1.27 0 00-.89-.35 1.2 1.2 0 00-.89.35c-.19.19-.52.28-1.07.28-1.12 0-2.34-.6-3.46-1.72-1.12-1.12-1.72-2.34-1.72-3.46 0-.55.09-.88.28-1.07.35-.35.8-.52 1.2-.52.26 0 .4.09.52.21.12.12.19.26.28.42.09.16.18.3.26.46.12.16.16.21.28.44.12.21.21.35.3.49.16.26.26.35.3.44.09.12.16.21.26.3.12.12.21.26.3.35.09.09.16.12.26.16.23.09.35.12.42.12.09 0 .21-.04.3-.12.09-.09.18-.21.28-.35.12-.16.21-.3.3-.44.09-.16.16-.26.26-.35.12-.12.23-.23.35-.32.09-.09.19-.16.3-.16.35 0 .61.07.72.16.26.23.4.4.52.55.12.16.21.3.28.46.09.16.18.3.26.46.09.16.12.21.21.35.09.16.16.26.26.3.12.09.19.21.3.32.09.12.23.19.4.21.12.04.23.04.35 0 .44-.09.78-.3.94-.49-.23-.23-.49-.52-.72-.44.23-.09.49-.12.8-.23z"/></svg>
-                                ווטסאפ
-                            </a>
-                            <a href="https://www.instagram.com/madlen.frid/" class="btn btn-instagram text-md flex items-center justify-center" target="_blank">
-                                <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2.7c-2.4 0-4.3 1.9-4.3 4.3v6.7c0 2.4 1.9 4.3 4.3 4.3h6.7c2.4 0 4.3-1.9 4.3-4.3V9.5c0-2.4-1.9-4.3-4.3-4.3H7.6zm9.2 2.5a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zm-5 1.5a4.2 4.2 0 110 8.4 4.2 4.2 0 010-8.4zm0 2.2a2 2 0 100 4 2 2 0 000-4z"/></svg>
-                                אינסטגרם
-                            </a>
-                        </div>
-                    </div>
-                </details>
+            <!-- Payment Choice -->
+            <div id="step-payment" class="step-container flex-col text-center">
+                <h2 class="text-3xl font-bold mb-6 text-fuchsia-300 text-center">איך הכי נוח לך לשלם?</h2>
+                <div class="space-y-4">
+                    <button onclick="finalizeLead('Bit')" class="w-full p-8 glass rounded-[2.5rem] text-right flex justify-between items-center group border-white/5 hover:border-fuchsia-500/50 transition-all text-white"><span class="font-bold text-xl">נוח לי יותר ב-Bit</span><span class="text-3xl">📱</span></button>
+                    <button onclick="requestBankDetails()" class="w-full p-8 glass rounded-[2.5rem] text-right flex justify-between items-center group border-white/5 hover:border-fuchsia-500/50 transition-all text-white"><span class="font-bold text-xl">מעדיף/ה העברה בנקאית</span><span class="text-3xl">🏦</span></button>
+                </div>
             </div>
-        </section>
 
-        <!-- Footer -->
-        <footer class="text-center text-gray-500 text-sm py-4">
-            <div class="mb-2">
-                <a href="https://www.instagram.com/madlen.frid/" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">
-                    שליחת הודעה באינסטגרם
-                </a>
+            <!-- Success Section -->
+            <div id="step-success" class="step-container flex-col text-center text-white">
+                <div class="text-7xl mb-8 drop-shadow-[0_0_15px_rgba(217,70,239,0.5)] text-white text-center">💜</div>
+                <h2 class="text-3xl font-black mb-6 text-white text-center">תודה על האמון.</h2>
+                <p class="text-gray-400 mb-10 text-lg leading-relaxed text-center">שלח/י לי עכשיו הודעה בוואטסאפ ונתאם לנו מועד לפגישה.</p>
+                <!-- Change: Neutral gender call to action -->
+                <button onclick="openWhatsAppFinal()" class="btn-main w-full py-6 rounded-3xl font-bold text-xl text-white text-center"><span>בוא/י נתאם! ❤️</span></button>
             </div>
-            <p>&copy; 2025 מדלן פריד. כל הזכויות שמורות.</p>
+
+            <!-- ADMIN SECTIONS (Hidden) -->
+            <div id="admin-login" class="step-container flex-col text-center text-white">
+                <h2 class="text-2xl font-black text-white text-center">כניסת מנהלת</h2>
+                <input type="password" id="admin-pass" placeholder="קוד כניסה" class="w-full p-4 border rounded-xl mb-4 text-center text-xl bg-white/10 text-white">
+                <button onclick="checkPass()" class="w-full bg-fuchsia-600 text-white py-4 rounded-xl font-bold text-white text-center">כניסה למערכת</button>
+                <button onclick="location.reload()" class="mt-4 text-gray-500 text-sm text-center">חזרה לדף הראשי</button>
+            </div>
+
+            <div id="admin-dashboard" class="step-container flex-col text-right text-slate-800">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-black">ניהול לידים חכם</h2>
+                    <button onclick="location.reload()" class="text-xs bg-slate-200 px-3 py-1 rounded-full">התנתקות</button>
+                </div>
+                <div id="leads-container" class="space-y-4 max-h-[70vh] overflow-y-auto pl-2 text-right"></div>
+            </div>
+
+        </main>
+
+        <!-- Footer with fixed social links and hidden admin lock -->
+        <footer class="mt-12 text-center relative">
+            <div class="text-[14px] font-bold text-gray-200 tracking-wide mb-4 text-white opacity-80 text-center">
+                מדלן פריד • לבטא את עצמך באותנטיות
+                <button onclick="showAdminLogin()" class="opacity-0 absolute left-0 bottom-0 w-8 h-8 cursor-default">🔒</button>
+            </div>
+            <div class="flex justify-center gap-6">
+                <a href="https://www.instagram.com/madlen.frid/" target="_blank" class="social-link" title="Instagram"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="https://www.tiktok.com/@madlenfrid" target="_blank" class="social-link" title="TikTok"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.03 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.89-.34-2.8-.09-.84.24-1.58.73-2.1 1.39-.56.69-.82 1.57-.73 2.45.05.74.37 1.45.88 2.01.52.46 1.2.71 1.89.71 1.05-.03 2.05-.71 2.44-1.68.21-.43.32-.91.32-1.39-.01-3.97-.01-7.94-.01-11.91z"/></svg></a>
+            </div>
         </footer>
     </div>
 
-    <!-- Modals -->
-    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center p-4 z-50 hidden">
-        <div class="glass-card w-full max-w-md relative p-6 sm:p-8 text-center">
-            <button class="modal-close-btn absolute top-3 right-4 text-3xl font-bold text-gray-400 hover:text-white">&times;</button>
-            <h3 class="text-2xl font-bold mb-4 text-[#d8b4fe]">כמעט שם!</h3>
-            <p class="text-gray-300 mb-6">לחצו על הכפתור ועברו לתשלום מאובטח ב-Bit.</p>
-            
-            <a href="https://www.bitpay.co.il/app/me/E9916213-4699-50FD-6300-8B42C40447C7EE18" target="_blank" class="btn bg-[#6435F1] hover:bg-[#4c28b9] text-white w-full !px-6 !py-3 mb-6 block">
-                לתשלום מאובטח ב-Bit
-            </a>
-             <p class="text-gray-300 mb-6">
-                אחרי התשלום, אשלח לכם הודעה לוואטסאפ<br>(למספר שממנו שילמתם) עם פרטי הגישה לחוברת.
-            </p>
-            <p class="text-xs text-gray-500 mt-4">* ניתן לשלם גם בהעברה בנקאית, צרו קשר לפרטים.</p>
-        </div>
-    </div>
-    
     <script>
-        // --- Elements ---
-        const paymentModal = document.getElementById('paymentModal');
-        const purchaseButtons = document.querySelectorAll('.purchase-btn');
-        const closeButtons = document.querySelectorAll('.modal-close-btn');
-        const imageFlipper = document.getElementById('image-flipper');
+        let db, auth;
+        const appId = 'madlen-final-v14'; 
+        const myNumber = "972524073915";
+        const apiKey = ""; 
+        const ADMIN_CODE = "1234";
 
-        // --- Functions ---
-        const openModal = (modal) => modal.classList.remove('hidden');
-        const closeModal = (modal) => modal.classList.add('hidden');
-        
-        // --- Event Listeners ---
-        purchaseButtons.forEach(btn => btn.addEventListener('click', (e) => {
-            openModal(paymentModal);
-        }));
-
-        closeButtons.forEach(btn => btn.addEventListener('click', () => closeModal(paymentModal)));
-        paymentModal.addEventListener('click', (e) => { if (e.target === paymentModal) closeModal(paymentModal); });
-        imageFlipper.addEventListener('click', () => {
-            imageFlipper.classList.toggle('show-back');
-        });
-
-        // --- Initializations ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
+        async function initFirebase() {
+            try {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                db = firebase.firestore();
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await auth.signInWithCustomToken(__initial_auth_token);
+                } else {
+                    await auth.signInAnonymously();
                 }
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            } catch (err) { console.error("Firebase Error:", err); }
+        }
+        window.onload = initFirebase;
+
+        let leadData = { answers: {}, personal: {}, choice: '', payment: '', timestamp: new Date() };
+        let currentAdminLeads = [];
+
+        const slider = document.getElementById('q6-slider');
+        if(slider) { slider.oninput = function() { document.getElementById('slider-val').innerHTML = this.value; } }
+
+        function showStep(stepId) {
+            document.querySelectorAll('.step-container').forEach(s => s.classList.remove('step-active'));
+            const target = document.getElementById(stepId);
+            if(target) target.classList.add('step-active');
+            
+            const topNav = document.getElementById('top-nav');
+            const hideBack = ['step-0', 'step-success'].includes(stepId) || stepId.includes('admin');
+            if (!hideBack) topNav.classList.remove('opacity-0', 'pointer-events-none');
+            else topNav.classList.add('opacity-0', 'pointer-events-none');
+
+            if(stepId.startsWith('step-') && !isNaN(stepId.split('-')[1])) {
+                const num = parseInt(stepId.split('-')[1]);
+                document.getElementById('progress-fill').style.width = Math.round((num / 7) * 100) + '%';
+            }
+            window.scrollTo(0,0);
+        }
+
+        function goBack() {
+            const history = ['step-0', 'step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'step-6', 'step-7', 'step-details', 'step-transition', 'step-summary', 'step-payment'];
+            const cur = document.querySelector('.step-active').id;
+            const idx = history.indexOf(cur);
+            if(idx > 0) showStep(history[idx-1]);
+        }
+
+        function startQuiz() { showStep('step-1'); }
+
+        function selectOption(q, v) {
+            leadData.answers['שאלה ' + q] = v;
+            if(q < 5) showStep('step-' + (q + 1));
+            else showStep('step-6');
+        }
+
+        function saveSliderAndNext() {
+            leadData.answers['רמה'] = document.getElementById('q6-slider').value;
+            showStep('step-7');
+        }
+
+        function saveTextAndNext() {
+            leadData.answers['חופשי'] = document.getElementById('q7-text').value;
+            showStep('step-details');
+        }
+
+        async function submitLeadData() {
+            const name = document.getElementById('userName').value;
+            const phone = document.getElementById('userPhone').value;
+            const age = document.getElementById('userAge').value;
+            if(!name || !phone || !age) { showMsg('נא למלא שם, גיל וטלפון'); return; }
+            leadData.personal = { name, phone, age, note: document.getElementById('userSessionNote').value, exp: document.getElementById('userExpectations').value };
+            await saveToFirebase();
+            showStep('step-transition');
+        }
+
+        async function saveToFirebase() {
+            if (!auth.currentUser) return;
+            try {
+                const id = leadData.id || db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads').doc().id;
+                leadData.id = id;
+                await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads').doc(id).set({
+                    ...leadData, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+            } catch (err) { console.error(err); }
+        }
+
+        function showOffer() { showStep('step-summary'); }
+        function selectOffer(c) { leadData.choice = c; showStep('step-payment'); }
         
+        function selectFullProcess() {
+            window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, עניתי על שאלון האבחון ואשמח לשמוע פרטים על תהליך הליווי האישי ❤️')}`, '_blank');
+        }
+
+        function requestBankDetails() {
+            leadData.payment = 'העברה בנקאית'; saveToFirebase();
+            window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, אני מעדיף/ה להעביר את התשלום בבנק עבור שיחת הפיצוח, אשמח לפרטים ❤️')}`, '_blank');
+            showStep('step-success');
+        }
+
+        async function finalizeLead(method) {
+            leadData.payment = method;
+            await saveToFirebase();
+            if (method === 'Bit') {
+                const bitLink = `https://www.bitpay.co.il/app/me/${myNumber}?amount=97`;
+                window.open(bitLink, '_blank');
+                showStep('step-success');
+            }
+        }
+
+        function openWhatsAppFinal() {
+            window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, מילאתי את השאלון ושלחתי תשלום על שיחת הפיצוח. מחכה לתאם! ❤️')}`, '_blank');
+        }
+
+        function showAdminLogin() { showStep('admin-login'); }
+        function checkPass() {
+            if(document.getElementById('admin-pass').value === ADMIN_CODE) {
+                document.body.classList.add('admin-view-active');
+                showStep('admin-dashboard');
+                loadLeads();
+            } else { showMsg('קוד שגוי'); }
+        }
+
+        function loadLeads() {
+            db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads').onSnapshot(snap => {
+                const container = document.getElementById('leads-container');
+                container.innerHTML = ''; adminLeads = [];
+                snap.forEach(doc => adminLeads.push({id: doc.id, ...doc.data()}));
+                adminLeads.sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+                
+                adminLeads.forEach((l, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'bg-white p-4 rounded-2xl shadow-sm border border-slate-200 text-slate-800 text-right mb-4';
+                    div.innerHTML = `
+                        <div class="flex justify-between mb-2 border-b pb-2">
+                            <span class="font-bold text-fuchsia-700">${l.personal?.name}</span>
+                            <button onclick="analyzeLead(${idx})" class="text-xs bg-fuchsia-50 text-fuchsia-600 px-2 py-1 rounded-lg border border-fuchsia-100 font-bold">✨ ניתוח AI</button>
+                        </div>
+                        <div class="text-xs space-y-1 text-slate-600">
+                            <p><b>טלפון:</b> <a href="https://wa.me/972${l.personal?.phone?.replace(/^0/,'')}" target="_blank" class="text-blue-600 underline">${l.personal?.phone}</a></p>
+                            <p><b>תשלום:</b> <span class="status-badge ${l.payment==='Bit'?'payment-bit':'payment-bank'}">${l.payment || 'לא נבחר'}</span></p>
+                            <p class="text-slate-500 italic mt-1">"${l.personal?.note || ''}"</p>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            });
+        }
+
+        async function analyzeLead(idx) {
+            const lead = currentAdminLeads[idx];
+            const modal = document.getElementById('ai-modal');
+            const content = document.getElementById('ai-content');
+            modal.classList.remove('hidden');
+            content.innerHTML = '<div class="flex flex-col items-center py-10 text-center text-slate-800 text-center"><div class="ai-loader mb-4"></div><p>מנתח עבור מדלן...</p></div>';
+            
+            const prompt = `נתח את הליד הבא למדלן פריד (מלווה למופנמים): שם: ${lead.personal?.name}, הערה: ${lead.personal?.note}, ציפיות: ${lead.personal?.exp}, תשובות: ${JSON.stringify(lead.answers)}. תן סיכום קצר: מצב רגשי, נקודת כאב מרכזית, והמלצה איך לפתוח את שיחת הפיצוח 1:1.`;
+            
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], systemInstruction: { parts: [{ text: "אתה מאבחן פסיכולוגי מיומן שכותב בעברית בלבד." }] } })
+                });
+                const data = await response.json();
+                content.innerHTML = data.candidates?.[0]?.content?.parts?.[0]?.text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+            } catch (e) { content.innerHTML = '<p class="text-slate-800">חלה שגיאה בניתוח ה-AI.</p>'; }
+        }
+
+        function closeAIModal() { document.getElementById('ai-modal').classList.add('hidden'); }
+        function showMsg(m) {
+            const n = document.getElementById('notification');
+            document.getElementById('notification-content').innerText = m;
+            n.style.opacity = '1'; setTimeout(()=> n.style.opacity = '0', 3000);
+        }
     </script>
 </body>
 </html>
-
-
