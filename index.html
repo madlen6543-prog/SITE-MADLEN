@@ -95,7 +95,7 @@
         }
         textarea:focus, input:focus { border-color: #d946ef !important; outline: none; }
 
-        /* Admin views */
+        /* Admin view visuals */
         .admin-view-active { color: #1e293b; background: #f8fafc !important; background-image: none !important; }
         .ai-loader { border: 3px solid #f3f3f3; border-top: 3px solid #d946ef; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -194,7 +194,7 @@
                 </div>
 
                 <div id="step-4" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">איזה משפט הכי מדויק עבורך?</h2>
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-white">איזה משפט הכי מדויק עבורך?</h2>
                     <div class="grid gap-4 text-white text-right">
                         <div onclick="selectOption(4, 'מופנמות')" class="option-card p-5 rounded-2xl">בגלל המופנמות שלי, קשה לאנשים באמת להתחבר אליי</div>
                         <div onclick="selectOption(4, 'גמגום')" class="option-card p-5 rounded-2xl">הקושי בדיבור או הגמגום פשוט תוקע אותי בסיטואציות</div>
@@ -225,13 +225,13 @@
                 </div>
 
                 <div id="step-7" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white">במילים שלך - מה הכי בוער לך לשנות?</h2>
+                    <h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white text-center">במילים שלך - מה הכי בוער לך לשנות?</h2>
                     <textarea id="q7-text" class="w-full p-5 rounded-2xl outline-none h-40 text-right text-lg text-white" placeholder="כתוב/כתבי כאן מה שעל הלב..."></textarea>
                     <button onclick="saveTextAndNext()" class="btn-main w-full py-5 rounded-3xl font-bold mt-6 text-white text-lg">המשך</button>
                 </div>
 
                 <div id="step-details" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white">כדי שאוכל לחזור אליך בדיוק:</h2>
+                    <h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white text-center">כדי שאוכל לחזור אליך בדיוק:</h2>
                     <div class="space-y-4">
                         <input type="text" id="userName" placeholder="שם מלא" class="w-full p-5 rounded-2xl text-white">
                         <div class="flex gap-3">
@@ -240,7 +240,7 @@
                         </div>
                         <textarea id="userSessionNote" placeholder="מה הכי תפס אותך אצלי / התחברת אליו?" class="w-full p-5 rounded-2xl h-20 text-white"></textarea>
                         <textarea id="userExpectations" placeholder="מה היית רוצה לקבל מהפגישה שלנו?" class="w-full p-5 rounded-2xl h-20 text-white"></textarea>
-                        <button onclick="submitLeadData()" id="finalSubmitBtn" class="btn-main w-full py-5 rounded-3xl font-bold text-xl mt-4 text-white text-center">המשך</button>
+                        <button onclick="submitLeadData()" id="finalSubmitBtn" class="btn-main w-full py-5 rounded-3xl font-bold text-xl mt-4 text-white">המשך</button>
                     </div>
                 </div>
             </div>
@@ -329,20 +329,25 @@
 
     <script>
         let db, auth;
-        // Use the mandatory appId logic to avoid permission errors
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'madlen-final-production'; 
+        // Use standard environment appId
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const myNumber = "972524073915";
         const apiKey = ""; 
         const ADMIN_CODE = "1234";
 
         async function initFirebase() {
             try {
-                const firebaseConfig = JSON.parse(__firebase_config);
-                firebase.initializeApp(firebaseConfig);
-                auth = firebase.auth();
-                db = firebase.firestore();
+                if (firebase.apps.length > 0) {
+                    auth = firebase.auth();
+                    db = firebase.firestore();
+                } else {
+                    const firebaseConfig = JSON.parse(__firebase_config);
+                    firebase.initializeApp(firebaseConfig);
+                    auth = firebase.auth();
+                    db = firebase.firestore();
+                }
                 
-                // Rule 3: Auth before any query. Awaiting sign-in.
+                // RULE 3 - Auth Before Queries. Wait for completion.
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await auth.signInWithCustomToken(__initial_auth_token);
                 } else {
@@ -350,7 +355,7 @@
                 }
                 return true;
             } catch (err) { 
-                console.error("Firebase Initialization Failed:", err); 
+                console.error("Firebase Init Error:", err); 
                 return false;
             }
         }
@@ -427,19 +432,19 @@
             };
             
             try {
-                // Critical Check: Ensure auth is fully ready before writing
-                if (!auth.currentUser) {
+                // Ensure auth is ready
+                if (!auth || !auth.currentUser) {
                     await initFirebase();
                 }
                 
-                if (auth.currentUser) {
+                if (auth && auth.currentUser) {
                     await saveToFirebase();
                     showStep('step-transition');
                 } else {
-                    throw new Error("לא נמצא משתמש מחובר");
+                    throw new Error("לא נמצא משתמש מחובר לשמירה");
                 }
             } catch (err) { 
-                console.error("שגיאת שמירה סופית:", err);
+                console.error("Save Error:", err);
                 showMsg('אופס, חלה שגיאה בשמירה. בדקי חיבור אינטרנט ונסי שוב.');
             } finally {
                 btn.innerText = originalText;
@@ -448,30 +453,33 @@
         }
 
         async function saveToFirebase() {
-            // Rule 3: Auth check
-            if (!auth.currentUser) return;
+            // Rule 3: Guard operation
+            if (!auth || !auth.currentUser) return;
             
             try {
-                // Rule 1: STRICT PATH - /artifacts/{appId}/public/data/{collectionName}
-                const collectionPath = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads');
-                
-                const id = leadData.id || collectionPath.doc().id;
+                // RULE 1: STRICT PATH - /artifacts/{appId}/public/data/{collectionName}
+                const leadsCol = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads');
+                const id = leadData.id || leadsCol.doc().id;
                 leadData.id = id;
                 
-                await collectionPath.doc(id).set({
+                await leadsCol.doc(id).set({
                     ...leadData, 
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 }, { merge: true });
                 
                 return true;
             } catch (err) { 
-                console.error("Firebase Data Access Error:", err); 
+                console.error("Firebase Firestore Error:", err); 
                 throw err;
             }
         }
 
         function showOffer() { showStep('step-summary'); }
-        function selectOffer(c) { leadData.choice = c; saveToFirebase(); showStep('step-payment'); }
+        async function selectOffer(c) { 
+            leadData.choice = c; 
+            await saveToFirebase(); 
+            showStep('step-payment'); 
+        }
         
         function selectFullProcess() {
             window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, עניתי על שאלון האבחון ואשמח לשמוע פרטים על תהליך הליווי האישי ❤️')}`, '_blank');
@@ -504,25 +512,23 @@
             if(document.getElementById('admin-pass').value === ADMIN_CODE) {
                 document.body.classList.add('admin-view-active');
                 showStep('admin-dashboard');
-                // Rule 3: Ensure auth before admin operations
-                if (!auth.currentUser) await initFirebase();
+                if (!auth || !auth.currentUser) await initFirebase();
                 loadLeads();
             } else { showMsg('קוד שגוי'); }
         }
 
         function loadLeads() {
-            if (!auth.currentUser) return;
+            if (!auth || !auth.currentUser) return;
             
-            // Rule 1: Public path for leads
+            // RULE 1 path
             const leadsCol = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads');
             
-            // Rule 2 & Rule 3: error callback included
             leadsCol.onSnapshot(snap => {
                 const container = document.getElementById('leads-container');
                 container.innerHTML = ''; currentAdminLeads = [];
                 snap.forEach(doc => currentAdminLeads.push({id: doc.id, ...doc.data()}));
                 
-                // Rule 2: Sort in memory
+                // Rule 2: Sort in JS memory
                 currentAdminLeads.sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
                 
                 currentAdminLeads.forEach((l, idx) => {
@@ -542,8 +548,8 @@
                     container.appendChild(div);
                 });
             }, err => {
-                console.error("שגיאת טעינת לידים:", err);
-                showMsg('שגיאת הרשאה - וודאי שאת מחוברת.');
+                console.error("Load Error:", err);
+                showMsg('שגיאת טעינה - וודאי שאת מחוברת.');
             });
         }
 
