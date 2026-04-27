@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDKs -->
+    <!-- Firebase SDKs (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
@@ -95,6 +95,7 @@
         }
         textarea:focus, input:focus { border-color: #d946ef !important; outline: none; }
 
+        /* Admin views */
         .admin-view-active { color: #1e293b; background: #f8fafc !important; background-image: none !important; }
         .ai-loader { border: 3px solid #f3f3f3; border-top: 3px solid #d946ef; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -109,7 +110,7 @@
         <div id="notification-content" class="bg-fuchsia-600 text-white px-6 py-3 rounded-full shadow-xl text-sm font-bold text-center"></div>
     </div>
 
-    <!-- AI Modal -->
+    <!-- AI Analysis Modal -->
     <div id="ai-modal" class="fixed inset-0 z-[90] hidden flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm text-right">
         <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-8 relative">
             <button onclick="closeAIModal()" class="absolute top-6 left-6 text-slate-400 hover:text-slate-600">
@@ -125,6 +126,7 @@
 
     <div id="app-wrapper" class="max-w-md w-full min-h-[90vh] flex flex-col justify-between py-6 relative z-10 text-white text-center">
         
+        <!-- Navigation -->
         <div id="top-nav" class="mb-6 opacity-0 transition-opacity duration-300 pointer-events-none">
             <div class="flex items-center justify-between mb-4 text-white">
                 <button onclick="goBack()" class="back-btn flex items-center gap-2 text-sm font-bold p-2 -mr-2">
@@ -138,6 +140,7 @@
 
         <main class="flex-grow flex flex-col justify-center">
             
+            <!-- STEP 0 -->
             <div id="step-0" class="step-container step-active flex-col text-center">
                 <div class="mb-12 px-2 text-white">
                     <div class="inline-block p-4 bg-fuchsia-500/10 rounded-full text-5xl mb-8 animate-pulse">🗣️</div>
@@ -157,9 +160,10 @@
                 </button>
             </div>
 
+            <!-- Quiz Steps -->
             <div id="quiz-flow">
                 <div id="step-1" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300">מה הכי מאתגר אותך כרגע?</h2>
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">מה הכי מאתגר אותך כרגע?</h2>
                     <div class="grid gap-4">
                         <div onclick="selectOption(1, 'להראות מי אני באמת')" class="option-card p-5 rounded-2xl">להראות מי אני באמת מול אנשים</div>
                         <div onclick="selectOption(1, 'להיבלע בקבוצה')" class="option-card p-5 rounded-2xl">אני נבלע בתוך קבוצות</div>
@@ -170,7 +174,7 @@
                 </div>
 
                 <div id="step-2" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300">איפה זה הכי מורגש אצלך?</h2>
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">איפה זה הכי מורגש אצלך?</h2>
                     <div class="grid gap-4">
                         <div onclick="selectOption(2, 'חברתי')" class="option-card p-5 rounded-2xl">באינטרקציות חברתיות וקבוצתיות</div>
                         <div onclick="selectOption(2, 'חדשים')" class="option-card p-5 rounded-2xl">עם אנשים חדשים</div>
@@ -180,8 +184,8 @@
                 </div>
 
                 <div id="step-3" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-white">מה הדבר שהכי מתסכל בזה?</h2>
-                    <div class="grid gap-4">
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-white text-center">מה הדבר שהכי מתסכל בזה?</h2>
+                    <div class="grid gap-4 text-white">
                         <div onclick="selectOption(3, 'שתיקה')" class="option-card p-5 rounded-2xl">שיש לי מה להגיד – אבל אני שותק/ת</div>
                         <div onclick="selectOption(3, 'לא מכירים באמת')" class="option-card p-5 rounded-2xl">שלא באמת מכירים את מי שאני</div>
                         <div onclick="selectOption(3, 'חוסר ביטחון')" class="option-card p-5 rounded-2xl">תחושת חוסר ביטחון ושאני לא מספיק טוב/ה</div>
@@ -190,7 +194,7 @@
                 </div>
 
                 <div id="step-4" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300">איזה משפט הכי מדויק עבורך?</h2>
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">איזה משפט הכי מדויק עבורך?</h2>
                     <div class="grid gap-4 text-white text-right">
                         <div onclick="selectOption(4, 'מופנמות')" class="option-card p-5 rounded-2xl">בגלל המופנמות שלי, קשה לאנשים באמת להתחבר אליי</div>
                         <div onclick="selectOption(4, 'גמגום')" class="option-card p-5 rounded-2xl">הקושי בדיבור או הגמגום פשוט תוקע אותי בסיטואציות</div>
@@ -200,7 +204,7 @@
                 </div>
 
                 <div id="step-5" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300">מה הכי בא לך להרגיש?</h2>
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-white text-center">מה הכי בא לך להרגיש?</h2>
                     <div class="grid gap-4">
                         <div onclick="selectOption(5, 'ביטחון')" class="option-card p-5 rounded-2xl text-white">להרגיש ביטחון במי שאני כבר היום</div>
                         <div onclick="selectOption(5, 'חופש')" class="option-card p-5 rounded-2xl text-white">חופש להגיד ולעשות מה שבא לי</div>
@@ -210,7 +214,7 @@
                 </div>
 
                 <div id="step-6" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">עד כמה זה מפריע לך ביום-יום?</h2>
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-white">עד כמה זה מפריע לך ביום-יום?</h2>
                     <div class="px-2 py-10 text-center">
                         <input type="range" id="q6-slider" min="1" max="10" value="5" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-fuchsia-500">
                         <div class="flex justify-between mt-6 text-2xl font-black text-fuchsia-500">
@@ -221,13 +225,13 @@
                 </div>
 
                 <div id="step-7" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white text-center">במילים שלך - מה הכי בוער לך לשנות?</h2>
+                    <h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white">במילים שלך - מה הכי בוער לך לשנות?</h2>
                     <textarea id="q7-text" class="w-full p-5 rounded-2xl outline-none h-40 text-right text-lg text-white" placeholder="כתוב/כתבי כאן מה שעל הלב..."></textarea>
                     <button onclick="saveTextAndNext()" class="btn-main w-full py-5 rounded-3xl font-bold mt-6 text-white text-lg">המשך</button>
                 </div>
 
                 <div id="step-details" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white text-center">כדי שאוכל לחזור אליך בדיוק:</h2>
+                    <h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white">כדי שאוכל לחזור אליך בדיוק:</h2>
                     <div class="space-y-4">
                         <input type="text" id="userName" placeholder="שם מלא" class="w-full p-5 rounded-2xl text-white">
                         <div class="flex gap-3">
@@ -236,16 +240,17 @@
                         </div>
                         <textarea id="userSessionNote" placeholder="מה הכי תפס אותך אצלי / התחברת אליו?" class="w-full p-5 rounded-2xl h-20 text-white"></textarea>
                         <textarea id="userExpectations" placeholder="מה היית רוצה לקבל מהפגישה שלנו?" class="w-full p-5 rounded-2xl h-20 text-white"></textarea>
-                        <button onclick="submitLeadData()" id="finalSubmitBtn" class="btn-main w-full py-5 rounded-3xl font-bold text-xl mt-4 text-white">המשך</button>
+                        <button onclick="submitLeadData()" id="finalSubmitBtn" class="btn-main w-full py-5 rounded-3xl font-bold text-xl mt-4 text-white text-center">המשך</button>
                     </div>
                 </div>
             </div>
 
+            <!-- Emotion & Offer -->
             <div id="step-transition" class="step-container flex-col text-center">
                 <div class="mb-10 text-white">
                     <div class="text-5xl mb-6">✨</div>
                     <h2 class="text-3xl font-black mb-6 text-fuchsia-400 text-center">חשוב שתדע/י - הכל בסדר אצלך.</h2>
-                    <p class="text-gray-300 text-right leading-relaxed text-lg mb-8">מה שכתבת מעיד על עומק ורגישות מדהימה. זה לא משהו שצריך "לתקן" - אלא דפוס שאפשר ללמוד לשחרר. הגיע הזמן לבנות ביטחון שמגיע מבפנים.</p>
+                    <p class="text-gray-300 text-right leading-relaxed text-lg mb-8 text-center">מה שכתבת מעיד על עומק ורגישות מדהימה. זה לא משהו שצריך "לתקן" - אלא דפוס שאפשר ללמוד לשחרר. הגיע הזמן לבנות ביטחון שמגיע מבפנים.</p>
                 </div>
                 <button onclick="showOffer()" class="btn-main w-full py-5 rounded-3xl font-bold text-xl text-white">איך מתקדמים?</button>
             </div>
@@ -285,7 +290,7 @@
                 </div>
             </div>
 
-            <div id="step-success" class="step-container flex-col text-center text-white">
+            <div id="step-success" class="step-container flex-col text-center">
                 <div class="text-7xl mb-8 drop-shadow-[0_0_15px_rgba(217,70,239,0.5)] text-white text-center">💜</div>
                 <h2 class="text-3xl font-black mb-6 text-white text-center">תודה על האמון.</h2>
                 <p class="text-gray-400 mb-10 text-lg leading-relaxed text-center">שלח/י לי עכשיו הודעה בוואטסאפ ונתאם לנו מועד לפגישה.</p>
@@ -305,7 +310,7 @@
                     <h2 class="text-2xl font-black">ניהול לידים חכם</h2>
                     <button onclick="location.reload()" class="text-xs bg-slate-200 px-3 py-1 rounded-full">התנתקות</button>
                 </div>
-                <div id="leads-container" class="space-y-4 max-h-[70vh] overflow-y-auto pl-2 text-right text-slate-800 text-right"></div>
+                <div id="leads-container" class="space-y-4 max-h-[70vh] overflow-y-auto pl-2 text-right"></div>
             </div>
 
         </main>
@@ -324,7 +329,8 @@
 
     <script>
         let db, auth;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'madlen-final-live'; 
+        // Use the mandatory appId logic to avoid permission errors
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'madlen-final-production'; 
         const myNumber = "972524073915";
         const apiKey = ""; 
         const ADMIN_CODE = "1234";
@@ -336,7 +342,7 @@
                 auth = firebase.auth();
                 db = firebase.firestore();
                 
-                // Auth must be awaited before any Firestore operations
+                // Rule 3: Auth before any query. Awaiting sign-in.
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await auth.signInWithCustomToken(__initial_auth_token);
                 } else {
@@ -344,7 +350,7 @@
                 }
                 return true;
             } catch (err) { 
-                console.error("Firebase Init Error:", err); 
+                console.error("Firebase Initialization Failed:", err); 
                 return false;
             }
         }
@@ -421,7 +427,7 @@
             };
             
             try {
-                // Ensure auth is complete
+                // Critical Check: Ensure auth is fully ready before writing
                 if (!auth.currentUser) {
                     await initFirebase();
                 }
@@ -430,10 +436,10 @@
                     await saveToFirebase();
                     showStep('step-transition');
                 } else {
-                    throw new Error("Auth failed");
+                    throw new Error("לא נמצא משתמש מחובר");
                 }
             } catch (err) { 
-                console.error("Submit error:", err);
+                console.error("שגיאת שמירה סופית:", err);
                 showMsg('אופס, חלה שגיאה בשמירה. בדקי חיבור אינטרנט ונסי שוב.');
             } finally {
                 btn.innerText = originalText;
@@ -442,25 +448,30 @@
         }
 
         async function saveToFirebase() {
+            // Rule 3: Auth check
             if (!auth.currentUser) return;
+            
             try {
-                // Following Rule 1: /artifacts/{appId}/public/data/leads
-                const leadsCol = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads');
-                const id = leadData.id || leadsCol.doc().id;
+                // Rule 1: STRICT PATH - /artifacts/{appId}/public/data/{collectionName}
+                const collectionPath = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads');
+                
+                const id = leadData.id || collectionPath.doc().id;
                 leadData.id = id;
                 
-                await leadsCol.doc(id).set({
+                await collectionPath.doc(id).set({
                     ...leadData, 
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 }, { merge: true });
+                
+                return true;
             } catch (err) { 
-                console.error("Firebase Save Error:", err); 
+                console.error("Firebase Data Access Error:", err); 
                 throw err;
             }
         }
 
         function showOffer() { showStep('step-summary'); }
-        function selectOffer(c) { leadData.choice = c; showStep('step-payment'); }
+        function selectOffer(c) { leadData.choice = c; saveToFirebase(); showStep('step-payment'); }
         
         function selectFullProcess() {
             window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, עניתי על שאלון האבחון ואשמח לשמוע פרטים על תהליך הליווי האישי ❤️')}`, '_blank');
@@ -487,11 +498,13 @@
             window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, מילאתי את השאלון ושלחתי תשלום על שיחת הפיצוח. מחכה לתאם! ❤️')}`, '_blank');
         }
 
+        function showAdminLogin() { showStep('admin-login'); }
+
         async function checkPass() {
             if(document.getElementById('admin-pass').value === ADMIN_CODE) {
                 document.body.classList.add('admin-view-active');
                 showStep('admin-dashboard');
-                // Ensure auth is ready before fetching
+                // Rule 3: Ensure auth before admin operations
                 if (!auth.currentUser) await initFirebase();
                 loadLeads();
             } else { showMsg('קוד שגוי'); }
@@ -499,14 +512,17 @@
 
         function loadLeads() {
             if (!auth.currentUser) return;
+            
+            // Rule 1: Public path for leads
             const leadsCol = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads');
             
+            // Rule 2 & Rule 3: error callback included
             leadsCol.onSnapshot(snap => {
                 const container = document.getElementById('leads-container');
                 container.innerHTML = ''; currentAdminLeads = [];
                 snap.forEach(doc => currentAdminLeads.push({id: doc.id, ...doc.data()}));
                 
-                // Sort by timestamp descending in JS (Rule 2)
+                // Rule 2: Sort in memory
                 currentAdminLeads.sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
                 
                 currentAdminLeads.forEach((l, idx) => {
@@ -526,8 +542,8 @@
                     container.appendChild(div);
                 });
             }, err => {
-                console.error("Leads load error:", err);
-                showMsg('שגיאת הרשאה בטעינת הנתונים.');
+                console.error("שגיאת טעינת לידים:", err);
+                showMsg('שגיאת הרשאה - וודאי שאת מחוברת.');
             });
         }
 
@@ -551,7 +567,6 @@
         }
 
         function closeAIModal() { document.getElementById('ai-modal').classList.add('hidden'); }
-        function showAdminLogin() { showStep('admin-login'); }
         function showMsg(m) {
             const n = document.getElementById('notification');
             document.getElementById('notification-content').innerText = m;
