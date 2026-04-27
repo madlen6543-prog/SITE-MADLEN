@@ -36,14 +36,13 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 10px 25px -5px rgba(217, 70, 239, 0.4);
         }
-        .btn-main:hover {
+        .btn-main:hover:not(:disabled) {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 20px 35px -10px rgba(217, 70, 239, 0.6);
         }
         .btn-main:disabled {
-            opacity: 0.7;
+            opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
             filter: grayscale(0.5);
         }
 
@@ -95,7 +94,6 @@
         }
         textarea:focus, input:focus { border-color: #d946ef !important; outline: none; }
 
-        /* Admin view visuals */
         .admin-view-active { color: #1e293b; background: #f8fafc !important; background-image: none !important; }
         .ai-loader { border: 3px solid #f3f3f3; border-top: 3px solid #d946ef; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -126,7 +124,6 @@
 
     <div id="app-wrapper" class="max-w-md w-full min-h-[90vh] flex flex-col justify-between py-6 relative z-10 text-white text-center">
         
-        <!-- Navigation -->
         <div id="top-nav" class="mb-6 opacity-0 transition-opacity duration-300 pointer-events-none">
             <div class="flex items-center justify-between mb-4 text-white">
                 <button onclick="goBack()" class="back-btn flex items-center gap-2 text-sm font-bold p-2 -mr-2">
@@ -160,7 +157,7 @@
                 </button>
             </div>
 
-            <!-- Quiz Steps -->
+            <!-- Quiz flow steps -->
             <div id="quiz-flow">
                 <div id="step-1" class="step-container flex-col">
                     <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">מה הכי מאתגר אותך כרגע?</h2>
@@ -245,7 +242,7 @@
                 </div>
             </div>
 
-            <!-- Emotion & Offer -->
+            <!-- Transition to offer -->
             <div id="step-transition" class="step-container flex-col text-center">
                 <div class="mb-10 text-white">
                     <div class="text-5xl mb-6">✨</div>
@@ -256,7 +253,7 @@
             </div>
 
             <div id="step-summary" class="step-container flex-col text-center text-white">
-                <div class="bg-fuchsia-500/5 p-8 rounded-[3rem] border border-fuchsia-500/20 mb-8 text-right shadow-2xl relative">
+                <div class="bg-fuchsia-500/5 p-8 rounded-[3rem] border border-fuchsia-500/20 mb-8 text-right shadow-2xl relative text-white">
                     <div class="inline-block px-3 py-1 bg-fuchsia-600/30 rounded-full text-[10px] font-bold text-fuchsia-300 mb-4 uppercase tracking-widest text-center">Most Popular</div>
                     <h3 class="text-3xl font-black mb-3 text-white text-right">שיחת פיצוח אישית (1:1)</h3>
                     <p class="text-gray-400 mb-6 text-base leading-relaxed text-right">פגישה ממוקדת של שעה בזום, שבה נעשה סדר בבלגן הפנימי ונהפוך את ה"תקיעות" לבהירות. זה המקום שבו המילים שלך מתחילות לקבל מקום.</p>
@@ -310,7 +307,7 @@
                     <h2 class="text-2xl font-black">ניהול לידים חכם</h2>
                     <button onclick="location.reload()" class="text-xs bg-slate-200 px-3 py-1 rounded-full">התנתקות</button>
                 </div>
-                <div id="leads-container" class="space-y-4 max-h-[70vh] overflow-y-auto pl-2 text-right"></div>
+                <div id="leads-container" class="space-y-4 max-h-[70vh] overflow-y-auto pl-2 text-right text-slate-800 text-right"></div>
             </div>
 
         </main>
@@ -329,37 +326,43 @@
 
     <script>
         let db, auth;
-        // Use standard environment appId
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // MUST prioritize environmental appId
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'madlen-final-live-v1';
         const myNumber = "972524073915";
         const apiKey = ""; 
         const ADMIN_CODE = "1234";
 
         async function initFirebase() {
             try {
-                if (firebase.apps.length > 0) {
-                    auth = firebase.auth();
-                    db = firebase.firestore();
-                } else {
-                    const firebaseConfig = JSON.parse(__firebase_config);
+                if (typeof __firebase_config === 'undefined') throw new Error("Missing Firebase Config");
+                
+                const firebaseConfig = JSON.parse(__firebase_config);
+                if (!firebase.apps.length) {
                     firebase.initializeApp(firebaseConfig);
-                    auth = firebase.auth();
-                    db = firebase.firestore();
                 }
                 
-                // RULE 3 - Auth Before Queries. Wait for completion.
+                auth = firebase.auth();
+                db = firebase.firestore();
+                
+                // Firestore settings for iframe stability
+                db.settings({ experimentalForceLongPolling: true });
+
+                // RULE 3: Await Auth
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await auth.signInWithCustomToken(__initial_auth_token);
                 } else {
                     await auth.signInAnonymously();
                 }
+                
                 return true;
             } catch (err) { 
-                console.error("Firebase Init Error:", err); 
+                console.error("Firebase Initialization Failure:", err); 
                 return false;
             }
         }
-        window.onload = initFirebase;
+        
+        // Immediate call
+        initFirebase();
 
         let leadData = { answers: {}, personal: {}, choice: '', payment: '', timestamp: new Date() };
         let currentAdminLeads = [];
@@ -432,7 +435,7 @@
             };
             
             try {
-                // Ensure auth is ready
+                // RULE 3 check
                 if (!auth || !auth.currentUser) {
                     await initFirebase();
                 }
@@ -441,11 +444,11 @@
                     await saveToFirebase();
                     showStep('step-transition');
                 } else {
-                    throw new Error("לא נמצא משתמש מחובר לשמירה");
+                    throw new Error("אימות נכשל");
                 }
             } catch (err) { 
-                console.error("Save Error:", err);
-                showMsg('אופס, חלה שגיאה בשמירה. בדקי חיבור אינטרנט ונסי שוב.');
+                console.error("Critical Save Error:", err);
+                showMsg('שגיאה בשמירה. וודאי שיש חיבור אינטרנט.');
             } finally {
                 btn.innerText = originalText;
                 btn.disabled = false;
@@ -453,11 +456,10 @@
         }
 
         async function saveToFirebase() {
-            // Rule 3: Guard operation
             if (!auth || !auth.currentUser) return;
             
             try {
-                // RULE 1: STRICT PATH - /artifacts/{appId}/public/data/{collectionName}
+                // RULE 1: STRICT PATH
                 const leadsCol = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads');
                 const id = leadData.id || leadsCol.doc().id;
                 leadData.id = id;
@@ -469,7 +471,7 @@
                 
                 return true;
             } catch (err) { 
-                console.error("Firebase Firestore Error:", err); 
+                console.error("Firestore Path Access Denied:", err); 
                 throw err;
             }
         }
@@ -519,8 +521,6 @@
 
         function loadLeads() {
             if (!auth || !auth.currentUser) return;
-            
-            // RULE 1 path
             const leadsCol = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads');
             
             leadsCol.onSnapshot(snap => {
@@ -528,7 +528,7 @@
                 container.innerHTML = ''; currentAdminLeads = [];
                 snap.forEach(doc => currentAdminLeads.push({id: doc.id, ...doc.data()}));
                 
-                // Rule 2: Sort in JS memory
+                // RULE 2: Sort locally
                 currentAdminLeads.sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
                 
                 currentAdminLeads.forEach((l, idx) => {
@@ -548,8 +548,8 @@
                     container.appendChild(div);
                 });
             }, err => {
-                console.error("Load Error:", err);
-                showMsg('שגיאת טעינה - וודאי שאת מחוברת.');
+                console.error("Dashboard Load Error:", err);
+                showMsg('שגיאת הרשאה בלוח הבקרה.');
             });
         }
 
@@ -569,7 +569,7 @@
                 });
                 const data = await response.json();
                 content.innerHTML = (data.candidates?.[0]?.content?.parts?.[0]?.text || 'לא התקבל ניתוח.').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
-            } catch (e) { content.innerHTML = '<p class="text-slate-800">חלה שגיאה בניתוח ה-AI.</p>'; }
+            } catch (e) { content.innerHTML = '<p class="text-slate-800 text-center">חלה שגיאה בניתוח ה-AI.</p>'; }
         }
 
         function closeAIModal() { document.getElementById('ai-modal').classList.add('hidden'); }
