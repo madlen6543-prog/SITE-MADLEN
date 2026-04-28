@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDKs (Compat Version) -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
@@ -40,11 +40,7 @@
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 20px 35px -10px rgba(217, 70, 239, 0.6);
         }
-        .btn-main:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            filter: grayscale(0.5);
-        }
+        .btn-main:disabled { opacity: 0.7; cursor: wait; }
 
         .option-card {
             background: rgba(255, 255, 255, 0.03);
@@ -94,6 +90,7 @@
         }
         textarea:focus, input:focus { border-color: #d946ef !important; outline: none; }
 
+        /* Dashboard Styles */
         .admin-view-active { color: #1e293b; background: #f8fafc !important; background-image: none !important; }
         .ai-loader { border: 3px solid #f3f3f3; border-top: 3px solid #d946ef; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -124,6 +121,7 @@
 
     <div id="app-wrapper" class="max-w-md w-full min-h-[90vh] flex flex-col justify-between py-6 relative z-10 text-white text-center">
         
+        <!-- Navigation -->
         <div id="top-nav" class="mb-6 opacity-0 transition-opacity duration-300 pointer-events-none">
             <div class="flex items-center justify-between mb-4 text-white">
                 <button onclick="goBack()" class="back-btn flex items-center gap-2 text-sm font-bold p-2 -mr-2">
@@ -157,12 +155,11 @@
                 </button>
             </div>
 
-            <!-- Quiz flow steps -->
             <div id="quiz-flow">
                 <div id="step-1" class="step-container flex-col">
                     <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">מה הכי מאתגר אותך כרגע?</h2>
                     <div class="grid gap-4">
-                        <div onclick="selectOption(1, 'להראות מי אני באמת')" class="option-card p-5 rounded-2xl">להראות מי אני באמת מול אנשים</div>
+                        <div onclick="selectOption(1, 'להראות מי אני')" class="option-card p-5 rounded-2xl">להראות מי אני באמת מול אנשים</div>
                         <div onclick="selectOption(1, 'להיבלע בקבוצה')" class="option-card p-5 rounded-2xl">אני נבלע בתוך קבוצות</div>
                         <div onclick="selectOption(1, 'מחשבות יתר')" class="option-card p-5 rounded-2xl">מחשבות יתר לפני הדיבור</div>
                         <div onclick="selectOption(1, 'פחד משיפוט')" class="option-card p-5 rounded-2xl">פחד ממה שיחשבו עלי</div>
@@ -184,14 +181,14 @@
                     <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-white text-center">מה הדבר שהכי מתסכל בזה?</h2>
                     <div class="grid gap-4 text-white">
                         <div onclick="selectOption(3, 'שתיקה')" class="option-card p-5 rounded-2xl">שיש לי מה להגיד – אבל אני שותק/ת</div>
-                        <div onclick="selectOption(3, 'לא מכירים באמת')" class="option-card p-5 rounded-2xl">שלא באמת מכירים את מי שאני</div>
-                        <div onclick="selectOption(3, 'חוסר ביטחון')" class="option-card p-5 rounded-2xl">תחושת חוסר ביטחון ושאני לא מספיק טוב/ה</div>
+                        <div onclick="selectOption(3, 'לא מכירים')" class="option-card p-5 rounded-2xl">שלא באמת מכירים את מי שאני</div>
+                        <div onclick="selectOption(3, 'ביטחון')" class="option-card p-5 rounded-2xl">תחושת חוסר ביטחון ושאני לא מספיק טוב/ה</div>
                         <div onclick="selectOption(3, 'בדידות')" class="option-card p-5 rounded-2xl text-white">תחושת לבד ובדידות (גם בתוך קבוצה)</div>
                     </div>
                 </div>
 
                 <div id="step-4" class="step-container flex-col">
-                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-white">איזה משפט הכי מדויק עבורך?</h2>
+                    <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-white text-center">איזה משפט הכי מדויק עבורך?</h2>
                     <div class="grid gap-4 text-white text-right">
                         <div onclick="selectOption(4, 'מופנמות')" class="option-card p-5 rounded-2xl">בגלל המופנמות שלי, קשה לאנשים באמת להתחבר אליי</div>
                         <div onclick="selectOption(4, 'גמגום')" class="option-card p-5 rounded-2xl">הקושי בדיבור או הגמגום פשוט תוקע אותי בסיטואציות</div>
@@ -202,8 +199,8 @@
 
                 <div id="step-5" class="step-container flex-col">
                     <h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-white text-center">מה הכי בא לך להרגיש?</h2>
-                    <div class="grid gap-4">
-                        <div onclick="selectOption(5, 'ביטחון')" class="option-card p-5 rounded-2xl text-white">להרגיש ביטחון במי שאני כבר היום</div>
+                    <div class="grid gap-4 text-white">
+                        <div onclick="selectOption(5, 'ביטחון')" class="option-card p-5 rounded-2xl">להרגיש ביטחון במי שאני כבר היום</div>
                         <div onclick="selectOption(5, 'חופש')" class="option-card p-5 rounded-2xl text-white">חופש להגיד ולעשות מה שבא לי</div>
                         <div onclick="selectOption(5, 'שייכות')" class="option-card p-5 rounded-2xl text-white">להרגיש שייכת ובנוח, פשוט ככה</div>
                         <div onclick="selectOption(5, 'להפסיק להתאמץ')" class="option-card p-5 rounded-2xl text-white">להפסיק להתאמץ ופשוט להיות שם</div>
@@ -237,33 +234,31 @@
                         </div>
                         <textarea id="userSessionNote" placeholder="מה הכי תפס אותך אצלי / התחברת אליו?" class="w-full p-5 rounded-2xl h-20 text-white"></textarea>
                         <textarea id="userExpectations" placeholder="מה היית רוצה לקבל מהפגישה שלנו?" class="w-full p-5 rounded-2xl h-20 text-white"></textarea>
-                        <button onclick="submitLeadData()" id="finalSubmitBtn" class="btn-main w-full py-5 rounded-3xl font-bold text-xl mt-4 text-white">המשך</button>
+                        <button onclick="submitLeadData()" id="finalSubmitBtn" class="btn-main w-full py-5 rounded-3xl font-bold text-xl mt-4 text-white text-center">המשך</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Transition to offer -->
+            <!-- Transition -->
             <div id="step-transition" class="step-container flex-col text-center">
                 <div class="mb-10 text-white">
                     <div class="text-5xl mb-6">✨</div>
                     <h2 class="text-3xl font-black mb-6 text-fuchsia-400 text-center">חשוב שתדע/י - הכל בסדר אצלך.</h2>
-                    <p class="text-gray-300 text-right leading-relaxed text-lg mb-8 text-center">מה שכתבת מעיד על עומק ורגישות מדהימה. זה לא משהו שצריך "לתקן" - אלא דפוס שאפשר ללמוד לשחרר. הגיע הזמן לבנות ביטחון שמגיע מבפנים.</p>
+                    <p class="text-gray-300 text-right leading-relaxed text-lg mb-8 text-center text-white">מה שכתבת מעיד על עומק ורגישות מדהימה. זה לא משהו שצריך "לתקן" - אלא דפוס שאפשר ללמוד לשחרר. הגיע הזמן לבנות ביטחון שמגיע מבפנים.</p>
                 </div>
                 <button onclick="showOffer()" class="btn-main w-full py-5 rounded-3xl font-bold text-xl text-white">איך מתקדמים?</button>
             </div>
 
             <div id="step-summary" class="step-container flex-col text-center text-white">
-                <div class="bg-fuchsia-500/5 p-8 rounded-[3rem] border border-fuchsia-500/20 mb-8 text-right shadow-2xl relative text-white">
+                <div class="bg-fuchsia-500/5 p-8 rounded-[3rem] border border-fuchsia-500/20 mb-8 text-right shadow-2xl relative">
                     <div class="inline-block px-3 py-1 bg-fuchsia-600/30 rounded-full text-[10px] font-bold text-fuchsia-300 mb-4 uppercase tracking-widest text-center">Most Popular</div>
                     <h3 class="text-3xl font-black mb-3 text-white text-right">שיחת פיצוח אישית (1:1)</h3>
                     <p class="text-gray-400 mb-6 text-base leading-relaxed text-right">פגישה ממוקדת של שעה בזום, שבה נעשה סדר בבלגן הפנימי ונהפוך את ה"תקיעות" לבהירות. זה המקום שבו המילים שלך מתחילות לקבל מקום.</p>
-                    
                     <ul class="text-sm space-y-4 mb-8 text-gray-200 text-right">
                         <li class="flex items-start gap-3"><span class="text-fuchsia-500 mt-1">✨</span><span><b>פיצוח המחסום:</b> נבין מה בדיוק קורה לך ברגע שבו המילים נעלמות.</span></li>
                         <li class="flex items-start gap-3"><span class="text-fuchsia-500 mt-1">✨</span><span><b>מפת הדרכים שלך:</b> נזהה את הדפוסים שמעכבים אותך ואיך לשנות אותם.</span></li>
                         <li class="flex items-start gap-3"><span class="text-fuchsia-500 mt-1">✨</span><span><b>ביטחון מיידי:</b> תצא/י עם כלי פרקטי אחד ליישום כבר בסיטואציה הבאה.</span></li>
                     </ul>
-
                     <div class="flex items-center justify-between mt-8 bg-black/40 p-5 rounded-3xl">
                         <div class="text-right leading-none">
                             <span class="text-3xl font-black italic text-fuchsia-400 block">₪97</span>
@@ -272,13 +267,13 @@
                         <button onclick="selectOffer('פגישת פיצוח')" class="btn-main px-8 py-3 rounded-2xl font-bold text-base shadow-none text-white text-center">אני רוצה לקבוע</button>
                     </div>
                 </div>
-
                 <div class="p-8 rounded-[3rem] border border-white/10 bg-white/5 text-right mb-8">
                     <h3 class="text-xl font-bold mb-2 text-fuchsia-300 italic text-white text-right">תהליך ליווי עמוק</h3>
-                    <button onclick="selectFullProcess()" class="text-white font-bold underline text-lg">אשמח לשמוע על ליווי 💬</button>
+                    <button onclick="selectFullProcess()" class="text-white font-bold underline text-lg text-white">אשמח לשמוע על ליווי 💬</button>
                 </div>
             </div>
 
+            <!-- Payment -->
             <div id="step-payment" class="step-container flex-col text-center">
                 <h2 class="text-3xl font-bold mb-6 text-fuchsia-300 text-center">איך הכי נוח לך לשלם?</h2>
                 <div class="space-y-4">
@@ -287,14 +282,15 @@
                 </div>
             </div>
 
-            <div id="step-success" class="step-container flex-col text-center">
+            <!-- Success -->
+            <div id="step-success" class="step-container flex-col text-center text-white">
                 <div class="text-7xl mb-8 drop-shadow-[0_0_15px_rgba(217,70,239,0.5)] text-white text-center">💜</div>
                 <h2 class="text-3xl font-black mb-6 text-white text-center">תודה על האמון.</h2>
                 <p class="text-gray-400 mb-10 text-lg leading-relaxed text-center">שלח/י לי עכשיו הודעה בוואטסאפ ונתאם לנו מועד לפגישה.</p>
-                <button onclick="openWhatsAppFinal()" class="btn-main w-full py-6 rounded-3xl font-bold text-xl text-white"><span>בוא/י נתאם! ❤️</span></button>
+                <button onclick="openWhatsAppFinal()" class="btn-main w-full py-6 rounded-3xl font-bold text-xl text-white text-center text-white"><span>בוא/י נתאם! ❤️</span></button>
             </div>
 
-            <!-- ADMIN SECTIONS -->
+            <!-- ADMIN -->
             <div id="admin-login" class="step-container flex-col text-center text-white">
                 <h2 class="text-2xl font-black text-white text-center">כניסת מנהלת</h2>
                 <input type="password" id="admin-pass" placeholder="קוד כניסה" class="w-full p-4 border rounded-xl mb-4 text-center text-xl bg-white/10 text-white">
@@ -326,42 +322,41 @@
 
     <script>
         let db, auth;
-        // MUST prioritize environmental appId
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'madlen-final-live-v1';
         const myNumber = "972524073915";
         const apiKey = ""; 
         const ADMIN_CODE = "1234";
 
+        const PERSONAL_FIREBASE_CONFIG = {
+          apiKey: "AIzaSyA4rY0AWdiMsAgu9JSxlFuWqjGbhkkZ5mA",
+          authDomain: "madlenfrid-566c9.firebaseapp.com",
+          projectId: "madlenfrid-566c9",
+          storageBucket: "madlenfrid-566c9.firebasestorage.app",
+          messagingSenderId: "977309579368",
+          appId: "1:977309579368:web:8a8fb197ff575f2872a3dd",
+          measurementId: "G-M0F5PWQYW0"
+        };
+
+        const currentAppId = typeof __app_id !== 'undefined' ? __app_id : PERSONAL_FIREBASE_CONFIG.projectId;
+
         async function initFirebase() {
             try {
-                if (typeof __firebase_config === 'undefined') throw new Error("Missing Firebase Config");
-                
-                const firebaseConfig = JSON.parse(__firebase_config);
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                }
-                
+                const config = (typeof __firebase_config !== 'undefined' && __firebase_config) ? JSON.parse(__firebase_config) : PERSONAL_FIREBASE_CONFIG;
+                if (!firebase.apps.length) firebase.initializeApp(config);
                 auth = firebase.auth();
                 db = firebase.firestore();
-                
-                // Firestore settings for iframe stability
                 db.settings({ experimentalForceLongPolling: true });
 
-                // RULE 3: Await Auth
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await auth.signInWithCustomToken(__initial_auth_token);
                 } else {
                     await auth.signInAnonymously();
                 }
-                
                 return true;
             } catch (err) { 
-                console.error("Firebase Initialization Failure:", err); 
+                console.error("Firebase Init Error:", err); 
                 return false;
             }
         }
-        
-        // Immediate call
         initFirebase();
 
         let leadData = { answers: {}, personal: {}, choice: '', payment: '', timestamp: new Date() };
@@ -374,12 +369,10 @@
             document.querySelectorAll('.step-container').forEach(s => s.classList.remove('step-active'));
             const target = document.getElementById(stepId);
             if(target) target.classList.add('step-active');
-            
             const topNav = document.getElementById('top-nav');
             const hideBack = ['step-0', 'step-success'].includes(stepId) || stepId.includes('admin');
             if (!hideBack) topNav.classList.remove('opacity-0', 'pointer-events-none');
             else topNav.classList.add('opacity-0', 'pointer-events-none');
-
             if(stepId.startsWith('step-') && !isNaN(stepId.split('-')[1])) {
                 const num = parseInt(stepId.split('-')[1]);
                 document.getElementById('progress-fill').style.width = Math.round((num / 7) * 100) + '%';
@@ -395,18 +388,15 @@
         }
 
         function startQuiz() { showStep('step-1'); }
-
         function selectOption(q, v) {
             leadData.answers['שאלה ' + q] = v;
             if(q < 5) showStep('step-' + (q + 1));
             else showStep('step-6');
         }
-
         function saveSliderAndNext() {
             leadData.answers['רמה'] = document.getElementById('q6-slider').value;
             showStep('step-7');
         }
-
         function saveTextAndNext() {
             leadData.answers['חופשי'] = document.getElementById('q7-text').value;
             showStep('step-details');
@@ -414,143 +404,53 @@
 
         async function submitLeadData() {
             const btn = document.getElementById('finalSubmitBtn');
-            const originalText = btn.innerText;
-            
+            const orig = btn.innerText;
             const name = document.getElementById('userName').value;
             const phone = document.getElementById('userPhone').value;
             const age = document.getElementById('userAge').value;
-            
-            if(!name || !phone || !age) { 
-                showMsg('נא למלא שם, גיל וטלפון'); 
-                return; 
-            }
-            
-            btn.innerText = 'שומר נתונים...';
-            btn.disabled = true;
-
-            leadData.personal = { 
-                name, phone, age, 
-                note: document.getElementById('userSessionNote').value, 
-                exp: document.getElementById('userExpectations').value 
-            };
-            
+            if(!name || !phone || !age) { showMsg('נא למלא שם, גיל וטלפון'); return; }
+            btn.innerText = 'שומר נתונים...'; btn.disabled = true;
+            leadData.personal = { name, phone, age, note: document.getElementById('userSessionNote').value, exp: document.getElementById('userExpectations').value };
             try {
-                // RULE 3 check
-                if (!auth || !auth.currentUser) {
-                    await initFirebase();
-                }
-                
-                if (auth && auth.currentUser) {
-                    await saveToFirebase();
-                    showStep('step-transition');
-                } else {
-                    throw new Error("אימות נכשל");
-                }
-            } catch (err) { 
-                console.error("Critical Save Error:", err);
-                showMsg('שגיאה בשמירה. וודאי שיש חיבור אינטרנט.');
-            } finally {
-                btn.innerText = originalText;
-                btn.disabled = false;
-            }
+                if (!auth.currentUser) await initFirebase();
+                await Promise.race([saveToFirebase(), new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000))]);
+            } catch (err) { console.warn("Proceeding despite storage issue", err); }
+            finally { showStep('step-transition'); btn.innerText = orig; btn.disabled = false; }
         }
 
         async function saveToFirebase() {
-            if (!auth || !auth.currentUser) return;
-            
+            if (!auth.currentUser || !db) return false;
             try {
-                // RULE 1: STRICT PATH
-                const leadsCol = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads');
-                const id = leadData.id || leadsCol.doc().id;
-                leadData.id = id;
-                
-                await leadsCol.doc(id).set({
-                    ...leadData, 
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-                
+                const leadsCol = db.collection('artifacts').doc(currentAppId).collection('public').doc('data').collection('leads');
+                const id = leadData.id || leadsCol.doc().id; leadData.id = id;
+                await leadsCol.doc(id).set({ ...leadData, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
                 return true;
-            } catch (err) { 
-                console.error("Firestore Path Access Denied:", err); 
-                throw err;
-            }
+            } catch (err) { console.error("Save Error:", err); throw err; }
         }
 
         function showOffer() { showStep('step-summary'); }
-        async function selectOffer(c) { 
-            leadData.choice = c; 
-            await saveToFirebase(); 
-            showStep('step-payment'); 
-        }
-        
-        function selectFullProcess() {
-            window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, עניתי על שאלון האבחון ואשמח לשמוע פרטים על תהליך הליווי האישי ❤️')}`, '_blank');
-        }
-
-        function requestBankDetails() {
-            leadData.payment = 'העברה בנקאית'; 
-            saveToFirebase();
-            window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, אני מעדיף/ה להעביר את התשלום בבנק עבור שיחת הפיצוח, אשמח לפרטים ❤️')}`, '_blank');
-            showStep('step-success');
-        }
-
-        async function finalizeLead(method) {
-            leadData.payment = method;
-            await saveToFirebase();
-            if (method === 'Bit') {
-                const bitLink = `https://www.bitpay.co.il/app/me/${myNumber}?amount=97`;
-                window.open(bitLink, '_blank');
-                showStep('step-success');
-            }
-        }
-
-        function openWhatsAppFinal() {
-            window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, מילאתי את השאלון ושלחתי תשלום על שיחת הפיצוח. מחכה לתאם! ❤️')}`, '_blank');
-        }
-
+        async function selectOffer(c) { leadData.choice = c; await saveToFirebase(); showStep('step-payment'); }
+        function selectFullProcess() { window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, עניתי על שאלון האבחון ואשמח לשמוע פרטים על תהליך הליווי האישי ❤️')}`, '_blank'); }
+        function requestBankDetails() { leadData.payment = 'העברה בנקאית'; saveToFirebase(); window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, אני מעדיף להעביר את התשלום בבנק עבור שיחת הפיצוח, אשמח לפרטים ❤️')}`, '_blank'); showStep('step-success'); }
+        async function finalizeLead(m) { leadData.payment = m; await saveToFirebase(); if (m === 'Bit') { window.open(`https://www.bitpay.co.il/app/me/${myNumber}?amount=97`, '_blank'); showStep('step-success'); } }
+        function openWhatsAppFinal() { window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent('היי מדלן, מילאתי את השאלון ושלחתי תשלום על שיחת הפיצוח. מחכה לתאם! ❤️')}`, '_blank'); }
         function showAdminLogin() { showStep('admin-login'); }
-
-        async function checkPass() {
-            if(document.getElementById('admin-pass').value === ADMIN_CODE) {
-                document.body.classList.add('admin-view-active');
-                showStep('admin-dashboard');
-                if (!auth || !auth.currentUser) await initFirebase();
-                loadLeads();
-            } else { showMsg('קוד שגוי'); }
-        }
+        async function checkPass() { if(document.getElementById('admin-pass').value === ADMIN_CODE) { document.body.classList.add('admin-view-active'); showStep('admin-dashboard'); if (!auth.currentUser) await initFirebase(); loadLeads(); } else { showMsg('קוד שגוי'); } }
 
         function loadLeads() {
-            if (!auth || !auth.currentUser) return;
-            const leadsCol = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads');
-            
+            if (!auth.currentUser || !db) return;
+            const leadsCol = db.collection('artifacts').doc(currentAppId).collection('public').doc('data').collection('leads');
             leadsCol.onSnapshot(snap => {
-                const container = document.getElementById('leads-container');
-                container.innerHTML = ''; currentAdminLeads = [];
+                const container = document.getElementById('leads-container'); container.innerHTML = ''; currentAdminLeads = [];
                 snap.forEach(doc => currentAdminLeads.push({id: doc.id, ...doc.data()}));
-                
-                // RULE 2: Sort locally
                 currentAdminLeads.sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-                
                 currentAdminLeads.forEach((l, idx) => {
                     const div = document.createElement('div');
                     div.className = 'bg-white p-4 rounded-2xl shadow-sm border border-slate-200 text-slate-800 text-right mb-4';
-                    div.innerHTML = `
-                        <div class="flex justify-between mb-2 border-b pb-2">
-                            <span class="font-bold text-fuchsia-700">${l.personal?.name || 'ללא שם'}</span>
-                            <button onclick="analyzeLead(${idx})" class="text-xs bg-fuchsia-50 text-fuchsia-600 px-2 py-1 rounded-lg border border-fuchsia-100 font-bold">✨ ניתוח AI</button>
-                        </div>
-                        <div class="text-xs space-y-1 text-slate-600">
-                            <p><b>טלפון:</b> <a href="https://wa.me/972${l.personal?.phone?.replace(/^0/,'')}" target="_blank" class="text-blue-600 underline">${l.personal?.phone}</a></p>
-                            <p><b>תשלום:</b> <span class="status-badge ${l.payment==='Bit'?'payment-bit':'payment-bank'}">${l.payment || 'לא נבחר'}</span></p>
-                            <p class="text-slate-500 italic mt-1">"${l.personal?.note || ''}"</p>
-                        </div>
-                    `;
+                    div.innerHTML = `<div class="flex justify-between mb-2 border-b pb-2"><span class="font-bold text-fuchsia-700">${l.personal?.name || 'ללא שם'}</span><button onclick="analyzeLead(${idx})" class="text-xs bg-fuchsia-50 text-fuchsia-600 px-2 py-1 rounded-lg border border-fuchsia-100 font-bold">✨ ניתוח AI</button></div><div class="text-xs space-y-1 text-slate-600"><p><b>טלפון:</b> <a href="https://wa.me/972${l.personal?.phone?.replace(/^0/,'')}" target="_blank" class="text-blue-600 underline">${l.personal?.phone}</a></p><p><b>תשלום:</b> <span class="status-badge ${l.payment==='Bit'?'payment-bit':'payment-bank'}">${l.payment || 'לא נבחר'}</span></p><p class="text-slate-500 italic mt-1">"${l.personal?.note || ''}"</p></div>`;
                     container.appendChild(div);
                 });
-            }, err => {
-                console.error("Dashboard Load Error:", err);
-                showMsg('שגיאת הרשאה בלוח הבקרה.');
-            });
+            }, err => console.error("Admin Load Error:", err));
         }
 
         async function analyzeLead(idx) {
@@ -559,9 +459,7 @@
             const content = document.getElementById('ai-content');
             modal.classList.remove('hidden');
             content.innerHTML = '<div class="flex flex-col items-center py-10 text-center text-slate-800"><div class="ai-loader mb-4"></div><p>מנתח עבור מדלן...</p></div>';
-            
             const prompt = `נתח את הליד הבא למדלן פריד (מלווה למופנמים): שם: ${lead.personal?.name}, הערה: ${lead.personal?.note}, ציפיות: ${lead.personal?.exp}, תשובות: ${JSON.stringify(lead.answers)}. תן סיכום קצר: מצב רגשי, נקודת כאב מרכזית, והמלצה איך לפתוח את שיחת הפיצוח 1:1.`;
-            
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
                     method: 'POST', headers: {'Content-Type': 'application/json'},
