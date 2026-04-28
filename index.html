@@ -141,7 +141,7 @@
                     </h1>
                     <div class="space-y-6 text-gray-300 text-lg md:text-xl font-medium max-w-[340px] mx-auto leading-relaxed">
                         <p>יש לך כל כך הרבה מה להגיד ולהראות,<br>אבל בחוץ המילים פשוט נתקעות.</p>
-                        <p class="text-white font-bold border-t border-white/10 pt-6">הגיע הזמן להפסיק לפחד<br>לבטא את עצמך באמת ולחזק את הביטחון שלך.</p>
+                        <p class="text-white font-bold border-t border-white/10 pt-6 text-center">הגיע הזמן להפסיק לפחד<br>לבטא את עצמך באמת ולחזק את הביטחון שלך.</p>
                     </div>
                 </div>
                 <button onclick="startQuiz()" class="btn-main w-full py-6 px-4 rounded-3xl font-black text-lg shadow-2xl text-white">
@@ -154,9 +154,9 @@
                 <div id="step-1" class="step-container flex-col"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">מה הכי מאתגר אותך כרגע?</h2>
                     <div class="grid gap-4 text-white">
                         <div onclick="selectOption('האתגר המרכזי', 'להראות מי אני באמת', 2)" class="option-card p-5 rounded-2xl">להראות מי אני באמת מול אנשים</div>
-                        <div onclick="selectOption('האתגר המרכזי', 'אני נבלע בתוך קבוצות', 2)" class="option-card p-5 rounded-2xl">אני נבלע/ת בתוך קבוצות</div>
+                        <div onclick="selectOption('האתגר המרכזי', 'אני נבלע/ת בתוך קבוצות', 2)" class="option-card p-5 rounded-2xl">אני נבלע/ת בתוך קבוצות</div>
                         <div onclick="selectOption('האתגר המרכזי', 'מחשבות יתר לפני הדיבור', 2)" class="option-card p-5 rounded-2xl">מחשבות יתר לפני הדיבור</div>
-                        <div onclick="selectOption('האתגר המרכזי', 'מזדהה עם הכל', 2)" class="option-card p-5 rounded-2xl border-fuchsia-500/30 bg-fuchsia-500/10 font-bold italic">מזדהה עם הכל</div>
+                        <div onclick="selectOption('האתגר המרכזי', 'להרגיש בנוח עם כולם', 2)" class="option-card p-5 rounded-2xl border-fuchsia-500/30 bg-fuchsia-500/10 font-bold italic text-center">מזדהה עם הכל</div>
                     </div>
                 </div>
 
@@ -171,32 +171,32 @@
 
                 <div id="step-3" class="step-container flex-col"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-center">מה הדבר שהכי מתסכל בזה?</h2>
                     <div class="grid gap-4 text-white">
-                        <div onclick="selectOption('התסכול העיקרי', 'שיש לי מה להגיד ואני שותק', 4)" class="option-card p-5 rounded-2xl text-right">שיש לי מה להגיד – אבל אני שותק/ת</div>
+                        <div onclick="selectOption('התסכול העיקרי', 'שיש לי מה להגיד ואני שותק', 4)" class="option-card p-5 rounded-2xl text-right text-white">שיש לי מה להגיד – אבל אני שותק/ת</div>
                         <div onclick="selectOption('התסכול העיקרי', 'חוסר ביטחון ותחושה שזה לא מספיק טוב', 4)" class="option-card p-5 rounded-2xl border-fuchsia-500/20 text-right">מרגיש/ה חוסר ביטחון ולא מספיק טוב/ה</div>
-                        <div onclick="selectOption('התסכול העיקרי', 'שלא באמת מכירים אותי', 4)" class="option-card p-5 rounded-2xl text-right">שלא באמת מכירים את מי שאני</div>
-                        <div onclick="selectOption('התסכול העיקרי', 'תחושת לבד ובדידות', 4)" class="option-card p-5 rounded-2xl text-right text-white">תחושת לבד ובדידות</div>
+                        <div onclick="selectOption('התסכול העיקרי', 'שלא באמת מכירים אותי', 4)" class="option-card p-5 rounded-2xl text-right text-white">שלא באמת מכירים את מי שאני</div>
+                        <div onclick="selectOption('התסכול העיקרי', 'תחושת לבד ובדידות', 4)" class="option-card p-5 rounded-2xl text-right text-white text-center">תחושת לבד ובדידות</div>
                     </div>
                 </div>
 
-                <div id="step-4" class="step-container flex-col"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">איזה משפט הכי מדויק עבורך?</h2>
-                    <div class="grid gap-4 text-white">
-                        <div onclick="selectOption('המשפט המדויק', 'בגלל המופנמות קשה להתחבר אלי', 5)" class="option-card p-5 rounded-2xl text-right">בגלל המופנמות שלי, קשה להתחבר אליי</div>
+                <div id="step-4" class="step-container flex-col"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-center">איזה משפט הכי מדויק עבורך?</h2>
+                    <div class="grid gap-4 text-white text-right">
+                        <div onclick="selectOption('המשפט המדויק', 'המופנמות מקשה עלי להתחבר', 5)" class="option-card p-5 rounded-2xl text-right">בגלל המופנמות שלי, קשה להתחבר אליי</div>
                         <div onclick="selectOption('המשפט המדויק', 'הקושי בדיבור תוקע אותי', 5)" class="option-card p-5 rounded-2xl text-right">הקושי בדיבור או הגמגום תוקע אותי</div>
-                        <div onclick="selectOption('המשפט המדויק', 'אני מפספס הזדמנויות בגלל הפחד לדבר', 5)" class="option-card p-5 rounded-2xl text-right">אני מפספס/ת הזדמנויות בגלל הפחד לדבר</div>
-                        <div onclick="selectOption('המשפט המדויק', 'בא לי פשוט להשתחרר ולזרום', 5)" class="option-card p-5 rounded-2xl text-right">בא לי פשוט להשתחרר ולזרום</div>
+                        <div onclick="selectOption('המשפט המדויק', 'פחד מפספוס הזדמנויות', 5)" class="option-card p-5 rounded-2xl text-right">אני מפספס/ת הזדמנויות בגלל הפחד לדבר</div>
+                        <div onclick="selectOption('המשפט המדויק', 'הרצון להשתחרר ולזרום', 5)" class="option-card p-5 rounded-2xl text-right text-center text-white">בא לי פשוט להשתחרר ולזרום</div>
                     </div>
                 </div>
 
-                <div id="step-5" class="step-container flex-col"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">מה הכי בא לך להרגיש?</h2>
+                <div id="step-5" class="step-container flex-col"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-white text-center">מה הכי בא לך להרגיש?</h2>
                     <div class="grid gap-4 text-white">
                         <div onclick="selectOption('השאיפה שלי', 'ביטחון במי שאני', 6)" class="option-card p-5 rounded-2xl text-right">להרגיש ביטחון במי שאני</div>
                         <div onclick="selectOption('השאיפה שלי', 'חופש ביטוי מלא', 6)" class="option-card p-5 rounded-2xl text-right">חופש להגיד ולעשות מה שבא לי</div>
                         <div onclick="selectOption('השאיפה שלי', 'תחושת שייכות ונוחות', 6)" class="option-card p-5 rounded-2xl text-right">להרגיש שייכת ובנוח</div>
-                        <div onclick="selectOption('השאיפה שלי', 'כל התשובות נכונות', 6)" class="option-card p-5 rounded-2xl border-fuchsia-500/40 bg-fuchsia-500/5 text-right text-white">כל התשובות נכונות</div>
+                        <div onclick="selectOption('השאיפה שלי', 'פשוט להיות שם בנוח', 6)" class="option-card p-5 rounded-2xl border-fuchsia-500/40 bg-fuchsia-500/5 text-center text-white">כל התשובות נכונות</div>
                     </div>
                 </div>
 
-                <div id="step-6" class="step-container flex-col"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center">עד כמה זה מפריע לך (1-10)?</h2>
+                <div id="step-6" class="step-container flex-col"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-white text-center text-center">עד כמה זה מפריע לך (1-10)?</h2>
                     <div class="px-2 py-10 text-center">
                         <input type="range" id="q6-slider" min="1" max="10" value="5" class="w-full accent-fuchsia-500 cursor-pointer">
                         <div class="flex justify-between mt-6 text-2xl font-black text-fuchsia-500"><span>1</span><span id="slider-val" class="bg-fuchsia-500/20 px-6 py-2 rounded-2xl border border-fuchsia-500/30">5</span><span>10</span></div>
@@ -204,9 +204,9 @@
                     <button onclick="saveSliderAndNext()" class="btn-main w-full py-5 rounded-3xl font-bold mt-8 text-white text-lg">המשך</button>
                 </div>
 
-                <div id="step-7" class="step-container flex-col"><h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center">מה הכי בוער לך לשנות כרגע?</h2>
+                <div id="step-7" class="step-container flex-col"><h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white text-center text-center text-center">מה הכי בוער לך לשנות כרגע?</h2>
                     <textarea id="q7-text" class="w-full p-5 rounded-2xl outline-none h-40 text-right text-lg text-white" placeholder="כתוב/כתבי כאן מה שעל הלב..."></textarea>
-                    <button onclick="saveTextAndNext()" class="btn-main w-full py-5 rounded-3xl font-bold mt-6 text-white text-lg">המשך</button>
+                    <button onclick="saveTextAndNext()" class="btn-main w-full py-5 rounded-3xl font-bold mt-6 text-white text-lg text-center">המשך</button>
                 </div>
 
                 <!-- REFLECTION STEP (SIMPLE & PERSONAL) -->
@@ -278,10 +278,10 @@
                             <span class="text-3xl font-black italic text-fuchsia-400 block">₪97</span>
                             <span class="text-[10px] text-gray-500 italic">במקום ₪250</span>
                         </div>
-                        <button onclick="showStep('step-payment')" class="btn-main px-8 py-3 rounded-2xl font-bold text-base text-white">אני רוצה לקבוע</button>
+                        <button onclick="showStep('step-payment')" class="btn-main px-8 py-3 rounded-2xl font-bold text-base text-white text-center">אני רוצה לקבוע</button>
                     </div>
                 </div>
-                <button onclick="selectFullProcess()" class="text-white font-bold underline text-lg">אשמח לשמוע על ליווי עמוק 💬</button>
+                <button onclick="selectFullProcess()" class="text-white font-bold underline text-lg text-white">אשמח לשמוע על ליווי עמוק 💬</button>
             </div>
 
             <!-- Payment Options -->
@@ -309,10 +309,10 @@
             <!-- Success -->
             <div id="step-success" class="step-container flex-col text-center text-white">
                 <div class="text-7xl mb-8 drop-shadow-[0_0_15px_rgba(217,70,239,0.5)] text-center text-white">💜</div>
-                <h2 class="text-3xl font-black mb-6 text-center text-white">תודה על האמון.</h2>
-                <p class="text-gray-400 mb-10 text-lg text-center leading-relaxed">שלח/י לי עכשיו הודעה בוואטסאפ ונתאם לנו מועד לפגישה.</p>
+                <h2 class="text-3xl font-black mb-6 text-center text-center text-white">תודה על האמון.</h2>
+                <p class="text-gray-400 mb-10 text-lg text-center text-center leading-relaxed">שלח/י לי עכשיו הודעה בוואטסאפ ונתאם לנו מועד לפגישה.</p>
                 <div class="flex flex-col gap-4">
-                    <button onclick="window.open('https://wa.me/972524073915')" class="btn-main w-full py-6 rounded-3xl font-bold text-xl text-white text-center text-white"><span>בוא/י נתאם! ❤️</span></button>
+                    <button onclick="window.open('https://wa.me/972524073915')" class="btn-main w-full py-6 rounded-3xl font-bold text-xl text-white text-center text-center text-white text-center"><span>בוא/י נתאם! ❤️</span></button>
                     <button onclick="goBack()" class="text-xs text-gray-500 underline opacity-60 text-center">רגע, אני רוצה לחזור אחורה</button>
                 </div>
             </div>
@@ -396,7 +396,7 @@
             else if (answer.includes("חברתיות")) msg = "הסיטואציות האלו הן אתגר שנפתור.";
             else if (answer.includes("חדשים")) msg = "אנשים חדשים זה תמיד קצת יותר מלחיץ.";
             else if (answer.includes("מקומות חדשים")) msg = "זה טבעי להרגיש ככה, נטפל בזה.";
-            else if (answer.includes("מצלמה")) msg = "הביטוי העצמי מול מצלמה הוא כוח שקיים בך.";
+            else if (answer.includes("מצלמה")) msg = "הביטוי מול מצלמה הוא כוח שקיים בך.";
             else if (answer.includes("שותק")) msg = "הקול שלך ראוי להישמע, נשנה את זה.";
             else if (answer.includes("חוסר ביטחון")) msg = "זה משהו שאפשר לחזק בצורה מדהימה.";
             else if (answer.includes("לא מכירים")) msg = "מגיע לך שיכירו את המהות האמיתית שלך.";
@@ -406,7 +406,7 @@
             const toast = document.getElementById('feedback-toast');
             toast.innerText = msg;
             toast.style.opacity = '1';
-            setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+            setTimeout(() => { toast.style.opacity = '0'; }, 1800);
         }
 
         function selectOption(q, v, n) {
@@ -432,9 +432,12 @@
             const where = leadData.answers['איפה זה מורגש'] || 'בסיטואציות שונות';
             const goal = leadData.answers['השאיפה שלי'] || 'להרגיש טוב יותר';
             
+            // Converting "להרגיש ביטחון" to "לחזק את הביטחון" naturally
+            const goalPart = goal.replace('להרגיש ', '');
+
             const html = `
-                <p>אז הבנו שהאתגר של <b>${challenge}</b> הוא משהו שמעסיק אותך מאוד, במיוחד ב-<b>${where}</b>.</p>
-                <p>זה כל כך מובן שכרגע מה שבאמת חשוב לך זה להצליח <b>${goal}</b>.</p>
+                <p>אני רואה שכרגע האתגר של <b>${challenge}</b> הוא משהו שמעסיק אותך מאוד, במיוחד ב-<b>${where}</b>.</p>
+                <p>זה כל כך מובן שכרגע מה שבאמת חשוב לך זה <b>לחזק</b> את ה-<b>${goalPart}</b>.</p>
             `;
             document.getElementById('reflection-summary').innerHTML = html;
         }
