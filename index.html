@@ -173,9 +173,9 @@
                     <h1 class="text-3xl md:text-4xl font-black mb-8 leading-tight tracking-tight text-white text-center">
                         למה מול אנשים הרבה יותר קל לך <span class="text-fuchsia-500 text-shadow-lg text-center">להיעלם ולהיסגר?</span>
                     </h1>
-                    <div class="space-y-6 text-gray-300 text-lg md:text-xl font-medium max-w-[340px] mx-auto leading-relaxed text-center">
+                    <div class="space-y-6 text-gray-300 text-lg md:text-xl font-medium max-w-[340px] mx-auto leading-relaxed text-center text-center">
                         <p>יש לך כל כך הרבה מה להגיד ולהראות,<br>אבל בחוץ המילים פשוט נתקעות.</p>
-                        <p class="text-white font-bold border-t border-white/10 pt-6 text-center">הגיע הזמן להפסיק לפחד<br>לבטא את עצמך באמת ולחזק את הביטחון שלך.</p>
+                        <p class="text-white font-bold border-t border-white/10 pt-6 text-center text-center">הגיע הזמן להפסיק לפחד<br>לבטא את עצמך באמת ולחזק את הביטחון שלך.</p>
                     </div>
                 </div>
                 <button onclick="startQuiz()" class="btn-main w-full py-6 px-4 rounded-3xl font-black text-lg shadow-2xl text-white text-center">
@@ -189,7 +189,7 @@
                     <div class="grid gap-4 text-white text-center">
                         <div onclick="selectOption('האתגר המרכזי', 'להראות מי אני באמת', 2)" class="option-card p-5 rounded-2xl text-center">להראות מי אני באמת מול אנשים</div>
                         <div onclick="selectOption('האתגר המרכזי', 'אני נבלע בתוך קבוצות', 2)" class="option-card p-5 rounded-2xl text-center">אני נבלע/ת בתוך קבוצות</div>
-                        <div onclick="selectOption('האתגר המרכזי', 'מחשבות יתר לפני הדיבור', 2)" class="option-card p-5 rounded-2xl text-center">מחשבות יתר לפני הדיבור</div>
+                        <div onclick="selectOption('האתגר המרכזי', 'מחשבות יתר לפני הדיבור', 2)" class="option-card p-5 rounded-2xl text-center text-center">מחשבות יתר לפני הדיבור</div>
                         <div onclick="selectOption('האתגר המרכזי', 'להרגיש בנוח עם כולם', 2)" class="option-card p-5 rounded-2xl border-fuchsia-500/30 bg-fuchsia-500/10 font-bold italic text-center">מזדהה עם הכל</div>
                     </div>
                 </div>
@@ -216,7 +216,7 @@
                     <div class="grid gap-4 text-white text-right text-right">
                         <div onclick="selectOption('המשפט המדויק', 'בגלל המופנמות קשה להתחבר אלי', 5)" class="option-card p-5 rounded-2xl text-right">בגלל המופנמות שלי, קשה להתחבר אליי</div>
                         <div onclick="selectOption('המשפט המדויק', 'הקושי בדיבור תוקע אותי', 5)" class="option-card p-5 rounded-2xl text-right text-right text-right">הקושי בדיבור או הגמגום תוקע אותי</div>
-                        <div onclick="selectOption('המשפט המדויק', 'אני מפספס הזדמנויות בגלל הפחד לדבר', 5)" class="option-card p-5 rounded-2xl text-right text-right text-right text-right text-right">אני מפספס/ת הזדמנויות בגלל הפחד לדבר</div>
+                        <div onclick="selectOption('המשפט המדויק', 'אני מפספס הזדמנויות בגלל הפחד לדבר', 5)" class="option-card p-5 rounded-2xl text-right text-right text-right text-right">אני מפספס/ת הזדמנויות בגלל הפחד לדבר</div>
                         <div onclick="selectOption('המשפט המדויק', 'בא לי פשוט להשתחרר ולזרום', 5)" class="option-card p-5 rounded-2xl text-right text-center text-white text-center">בא לי פשוט להשתחרר ולזרום</div>
                     </div>
                 </div>
@@ -230,7 +230,7 @@
                     </div>
                 </div>
 
-                <div id="step-6" class="step-container flex-col text-center text-center text-center text-center text-center text-center"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-white text-center text-center">עד כמה זה מפריע לך (1-10)?</h2>
+                <div id="step-6" class="step-container flex-col text-center text-center text-center text-center text-center text-center"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-white text-center text-center text-center">עד כמה זה מפריע לך (1-10)?</h2>
                     <div class="px-2 py-10 text-center text-center">
                         <input type="range" id="q6-slider" min="1" max="10" value="5" class="w-full accent-fuchsia-500 cursor-pointer text-center text-center">
                         <div class="flex justify-between mt-6 text-2xl font-black text-fuchsia-500 text-center text-center"><span>1</span><span id="slider-val" class="bg-fuchsia-500/20 px-6 py-2 rounded-2xl border border-fuchsia-500/30 text-center text-center">5</span><span>10</span></div>
@@ -281,7 +281,7 @@
                         <div class="glass p-6 rounded-3xl text-right space-y-5 text-right text-right text-right">
                             <h3 class="text-sm font-bold text-fuchsia-400 border-b border-fuchsia-500/20 pb-2 text-right text-right text-right">אם יש לך עדיפות ליום ושעה?</h3>
                             <div>
-                                <div class="flex flex-wrap justify-center gap-2 text-right text-right">
+                                <div class="flex flex-wrap justify-center gap-2 text-right text-right text-right text-right">
                                     <button onclick="setPref('day', 'א', this)" class="pref-btn flex-grow text-center text-center">א'</button>
                                     <button onclick="setPref('day', 'ב', this)" class="pref-btn flex-grow text-center text-center">ב'</button>
                                     <button onclick="setPref('day', 'ג', this)" class="pref-btn flex-grow text-center text-center">ג'</button>
@@ -352,7 +352,7 @@
                     <button onclick="handleBankTransfer()" class="w-full p-8 glass rounded-[2rem] text-right flex justify-between items-center group hover:border-fuchsia-500/50 transition-all text-center text-white text-right text-right text-right text-right text-right text-right">
                         <div class="flex flex-col text-right text-white text-right text-right text-right text-right text-right text-right text-right text-right text-right text-right text-right">
                             <span class="font-black text-xl text-white text-right text-right text-right text-right text-right text-right text-right text-right text-right">מעדיף/ה העברה בנקאית</span>
-                            <span class="text-xs text-gray-400 text-right text-right text-right text-right text-right text-right text-right text-right">אשלח לך הודעה לפרטי בנק</span>
+                            <span class="text-xs text-gray-400 text-right text-right text-right text-right text-right text-right">אשלח לך הודעה לפרטי בנק</span>
                         </div>
                         <span class="text-3xl text-right text-right text-right text-right text-right text-right text-right text-right text-right text-right">🏦</span>
                     </button>
@@ -361,23 +361,23 @@
             </div>
 
             <!-- סיום מוצלח -->
-            <div id="step-success" class="step-container flex-col text-center text-white text-center text-center text-center text-center text-center text-center">
+            <div id="step-success" class="step-container flex-col text-center text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
                 <div class="text-7xl mb-8 drop-shadow-[0_0_15px_rgba(217,70,239,0.5)] text-center text-white text-center text-center text-center text-center text-center text-center text-center">💜</div>
                 <h2 class="text-3xl font-black mb-6 text-center text-white text-center text-center text-center text-center text-center text-center text-center">תודה על האמון.</h2>
                 <p class="text-gray-400 mb-10 text-lg text-center leading-relaxed text-center text-center text-center text-center text-center text-center">שלח/י לי עכשיו הודעה בוואטסאפ ונתאם לנו מועד לפגישה.</p>
                 <div class="flex flex-col gap-4 text-center">
-                    <button onclick="window.open('https://wa.me/972524073915')" class="btn-main w-full py-6 rounded-3xl font-bold text-xl text-white text-center text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center"><span>בוא/י נתאם! ❤️</span></button>
-                    <button onclick="goBack()" class="text-xs text-gray-500 underline opacity-60 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">רגע, אני רוצה לחזור אחורה</button>
+                    <button onclick="window.open('https://wa.me/972524073915')" class="btn-main w-full py-6 rounded-3xl font-bold text-xl text-white text-center text-white text-center text-center text-center text-center text-center text-center text-center text-center"><span>בוא/י נתאם! ❤️</span></button>
+                    <button onclick="goBack()" class="text-xs text-gray-500 underline opacity-60 text-center text-center text-center text-center text-center text-center text-center">רגע, אני רוצה לחזור אחורה</button>
                 </div>
             </div>
 
             <!-- לוח בקרה למנהלת -->
-            <div id="admin-dashboard" class="step-container flex-col bg-white text-slate-900 rounded-3xl p-6 min-h-[70vh] overflow-y-auto text-right text-right text-right text-right text-right text-right">
+            <div id="admin-dashboard" class="step-container flex-col bg-white text-slate-900 rounded-3xl p-6 min-h-[70vh] overflow-y-auto text-right text-right text-right text-right text-right text-right text-right">
                 <div class="flex justify-between items-center mb-8 border-b pb-4 text-right text-right text-right text-right text-right text-right">
                     <h2 class="text-2xl font-black text-fuchsia-700 text-right text-right text-right text-right text-right">ניהול פניות</h2>
                     <button onclick="location.reload()" class="text-xs bg-slate-100 px-3 py-1 rounded-full text-center text-center text-center text-center">התנתקות</button>
                 </div>
-                <div id="leads-container" class="space-y-6 text-right text-right text-right text-right text-right text-right">
+                <div id="leads-container" class="space-y-6 text-right text-right text-right text-right text-right text-right text-right text-right text-right">
                     <!-- הלידים יוזרקו לכאן -->
                 </div>
             </div>
@@ -391,11 +391,11 @@
     </div>
 
     <!-- כניסת מנהלת -->
-    <div id="admin-login" class="step-container fixed inset-0 z-[100] bg-slate-900 hidden flex-col items-center justify-center p-6 text-center text-center text-center text-center text-center text-center">
+    <div id="admin-login" class="step-container fixed inset-0 z-[100] bg-slate-900 hidden flex-col items-center justify-center p-6 text-center text-center text-center text-center text-center text-center text-center">
         <h2 class="text-2xl font-black mb-6 text-white text-center text-center text-center text-center text-center">כניסת מנהלת</h2>
         <input type="password" id="admin-pass" placeholder="קוד" class="w-full max-w-xs p-4 border rounded-xl mb-4 text-center text-white bg-white/10 text-xl tracking-widest text-center text-center text-center text-center text-center">
-        <button onclick="checkPass()" class="w-full max-w-xs bg-fuchsia-600 text-white py-4 rounded-xl font-bold text-center text-center text-center text-center">כניסה</button>
-        <button onclick="location.reload()" class="mt-4 text-gray-500 text-center text-center text-center text-center text-center text-center text-center">ביטול</button>
+        <button onclick="checkPass()" class="w-full max-w-xs bg-fuchsia-600 text-white py-4 rounded-xl font-bold text-center text-center">כניסה</button>
+        <button onclick="location.reload()" class="mt-4 text-gray-500 text-center text-center text-center text-center text-center">ביטול</button>
     </div>
 
     <script>
@@ -566,7 +566,7 @@
             leadData.choice = method; 
             saveToFirebase();
             if (method === 'ביט') {
-                window.open(`https://www.bitpay.co.il/app/share-info?i=202438353617_19nitl3I`, '_blank');
+                window.open(`https://www.bitpay.co.il/app/share-info?i=202438353617_19nmJxQA`, '_blank');
             }
             showStep('step-success');
         }
@@ -621,11 +621,11 @@
                         <button onclick="confirmDelete('${l.id}')" class="absolute top-4 left-4 text-slate-300 hover:text-red-500 transition-colors p-2 text-center text-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                         </button>
-                        <div class="mb-4 text-right"><span class="text-[10px] text-slate-400 font-bold block">${dateStr}</span><div class="font-black text-2xl text-fuchsia-800">${l.personal?.name || 'ללא שם'} (${l.personal?.age || '--'})</div></div>
+                        <div class="mb-4 text-right"><span class="text-[10px] text-slate-400 font-bold block text-right">${dateStr}</span><div class="font-black text-2xl text-fuchsia-800">${l.personal?.name || 'ללא שם'} (${l.personal?.age || '--'})</div></div>
                         <div class="grid gap-4 text-sm text-right"><div class="flex gap-4 border-b pb-2"><div class="text-right text-right"><b>📱:</b> <a href="https://wa.me/972${l.personal?.phone?.replace(/^0/,'')}" target="_blank" class="text-blue-600 underline font-bold">${l.personal?.phone || '--'}</a></div><div class="text-right"><b>⏰:</b> <span class="text-fuchsia-600 font-bold">${l.personal?.preference || '--'}</span></div></div>
                         <div class="text-xs text-right"><b>סטטוס פנייה:</b> <span class="bg-fuchsia-100 text-fuchsia-700 px-3 py-1 rounded-full font-bold text-right text-right">${l.choice || 'לא נבחר'}</span></div>
-                        <div class="space-y-3 text-right"><div class="p-3 bg-fuchsia-50 rounded-xl border border-fuchsia-100 text-right"><div class="text-[10px] uppercase font-bold text-fuchsia-400 mb-1">מה תפס אותי / התחברתי:</div><div class="italic text-slate-700 leading-relaxed font-bold text-right">${l.personal?.note || '--'}</div></div>
-                        <div class="p-3 bg-blue-50 rounded-xl border border-blue-100 text-right"><div class="text-[10px] uppercase font-bold text-blue-400 mb-1 text-right">מה הכי בוער לשנות:</div><div class="italic text-slate-700 leading-relaxed font-bold text-right">${l.answers?.['בוער לשנות'] || '--'}</div></div></div>
+                        <div class="space-y-3 text-right"><div class="p-3 bg-fuchsia-50 rounded-xl border border-fuchsia-100 text-right"><div class="text-[10px] uppercase font-bold text-fuchsia-400 mb-1">מה תפס אותי / התחברתי:</div><div class="italic text-slate-700 leading-relaxed font-bold">${l.personal?.note || '--'}</div></div>
+                        <div class="p-3 bg-blue-50 rounded-xl border border-blue-100 text-right"><div class="text-[10px] uppercase font-bold text-blue-400 mb-1 text-right">מה הכי בוער לשנות:</div><div class="italic text-slate-700 leading-relaxed font-bold">${l.answers?.['בוער לשנות'] || '--'}</div></div></div>
                         <div class="mt-4 pt-4 border-t border-slate-200 text-right text-right"><div class="text-[10px] uppercase font-bold text-slate-400 mb-2 text-right">תשובות מפורטות מהשאלון:</div><div class="text-xs text-slate-500 leading-relaxed bg-slate-50 p-3 rounded-xl text-right">${quizHtml}</div></div></div>`;
                     container.appendChild(div);
                 });
