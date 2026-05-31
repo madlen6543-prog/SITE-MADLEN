@@ -170,22 +170,22 @@
             <div id="step-0" class="step-container step-active flex-col text-center">
                 <div class="mb-12 px-2 text-center text-center">
                     <div class="inline-block p-4 bg-fuchsia-500/10 rounded-full text-5xl mb-8 animate-pulse text-center">🗣️</div>
-                    <h1 class="text-3xl md:text-4xl font-black mb-8 leading-tight tracking-tight text-white text-center">
-                        למה מול אנשים הרבה יותר קל לך <span class="text-fuchsia-500 text-shadow-lg text-center">להיעלם ולהיסגר?</span>
+                    <h1 class="text-3xl md:text-4xl font-black mb-8 leading-tight tracking-tight text-white text-center text-center">
+                        למה מול אנשים הרבה יותר קל לך <span class="text-fuchsia-500 text-shadow-lg text-center text-center">להיעלם ולהיסגר?</span>
                     </h1>
-                    <div class="space-y-6 text-gray-300 text-lg md:text-xl font-medium max-w-[340px] mx-auto leading-relaxed text-center text-center">
+                    <div class="space-y-6 text-gray-300 text-lg md:text-xl font-medium max-w-[340px] mx-auto leading-relaxed text-center text-center text-center">
                         <p>יש לך כל כך הרבה מה להגיד ולהראות,<br>אבל בחוץ המילים פשוט נתקעות.</p>
-                        <p class="text-white font-bold border-t border-white/10 pt-6 text-center text-center">הגיע הזמן להפסיק לפחד<br>לבטא את עצמך באמת ולחזק את הביטחון שלך.</p>
+                        <p class="text-white font-bold border-t border-white/10 pt-6 text-center text-center text-center text-center">הגיע הזמן להפסיק לפחד<br>לבטא את עצמך באמת ולחזק את הביטחון שלך.</p>
                     </div>
                 </div>
-                <button onclick="startQuiz()" class="btn-main w-full py-6 px-4 rounded-3xl font-black text-lg shadow-2xl text-white text-center">
+                <button onclick="startQuiz()" class="btn-main w-full py-6 px-4 rounded-3xl font-black text-lg shadow-2xl text-white text-center text-center">
                     איך עושים את זה?
                 </button>
             </div>
 
             <!-- Quiz Steps 1-7 -->
             <div id="quiz-flow">
-                <div id="step-1" class="step-container flex-col text-center"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-center">מה הכי מאתגר אותך כרגע?</h2>
+                <div id="step-1" class="step-container flex-col text-center"><h2 class="text-2xl font-bold mb-8 text-fuchsia-300 text-center text-center text-center">מה הכי מאתגר אותך כרגע?</h2>
                     <div class="grid gap-4 text-white text-center">
                         <div onclick="selectOption('האתגר המרכזי', 'להראות מי אני באמת', 2)" class="option-card p-5 rounded-2xl text-center">להראות מי אני באמת מול אנשים</div>
                         <div onclick="selectOption('האתגר המרכזי', 'אני נבלע בתוך קבוצות', 2)" class="option-card p-5 rounded-2xl text-center">אני נבלע/ת בתוך קבוצות</div>
@@ -238,7 +238,7 @@
                     <button onclick="saveSliderAndNext()" class="btn-main w-full py-5 rounded-3xl font-bold mt-8 text-white text-lg text-center text-center">המשך</button>
                 </div>
 
-                <div id="step-7" class="step-container flex-col text-center text-center text-center"><h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white text-center">מה הכי בוער לך לשנות כרגע?</h2>
+                <div id="step-7" class="step-container flex-col text-center text-center text-center"><h2 class="text-2xl font-bold mb-6 text-fuchsia-300 text-center text-white text-center text-center">מה הכי בוער לך לשנות כרגע?</h2>
                     <textarea id="q7-text" class="w-full p-5 rounded-2xl outline-none h-40 text-right text-lg text-white text-right text-right text-right" placeholder="כאן כותבים מה שעל הלב..."></textarea>
                     <button onclick="saveTextAndNext()" class="btn-main w-full py-5 rounded-3xl font-bold mt-6 text-white text-lg-center text-center text-center">המשך</button>
                 </div>
@@ -248,7 +248,7 @@
                     <div class="inline-block p-4 bg-fuchsia-500/10 rounded-full text-4xl mb-6 self-center text-center text-center text-center">✨</div>
                     <h2 class="text-3xl font-black mb-6 text-fuchsia-400 text-center text-center">אני כאן בשבילך.</h2>
                     <div class="space-y-6 text-lg leading-relaxed text-gray-200 text-center text-center">
-                        <p class="text-xl font-bold text-white text-center text-center text-center">מה שכתבת מעיד על עומק ורגישות מדהימה.</p>
+                        <p class="text-xl font-bold text-white text-center text-center text-center text-center text-center">מה שכתבת מעיד על עומק ורגישות מדהימה.</p>
                         
                         <div id="reflection-summary" class="glass p-8 rounded-3xl space-y-4 border-fuchsia-500/20 mt-6 text-right leading-relaxed italic text-center text-white font-medium text-center text-center">
                             <!-- Summary -->
@@ -284,7 +284,7 @@
                                 <div class="flex flex-wrap justify-center gap-2 text-right text-right text-right text-right">
                                     <button onclick="setPref('day', 'א', this)" class="pref-btn flex-grow text-center text-center">א'</button>
                                     <button onclick="setPref('day', 'ב', this)" class="pref-btn flex-grow text-center text-center">ב'</button>
-                                    <button onclick="setPref('day', 'ג', this)" class="pref-btn flex-grow text-center text-center">ג'</button>
+                                    <button onclick="setPref('day', 'ג', this)" class="pref-btn flex-grow text-center text-center text-center">ג'</button>
                                     <button onclick="setPref('day', 'ד', this)" class="pref-btn flex-grow text-center text-center">ד'</button>
                                     <button onclick="setPref('day', 'ה', this)" class="pref-btn flex-grow text-center text-center text-center">ה'</button>
                                 </div>
@@ -306,7 +306,7 @@
             <!-- מסך הצעה כספית -->
             <div id="step-summary" class="step-container flex-col text-center text-white text-center text-center text-center">
                 <div class="bg-fuchsia-500/5 p-8 rounded-[3rem] border border-fuchsia-500/20 mb-6 text-right shadow-2xl relative text-right text-right text-right">
-                    <h3 class="text-3xl font-black mb-3 text-white text-right text-right text-right">שיחת פיצוח אישית (1:1)</h3>
+                    <h3 class="text-3xl font-black mb-3 text-white text-right text-right">שיחת פיצוח אישית (1:1)</h3>
                     <p class="text-gray-400 mb-4 text-base leading-relaxed text-right text-right text-right">פגישה ממוקדת של שעה בזום, שבה נעשה סדר בבלגן הפנימי ונהפוך את ה"תקיעות" לבהירות.</p>
                     <p class="text-fuchsia-300 text-sm font-bold mb-6 text-right leading-relaxed italic text-right text-right">
                         ביחד נעבוד על מה שהבנו שחשוב לך כאן,<br>ונצא עם מפת דרכים שמותאמת אליך.
@@ -339,31 +339,31 @@
             </div>
 
             <!-- אפשרויות תשלום -->
-            <div id="step-payment" class="step-container flex-col text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+            <div id="step-payment" class="step-container flex-col text-center text-white text-center text-center text-center text-center text-center text-center text-center text-center">
                 <h2 class="text-3xl font-bold mb-8 text-fuchsia-300 text-center text-center text-center text-center text-center text-center text-center text-center">איך הכי נוח לך לשלם?</h2>
-                <div class="space-y-4 text-right text-right text-right text-right text-right text-right text-right text-right text-right">
+                <div class="space-y-4 text-right text-right text-right text-right text-right text-right text-right text-right">
                     <button onclick="finalizeLead('ביט')" class="w-full p-8 glass rounded-[2rem] text-right flex justify-between items-center group hover:border-fuchsia-500/50 transition-all text-right text-right text-right text-right text-right text-right text-right text-right text-right">
                         <div class="flex flex-col text-right text-right text-right text-right text-right text-right text-right text-right text-right">
                             <span class="font-black text-xl text-white text-right text-right text-right">נוח לי יותר ב-Bit</span>
                             <span class="text-xs text-gray-400 text-right text-right text-right text-right text-right">תשלום מהיר ומאובטח</span>
                         </div>
-                        <span class="text-3xl text-right text-right text-right text-right text-right">📱</span>
+                        <span class="text-3xl text-right text-right text-right text-right">📱</span>
                     </button>
                     <button onclick="handleBankTransfer()" class="w-full p-8 glass rounded-[2rem] text-right flex justify-between items-center group hover:border-fuchsia-500/50 transition-all text-center text-white text-right text-right text-right text-right text-right text-right">
                         <div class="flex flex-col text-right text-white text-right text-right text-right text-right text-right text-right text-right text-right text-right text-right text-right">
                             <span class="font-black text-xl text-white text-right text-right text-right text-right text-right text-right text-right text-right text-right">מעדיף/ה העברה בנקאית</span>
-                            <span class="text-xs text-gray-400 text-right text-right text-right text-right text-right text-right">אשלח לך הודעה לפרטי בנק</span>
+                            <span class="text-xs text-gray-400 text-right text-right text-right text-right">אשלח לך הודעה לפרטי בנק</span>
                         </div>
-                        <span class="text-3xl text-right text-right text-right text-right text-right text-right text-right text-right text-right text-right">🏦</span>
+                        <span class="text-3xl text-right text-right text-right text-right">🏦</span>
                     </button>
                 </div>
                 <button onclick="showStep('step-summary')" class="mt-8 text-xs text-gray-500 underline opacity-60 text-center text-center text-center text-center text-center text-center">חזרה לבחירת מסלול</button>
             </div>
 
             <!-- סיום מוצלח -->
-            <div id="step-success" class="step-container flex-col text-center text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+            <div id="step-success" class="step-container flex-col text-center text-white text-center text-center text-center text-center text-center text-center">
                 <div class="text-7xl mb-8 drop-shadow-[0_0_15px_rgba(217,70,239,0.5)] text-center text-white text-center text-center text-center text-center text-center text-center text-center">💜</div>
-                <h2 class="text-3xl font-black mb-6 text-center text-white text-center text-center text-center text-center text-center text-center text-center">תודה על האמון.</h2>
+                <h2 class="text-3xl font-black mb-6 text-center text-white text-center text-center text-center text-center">תודה על האמון.</h2>
                 <p class="text-gray-400 mb-10 text-lg text-center leading-relaxed text-center text-center text-center text-center text-center text-center">שלח/י לי עכשיו הודעה בוואטסאפ ונתאם לנו מועד לפגישה.</p>
                 <div class="flex flex-col gap-4 text-center">
                     <button onclick="window.open('https://wa.me/972524073915')" class="btn-main w-full py-6 rounded-3xl font-bold text-xl text-white text-center text-white text-center text-center text-center text-center text-center text-center text-center text-center"><span>בוא/י נתאם! ❤️</span></button>
@@ -375,9 +375,9 @@
             <div id="admin-dashboard" class="step-container flex-col bg-white text-slate-900 rounded-3xl p-6 min-h-[70vh] overflow-y-auto text-right text-right text-right text-right text-right text-right text-right">
                 <div class="flex justify-between items-center mb-8 border-b pb-4 text-right text-right text-right text-right text-right text-right">
                     <h2 class="text-2xl font-black text-fuchsia-700 text-right text-right text-right text-right text-right">ניהול פניות</h2>
-                    <button onclick="location.reload()" class="text-xs bg-slate-100 px-3 py-1 rounded-full text-center text-center text-center text-center">התנתקות</button>
+                    <button onclick="location.reload()" class="text-xs bg-slate-100 px-3 py-1 rounded-full text-center text-center">התנתקות</button>
                 </div>
-                <div id="leads-container" class="space-y-6 text-right text-right text-right text-right text-right text-right text-right text-right text-right">
+                <div id="leads-container" class="space-y-6 text-right text-right text-right text-right text-right text-right text-right text-right">
                     <!-- הלידים יוזרקו לכאן -->
                 </div>
             </div>
@@ -391,7 +391,7 @@
     </div>
 
     <!-- כניסת מנהלת -->
-    <div id="admin-login" class="step-container fixed inset-0 z-[100] bg-slate-900 hidden flex-col items-center justify-center p-6 text-center text-center text-center text-center text-center text-center text-center">
+    <div id="admin-login" class="step-container fixed inset-0 z-[100] bg-slate-900 hidden flex-col items-center justify-center p-6 text-center text-center text-center text-center text-center text-center">
         <h2 class="text-2xl font-black mb-6 text-white text-center text-center text-center text-center text-center">כניסת מנהלת</h2>
         <input type="password" id="admin-pass" placeholder="קוד" class="w-full max-w-xs p-4 border rounded-xl mb-4 text-center text-white bg-white/10 text-xl tracking-widest text-center text-center text-center text-center text-center">
         <button onclick="checkPass()" class="w-full max-w-xs bg-fuchsia-600 text-white py-4 rounded-xl font-bold text-center text-center">כניסה</button>
@@ -405,25 +405,55 @@
         let adminClickCounter = 0;
         let leadToDelete = null;
 
-        const config = {
-          apiKey: "AIzaSyA4rY0AWdiMsAgu9JSxlFuWqjGbhkkZ5mA",
-          authDomain: "madlenfrid-566c9.firebaseapp.com",
-          projectId: "madlenfrid-566c9",
-          storageBucket: "madlenfrid-566c9.firebasestorage.app",
-          messagingSenderId: "977309579368",
-          appId: "1:977309579368:web:8a8fb197ff575f2872a3dd"
-        };
+        // מניעת בקשות אימות כפולות באמצעות הבטחה (Promise) גלובלית
+        let firebaseAuthPromise = null;
 
-        async function initFirebase() {
-            try {
-                if (!firebase.apps.length) firebase.initializeApp(config);
-                auth = firebase.auth();
-                db = firebase.firestore();
-                db.settings({ experimentalForceLongPolling: true });
-                if (!auth.currentUser) await auth.signInAnonymously();
-            } catch (e) { console.error(e); }
+        // שימוש במזהה דינמי של ה-App מסביבת ה-Sandbox, עם נפילה בטוחה לפרודקשן
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'madlenfrid-566c9';
+
+        function initFirebase() {
+            if (firebaseAuthPromise) return firebaseAuthPromise;
+
+            firebaseAuthPromise = new Promise(async (resolve, reject) => {
+                try {
+                    // שימוש בהגדרות Firebase הדינמיות שניתנות בסביבת ה-Sandbox, או בקונפיגורציה המקורית
+                    const config = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+                      apiKey: "AIzaSyA4rY0AWdiMsAgu9JSxlFuWqjGbhkkZ5mA",
+                      authDomain: "madlenfrid-566c9.firebaseapp.com",
+                      projectId: "madlenfrid-566c9",
+                      storageBucket: "madlenfrid-566c9.firebasestorage.app",
+                      messagingSenderId: "977309579368",
+                      appId: "1:977309579368:web:8a8fb197ff575f2872a3dd"
+                    };
+
+                    if (!firebase.apps.length) firebase.initializeApp(config);
+                    auth = firebase.auth();
+                    db = firebase.firestore();
+                    db.settings({ experimentalForceLongPolling: true });
+
+                    // חוק 3: חובת התחברות מאובטחת תחילה
+                    if (!auth.currentUser) {
+                        let userCredential;
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            userCredential = await auth.signInWithCustomToken(__initial_auth_token);
+                        } else {
+                            userCredential = await auth.signInAnonymously();
+                        }
+                        resolve(userCredential.user || userCredential);
+                    } else {
+                        resolve(auth.currentUser);
+                    }
+                } catch (e) { 
+                    console.error("שגיאה באתחול Firebase:", e); 
+                    reject(e);
+                }
+            });
+
+            return firebaseAuthPromise;
         }
-        initFirebase();
+        
+        // אתחול ראשוני דמוי-רקע
+        initFirebase().catch(err => console.warn("Firebase preload failed:", err));
 
         document.getElementById('admin-trigger').onclick = () => {
             adminClickCounter++;
@@ -547,16 +577,26 @@
                 preference: `יום ${userPreference.day}, ${userPreference.time}`
             };
             
-            try { if (!auth.currentUser) await initFirebase(); await saveToFirebase(); } 
-            catch (e) { console.warn("Save sync."); }
-            finally { showStep('step-summary'); btn.innerText = 'המשך'; btn.disabled = false; }
+            try { 
+                await initFirebase(); // אבטחת חיבור
+                await saveToFirebase(); 
+            } 
+            catch (e) { 
+                console.warn("Save sync error:", e); 
+            }
+            finally { 
+                showStep('step-summary'); 
+                btn.innerText = 'המשך'; 
+                btn.disabled = false; 
+            }
         }
 
         async function saveToFirebase() {
-            if (!db) return false;
+            await initFirebase(); // חוק 3: חובת אימות לפני גישה
+            if (!db || !auth.currentUser) return false;
             const id = leadData.id || Math.random().toString(36).substring(7);
             leadData.id = id;
-            await db.collection('artifacts').doc('madlenfrid-566c9').collection('public').doc('data').collection('leads').doc(id).set({
+            await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads').doc(id).set({
                 ...leadData, timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }, { merge: true });
             return true;
@@ -595,18 +635,34 @@
             showStep('step-success');
         }
 
-        async function checkPass() { if(document.getElementById('admin-pass').value === "4150") { showStep('admin-dashboard'); loadLeads(); } else { showMsg('קוד שגוי'); } }
+        async function checkPass() { 
+            if(document.getElementById('admin-pass').value === "4150") { 
+                showStep('admin-dashboard'); 
+                try {
+                    await initFirebase(); // חוק 3: וידוא אבטחה מלא לפני השאילתה
+                    loadLeads(); 
+                } catch(e) {
+                    showMsg('שגיאת התחברות לניהול פניות');
+                }
+            } else { 
+                showMsg('קוד שגוי'); 
+            } 
+        }
         
-        function loadLeads() {
-            if (!db) return;
-            db.collection('artifacts').doc('madlenfrid-566c9').collection('public').doc('data').collection('leads').onSnapshot(snap => {
+        async function loadLeads() {
+            await initFirebase(); // חוק 3: הבטחת אימות
+            if (!db || !auth.currentUser) return;
+            
+            // חוק 1: שימוש בנתיב המאובטח והדינמי של האפליקציה בלבד
+            db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads')
+            .onSnapshot(snap => {
                 const container = document.getElementById('leads-container'); container.innerHTML = '';
                 let leads = []; snap.forEach(doc => leads.push({id: doc.id, ...doc.data()}));
                 leads.sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
                 if(leads.length === 0) { container.innerHTML = '<p class="text-center text-slate-400 py-10">אין פניות כרגע...</p>'; return; }
                 leads.forEach(l => {
                     const div = document.createElement('div');
-                    div.className = 'admin-lead-card text-right relative border-r-8 border-fuchsia-600';
+                    div.className = 'admin-lead-card text-right relative border-r-8 border-fuchsia-600 text-right';
                     
                     const dateStr = l.timestamp ? new Date(l.timestamp.seconds*1000).toLocaleString('he-IL') : '--';
                     let quizHtml = '';
@@ -621,14 +677,17 @@
                         <button onclick="confirmDelete('${l.id}')" class="absolute top-4 left-4 text-slate-300 hover:text-red-500 transition-colors p-2 text-center text-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                         </button>
-                        <div class="mb-4 text-right"><span class="text-[10px] text-slate-400 font-bold block text-right">${dateStr}</span><div class="font-black text-2xl text-fuchsia-800">${l.personal?.name || 'ללא שם'} (${l.personal?.age || '--'})</div></div>
+                        <div class="mb-4 text-right"><span class="text-[10px] text-slate-400 font-bold block text-right">${dateStr}</span><div class="font-black text-2xl text-fuchsia-800 text-right">${l.personal?.name || 'ללא שם'} (${l.personal?.age || '--'})</div></div>
                         <div class="grid gap-4 text-sm text-right"><div class="flex gap-4 border-b pb-2"><div class="text-right text-right"><b>📱:</b> <a href="https://wa.me/972${l.personal?.phone?.replace(/^0/,'')}" target="_blank" class="text-blue-600 underline font-bold">${l.personal?.phone || '--'}</a></div><div class="text-right"><b>⏰:</b> <span class="text-fuchsia-600 font-bold">${l.personal?.preference || '--'}</span></div></div>
                         <div class="text-xs text-right"><b>סטטוס פנייה:</b> <span class="bg-fuchsia-100 text-fuchsia-700 px-3 py-1 rounded-full font-bold text-right text-right">${l.choice || 'לא נבחר'}</span></div>
-                        <div class="space-y-3 text-right"><div class="p-3 bg-fuchsia-50 rounded-xl border border-fuchsia-100 text-right"><div class="text-[10px] uppercase font-bold text-fuchsia-400 mb-1">מה תפס אותי / התחברתי:</div><div class="italic text-slate-700 leading-relaxed font-bold">${l.personal?.note || '--'}</div></div>
-                        <div class="p-3 bg-blue-50 rounded-xl border border-blue-100 text-right"><div class="text-[10px] uppercase font-bold text-blue-400 mb-1 text-right">מה הכי בוער לשנות:</div><div class="italic text-slate-700 leading-relaxed font-bold">${l.answers?.['בוער לשנות'] || '--'}</div></div></div>
+                        <div class="space-y-3 text-right"><div class="p-3 bg-fuchsia-50 rounded-xl border border-fuchsia-100 text-right"><div class="text-[10px] uppercase font-bold text-fuchsia-400 mb-1 text-right">מה תפס אותי / התחברתי:</div><div class="italic text-slate-700 leading-relaxed font-bold">${l.personal?.note || '--'}</div></div>
+                        <div class="p-3 bg-blue-50 rounded-xl border border-blue-100 text-right"><div class="text-[10px] uppercase font-bold text-blue-400 mb-1 text-right">מה הכי בוער לשנות:</div><div class="italic text-slate-700 leading-relaxed font-bold text-right">${l.answers?.['בוער לשנות'] || '--'}</div></div></div>
                         <div class="mt-4 pt-4 border-t border-slate-200 text-right text-right"><div class="text-[10px] uppercase font-bold text-slate-400 mb-2 text-right">תשובות מפורטות מהשאלון:</div><div class="text-xs text-slate-500 leading-relaxed bg-slate-50 p-3 rounded-xl text-right">${quizHtml}</div></div></div>`;
                     container.appendChild(div);
                 });
+            }, error => {
+                console.error("שגיאה במשיכת פניות:", error);
+                showMsg("לא ניתן לטעון את הפניות. אנח ודא/י חיבור והרשאות.");
             });
         }
 
@@ -637,9 +696,14 @@
         async function executeDelete() {
             if(!leadToDelete) return;
             try {
-                await db.collection('artifacts').doc('madlenfrid-566c9').collection('public').doc('data').collection('leads').doc(leadToDelete).delete();
+                await initFirebase(); // חוק 3: וידוא אימות
+                if (!db || !auth.currentUser) return;
+                await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('leads').doc(leadToDelete).delete();
                 showMsg('הליד נמחק בהצלחה');
-            } catch (e) { showMsg('שגיאה במחיקה'); }
+            } catch (e) { 
+                console.error("שגיאה במחיקת ליד:", e);
+                showMsg('שגיאה במחיקה'); 
+            }
             closeConfirmModal();
         }
 
