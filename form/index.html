@@ -16,6 +16,106 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- FIREBASE DATA STORAGE & AUTH MODULE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'lead-magnet-app';
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+
+        async function initFirebase() {
+            if (typeof __firebase_config === 'undefined' || !__firebase_config) {
+                console.warn('Firebase config missing');
+                return;
+            }
+            try {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    const userCred = await signInWithCustomToken(auth, __initial_auth_token);
+                    currentUser = userCred.user;
+                } else {
+                    const userCred = await signInAnonymously(auth);
+                    currentUser = userCred.user;
+                }
+                
+                // Real-time listener for leads in Admin Panel
+                setupLeadsListener();
+            } catch (err) {
+                console.error("Firebase init error:", err);
+            }
+        }
+
+        // Save lead function
+        window.saveLeadToFirestore = async function(leadData) {
+            if (!db || !currentUser) {
+                console.log("Saving lead locally...");
+                return;
+            }
+            try {
+                const leadsRef = collection(db, 'artifacts', appId, 'public', 'data', 'leads');
+                await addDoc(leadsRef, {
+                    name: leadData.name || '',
+                    email: leadData.email || '',
+                    phone: leadData.phone || '',
+                    pain: leadData.pain || '',
+                    createdAt: serverTimestamp(),
+                    dateFormatted: new Date().toLocaleString('he-IL', {
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    })
+                });
+            } catch (e) {
+                console.error("Error saving lead:", e);
+            }
+        };
+
+        // Live leads listener for Admin Panel
+        function setupLeadsListener() {
+            if (!db || !currentUser) return;
+            const leadsRef = collection(db, 'artifacts', appId, 'public', 'data', 'leads');
+            
+            onSnapshot(leadsRef, (snapshot) => {
+                const leads = [];
+                snapshot.forEach((docSnap) => {
+                    leads.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                
+                // Sort in memory by timestamp descending
+                leads.sort((a, b) => {
+                    const tA = a.createdAt?.seconds || 0;
+                    const tB = b.createdAt?.seconds || 0;
+                    return tB - tA;
+                });
+
+                window.allLeadsData = leads;
+                window.renderAdminLeads(leads);
+            }, (error) => {
+                console.error("Error listening to leads:", error);
+            });
+        }
+
+        // Delete lead function
+        window.deleteLeadFromFirestore = async function(leadId) {
+            if (!db || !currentUser || !leadId) return;
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'leads', leadId);
+                await deleteDoc(docRef);
+            } catch (err) {
+                console.error("Error deleting lead:", err);
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', initFirebase);
+    </script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -51,7 +151,24 @@
             if (event) event.preventDefault();
             
             var nameInput = document.getElementById('leadName');
+            var emailInput = document.getElementById('leadEmail');
+            var phoneInput = document.getElementById('leadPhone');
+            var painInput = document.getElementById('leadPain');
+            
             var name = nameInput ? nameInput.value.trim() : '';
+            var email = emailInput ? emailInput.value.trim() : '';
+            var phone = phoneInput ? phoneInput.value.trim() : '';
+            var pain = painInput ? painInput.value.trim() : '';
+
+            // Save lead to cloud database
+            if (window.saveLeadToFirestore) {
+                window.saveLeadToFirestore({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    pain: pain
+                });
+            }
             
             if (name) {
                 var nameDisplay = document.getElementById('userNameDisplay');
@@ -161,7 +278,7 @@
         <div class="absolute w-80 h-80 sm:w-96 sm:h-96 bg-purple-600/30 rounded-full blur-3xl pointer-events-none -bottom-12 -left-12"></div>
 
         <div class="relative w-full max-w-lg glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-fuchsia-400/50 glow-deep-purple max-h-[92vh] overflow-y-auto space-y-5 my-auto shadow-2xl shadow-fuchsia-950/80 bg-gradient-to-b from-galaxy-900/90 via-galaxy-950/95 to-galaxy-900/90">
-            
+
             <div class="text-center space-y-3 relative z-10">
                 <div class="w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-gradient-to-br from-purple-700 via-fuchsia-600 to-blue-600 flex items-center justify-center text-xl sm:text-2xl mx-auto shadow-md shadow-fuchsia-600/40 select-none border border-fuchsia-300/40 p-0.5">
                     <span class="apple-emoji leading-none">📝</span>
@@ -366,8 +483,15 @@
         </section>
 
         <!-- FOOTER -->
-        <footer class="text-center py-6 text-xs text-purple-200/90 font-medium space-y-2.5 border-t border-purple-900/40">
-            <p>© כל הזכויות שמורות – מדלן פריד | לבטא את עצמך באותנטיות</p>
+        <footer class="text-center py-6 text-xs text-purple-200/90 font-medium space-y-2 border-t border-purple-900/40">
+            <p class="flex items-center justify-center gap-1.5 flex-wrap">
+                <span>כל הזכויות שמורות</span>
+                <span>|</span>
+                <button onclick="window.openAdminPinModal()" class="text-purple-200/90 hover:text-fuchsia-200 transition-colors cursor-pointer bg-transparent border-0 p-0 font-medium inline">
+                    מדלן פריד, לבטא את עצמך באותנטיות
+                </button>
+            </p>
+
             <div class="flex justify-center items-center gap-3 pt-1">
                 <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="w-8 h-8 rounded-full bg-galaxy-900 border border-purple-500/40 flex items-center justify-center text-purple-300 hover:text-fuchsia-300 hover:border-fuchsia-400 transition-all shadow-md">
                     <i class="fa-brands fa-instagram text-base"></i>
@@ -376,5 +500,215 @@
         </footer>
 
     </main>
+
+    <!-- PASSCODE PROMPT MODAL (PIN 4150) -->
+    <div id="passcodeModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-galaxy-950/90 backdrop-blur-2xl transition-all duration-300">
+        <div class="relative w-full max-w-sm glass-card rounded-2xl p-6 border border-fuchsia-400/50 glow-deep-purple space-y-4 text-center bg-gradient-to-b from-galaxy-900/95 to-galaxy-950/98 shadow-2xl">
+            <div class="w-12 h-12 rounded-2xl bg-fuchsia-600/30 border border-fuchsia-400/50 flex items-center justify-center text-fuchsia-300 text-xl mx-auto shadow-md">
+                <i class="fa-solid fa-user-lock"></i>
+            </div>
+            <div>
+                <h3 class="font-heading font-extrabold text-white text-lg">כניסת מנהלת</h3>
+            </div>
+            <form onsubmit="return window.checkAdminPin(event)" class="space-y-3">
+                <input type="password" id="adminPinInput" maxlength="8" placeholder="קוד..." autofocus
+                    class="w-full text-center text-lg font-bold tracking-widest bg-galaxy-950 border border-purple-500/50 focus:border-fuchsia-400 rounded-xl py-2.5 text-white placeholder-slate-500 focus:outline-none">
+                <p id="pinErrorMsg" class="hidden text-xs font-bold text-rose-400">קוד שגוי, נסי שוב</p>
+                <div class="flex items-center gap-2 pt-1">
+                    <button type="submit" class="w-full py-2.5 btn-galaxy text-white font-bold text-xs rounded-xl shadow-md cursor-pointer">
+                        אישור
+                    </button>
+                    <button type="button" onclick="window.closeAdminPinModal()" class="w-full py-2.5 bg-galaxy-900 border border-purple-500/40 text-purple-200 text-xs rounded-xl hover:text-white cursor-pointer">
+                        ביטול
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN LEADS DASHBOARD MODAL -->
+    <div id="adminLeadsModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-5 bg-galaxy-950/90 backdrop-blur-2xl transition-all duration-300 overflow-hidden">
+        <div class="relative w-full max-w-4xl glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-fuchsia-400/50 glow-deep-purple max-h-[92vh] flex flex-col space-y-4 my-auto shadow-2xl shadow-fuchsia-950/80 bg-gradient-to-b from-galaxy-900/95 via-galaxy-950/98 to-galaxy-900/95">
+            
+            <!-- HEADER -->
+            <div class="flex items-center justify-between pb-3 border-b border-purple-800/50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-fuchsia-600 flex items-center justify-center text-white text-lg shadow-md shadow-fuchsia-600/30">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-heading text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+                            <span>מאגר לידים נכנסים</span>
+                            <span id="leadsCountBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-fuchsia-600/40 border border-fuchsia-400/50 text-fuchsia-200">0 לידים</span>
+                        </h2>
+                        <p class="text-xs text-purple-300">כל הפרטים שנאספו מהטופס שמורים כאן בזמן אמת</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="window.exportLeadsCSV()" class="px-3 py-1.5 rounded-xl btn-galaxy text-white text-xs font-bold border border-fuchsia-300/30 flex items-center gap-1.5 cursor-pointer shadow-md">
+                        <i class="fa-solid fa-file-excel"></i>
+                        <span class="hidden sm:inline">ייצוא ל-Excel</span>
+                    </button>
+                    <button onclick="window.toggleAdminModal(false)" class="w-8 h-8 rounded-xl bg-galaxy-900 border border-purple-500/40 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer transition-all">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SEARCH BAR -->
+            <div class="relative">
+                <input type="text" id="adminSearchInput" oninput="window.filterAdminLeads()" placeholder="חיפוש לפי שם, טלפון או מייל..."
+                    class="w-full bg-galaxy-950/90 border border-purple-500/40 focus:border-fuchsia-400 rounded-xl pr-10 pl-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none transition-all">
+                <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-3 text-purple-300/70 text-xs"></i>
+            </div>
+
+            <!-- LEADS LIST CONTAINER -->
+            <div id="adminLeadsList" class="flex-1 overflow-y-auto space-y-3 pr-1 max-h-[60vh]">
+                <div class="text-center py-10 text-purple-300 text-sm">
+                    <i class="fa-solid fa-spinner animate-spin text-2xl text-fuchsia-400 mb-2"></i>
+                    <p>טוען את מאגר הלידים...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.allLeadsData = [];
+
+        window.openAdminPinModal = function() {
+            var modal = document.getElementById('passcodeModal');
+            var pinInput = document.getElementById('adminPinInput');
+            var err = document.getElementById('pinErrorMsg');
+            if (err) err.classList.add('hidden');
+            if (pinInput) pinInput.value = '';
+            if (modal) modal.classList.remove('hidden');
+            setTimeout(function() { if (pinInput) pinInput.focus(); }, 100);
+        };
+
+        window.closeAdminPinModal = function() {
+            var modal = document.getElementById('passcodeModal');
+            if (modal) modal.classList.add('hidden');
+        };
+
+        window.checkAdminPin = function(e) {
+            if (e) e.preventDefault();
+            var pinInput = document.getElementById('adminPinInput');
+            var err = document.getElementById('pinErrorMsg');
+            var val = pinInput ? pinInput.value.trim() : '';
+
+            if (val === '4150') {
+                window.closeAdminPinModal();
+                window.toggleAdminModal(true);
+            } else {
+                if (err) err.classList.remove('hidden');
+            }
+            return false;
+        };
+
+        window.toggleAdminModal = function(show) {
+            var modal = document.getElementById('adminLeadsModal');
+            if (modal) {
+                if (show) modal.classList.remove('hidden');
+                else modal.classList.add('hidden');
+            }
+        };
+
+        window.renderAdminLeads = function(leads) {
+            var container = document.getElementById('adminLeadsList');
+            var badge = document.getElementById('leadsCountBadge');
+            
+            if (badge) badge.textContent = leads.length + ' לידים';
+
+            if (!container) return;
+
+            if (!leads || leads.length === 0) {
+                container.innerHTML = '<div class="text-center py-12 text-purple-300/80 text-sm"><i class="fa-solid fa-inbox text-3xl text-fuchsia-500/40 mb-2 block"></i>טרם נאספו לידים במאגר</div>';
+                return;
+            }
+
+            var html = '';
+            leads.forEach(function(lead) {
+                var cleanPhone = lead.phone ? lead.phone.replace(/[^0-9]/g, '') : '';
+                if (cleanPhone.startsWith('0')) cleanPhone = '972' + cleanPhone.substring(1);
+                var waUrl = cleanPhone ? 'https://wa.me/' + cleanPhone : '#';
+
+                html += '<div class="p-3.5 sm:p-4 rounded-xl bg-galaxy-900/90 border border-purple-500/30 space-y-2.5 transition-all hover:border-fuchsia-500/50 shadow-md">' +
+                    '<div class="flex items-start justify-between gap-2">' +
+                        '<div>' +
+                            '<h4 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">' +
+                                '<i class="fa-solid fa-user text-fuchsia-400 text-xs"></i>' +
+                                '<span>' + (lead.name || 'ללא שם') + '</span>' +
+                            '</h4>' +
+                            '<p class="text-[11px] text-purple-300/80 pt-0.5">' + (lead.dateFormatted || 'תאריך לא זמין') + '</p>' +
+                        '</div>' +
+                        '<button onclick="window.deleteLeadFromFirestore(\'' + lead.id + '\')" class="text-xs text-rose-400 hover:text-rose-300 p-1 transition-colors" title="מחיקת ליד">' +
+                            '<i class="fa-solid fa-trash-can"></i>' +
+                        '</button>' +
+                    '</div>' +
+
+                    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1 border-t border-purple-900/40">' +
+                        '<div class="flex items-center gap-2 text-slate-200">' +
+                            '<i class="fa-solid fa-envelope text-fuchsia-400 text-xs w-4"></i>' +
+                            '<a href="mailto:' + (lead.email || '') + '" class="hover:underline text-purple-200 truncate">' + (lead.email || 'לא צויין') + '</a>' +
+                        '</div>' +
+                        '<div class="flex items-center gap-2 text-slate-200">' +
+                            '<i class="fa-solid fa-phone text-fuchsia-400 text-xs w-4"></i>' +
+                            '<a href="tel:' + (lead.phone || '') + '" class="hover:underline text-purple-200">' + (lead.phone || 'לא צויין') + '</a>' +
+                            (cleanPhone ? '<a href="' + waUrl + '" target="_blank" class="mr-auto px-2 py-0.5 bg-emerald-600/30 border border-emerald-500/50 text-emerald-300 rounded text-[11px] hover:bg-emerald-600/50"><i class="fa-brands fa-whatsapp ml-1"></i>וואטסאפ</a>' : '') +
+                        '</div>' +
+                    '</div>' +
+
+                    (lead.pain ? 
+                        '<div class="p-2.5 rounded-lg bg-galaxy-950/80 border border-purple-800/40 text-xs text-purple-100 leading-relaxed">' +
+                            '<span class="font-bold text-fuchsia-300 block mb-0.5">האתגר שצוין:</span>' +
+                            '<span>' + lead.pain + '</span>' +
+                        '</div>' : '') +
+                '</div>';
+            });
+
+            container.innerHTML = html;
+        };
+
+        window.filterAdminLeads = function() {
+            var q = (document.getElementById('adminSearchInput').value || '').toLowerCase();
+            if (!q) {
+                window.renderAdminLeads(window.allLeadsData || []);
+                return;
+            }
+            var filtered = (window.allLeadsData || []).filter(function(l) {
+                return (l.name || '').toLowerCase().includes(q) ||
+                       (l.phone || '').toLowerCase().includes(q) ||
+                       (l.email || '').toLowerCase().includes(q);
+            });
+            window.renderAdminLeads(filtered);
+        };
+
+        window.exportLeadsCSV = function() {
+            var leads = window.allLeadsData || [];
+            if (leads.length === 0) return;
+
+            var csvContent = "\uFEFFשם,מייל,טלפון,אתגר,תאריך\n";
+            leads.forEach(function(l) {
+                var row = [
+                    '"' + (l.name || '').replace(/"/g, '""') + '"',
+                    '"' + (l.email || '').replace(/"/g, '""') + '"',
+                    '"' + (l.phone || '').replace(/"/g, '""') + '"',
+                    '"' + (l.pain || '').replace(/"/g, '""') + '"',
+                    '"' + (l.dateFormatted || '') + '"'
+                ].join(",");
+                csvContent += row + "\n";
+            });
+
+            var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.setAttribute('download', 'leads_export.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
+    </script>
 </body>
 </html>
