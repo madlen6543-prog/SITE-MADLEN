@@ -260,18 +260,18 @@
             resetTimer();
         }
 
-        // SCROLL REVEAL OBSERVER FOR ATTRACTIVE SCROLLING
+        // SCROLL REVEAL OBSERVER FOR SEQUENTIAL DISCOVERY
         function initScrollObserver() {
             const observerOptions = {
                 root: null,
-                rootMargin: '0px',
-                threshold: 0.15
+                rootMargin: '0px 0px -60px 0px',
+                threshold: 0.12
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.remove('opacity-0', 'translate-y-16', 'scale-95');
+                        entry.target.classList.remove('opacity-0', 'translate-y-20', 'scale-95');
                         entry.target.classList.add('opacity-100', 'translate-y-0', 'scale-100');
                     }
                 });
@@ -327,7 +327,7 @@
             var headerEl = document.querySelector('#leadModal .text-center');
             var unlockOverlay = document.getElementById('unlockAnimationOverlay');
 
-            // Synthesize subtle unlock sound
+            // Synthesize audio unlock sound effect
             try {
                 const AudioCtx = window.AudioContext || window.webkitAudioContext;
                 if (AudioCtx) {
@@ -382,15 +382,20 @@
                             modal.classList.add('hidden');
                             modal.classList.remove('opacity-0');
                             document.body.classList.remove('modal-active');
+                            
+                            // AUTO-SCROLL TO VERY TOP OF MAIN PAGE ON UNLOCK!
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
                         }, 500);
                     } else {
                         document.body.classList.remove('modal-active');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                 }, 1600);
             } else {
                 var modal = document.getElementById('leadModal');
                 if (modal) modal.classList.add('hidden');
                 document.body.classList.remove('modal-active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
             return false;
@@ -511,6 +516,28 @@
             transform: translateY(-2px) scale(1.01);
         }
 
+        .btn-instagram {
+            background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px -4px rgba(220, 39, 67, 0.5);
+        }
+
+        .btn-instagram:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 25px -2px rgba(220, 39, 67, 0.7);
+        }
+
+        .btn-tiktok {
+            background: linear-gradient(135deg, #00f2fe 0%, #000000 45%, #ff0050 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px -4px rgba(255, 0, 80, 0.4);
+        }
+
+        .btn-tiktok:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 25px -2px rgba(255, 0, 80, 0.6);
+        }
+
         .modal-active {
             overflow: hidden;
             position: fixed;
@@ -544,9 +571,9 @@
             animation: lock-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        /* Smooth reveal transitions for scrolling */
+        /* Smooth reveal transitions for atmospheric scrolling */
         .reveal-on-scroll {
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out;
+            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease-out;
             will-change: transform, opacity;
         }
     </style>
@@ -591,7 +618,7 @@
                     </div>
                 </div>
 
-                <h2 class="font-heading text-lg sm:text-2xl font-extrabold text-white leading-snug px-1">
+                <h2 class="font-heading text-xl sm:text-2xl font-extrabold text-white leading-snug px-1">
                     <span class="text-fuchsia-300 font-black">4 צעדים</span> להשתחרר מביישנות ולבנות<br>
                     <span class="bg-gradient-to-r from-fuchsia-400 to-pink-400 bg-clip-text text-transparent font-heading">ביטחון עצמי אותנטי</span> מול אנשים
                 </h2>
@@ -665,24 +692,24 @@
         </div>
     </div>
 
-    <!-- MAIN PAGE CONTENT WITH GENEROUS SPACED SCROLLING -->
-    <main class="relative min-h-screen pb-20 pt-8 sm:pt-12">
+    <!-- MAIN PAGE CONTENT WITH SPACED JOURNEY & SCROLL-REVEAL -->
+    <main class="relative min-h-screen pb-28 pt-8 sm:pt-14">
 
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 space-y-12 sm:space-y-20">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 space-y-20 sm:space-y-36">
 
-            <!-- MAIN PAGE TITLE -->
-            <div class="text-center space-y-3 reveal-on-scroll transform opacity-0 translate-y-12 transition-all">
+            <!-- SECTION 1 (VERY TOP): MAIN PAGE TITLE -->
+            <div id="guideTopSection" class="text-center space-y-4 pt-2 reveal-on-scroll transform opacity-0 translate-y-12 transition-all">
                 <h1 class="font-heading text-2xl sm:text-4xl font-extrabold text-white leading-snug">
                     המדריך שיעזור לך להשתחרר מביישנות<br>
                     <span class="bg-gradient-to-r from-fuchsia-400 via-purple-300 to-pink-400 bg-clip-text text-transparent font-heading">ולבנות ביטחון עצמי אותנטי מול אנשים</span>
                 </h1>
             </div>
 
-            <!-- PERSONALIZED WELCOME BANNER WITH LINE BREAKS -->
+            <!-- SECTION 2: PERSONALIZED WELCOME BANNER WITH LINE BREAKS -->
             <div id="personalizedWelcome" class="hidden transition-all duration-500 reveal-on-scroll transform opacity-0 translate-y-12">
-                <div class="bg-white/95 backdrop-blur-md text-gray-900 rounded-2xl p-4 sm:p-5 shadow-2xl border-2 border-fuchsia-400 flex items-center gap-4 max-w-xl mx-auto">
+                <div class="bg-white/95 backdrop-blur-md text-gray-900 rounded-2xl p-5 sm:p-6 shadow-2xl border-2 border-fuchsia-400 flex items-center gap-4 max-w-xl mx-auto">
                     <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
-                         alt="מדלן" class="w-12 h-12 rounded-full object-cover border-2 border-fuchsia-600 shadow-md shrink-0">
+                         alt="מדלן" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-fuchsia-600 shadow-md shrink-0">
                     <p class="text-xs sm:text-sm text-gray-900 font-semibold leading-relaxed">
                         היי <span id="userNameDisplay" class="font-black text-fuchsia-700"></span>, איזה כיף שהגעת לכאן!<br>
                         המדריך מחכה לך למטה 👇<br>
@@ -691,8 +718,8 @@
                 </div>
             </div>
 
-            <!-- PERSONAL QUOTE BLOCK WITH EXACT LINE BREAKS -->
-            <div class="glass-card rounded-2xl p-5 sm:p-7 text-center space-y-3 border border-purple-500/40 max-w-2xl mx-auto shadow-2xl reveal-on-scroll transform opacity-0 translate-y-12">
+            <!-- SECTION 3: PERSONAL QUOTE BLOCK WITH EXACT LINE BREAKS & GENEROUS PADDING -->
+            <div class="glass-card rounded-2xl p-6 sm:p-9 text-center space-y-3 border border-purple-500/40 max-w-2xl mx-auto shadow-2xl reveal-on-scroll transform opacity-0 translate-y-12">
                 <p class="text-xs sm:text-base text-gray-100 leading-relaxed font-medium">
                     "אם הייתי יודעת את הכלים והתוכן הזה לפני,<br>
                     זה היה חוסך לי המון שנים שהייתי <span class="text-fuchsia-300 font-bold underline decoration-fuchsia-400/80">נבלעת באינטרקציות</span>,<br>
@@ -701,8 +728,8 @@
                 </p>
             </div>
 
-            <!-- VIDEO EMBED CARD -->
-            <div class="glass-card rounded-2xl p-4 sm:p-8 border border-fuchsia-500/40 glow-deep-purple space-y-6 shadow-2xl reveal-on-scroll transform opacity-0 translate-y-12">
+            <!-- SECTION 4: VIDEO EMBED CARD -->
+            <div class="glass-card rounded-2xl p-5 sm:p-8 border border-fuchsia-500/40 glow-deep-purple space-y-6 shadow-2xl reveal-on-scroll transform opacity-0 translate-y-12">
                 
                 <div class="text-center space-y-2">
                     <h2 class="font-heading text-lg sm:text-2xl font-bold text-white">
@@ -732,16 +759,16 @@
                 </div>
             </div>
 
-            <!-- PROMPT TO SCROLL DOWN -->
-            <div class="text-center py-4 space-y-2 text-fuchsia-300/80 animate-pulse reveal-on-scroll transform opacity-0 translate-y-12">
+            <!-- SECTION 5: PROMPT TO SCROLL DOWN -->
+            <div class="text-center py-6 space-y-3 text-fuchsia-300/80 animate-pulse reveal-on-scroll transform opacity-0 translate-y-12">
                 <p class="text-xs sm:text-sm font-bold tracking-wider">המשיכו לגלול למטה לצעד הבא 👇</p>
-                <i class="fa-solid fa-chevron-down text-lg text-fuchsia-400"></i>
+                <i class="fa-solid fa-chevron-down text-xl text-fuchsia-400"></i>
             </div>
 
-            <!-- 1:1 SESSION OFFER SECTION - DYNAMIC REVEAL ON SCROLL -->
-            <div id="sessionSection" class="glass-card rounded-3xl p-6 sm:p-10 border-2 border-fuchsia-400/60 glow-deep-purple space-y-6 relative overflow-hidden bg-gradient-to-b from-galaxy-900/95 via-galaxy-950/98 to-galaxy-900/95 shadow-2xl reveal-on-scroll transform opacity-0 translate-y-16 scale-95 transition-all duration-1000">
+            <!-- SECTION 6: 1:1 SESSION OFFER CARD -->
+            <div id="sessionSection" class="glass-card rounded-3xl p-6 sm:p-12 border-2 border-fuchsia-400/60 glow-deep-purple space-y-8 relative overflow-hidden bg-gradient-to-b from-galaxy-900/95 via-galaxy-950/98 to-galaxy-900/95 shadow-2xl reveal-on-scroll transform opacity-0 translate-y-20 scale-95 transition-all duration-1000">
                 
-                <div class="text-center space-y-4 relative z-10">
+                <div class="text-center space-y-5 relative z-10">
                     
                     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/50 text-fuchsia-200 text-xs sm:text-sm font-bold shadow-inner">
                         <span>✨ איזה כיף, הצעד הבא שלך מחכה לך כאן! ✨</span>
@@ -755,7 +782,7 @@
                         </span>
                     </h2>
 
-                    <div class="inline-flex items-center gap-4 px-6 py-3 rounded-2xl bg-galaxy-900/90 border border-fuchsia-500/40 shadow-xl mx-auto">
+                    <div class="inline-flex items-center gap-4 px-6 py-3.5 rounded-2xl bg-galaxy-900/90 border border-fuchsia-500/40 shadow-xl mx-auto">
                         <div class="flex items-baseline gap-1.5">
                             <span class="text-3xl sm:text-4xl font-black text-emerald-400">₪97</span>
                             <span class="text-xs sm:text-sm text-gray-400 line-through">₪350</span>
@@ -769,7 +796,7 @@
                     </p>
                 </div>
 
-                <form id="sessionForm" onsubmit="return handleDirectSessionSubmit(event)" class="space-y-3.5 max-w-sm mx-auto pt-2 relative z-10">
+                <form id="sessionForm" onsubmit="return handleDirectSessionSubmit(event)" class="space-y-4 max-w-sm mx-auto pt-2 relative z-10">
                     <input type="text" id="sessionLeadName" required placeholder="שם מלא *" 
                            class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400">
 
@@ -799,6 +826,31 @@
                 </div>
             </div>
 
+            <!-- SECTION 7 (VERY BOTTOM): SOCIAL MEDIA FOLLOW INVITATION -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 text-center space-y-5 border border-purple-500/40 max-w-xl mx-auto shadow-2xl reveal-on-scroll transform opacity-0 translate-y-12">
+                <div class="space-y-1.5">
+                    <p class="text-xs sm:text-sm font-bold text-fuchsia-300">תכנים יומיומיים וכלים נוספים 💖</p>
+                    <h3 class="font-heading text-base sm:text-xl font-extrabold text-white">
+                        מזמינה אותך להמשיך לעקוב אחרי התכנים בעמודים הבאים:
+                    </h3>
+                </div>
+
+                <div class="flex flex-row items-center justify-center gap-4 pt-2">
+                    <a href="https://www.instagram.com/madlen.frid/" target="_blank" rel="noopener noreferrer" 
+                       class="btn-instagram px-6 py-3 rounded-2xl text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg hover:scale-105 transition-transform" title="אינסטגרם">
+                        <i class="fa-brands fa-instagram text-2xl"></i>
+                        <span>אינסטגרם</span>
+                    </a>
+
+                    <a href="https://www.tiktok.com/@madlenfrid?lang=he-IL" target="_blank" rel="noopener noreferrer" 
+                       class="btn-tiktok px-6 py-3 rounded-2xl text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg hover:scale-105 transition-transform" title="טיקטוק">
+                        <i class="fa-brands fa-tiktok text-2xl"></i>
+                        <span>טיקטוק</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- FOOTER & ADMIN MODAL ACCESS -->
             <footer class="text-center py-8 border-t border-purple-900/30 mt-12">
                 <button type="button" onclick="openAdminModal()" class="text-[11px] text-purple-300/50 hover:text-purple-200 transition-colors underline decoration-purple-500/20">
                     מדלן פריד - לבטא את עצמך באותנטיות
