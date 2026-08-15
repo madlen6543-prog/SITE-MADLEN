@@ -262,8 +262,8 @@
         function initScrollObserver() {
             const observerOptions = {
                 root: null,
-                rootMargin: '0px 0px -60px 0px',
-                threshold: 0.1
+                rootMargin: '0px 0px -40px 0px',
+                threshold: 0.08
             };
 
             const observer = new IntersectionObserver((entries) => {
@@ -278,6 +278,19 @@
             const elements = document.querySelectorAll('.reveal-on-scroll');
             elements.forEach(el => observer.observe(el));
         }
+
+        // CLICKABLE ARROW NAVIGATION FUNCTION WITH ACCURATE SCROLL TARGETING
+        window.scrollToNextSection = function(preferredId, fallbackId) {
+            let el = document.getElementById(preferredId);
+            if (!el || el.classList.contains('hidden')) {
+                if (fallbackId) {
+                    el = document.getElementById(fallbackId);
+                }
+            }
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        };
 
         window.handleGateSubmit = function(event) {
             if (event) event.preventDefault();
@@ -434,21 +447,27 @@
     </script>
 
     <style>
-        body {
+        html, body {
             background-color: #070414;
             color: #ffffff;
             font-family: 'Heebo', sans-serif;
             overflow-x: hidden;
             line-height: 1.65;
+            -webkit-tap-highlight-color: transparent;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
         }
 
-        /* HIDE SCROLLBAR IN INITIAL MODAL POPUP & GLOBAL CONTAINERS */
-        .no-scrollbar::-webkit-scrollbar,
-        #leadModal *::-webkit-scrollbar {
+        /* HIDE SIDE SCROLLBARS GLOBALLY */
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar,
+        *::-webkit-scrollbar {
             display: none !important;
             width: 0px !important;
             height: 0px !important;
+            background: transparent !important;
         }
+
         .no-scrollbar,
         #leadModal * {
             -ms-overflow-style: none !important;
@@ -504,6 +523,7 @@
         }
 
         /* SPEECH BUBBLE STYLING WITH TAIL POINTING DIRECTLY RIGHT TOWARDS MADLEN'S AVATAR IMAGE ON THE RIGHT */
+        /* SPEECH BUBBLE STYLING WITH TAIL POINTING LEFT TOWARDS MADLEN'S AVATAR IMAGE ON THE LEFT */
         .speech-bubble {
             position: relative;
             background: linear-gradient(180deg, rgba(24, 12, 60, 0.95) 0%, rgba(15, 7, 38, 0.92) 100%);
@@ -513,18 +533,18 @@
             box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(168, 85, 247, 0.3);
         }
 
-        /* SPEECH BUBBLE TAIL POINTING RIGHT DIRECTLY AT THE AVATAR IMAGE */
+        /* SPEECH BUBBLE TAIL POINTING LEFT DIRECTLY AT THE AVATAR IMAGE */
         .speech-bubble::after {
             content: '';
             position: absolute;
-            right: -10px;
+            left: -10px;
             top: 22px;
             width: 0;
             height: 0;
             border-top: 8px solid transparent;
             border-bottom: 8px solid transparent;
-            border-left: 10px solid rgba(24, 12, 60, 0.95);
-            border-right: none;
+            border-right: 10px solid rgba(24, 12, 60, 0.95);
+            border-left: none;
         }
 
         /* DARK GLASS BACKDROP PANEL FOR HIGH CONTRAST & READABILITY */
@@ -636,10 +656,17 @@
             font-size: 1.15rem;
             box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.4);
             margin: 0 auto;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .scroll-arrow-badge:hover, .scroll-arrow-badge:active {
+            transform: scale(1.1);
+            background: rgba(217, 70, 239, 0.32);
         }
     </style>
 </head>
-<body class="stars-bg min-h-screen relative antialiased selection:bg-fuchsia-600 selection:text-white modal-active">
+<body class="stars-bg min-h-screen relative antialiased selection:bg-fuchsia-600 selection:text-white modal-active no-scrollbar">
 
     <!-- LEAD GATE MODAL POPUP -->
     <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 stars-bg bg-galaxy-950/92 backdrop-blur-2xl transition-all duration-300 overflow-hidden no-scrollbar">
@@ -754,7 +781,7 @@
         <!-- SPACIOUS JOURNEY CONTAINER WITH BIG MARGINS TO BUILD CURIOSITY -->
         <div class="max-w-2xl mx-auto px-4 sm:px-6 space-y-20 sm:space-y-32">
 
-            <!-- SECTION 1: MAIN PAGE TITLE WITH DARK BACKDROP CARD + LARGE BOUNCING CHEVRON DOWN -->
+            <!-- SECTION 1: MAIN PAGE TITLE WITH DARK BACKDROP CARD + CLICKABLE BOUNCING ARROW -->
             <div id="guideTopSection" class="reveal-on-scroll transform opacity-0 translate-y-16 scale-95 transition-all ombre-halo scroll-reflection">
                 <div class="dark-glass-card rounded-3xl p-6 sm:p-9 text-center space-y-4 border border-fuchsia-500/30 shadow-2xl">
                     
@@ -769,26 +796,24 @@
                         <span class="text-fuchsia-200 font-semibold">ולבטא את עצמך בחופשיות יותר 🗣️</span>
                     </p>
 
-                    <!-- LARGE BOUNCING CHEVRON ARROW DOWN -->
+                    <!-- CLICKABLE BOUNCING CHEVRON ARROW DOWN -->
                     <div class="pt-5 flex justify-center">
-                        <div class="w-11 h-11 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/50 flex items-center justify-center text-fuchsia-300 text-xl shadow-lg animate-bounce">
+                        <button type="button" onclick="scrollToNextSection('personalizedWelcome', 'personalQuoteSection')" 
+                                class="w-11 h-11 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/50 flex items-center justify-center text-fuchsia-300 text-xl shadow-lg animate-bounce hover:scale-110 active:scale-95 transition-transform" 
+                                title="לחץ לגלילה למטה" aria-label="גלול למטה">
                             <i class="fa-solid fa-chevron-down"></i>
-                        </div>
+                        </button>
                     </div>
 
                 </div>
             </div>
 
-            <!-- SECTION 2: PERSONALIZED WELCOME SPEECH BUBBLE + AVATAR ON RIGHT SIDE -->
+            <!-- SECTION 2: PERSONALIZED WELCOME SPEECH BUBBLE + AVATAR ON LEFT SIDE -->
             <div id="personalizedWelcome" class="hidden transition-all duration-500 reveal-on-scroll transform opacity-0 translate-y-16 scale-95 scroll-reflection">
                 <div class="space-y-6">
                     <div class="relative max-w-md mx-auto flex items-start gap-3 sm:gap-4">
                         
-                        <!-- AVATAR IMAGE POSITIONED ON THE RIGHT SIDE IN RTL -->
-                        <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
-                             alt="מדלן" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-fuchsia-400 shadow-xl shrink-0 mt-1 z-10">
-
-                        <!-- SPEECH BUBBLE CARD WITH TAIL POINTING DIRECTLY RIGHT TO THE AVATAR -->
+                        <!-- SPEECH BUBBLE CARD WITH TAIL POINTING DIRECTLY LEFT TO THE AVATAR -->
                         <div class="speech-bubble rounded-2xl py-4 px-5 sm:px-6 shadow-xl border border-fuchsia-400/35 relative flex-1">
                             <p class="text-xs sm:text-base text-purple-100 font-medium leading-relaxed text-right">
                                 היי <span id="userNameDisplay" class="font-bold text-fuchsia-300"></span>, איזה כיף שהגעת לכאן! 👋<br>
@@ -797,19 +822,23 @@
                             </p>
                         </div>
 
+                        <!-- AVATAR IMAGE POSITIONED ON THE LEFT SIDE -->
+                        <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
+                             alt="מדלן" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-fuchsia-400 shadow-xl shrink-0 mt-1">
+
                     </div>
 
-                    <!-- BOUNCING ARROW DOWN -->
+                    <!-- CLICKABLE BOUNCING ARROW DOWN -->
                     <div class="flex justify-center">
-                        <div class="scroll-arrow-badge animate-bounce">
+                        <button type="button" onclick="scrollToNextSection('personalQuoteSection')" class="scroll-arrow-badge animate-bounce" title="לחץ לגלילה למטה" aria-label="גלול למטה">
                             <i class="fa-solid fa-chevron-down"></i>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- SECTION 3: PERSONAL QUOTE BLOCK ("אם הייתי יודעת...") WITH CIRCULAR BRAIN BADGE FRAME -->
-            <div class="relative py-2 text-center space-y-6 max-w-xl mx-auto reveal-on-scroll transform opacity-0 translate-y-16 scale-95 scroll-reflection">
+            <!-- SECTION 3: PERSONAL QUOTE BLOCK ("אם הייתי יודעת...") WITH CIRCULAR BRAIN BADGE FRAME + WELL-SPACED ARROW -->
+            <div id="personalQuoteSection" class="relative py-2 text-center space-y-6 max-w-xl mx-auto reveal-on-scroll transform opacity-0 translate-y-16 scale-95 scroll-reflection">
                 
                 <div class="space-y-4">
                     <!-- CIRCULAR BRAIN EMOJI FRAME BADGE -->
@@ -827,26 +856,26 @@
                     </div>
                 </div>
 
-                <!-- DEDICATED ARROW DOWN BETWEEN "אם הייתי יודעת..." AND "המדריך שלך כאן..." -->
-                <div class="flex flex-col items-center gap-1 text-purple-300/80 animate-pulse pt-2">
-                    <span class="text-xs font-semibold">המשיכו לגלול למטה להדרכה 👇</span>
-                    <div class="scroll-arrow-badge animate-bounce">
+                <!-- SPACED ARROW PROMPT PREVENTING OVERLAP ON TEXT -->
+                <div class="flex flex-col items-center gap-3 text-purple-300/80 pt-5">
+                    <span class="text-xs sm:text-sm font-semibold tracking-wide">המשיכו לגלול למטה להדרכה 👇</span>
+                    <button type="button" onclick="scrollToNextSection('videoSection')" class="scroll-arrow-badge animate-bounce mt-1" title="לחץ לגלילה להדרכה" aria-label="גלול להדרכה">
                         <i class="fa-solid fa-chevron-down"></i>
-                    </div>
+                    </button>
                 </div>
 
             </div>
 
-            <!-- SECTION 4: TRANSITION PROMPT AND DIRECT VIDEO DISPLAY -->
-            <div class="space-y-5 reveal-on-scroll transform opacity-0 translate-y-16 scale-95 scroll-reflection">
+            <!-- SECTION 4: TRANSITION PROMPT AND VIDEO DISPLAY -->
+            <div id="videoSection" class="space-y-5 reveal-on-scroll transform opacity-0 translate-y-16 scale-95 scroll-reflection">
                 
                 <div class="text-center space-y-2.5">
                     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/40 text-fuchsia-300 text-xs sm:text-sm font-bold shadow-lg animate-pulse mb-1">
-                        <span>🎬 המדריך שלך כאן 👇</span>
+                        <span>🎬 המדריך שלך מחכה לך כאן 👇</span>
                     </div>
 
-                    <h2 class="font-heading text-base sm:text-xl font-bold text-white leading-snug">
-                        המדריך: 4 צעדים איך להפסיק להתבייש ולחזק את הביטחון שלך מול אנשים
+                    <h2 class="font-heading text-base sm:text-xl font-extrabold text-white leading-snug">
+                        <span class="bg-gradient-to-r from-fuchsia-300 via-purple-200 to-sky-300 bg-clip-text text-transparent font-black">4 צעדים</span> איך להפסיק להתבייש <span class="underline decoration-white/80 decoration-2 underline-offset-4">ולחזק את הביטחון שלך מול אנשים</span>
                     </h2>
                     
                     <div class="inline-flex items-center gap-2 text-xs text-purple-200/90 font-medium bg-galaxy-900/80 py-1.5 px-4 rounded-full border border-purple-500/30 backdrop-blur-md">
@@ -879,10 +908,12 @@
                 </div>
             </div>
 
-            <!-- SECTION 5: SCROLL PROMPT -->
-            <div class="text-center py-2 space-y-1.5 text-purple-300/70 animate-pulse reveal-on-scroll transform opacity-0 translate-y-12">
+            <!-- SECTION 5: CLICKABLE SCROLL PROMPT -->
+            <div class="text-center py-2 space-y-2 text-purple-300/70 animate-pulse reveal-on-scroll transform opacity-0 translate-y-12">
                 <p class="text-xs font-semibold tracking-wider">המשיכו לגלול למטה לצעד הבא 👇</p>
-                <i class="fa-solid fa-chevron-down text-sm text-fuchsia-400"></i>
+                <button type="button" onclick="scrollToNextSection('sessionSection')" class="scroll-arrow-badge animate-bounce" title="לחץ לגלילה לצעד הבא" aria-label="גלול לצעד הבא">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
             </div>
 
             <!-- SECTION 6: 1:1 SESSION OFFER WITH PRICE BADGE BELOW INPUT FIELDS -->
@@ -947,7 +978,7 @@
             </div>
 
             <!-- SECTION 7: SUBTLE SOCIAL MEDIA FOLLOW INVITATION -->
-            <div class="text-center space-y-3 pt-20 sm:pt-28 pb-4 reveal-on-scroll transform opacity-0 translate-y-12">
+            <div id="socialSection" class="text-center space-y-3 pt-20 sm:pt-28 pb-4 reveal-on-scroll transform opacity-0 translate-y-12">
                 <div class="space-y-1 max-w-sm mx-auto">
                     <p class="text-[11px] font-semibold text-fuchsia-300/90">תכנים יומיומיים וכלים נוספים 💖</p>
                     <h3 class="font-heading text-xs sm:text-sm font-medium text-gray-200/90">
