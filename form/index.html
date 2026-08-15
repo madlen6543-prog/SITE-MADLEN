@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>4 צעדים לביטחון עצמי - מדריך חינמי</title>
-    
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Google Fonts: Rubik & Heebo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <!-- FIREBASE DATA STORAGE & AUTH MODULE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -198,6 +198,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             initFirebase();
             window.loadAndRenderLeads();
+            initCarousel();
         });
     </script>
 
@@ -224,20 +225,67 @@
             }
         }
 
+        // AUTOMATIC CAROUSEL LOGIC
+        let currentSlide = 0;
+        let slideInterval = null;
+
+        function initCarousel() {
+            const slides = document.querySelectorAll('.carousel-item');
+            if (!slides || slides.length === 0) return;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    if (i === index) {
+                        slide.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+                        slide.classList.add('opacity-100', 'scale-100');
+                    } else {
+                        slide.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+                        slide.classList.remove('opacity-100', 'scale-100');
+                    }
+                });
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function resetTimer() {
+                if (slideInterval) clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 2800);
+            }
+
+            showSlide(0);
+            resetTimer();
+        }
+
+        window.closeModalDirectly = function() {
+            var modal = document.getElementById('leadModal');
+            if (modal) {
+                modal.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                setTimeout(function() {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('opacity-0');
+                    document.body.classList.remove('modal-active');
+                }, 300);
+            } else {
+                document.body.classList.remove('modal-active');
+            }
+        };
+
         window.handleGateSubmit = function(event) {
             if (event) event.preventDefault();
-            
+
             var nameInput = document.getElementById('leadName');
             var emailInput = document.getElementById('leadEmail');
             var phoneInput = document.getElementById('leadPhone');
             var painInput = document.getElementById('leadPain');
-            
+
             var name = nameInput ? nameInput.value.trim() : '';
             var email = emailInput ? emailInput.value.trim() : '';
             var phone = phoneInput ? phoneInput.value.trim() : '';
             var pain = painInput ? painInput.value.trim() : '';
 
-            // Save lead to database
             if (window.saveLeadToFirestore) {
                 window.saveLeadToFirestore({
                     name: name,
@@ -247,8 +295,7 @@
                     type: 'guide'
                 });
             }
-            
-            // Personalize UI after gate submission
+
             if (name) {
                 var nameDisplay = document.getElementById('userNameDisplay');
                 if (nameDisplay) nameDisplay.textContent = name;
@@ -259,17 +306,20 @@
                 var sessionPhone = document.getElementById('sessionLeadPhone');
                 if (sessionName) sessionName.value = name;
                 if (sessionPhone) sessionPhone.value = phone;
+            } else {
+                var defaultDisplay = document.getElementById('userNameDisplay');
+                if (defaultDisplay) defaultDisplay.textContent = 'אורח/ת';
+                var welcomeBanner = document.getElementById('personalizedWelcome');
+                if (welcomeBanner) welcomeBanner.classList.remove('hidden');
             }
 
-            // DYNAMIC PAIN MIRRORING DIRECTLY INSIDE THE TEXTAREA
             if (pain) {
                 var sessionPainInput = document.getElementById('sessionLeadPain');
                 if (sessionPainInput) {
                     sessionPainInput.value = pain;
                 }
             }
-            
-            // ANIMATED UNLOCK EXPERIENCE
+
             var formEl = document.querySelector('#leadModal form');
             var headerEl = document.querySelector('#leadModal .text-center');
             var unlockOverlay = document.getElementById('unlockAnimationOverlay');
@@ -280,22 +330,10 @@
                 unlockOverlay.classList.remove('hidden');
 
                 setTimeout(function() {
-                    var modal = document.getElementById('leadModal');
-                    if (modal) {
-                        modal.classList.add('opacity-0', 'transition-opacity', 'duration-500');
-                        setTimeout(function() {
-                            modal.classList.add('hidden');
-                            modal.classList.remove('opacity-0');
-                            document.body.classList.remove('modal-active');
-                        }, 500);
-                    } else {
-                        document.body.classList.remove('modal-active');
-                    }
-                }, 1300);
+                    closeModalDirectly();
+                }, 1400);
             } else {
-                var modal = document.getElementById('leadModal');
-                if (modal) modal.classList.add('hidden');
-                document.body.classList.remove('modal-active');
+                closeModalDirectly();
             }
 
             return false;
@@ -303,7 +341,7 @@
 
         window.handleDirectSessionSubmit = function(event) {
             if (event) event.preventDefault();
-            
+
             var nameInput = document.getElementById('sessionLeadName');
             var phoneInput = document.getElementById('sessionLeadPhone');
             var painInput = document.getElementById('sessionLeadPain');
@@ -327,74 +365,25 @@
             if (formEl) formEl.classList.add('hidden');
             if (successEl) successEl.classList.remove('hidden');
 
-            // Redirect to Grow checkout
             setTimeout(function() {
                 window.open("https://pay.grow.link/MTAzNjE5~bb842ce0b7152b2425e1ec2cf0d0a6a0-MzgzNzU1MQ", "_blank");
             }, 800);
 
             return false;
         };
-
-        // QUIZ NAVIGATION & AUTO-FILL SYSTEM FOR HESITANT USERS
-        window.quizState = { step: 1, answers: {} };
-
-        window.selectQuizOption = function(step, value) {
-            window.quizState.answers['step_' + step] = value;
-            
-            var currStep = document.getElementById('quizStep' + step);
-            if (currStep) currStep.classList.add('hidden');
-
-            if (step < 3) {
-                var nextStep = document.getElementById('quizStep' + (step + 1));
-                if (nextStep) nextStep.classList.remove('hidden');
-                window.quizState.step = step + 1;
-            } else {
-                // Finish quiz
-                var finishStep = document.getElementById('quizStepFinish');
-                if (finishStep) finishStep.classList.remove('hidden');
-
-                var combinedSummary = Object.values(window.quizState.answers).join(" | ");
-                var sessionPain = document.getElementById('sessionLeadPain');
-                if (sessionPain && (!sessionPain.value || sessionPain.value.trim() === '')) {
-                    sessionPain.value = combinedSummary;
-                }
-
-                setTimeout(function() {
-                    document.getElementById('quizModal').classList.add('hidden');
-                    var targetSection = document.getElementById('sessionSection');
-                    if (targetSection) {
-                        targetSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }, 1800);
-            }
-        };
-
-        window.resetQuiz = function() {
-            window.quizState = { step: 1, answers: {} };
-            for (var i = 1; i <= 3; i++) {
-                var el = document.getElementById('quizStep' + i);
-                if (el) {
-                    if (i === 1) el.classList.remove('hidden');
-                    else el.classList.add('hidden');
-                }
-            }
-            var finishStep = document.getElementById('quizStepFinish');
-            if (finishStep) finishStep.classList.add('hidden');
-        };
     </script>
-    
+
     <style>
         body {
             background-color: #04010a;
             color: #ffffff;
             font-family: 'Heebo', sans-serif;
             overflow-x: hidden;
-            line-height: 1.7;
+            line-height: 1.6;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
 
-        /* Hide scrollbars across all browsers */
         ::-webkit-scrollbar {
             display: none !important;
             width: 0px !important;
@@ -403,8 +392,8 @@
         }
 
         * {
-            -ms-overflow-style: none !important;  /* IE and Edge */
-            scrollbar-width: none !important;  /* Firefox */
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
         }
 
         .stars-bg {
@@ -414,20 +403,11 @@
                 radial-gradient(2px 2px at 50px 90px, rgba(236, 72, 153, 0.9), rgba(0,0,0,0)),
                 radial-gradient(1.5px 1.5px at 110px 40px, #ffffff, rgba(0,0,0,0)),
                 radial-gradient(2px 2px at 170px 140px, rgba(168, 85, 247, 0.95), rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 230px 190px, #e9d5ff, rgba(0,0,0,0)),
-                radial-gradient(2.5px 2.5px at 300px 70px, rgba(244, 114, 182, 0.85), rgba(0,0,0,0)),
                 radial-gradient(circle at 50% 10%, rgba(147, 51, 234, 0.45), transparent 55%),
-                radial-gradient(circle at 85% 40%, rgba(217, 70, 239, 0.35), transparent 50%),
-                radial-gradient(circle at 15% 65%, rgba(59, 130, 246, 0.35), transparent 55%),
-                radial-gradient(circle at 50% 90%, rgba(236, 72, 153, 0.25), transparent 50%);
-            background-repeat: repeat, repeat, repeat, repeat, repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-            background-size: 240px 240px, 320px 320px, 200px 200px, 360px 360px, 280px 280px, 310px 310px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+                radial-gradient(circle at 85% 40%, rgba(217, 70, 239, 0.35), transparent 50%);
+            background-repeat: repeat, repeat, repeat, repeat, no-repeat, no-repeat;
+            background-size: 240px 240px, 320px 320px, 200px 200px, 360px 360px, 100% 100%, 100% 100%;
             background-attachment: fixed;
-        }
-
-        .touch-scroll {
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
         }
 
         .glow-deep-purple {
@@ -435,7 +415,7 @@
         }
 
         .glass-card {
-            background: rgba(12, 5, 28, 0.82);
+            background: rgba(12, 5, 28, 0.85);
             backdrop-filter: blur(28px);
             -webkit-backdrop-filter: blur(28px);
             border: 1px solid rgba(217, 70, 239, 0.3);
@@ -443,7 +423,7 @@
         }
 
         .glass-card-popup {
-            background: rgba(10, 4, 24, 0.94);
+            background: rgba(10, 4, 24, 0.95);
             backdrop-filter: blur(32px);
             -webkit-backdrop-filter: blur(32px);
             border: 1px solid rgba(236, 72, 153, 0.45);
@@ -457,9 +437,8 @@
             box-shadow: 0 10px 25px -5px rgba(192, 38, 211, 0.5), 0 4px 15px -2px rgba(37, 99, 235, 0.35);
         }
 
-        .btn-galaxy:hover, .btn-galaxy:focus {
+        .btn-galaxy:hover {
             background-position: right center;
-            box-shadow: 0 14px 32px -4px rgba(219, 39, 119, 0.65), 0 8px 24px -4px rgba(168, 85, 247, 0.55);
             transform: translateY(-2px);
         }
 
@@ -470,9 +449,8 @@
             box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.6), 0 0 20px 2px rgba(52, 211, 153, 0.3);
         }
 
-        .btn-emerald:hover, .btn-emerald:focus {
+        .btn-emerald:hover {
             background-position: right center;
-            box-shadow: 0 14px 35px -2px rgba(16, 185, 129, 0.8), 0 0 30px 6px rgba(52, 211, 153, 0.5);
             transform: translateY(-2px) scale(1.01);
         }
 
@@ -483,135 +461,127 @@
             height: 100%;
         }
 
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.08); opacity: 0.4; }
-            100% { transform: scale(0.95); opacity: 0.8; }
-        }
-
-        .animate-pulse-ring {
-            animation: pulse-ring 3s infinite ease-in-out;
-        }
-
-        /* BORDER GLOW CYCLE: SLOW AND SMOOTH PURPLE -> FUCHSIA -> BLUE */
         @keyframes border-glow-cycle {
             0%, 100% {
-                border-color: rgba(168, 85, 247, 0.85); /* Purple */
-                box-shadow: 0 0 16px rgba(168, 85, 247, 0.5), inset 0 0 8px rgba(168, 85, 247, 0.25);
+                border-color: rgba(168, 85, 247, 0.85);
+                box-shadow: 0 0 16px rgba(168, 85, 247, 0.5);
             }
-            33% {
-                border-color: rgba(236, 72, 153, 0.85); /* Fuchsia Pink */
-                box-shadow: 0 0 16px rgba(236, 72, 153, 0.5), inset 0 0 8px rgba(236, 72, 153, 0.25);
-            }
-            66% {
-                border-color: rgba(59, 130, 246, 0.85); /* Neon Blue */
-                box-shadow: 0 0 16px rgba(59, 130, 246, 0.5), inset 0 0 8px rgba(59, 130, 246, 0.25);
+            50% {
+                border-color: rgba(236, 72, 153, 0.85);
+                box-shadow: 0 0 16px rgba(236, 72, 153, 0.5);
             }
         }
 
         .animated-photo-border {
             border-width: 2px;
-            animation: border-glow-cycle 6s infinite ease-in-out;
+            animation: border-glow-cycle 5s infinite ease-in-out;
+        }
+
+        @keyframes lock-pop {
+            0% { transform: scale(0.6) rotate(-15deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .animate-lock-pop {
+            animation: lock-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
     </style>
 </head>
 <body class="stars-bg min-h-screen relative antialiased selection:bg-fuchsia-600 selection:text-white modal-active">
 
+    <!-- LEAD GATE MODAL POPUP -->
     <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 stars-bg bg-galaxy-950/90 backdrop-blur-2xl transition-all duration-300 overflow-hidden">
         
-        <div class="absolute w-72 h-72 sm:w-96 sm:h-96 bg-fuchsia-600/25 rounded-full blur-3xl pointer-events-none -top-12 -right-12 animate-pulse-ring"></div>
-        <div class="absolute w-72 h-72 sm:w-96 sm:h-96 bg-purple-600/25 rounded-full blur-3xl pointer-events-none -bottom-12 -left-12"></div>
+        <div class="relative w-full max-w-lg glass-card-popup rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-fuchsia-400/50 glow-deep-purple max-h-[95vh] overflow-y-auto space-y-4 my-auto shadow-2xl bg-gradient-to-b from-galaxy-900/95 via-galaxy-950/98 to-galaxy-900/95">
 
-        <div class="relative w-full max-w-lg glass-card-popup rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-fuchsia-400/50 glow-deep-purple max-h-[95vh] overflow-y-auto touch-scroll space-y-4 my-auto shadow-2xl shadow-fuchsia-950/90 bg-gradient-to-b from-galaxy-900/95 via-galaxy-950/98 to-galaxy-900/95">
+            <div class="text-center space-y-3 relative z-10 pt-1">
+                
+                <!-- DYNAMIC CAROUSEL WITH 6 PHOTOS -->
+                <div class="relative w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-1">
+                    <div class="relative w-full h-full rounded-2xl overflow-hidden animated-photo-border shadow-xl">
+                        
+                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-100 scale-100">
+                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a3d12ae6922c650fd589d7d1a8d569ba729312f6/WhatsApp%20Image%202026-08-13%20at%2015.52.19.jpeg" alt="מדלן 1" class="w-full h-full object-cover">
+                        </div>
 
-            <div class="text-center space-y-3 relative z-10">
-                <!-- 4 IMAGES GALLERY STRIP WITH COLOR-CYCLING BORDERS -->
-                <div class="flex items-center justify-center gap-2 sm:gap-3.5 mx-auto py-0.5">
-                    <div class="relative group cursor-pointer">
-                        <div class="w-12 h-12 sm:w-16 sm:h-16 aspect-square rounded-xl sm:rounded-2xl overflow-hidden animated-photo-border shadow-lg transition-all duration-300 group-hover:scale-108" style="animation-delay: 0s;">
-                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a3d12ae6922c650fd589d7d1a8d569ba729312f6/WhatsApp%20Image%202026-08-13%20at%2015.52.19.jpeg" 
-                                 alt="תמונה 1" class="w-full h-full object-cover object-center">
+                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-0 scale-95 pointer-events-none">
+                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a5de83d14f09f15e476e37ac3aac27de97903f0d/WhatsApp%20Image%202026-08-15%20at%2016.15.42.jpeg" alt="מדלן 2" class="w-full h-full object-cover">
                         </div>
-                    </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="w-12 h-12 sm:w-16 sm:h-16 aspect-square rounded-xl sm:rounded-2xl overflow-hidden animated-photo-border shadow-lg transition-all duration-300 group-hover:scale-108" style="animation-delay: 0.6s;">
-                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/31ce80daedfbcbbdc283dfed7f43a442ac237774/WhatsApp%20Image%202026-08-13%20at%2015.57.58.jpeg" 
-                                 alt="תמונה 2" class="w-full h-full object-cover object-center">
+
+                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-0 scale-95 pointer-events-none">
+                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/cafdf6074980b780a00919e0ea794fe6b9ff6fc3/WhatsApp%20Image%202026-08-15%20at%2016.15.42%20(1).jpeg" alt="מדלן 3" class="w-full h-full object-cover">
                         </div>
-                    </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="w-12 h-12 sm:w-16 sm:h-16 aspect-square rounded-xl sm:rounded-2xl overflow-hidden animated-photo-border shadow-lg transition-all duration-300 group-hover:scale-108" style="animation-delay: 1.2s;">
-                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/7b88372a5fa647beabdf31800ed01cf24e081b1a/WhatsApp%20Image%202026-08-13%20at%2015.57.58%20(1).jpeg" 
-                                 alt="תמונה 3" class="w-full h-full object-cover object-center">
+
+                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-0 scale-95 pointer-events-none">
+                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a5de83d14f09f15e476e37ac3aac27de97903f0d/WhatsApp%20Image%202026-08-13%20at%2015.57.58%20(1).jpeg" alt="מדלן 4" class="w-full h-full object-cover">
                         </div>
-                    </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="w-12 h-12 sm:w-16 sm:h-16 aspect-square rounded-xl sm:rounded-2xl overflow-hidden animated-photo-border shadow-lg transition-all duration-300 group-hover:scale-108" style="animation-delay: 1.8s;">
-                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/fca9515b8be2295b467c0aca99730c71adc3ab38/WhatsApp%20Image%202026-08-13%20at%2015.57.58%20(2).jpeg" 
-                                 alt="תמונה 4" class="w-full h-full object-cover object-center">
+
+                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-0 scale-95 pointer-events-none">
+                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a5de83d14f09f15e476e37ac3aac27de97903f0d/WhatsApp%20Image%202026-08-13%20at%2015.57.58%20(2).jpeg" alt="מדלן 5" class="w-full h-full object-cover">
                         </div>
+
+                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-0 scale-95 pointer-events-none">
+                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a5de83d14f09f15e476e37ac3aac27de97903f0d/WhatsApp%20Image%202026-08-13%20at%2015.57.58.jpeg" alt="מדלן 6" class="w-full h-full object-cover">
+                        </div>
+
                     </div>
                 </div>
 
-                <h2 class="font-heading text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-snug px-0.5 drop-shadow-md">
-                    המדריך שיעזור לך <span class="bg-gradient-to-r from-fuchsia-400 via-purple-300 to-pink-400 bg-clip-text text-transparent font-heading">צעד אחר צעד</span> להשתחרר מביישנות ולבנות ביטחון עצמי אותנטי עם אנשים
+                <h2 class="font-heading text-lg sm:text-2xl font-extrabold text-white leading-snug px-1">
+                    <span class="text-fuchsia-300 font-black">4 צעדים</span> להשתחרר מביישנות ולבנות<br>
+                    <span class="bg-gradient-to-r from-fuchsia-400 to-pink-400 bg-clip-text text-transparent font-heading">ביטחון עצמי אותנטי</span> מול אנשים
                 </h2>
 
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-fuchsia-500/15 border border-fuchsia-400/30 text-fuchsia-300 text-xs font-medium">
-                    <span>4 צעדים פרקטיים ומעמיקים שיראו לך איך בדיוק עושים את זה גם!</span>
-                    <span>🗣️</span>
-                </div>
-                
-                <p class="text-gray-300 text-xs sm:text-sm max-w-md mx-auto leading-relaxed">
-                    מילוי קצר של 20 שניות ויש לך גישה מיידית לסרטון ההדרכה!
+                <p class="text-purple-200/90 text-xs sm:text-sm font-medium leading-relaxed max-w-md mx-auto pt-1">
+                    <span class="text-white font-black text-sm sm:text-base drop-shadow-md">המדריך</span> שיעזור לך צעד אחר צעד להרגיש יותר בנוח באינטרקציות,<br>
+                    להבין מה גורם לך <span class="text-white font-semibold underline decoration-white">לחוסר ביטחון</span> ואיך לפתור את זה –<br>
+                    <span class="text-pink-300 font-bold">ולבטא את עצמך בחופשיות יותר 🗣️</span>
                 </p>
             </div>
 
-            <!-- ANIMATED UNLOCK OVERLAY DISPLAYED UPON SUBMIT -->
-            <div id="unlockAnimationOverlay" class="hidden text-center py-10 space-y-4 my-auto relative z-20">
-                <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
-                    <div class="absolute inset-0 bg-fuchsia-500/30 rounded-full animate-ping"></div>
-                    <div class="w-20 h-20 bg-gradient-to-tr from-fuchsia-600 via-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-3xl shadow-2xl shadow-fuchsia-500/60 border-2 border-fuchsia-300">
-                        <i class="fa-solid fa-lock-open animate-bounce"></i>
+            <!-- TANGIBLE ANIMATED UNLOCK OVERLAY -->
+            <div id="unlockAnimationOverlay" class="hidden text-center py-8 space-y-4 relative z-20">
+                <div class="relative w-20 h-20 mx-auto flex items-center justify-center">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-fuchsia-500 to-pink-500 rounded-full blur-xl opacity-80 animate-pulse"></div>
+                    <div class="relative w-16 h-16 rounded-full bg-galaxy-900 border-2 border-fuchsia-400 flex items-center justify-center shadow-2xl animate-lock-pop">
+                        <i class="fa-solid fa-lock-open text-3xl text-fuchsia-300 animate-bounce"></i>
                     </div>
                 </div>
-                <div class="space-y-1.5">
-                    <h3 class="font-heading text-xl sm:text-2xl font-extrabold text-white">המנעול נפתח! 🔓</h3>
-                    <p class="text-xs sm:text-sm text-fuchsia-200 font-medium">פותח את הגישה למדריך עבורך...</p>
+                <div class="space-y-1">
+                    <h3 class="font-heading text-xl font-black text-white tracking-wide">המנעול נפתח! 🔓</h3>
+                    <p class="text-xs text-fuchsia-200 font-medium">מעבירים אותך למדריך...</p>
                 </div>
             </div>
 
-            <form onsubmit="return handleGateSubmit(event)" class="space-y-3 relative z-10 pt-1">
+            <form onsubmit="return handleGateSubmit(event)" class="space-y-2.5 relative z-10 pt-1">
                 <div class="relative">
                     <input type="text" id="leadName" required placeholder="שם מלא *" 
-                           class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-3.5 py-3 text-base text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400 transition-all">
-                    <i class="fa-regular fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-purple-400 text-sm"></i>
+                           class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400">
                 </div>
 
                 <div class="relative">
                     <input type="tel" id="leadPhone" required placeholder="מספר טלפון *" dir="rtl"
-                           class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-3.5 py-3 text-base text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400 transition-all">
-                    <i class="fa-solid fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-purple-400 text-sm"></i>
+                           class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400">
                 </div>
 
                 <div class="relative">
                     <input type="email" id="leadEmail" required placeholder="כתובת מייל *" dir="rtl"
-                           class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-3.5 py-3 text-base text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400 transition-all">
-                    <i class="fa-regular fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-purple-400 text-sm"></i>
+                           class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400">
                 </div>
 
                 <div>
-                    <textarea id="leadPain" rows="2" placeholder="מה הקושי העיקרי שלך כרגע בנושא הזה?" 
-                              class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl p-3 text-base text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400 transition-all resize-none"></textarea>
+                    <textarea id="leadPain" rows="2" placeholder="מה הקושי העיקרי שלך כרגע מול אנשים?" 
+                              class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl p-2.5 text-base sm:text-sm text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400 resize-none"></textarea>
                 </div>
 
-                <button type="submit" class="btn-galaxy w-full py-3.5 px-6 rounded-xl text-white font-bold text-base sm:text-lg flex items-center justify-center gap-2 mt-2">
+                <button type="submit" class="btn-galaxy w-full py-3 px-5 rounded-xl text-white font-bold text-base flex items-center justify-center gap-2 mt-1 active:scale-98 transition-transform">
                     <span>אני רוצה לקבל את המדריך!</span>
-                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                    <i class="fa-solid fa-arrow-left text-xs"></i>
                 </button>
 
-                <div class="text-center pt-2">
-                    <button type="button" onclick="openAdminModal()" class="text-xs text-purple-300/70 hover:text-purple-200 transition-colors underline decoration-purple-500/40">
+                <div class="text-center pt-1">
+                    <button type="button" onclick="openAdminModal()" class="text-2xs text-purple-300/60 hover:text-purple-200 transition-colors underline decoration-purple-500/30">
                         מדלן פריד - לבטא את עצמך באותנטיות
                     </button>
                 </div>
@@ -619,215 +589,157 @@
         </div>
     </div>
 
-    <main class="relative min-h-screen pb-16">
-        
-        <header class="border-b border-purple-900/40 bg-galaxy-950/80 backdrop-blur-md sticky top-0 z-30">
-            <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-                
-                <div onclick="document.getElementById('adminModal').classList.remove('hidden')" 
-                     class="flex items-center gap-2 cursor-pointer group transition-all" 
-                     title="לחצי לצפייה בלוח מנהלת">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-fuchsia-600 to-purple-500 flex items-center justify-center text-white font-bold text-sm shadow-md group-hover:scale-105 transition-transform">
-                        M
-                    </div>
-                    <span class="font-heading font-bold text-sm sm:text-base text-white group-hover:text-fuchsia-300 transition-colors">
-                        מדלן פריד | לבטא את עצמך באותנטיות
-                    </span>
-                </div>
+    <!-- MAIN PAGE CONTENT BELOW MODAL -->
+    <main class="relative min-h-screen pb-12 pt-6">
 
-                <button onclick="document.getElementById('adminModal').classList.remove('hidden')" class="text-xs text-purple-300 hover:text-white px-2.5 py-1 rounded-lg border border-purple-500/30 hover:border-purple-400 transition-all">
-                    <i class="fa-solid fa-lock text-2xs ml-1"></i>
-                    לוח מנהלת
-                </button>
-            </div>
-        </header>
+        <div class="max-w-3xl mx-auto px-3.5 sm:px-6 space-y-6">
 
-        <div class="max-w-4xl mx-auto px-3.5 sm:px-6 pt-6 sm:pt-10 space-y-8">
-
-            <div class="text-center space-y-3">
-                <h1 class="font-heading text-2xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
-                    המדריך שיעזור לך <span class="bg-gradient-to-r from-fuchsia-400 via-purple-300 to-pink-400 bg-clip-text text-transparent font-heading">צעד אחר צעד</span> להשתחרר מביישנות ולבנות ביטחון עצמי אותנטי עם אנשים
+            <!-- MAIN PAGE TITLE WITH EXACT LINE BREAK -->
+            <div class="text-center space-y-2">
+                <h1 class="font-heading text-xl sm:text-3xl font-extrabold text-white leading-snug">
+                    המדריך שיעזור לך להשתחרר מביישנות<br>
+                    <span class="bg-gradient-to-r from-fuchsia-400 via-purple-300 to-pink-400 bg-clip-text text-transparent font-heading">ולבנות ביטחון עצמי אותנטי מול אנשים</span>
                 </h1>
             </div>
 
-            <!-- PERSONALIZED WELCOME SPEECH BUBBLE -->
-            <div id="personalizedWelcome" class="hidden transition-all duration-500">
-                <div class="bg-white text-gray-900 rounded-2xl p-4 sm:p-5 shadow-2xl relative border-2 border-fuchsia-300 flex items-start gap-3.5 max-w-2xl mx-auto">
-                    <div class="relative shrink-0">
-                        <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
-                             alt="מדלן" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-fuchsia-500 shadow-md">
-                        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
-                    </div>
-
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-sm sm:text-base text-purple-950">מדלן</span>
-                        </div>
-                        <p class="text-xs sm:text-sm text-gray-800 leading-relaxed font-medium">
-                            היי <span id="userNameDisplay" class="font-extrabold text-fuchsia-700"></span>, איזה כיף שאת/ה כאן! המדריך מחכה לך ממש כאן בסרטון! 🎬
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PERSONAL QUOTE BLOCK WITH STRAIGHT UNDERLINE -->
-            <div class="glass-card rounded-2xl p-5 sm:p-7 border border-purple-500/30 text-center space-y-3 relative overflow-hidden">
-                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-fuchsia-600/10 rounded-full blur-2xl"></div>
-                <i class="fa-solid fa-quote-right text-3xl text-fuchsia-400/40"></i>
-                
-                <div class="space-y-2 text-sm sm:text-base text-gray-200 leading-relaxed max-w-2xl mx-auto font-normal">
-                    <p class="font-semibold text-purple-200">
-                        "הלוואי והייתי יודעת את הדברים האלה קודם,
-                    </p>
-                    <p>
-                        היה חוסך לי המון רגעים שהרגשתי <span class="text-fuchsia-300 font-semibold underline decoration-fuchsia-400">נבלעת בסיטואציה חברתית</span>, לא שייכת, מרגישה שמשהו בי לא בסדר..
-                    </p>
-                    <p>
-                        אלה תגובות אנושיות מתוך חוסר ביטחון – ואם זה גם קורה לך,
-                    </p>
-                    <p class="text-fuchsia-300 font-bold text-base sm:text-lg pt-1">
-                        הגיע הזמן לעבוד על זה, והסרטון הזה הוא כבר הצעד הראשון שלך! 🩷
+            <!-- PERSONALIZED WELCOME BANNER WITH EXACT LINE BREAKS -->
+            <div id="personalizedWelcome" class="transition-all duration-500">
+                <div class="bg-white/95 backdrop-blur-md text-gray-900 rounded-2xl p-4 sm:p-5 shadow-2xl border-2 border-fuchsia-400 flex items-center gap-3 sm:gap-4 max-w-xl mx-auto">
+                    <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
+                         alt="מדלן" class="w-12 h-12 rounded-full object-cover border-2 border-fuchsia-600 shadow-md shrink-0">
+                    <p class="text-xs sm:text-sm text-gray-900 font-semibold leading-relaxed">
+                        היי <span id="userNameDisplay" class="font-black text-fuchsia-700"></span>, איזה כיף שהגעת לכאן!<br>
+                        המדריך מחכה לך למטה 👇<br>
+                        <span class="text-fuchsia-900 font-bold">מחכה לשמוע איך היה לך.</span>
                     </p>
                 </div>
             </div>
 
-            <!-- VIDEO CONTAINER WITH SUBTLE QUESTIONNAIRE BUTTON BELOW -->
-            <div class="glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-fuchsia-500/40 glow-deep-purple space-y-5">
+            <!-- PERSONAL QUOTE BLOCK WITH EXACT LINE BREAKS -->
+            <div class="glass-card rounded-2xl p-4 sm:p-5 text-center space-y-2 border border-purple-500/40 max-w-2xl mx-auto shadow-xl">
+                <p class="text-xs sm:text-sm text-gray-100 leading-relaxed font-medium">
+                    "אם הייתי יודעת את הכלים והתוכן הזה לפני,<br>
+                    זה היה חוסך לי המון שנים שהייתי <span class="text-fuchsia-300 font-bold underline decoration-fuchsia-400/80">נבלעת באינטרקציות</span>,<br>
+                    מרגישה לא שייכת, פוחדת להראות את עצמי באמת מול אנשים..<br>
+                    וכן אפשר אחרת כשיודעים לעשות את זה נכון. שמחה שהגעת לכאן." 🩷
+                </p>
+            </div>
+
+            <!-- VIDEO EMBED CARD -->
+            <div class="glass-card rounded-2xl p-3.5 sm:p-6 border border-fuchsia-500/40 glow-deep-purple space-y-4">
                 
                 <div class="text-center space-y-2">
-                    <h2 class="font-heading text-lg sm:text-2xl font-bold text-white leading-snug">
-                        שיטת 4 צעדים להפסיק להתבייש ולהתחיל לחזק את הביטחון ותחושת הנוחות
-                        <br class="hidden sm:inline">
-                        <span class="text-fuchsia-300">באינטראקציות עם אנשים</span> 🗣️
+                    <h2 class="font-heading text-base sm:text-xl font-bold text-white">
+                        המדריך: 4 צעדים איך להפסיק להתבייש ולחזק את הביטחון שלך מול אנשים
                     </h2>
-                    
-                    <p class="text-xs sm:text-sm text-fuchsia-200/90 font-medium tracking-wide">
-                        * מומלץ לכתוב תובנות במחברת או בפתקים 📝
+                    <p class="text-xs text-fuchsia-300/90 font-medium bg-purple-950/60 py-1.5 px-3.5 rounded-full inline-block border border-purple-500/40 shadow-sm">
+                        <i class="fa-solid fa-pen-to-square text-fuchsia-400 ml-1"></i>נ.ב: ממליצה לכתוב תובנות במחברת 📝
                     </p>
                 </div>
 
-                <div class="relative w-full aspect-video rounded-xl sm:rounded-2xl overflow-hidden border border-purple-400/40 shadow-2xl bg-black">
-                    <iframe src="https://www.youtube.com/embed/KQ3UdwH-9MU" 
-                            title="סרטון הדרכה - 4 צעדים לביטחון עצמי"
+                <div class="relative w-full aspect-video rounded-xl overflow-hidden border border-purple-400/30 shadow-2xl bg-black">
+                    <iframe src="https://www.youtube-nocookie.com/embed/KQ3UdwH-9MU?enablejsapi=1&rel=0" 
+                            title="סרטון הדרכה"
                             class="w-full h-full absolute inset-0 z-10" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                             allowfullscreen></iframe>
                 </div>
 
-                <!-- SUBTLE, UNASSUMING QUESTIONNAIRE BUTTON LINKING TO NETLIFY -->
-            <div class="text-center pt-2">
-                <a href="https://madlenfrid.netlify.app/" target="_blank" rel="noopener noreferrer" 
-                   class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-950/50 hover:bg-purple-900/60 border border-purple-500/30 text-purple-300 hover:text-white text-xs sm:text-sm font-medium transition-all group opacity-90 hover:opacity-100">
-                    <i class="fa-solid fa-list-check text-fuchsia-400 text-xs"></i>
-                    <span>למעבר לשאלון התאמה לפגישה</span>
-                    <i class="fa-solid fa-chevron-left text-2xs group-hover:-translate-x-1 transition-transform text-purple-400"></i>
-                </a>
+                <div class="text-center pt-1">
+                    <a href="https://madlenfrid.netlify.app/" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-purple-200 hover:text-white text-xs sm:text-sm font-semibold transition-all group shadow-md hover:scale-105">
+                        <i class="fa-solid fa-list-check text-fuchsia-400 text-sm"></i>
+                        <span>למעבר לשאלון אבחון לפגישה</span>
+                        <i class="fa-solid fa-chevron-left text-xs group-hover:-translate-x-1 transition-transform text-fuchsia-400"></i>
+                    </a>
+                </div>
             </div>
-        </div>
 
-        <div id="sessionSection" class="glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-9 border border-fuchsia-400/50 glow-deep-purple space-y-7 relative overflow-hidden bg-gradient-to-b from-galaxy-900/95 via-galaxy-950/98 to-galaxy-900/95 shadow-2xl">
-            
-            <div class="text-center space-y-4 relative z-10">
+            <!-- 1:1 SESSION OFFER SECTION -->
+            <div id="sessionSection" class="glass-card rounded-2xl p-4 sm:p-7 border border-fuchsia-400/50 glow-deep-purple space-y-5 relative overflow-hidden bg-gradient-to-b from-galaxy-900/95 via-galaxy-950/98 to-galaxy-900/95 shadow-xl">
                 
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/40 text-fuchsia-200 text-xs sm:text-sm font-bold tracking-wide shadow-inner">
-                    <span>✨ איזה כיף, הצעד הבא שלך מחכה לך כאן!</span>
-                </div>
-
-                <h2 class="font-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight flex flex-wrap items-center justify-center gap-2 pt-1">
-                    <span class="text-2xl sm:text-3xl">📹</span>
-                    <span class="bg-gradient-to-r from-fuchsia-300 via-purple-200 to-pink-300 bg-clip-text text-transparent font-heading">
-                        מגיעה לך הטבה על פגישה אישית איתי 1:1
-                    </span>
-                </h2>
-
-                <!-- ENHANCED PREMIUM PRICING BADGE -->
-                <div class="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-5 px-6 py-3 rounded-2xl bg-galaxy-900/90 border border-fuchsia-500/50 shadow-2xl shadow-fuchsia-950/80 mx-auto backdrop-blur-md">
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight">₪97</span>
-                        <span class="text-sm sm:text-base text-gray-400 line-through font-medium">₪350</span>
+                <div class="text-center space-y-3 relative z-10">
+                    
+                    <div class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/40 text-fuchsia-200 text-xs sm:text-sm font-bold shadow-inner">
+                        <span>✨ איזה כיף, הצעד הבא שלך מחכה לך כאן! ✨</span>
+                        <i class="fa-solid fa-chevron-down text-xs animate-bounce text-fuchsia-300"></i>
                     </div>
-                    <span class="w-px h-6 bg-fuchsia-500/40 hidden sm:block"></span>
-                    <div class="flex items-center gap-2 text-xs sm:text-sm text-fuchsia-200 font-semibold">
-                        <i class="fa-regular fa-clock text-fuchsia-400 text-base"></i>
-                        <span>פגישה ממוקדת בזום (60 דקות)</span>
+
+                    <h2 class="font-heading text-xl sm:text-3xl font-extrabold text-white flex items-center justify-center gap-2">
+                        <span>📹</span>
+                        <span class="bg-gradient-to-r from-fuchsia-300 to-pink-300 bg-clip-text text-transparent font-heading">
+                            מגיעה לך הטבה על פגישה אישית 1:1
+                        </span>
+                    </h2>
+
+                    <div class="inline-flex items-center gap-4 px-5 py-2.5 rounded-xl bg-galaxy-900/90 border border-fuchsia-500/40 shadow-lg mx-auto">
+                        <div class="flex items-baseline gap-1.5">
+                            <span class="text-2xl sm:text-3xl font-black text-emerald-400">₪97</span>
+                            <span class="text-xs sm:text-sm text-gray-400 line-through">₪350</span>
+                        </div>
+                        <span class="w-px h-5 bg-fuchsia-500/30"></span>
+                        <span class="text-xs sm:text-sm text-fuchsia-200 font-semibold">פגישה ממוקדת בזום (60 דקות)</span>
                     </div>
+
+                    <p class="text-xs sm:text-sm text-gray-200 max-w-md mx-auto leading-relaxed">
+                        נבין ביחד לעומק מה <span class="text-fuchsia-300 font-bold underline decoration-fuchsia-400/70">הסיפור הפנימי</span> שעוצר אותך מלבטא את עצמך <span class="text-fuchsia-300 font-bold underline decoration-fuchsia-400/70">בביטחון ובחופשיות</span> מול אנשים, <span class="text-fuchsia-300 font-bold underline decoration-fuchsia-400">ונעבוד על זה.</span>
+                    </p>
                 </div>
 
-                <p class="text-xs sm:text-base text-gray-200 max-w-xl mx-auto leading-relaxed pt-1">
-                    נבין ביחד לעומק מה <span class="text-fuchsia-300 font-bold underline decoration-fuchsia-400/70">הסיפור הפנימי</span> שעוצר אותך מלבטא את עצמך <span class="text-fuchsia-300 font-bold underline decoration-fuchsia-400/70">בביטחון ובחופשיות</span> מול אנשים ובאינטראקציות,
-                    <br>
-                    <span class="text-fuchsia-300 font-extrabold text-sm sm:text-lg inline-block mt-1 underline decoration-fuchsia-400">ונעבוד על זה.</span>
-                </p>
-
-                <div class="inline-flex items-center gap-2 text-2xs sm:text-xs text-purple-300/80 bg-purple-900/30 px-3 py-1 rounded-full border border-purple-500/20">
-                    <i class="fa-solid fa-bolt text-amber-400"></i>
-                    <span>מספר המקומות מוגבל מדי שבוע כדי להעניק לך תשומת לב מלאה</span>
-                </div>
-            </div>
-
-            <form id="sessionForm" onsubmit="return handleDirectSessionSubmit(event)" class="space-y-3.5 max-w-md mx-auto pt-1 relative z-10">
-                <div class="relative">
+                <form id="sessionForm" onsubmit="return handleDirectSessionSubmit(event)" class="space-y-3 max-w-sm mx-auto pt-1 relative z-10">
                     <input type="text" id="sessionLeadName" required placeholder="שם מלא *" 
-                           class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-3.5 py-3 text-base text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400 transition-all">
-                    <i class="fa-regular fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-purple-400 text-sm"></i>
-                </div>
+                           class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400">
 
-                <div class="relative">
                     <input type="tel" id="sessionLeadPhone" required placeholder="מספר טלפון *" dir="rtl"
-                           class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-3.5 py-3 text-base text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400 transition-all">
-                    <i class="fa-solid fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-purple-400 text-sm"></i>
-                </div>
+                           class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400">
 
-                <div>
                     <textarea id="sessionLeadPain" rows="2" placeholder="על מה הכי חשוב לך לעבוד ולפתור בפגישה הזאת?" 
-                              class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl p-3 text-base text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400 focus:ring-1 focus:ring-fuchsia-400 transition-all resize-none"></textarea>
-                </div>
+                              class="w-full bg-galaxy-950/80 border border-purple-500/40 rounded-xl p-2.5 text-base sm:text-sm text-white placeholder-purple-300/70 focus:outline-none focus:border-fuchsia-400 resize-none"></textarea>
 
-                <button type="submit" class="btn-emerald w-full py-4 px-6 rounded-xl text-white font-extrabold text-lg sm:text-xl flex items-center justify-center gap-2.5 mt-3 shadow-xl">
-                    <span>אני רוצה לקבוע פגישה אישית!</span>
-                    <i class="fa-solid fa-arrow-left text-sm"></i>
-                </button>
+                    <button type="submit" class="btn-emerald w-full py-3.5 px-5 rounded-xl text-white font-extrabold text-base sm:text-lg flex items-center justify-center gap-2 mt-2 shadow-lg active:scale-98 transition-transform">
+                        <span>אני רוצה לקבוע פגישה אישית!</span>
+                        <i class="fa-solid fa-arrow-left text-xs"></i>
+                    </button>
 
-                <div class="flex items-center justify-center gap-2 text-2xs sm:text-xs text-gray-400 pt-1">
-                    <i class="fa-solid fa-lock text-emerald-400"></i>
-                    <span>תשלום מאובטח ב-SSL • מעבר מיידי לתיאום מועד נוח</span>
-                </div>
-            </form>
+                    <div class="flex items-center justify-center gap-1.5 text-2xs text-gray-400 pt-0.5">
+                        <i class="fa-solid fa-lock text-emerald-400"></i>
+                        <span>תשלום מאובטח ב-SSL • מעבר מיידי לתיאום מועד נוח</span>
+                    </div>
+                </form>
 
-            <div id="sessionSuccessMsg" class="hidden text-center py-6 space-y-3">
-                <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-3xl mx-auto border border-emerald-500/40">
-                    <i class="fa-solid fa-check"></i>
+                <div id="sessionSuccessMsg" class="hidden text-center py-4 space-y-2">
+                    <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-2xl mx-auto border border-emerald-500/40">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h3 class="font-heading text-lg font-bold text-white">הפרטים התקבלו!</h3>
+                    <p class="text-xs text-gray-300">מעבירים אותך כעת לתשלום והסדרת התור...</p>
                 </div>
-                <h3 class="font-heading text-xl font-bold text-white">הפרטים התקבלו בהצלחה!</h3>
-                <p class="text-sm text-gray-300">מעבירים אותך כעת לעמוד התשלום והסדרת התור...</p>
             </div>
-        </div>
 
-        <footer class="text-center py-8 border-t border-purple-900/30 mt-12">
-            <button type="button" onclick="openAdminModal()" class="text-xs text-purple-300/60 hover:text-purple-200 transition-colors underline decoration-purple-500/40">
-                מדלן פריד - לבטא את עצמך באותנטיות
-            </button>
-        </footer>
+            <footer class="text-center py-6 border-t border-purple-900/30 mt-8">
+                <button type="button" onclick="openAdminModal()" class="text-xs text-purple-300/60 hover:text-purple-200 transition-colors underline decoration-purple-500/30">
+                    מדלן פריד - לבטא את עצמך באותנטיות
+                </button>
+            </footer>
 
         </div>
     </main>
 
-    <!-- ADMIN MODAL -->
+    <!-- ADMIN MODAL PANEL -->
     <div id="adminModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-5 bg-galaxy-950/95 backdrop-blur-md overflow-y-auto">
         <div class="relative w-full max-w-4xl glass-card rounded-2xl p-4 sm:p-6 border border-purple-500/40 my-auto space-y-4">
             <div class="flex items-center justify-between border-b border-purple-500/30 pb-3">
-                <h3 class="font-heading font-bold text-lg sm:text-xl text-white flex items-center gap-2">
+                <h3 class="font-heading font-bold text-base sm:text-lg text-white flex items-center gap-2">
                     <i class="fa-solid fa-user-gear text-fuchsia-400"></i>
                     כניסה מנהלת
                 </h3>
-                <button onclick="document.getElementById('adminModal').classList.add('hidden')" class="text-gray-400 hover:text-white p-1 text-lg">
+                <button onclick="document.getElementById('adminModal').classList.add('hidden')" class="text-gray-400 hover:text-white p-1 text-base">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
-            <!-- PIN Login Step -->
-            <div id="adminAuthSection" class="text-center py-6 space-y-4">
+            <div id="adminAuthSection" class="text-center py-6 space-y-3">
                 <p class="text-xs text-purple-300/80 font-medium">קוד כניסה מנהלת</p>
                 <div class="flex justify-center gap-2 max-w-xs mx-auto">
                     <input type="password" id="adminPinInput" placeholder="" class="w-full bg-galaxy-950 border border-purple-500/40 rounded-xl px-4 py-2 text-center text-white text-sm focus:outline-none focus:border-fuchsia-400">
@@ -836,7 +748,6 @@
                 <p id="adminPinError" class="text-xs text-rose-400 hidden">קוד שגוי, נסי שוב</p>
             </div>
 
-            <!-- Admin Content Step -->
             <div id="adminContentSection" class="hidden space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b border-purple-900/40 pb-3">
                     <div class="flex gap-2">
@@ -861,7 +772,6 @@
                             </tr>
                         </thead>
                         <tbody id="leadsTableBody" class="divide-y divide-purple-900/30">
-                            <!-- Populated dynamically -->
                         </tbody>
                     </table>
                 </div>
