@@ -2,8 +2,8 @@
 <html lang="he" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>4 צעדים לביטחון עצמי - מדריך חינמי</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>מביישנות לביטחון עצמי אמיתי מול אנשים | מדלן פריד</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -209,13 +209,13 @@
                 extend: {
                     colors: {
                         galaxy: {
-                            950: '#070414',
-                            900: '#0d0724',
-                            850: '#130a33',
-                            800: '#1d0f47',
-                            700: '#2e156b',
-                            600: '#461f9c',
-                            500: '#682cb3'
+                            950: '#060312',
+                            900: '#0c0622',
+                            850: '#120930',
+                            800: '#1b0e44',
+                            700: '#2b1466',
+                            600: '#431e98',
+                            500: '#642aa8'
                         }
                     },
                     fontFamily: {
@@ -269,7 +269,7 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.remove('opacity-0', 'translate-y-16', 'scale-95');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10', 'scale-95');
                         entry.target.classList.add('opacity-100', 'translate-y-0', 'scale-100');
                     }
                 });
@@ -279,7 +279,6 @@
             elements.forEach(el => observer.observe(el));
         }
 
-        // CLICKABLE ARROW NAVIGATION FUNCTION WITH ACCURATE SCROLL TARGETING
         window.scrollToNextSection = function(preferredId, fallbackId) {
             let el = document.getElementById(preferredId);
             if (!el || el.classList.contains('hidden')) {
@@ -288,7 +287,7 @@
                 }
             }
             if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         };
 
@@ -338,7 +337,6 @@
             var headerEl = document.querySelector('#leadModal .text-center');
             var unlockOverlay = document.getElementById('unlockAnimationOverlay');
 
-            // Audio unlock sound synthesis
             try {
                 const AudioCtx = window.AudioContext || window.webkitAudioContext;
                 if (AudioCtx) {
@@ -378,12 +376,12 @@
 
                 var progress = 0;
                 var progressInterval = setInterval(function() {
-                    progress += 8;
+                    progress += 10;
                     if (progressBar) progressBar.style.width = Math.min(progress, 100) + '%';
                     if (progress >= 100) {
                         clearInterval(progressInterval);
                     }
-                }, 80);
+                }, 70);
 
                 setTimeout(function() {
                     var modal = document.getElementById('leadModal');
@@ -393,15 +391,13 @@
                             modal.classList.add('hidden');
                             modal.classList.remove('opacity-0');
                             document.body.classList.remove('modal-active');
-                            
-                            // AUTO SCROLL SMOOTHLY TO TOP OF MAIN GUIDE CONTENT
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                         }, 500);
                     } else {
                         document.body.classList.remove('modal-active');
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     }
-                }, 1600);
+                }, 1500);
             } else {
                 var modal = document.getElementById('leadModal');
                 if (modal) modal.classList.add('hidden');
@@ -434,13 +430,14 @@
 
             var formEl = document.getElementById('sessionForm');
             var successEl = document.getElementById('sessionSuccessMsg');
+            var leadDisplayName = document.getElementById('successLeadName');
+
+            if (leadDisplayName && name) {
+                leadDisplayName.textContent = name;
+            }
 
             if (formEl) formEl.classList.add('hidden');
             if (successEl) successEl.classList.remove('hidden');
-
-            setTimeout(function() {
-                window.open("https://pay.grow.link/MTAzNjE5~bb842ce0b7152b2425e1ec2cf0d0a6a0-MzgzNzU1MQ", "_blank");
-            }, 800);
 
             return false;
         };
@@ -448,17 +445,18 @@
 
     <style>
         html, body {
-            background-color: #070414;
+            background-color: #060312;
             color: #ffffff;
             font-family: 'Heebo', sans-serif;
             overflow-x: hidden;
-            line-height: 1.65;
+            line-height: 1.6;
             -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
             scrollbar-width: none !important;
             -ms-overflow-style: none !important;
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* HIDE SIDE SCROLLBARS GLOBALLY */
         html::-webkit-scrollbar,
         body::-webkit-scrollbar,
         *::-webkit-scrollbar {
@@ -472,25 +470,24 @@
         #leadModal * {
             -ms-overflow-style: none !important;
             scrollbar-width: none !important;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* RICH COSMIC OMBRE STARS BACKGROUND */
         .stars-bg {
-            background-color: #070414;
+            background-color: #060312;
             background-image: 
-                radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.85), rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 120px 180px, rgba(217, 70, 239, 0.7), rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 240px 90px, rgba(255, 255, 255, 0.8), rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 310px 220px, rgba(168, 85, 247, 0.75), rgba(0,0,0,0)),
-                radial-gradient(circle at 50% 0%, rgba(147, 51, 234, 0.38), transparent 70%),
-                radial-gradient(circle at 85% 40%, rgba(192, 38, 211, 0.28), transparent 60%),
-                radial-gradient(circle at 15% 75%, rgba(99, 102, 241, 0.22), transparent 60%);
+                radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.9), rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 120px 180px, rgba(217, 70, 239, 0.75), rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 240px 90px, rgba(255, 255, 255, 0.85), rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 310px 220px, rgba(168, 85, 247, 0.8), rgba(0,0,0,0)),
+                radial-gradient(circle at 50% 0%, rgba(147, 51, 234, 0.4), transparent 70%),
+                radial-gradient(circle at 85% 40%, rgba(192, 38, 211, 0.3), transparent 60%),
+                radial-gradient(circle at 15% 75%, rgba(99, 102, 241, 0.25), transparent 60%);
             background-repeat: repeat, repeat, repeat, repeat, no-repeat, no-repeat, no-repeat;
             background-size: 280px 280px, 360px 360px, 240px 240px, 320px 320px, 100% 100%, 100% 100%, 100% 100%;
             background-attachment: fixed;
         }
 
-        /* SOFT OMBRE BACKLIGHT AMBIENT HALO EFFECT */
         .ombre-halo {
             position: relative;
         }
@@ -498,14 +495,13 @@
             content: '';
             position: absolute;
             inset: -20px;
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(217, 70, 239, 0.2) 50%, rgba(99, 102, 241, 0.18) 100%);
-            filter: blur(32px);
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.26) 0%, rgba(217, 70, 239, 0.22) 50%, rgba(99, 102, 241, 0.18) 100%);
+            filter: blur(34px);
             border-radius: 2.5rem;
             z-index: -1;
             pointer-events: none;
         }
 
-        /* REFLECTION GLOW UNDER CARDS WHEN SCROLLING DOWN */
         .scroll-reflection {
             position: relative;
         }
@@ -516,24 +512,21 @@
             left: 10%;
             right: 10%;
             height: 20px;
-            background: radial-gradient(ellipse at center, rgba(217, 70, 239, 0.35) 0%, rgba(168, 85, 247, 0.15) 50%, transparent 80%);
-            filter: blur(12px);
+            background: radial-gradient(ellipse at center, rgba(217, 70, 239, 0.38) 0%, rgba(168, 85, 247, 0.18) 50%, transparent 80%);
+            filter: blur(14px);
             pointer-events: none;
             z-index: -1;
         }
 
-        /* SPEECH BUBBLE STYLING WITH TAIL POINTING DIRECTLY RIGHT TOWARDS MADLEN'S AVATAR IMAGE ON THE RIGHT */
-        /* SPEECH BUBBLE STYLING WITH TAIL POINTING LEFT TOWARDS MADLEN'S AVATAR IMAGE ON THE LEFT */
         .speech-bubble {
             position: relative;
-            background: linear-gradient(180deg, rgba(24, 12, 60, 0.95) 0%, rgba(15, 7, 38, 0.92) 100%);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            border: 1px solid rgba(217, 70, 239, 0.4);
-            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(168, 85, 247, 0.3);
+            background: linear-gradient(180deg, rgba(24, 12, 60, 0.96) 0%, rgba(15, 7, 38, 0.94) 100%);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(217, 70, 239, 0.42);
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.8), 0 0 28px -5px rgba(168, 85, 247, 0.35);
         }
 
-        /* SPEECH BUBBLE TAIL POINTING LEFT DIRECTLY AT THE AVATAR IMAGE */
         .speech-bubble::after {
             content: '';
             position: absolute;
@@ -543,63 +536,62 @@
             height: 0;
             border-top: 8px solid transparent;
             border-bottom: 8px solid transparent;
-            border-right: 10px solid rgba(24, 12, 60, 0.95);
+            border-right: 10px solid rgba(24, 12, 60, 0.96);
             border-left: none;
         }
 
-        /* DARK GLASS BACKDROP PANEL FOR HIGH CONTRAST & READABILITY */
         .dark-glass-card {
-            background: linear-gradient(180deg, rgba(11, 5, 33, 0.94) 0%, rgba(6, 3, 20, 0.92) 100%);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(217, 70, 239, 0.32);
-            box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.9), 0 0 35px -5px rgba(168, 85, 247, 0.25);
+            background: linear-gradient(180deg, rgba(11, 5, 33, 0.95) 0%, rgba(6, 3, 20, 0.93) 100%);
+            backdrop-filter: blur(26px);
+            -webkit-backdrop-filter: blur(26px);
+            border: 1px solid rgba(217, 70, 239, 0.35);
+            box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.92), 0 0 35px -5px rgba(168, 85, 247, 0.28);
         }
 
         .glass-panel {
-            background: linear-gradient(180deg, rgba(19, 10, 51, 0.88) 0%, rgba(13, 7, 36, 0.84) 100%);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            border: 1px solid rgba(192, 38, 211, 0.28);
-            box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.8), 0 0 35px -8px rgba(168, 85, 247, 0.22);
+            background: linear-gradient(180deg, rgba(19, 10, 51, 0.9) 0%, rgba(13, 7, 36, 0.86) 100%);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(192, 38, 211, 0.32);
+            box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.85), 0 0 35px -8px rgba(168, 85, 247, 0.25);
         }
 
         .glass-card-popup {
-            background: linear-gradient(180deg, rgba(16, 9, 42, 0.97) 0%, rgba(9, 5, 24, 0.96) 100%);
+            background: linear-gradient(180deg, rgba(16, 9, 42, 0.98) 0%, rgba(9, 5, 24, 0.97) 100%);
             backdrop-filter: blur(28px);
             -webkit-backdrop-filter: blur(28px);
-            border: 1px solid rgba(217, 70, 239, 0.38);
-            box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.92), 0 0 40px -5px rgba(168, 85, 247, 0.3);
+            border: 1px solid rgba(217, 70, 239, 0.42);
+            box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.95), 0 0 45px -5px rgba(168, 85, 247, 0.35);
         }
 
         .btn-primary {
             background: linear-gradient(135deg, #6d28d9 0%, #a855f7 45%, #c026d3 75%, #e11d48 100%);
             background-size: 200% 200%;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 28px -5px rgba(168, 85, 247, 0.45);
+            box-shadow: 0 10px 28px -5px rgba(168, 85, 247, 0.5);
         }
 
         .btn-primary:hover, .btn-primary:active {
             background-position: right center;
             transform: translateY(-2px);
-            box-shadow: 0 14px 34px -3px rgba(192, 38, 211, 0.65);
+            box-shadow: 0 14px 34px -3px rgba(192, 38, 211, 0.7);
         }
 
         .btn-emerald {
             background: linear-gradient(135deg, #047857 0%, #10b981 50%, #059669 100%);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.45);
         }
 
         .btn-emerald:hover, .btn-emerald:active {
             transform: translateY(-2px);
-            box-shadow: 0 14px 30px -3px rgba(16, 185, 129, 0.6);
+            box-shadow: 0 14px 30px -3px rgba(16, 185, 129, 0.65);
         }
 
         .btn-instagram-icon {
             background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 25px -4px rgba(220, 39, 67, 0.4);
+            box-shadow: 0 8px 25px -4px rgba(220, 39, 67, 0.45);
         }
 
         .btn-instagram-icon:hover, .btn-instagram-icon:active {
@@ -608,9 +600,9 @@
 
         .btn-tiktok-icon {
             background: linear-gradient(135deg, #111111 0%, #222222 50%, #ff0050 100%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 25px -4px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 8px 25px -4px rgba(0, 0, 0, 0.65);
         }
 
         .btn-tiktok-icon:hover, .btn-tiktok-icon:active {
@@ -629,7 +621,7 @@
                 border-color: rgba(192, 38, 211, 0.6);
             }
             50% {
-                border-color: rgba(168, 85, 247, 0.8);
+                border-color: rgba(168, 85, 247, 0.85);
             }
         }
 
@@ -639,37 +631,37 @@
         }
 
         .reveal-on-scroll {
-            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease-out;
+            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease-out;
             will-change: transform, opacity;
         }
 
         .scroll-arrow-badge {
-            width: 2.75rem;
-            height: 2.75rem;
+            width: 2.85rem;
+            height: 2.85rem;
             border-radius: 9999px;
-            background: rgba(217, 70, 239, 0.18);
-            border: 1px solid rgba(217, 70, 239, 0.45);
+            background: rgba(217, 70, 239, 0.22);
+            border: 1px solid rgba(217, 70, 239, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #f0abfc;
-            font-size: 1.15rem;
-            box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.4);
+            font-size: 1.2rem;
+            box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.45);
             margin: 0 auto;
             cursor: pointer;
             transition: transform 0.2s ease, background-color 0.2s ease;
         }
 
         .scroll-arrow-badge:hover, .scroll-arrow-badge:active {
-            transform: scale(1.1);
-            background: rgba(217, 70, 239, 0.32);
+            transform: scale(1.12);
+            background: rgba(217, 70, 239, 0.35);
         }
     </style>
 </head>
 <body class="stars-bg min-h-screen relative antialiased selection:bg-fuchsia-600 selection:text-white modal-active no-scrollbar">
 
     <!-- LEAD GATE MODAL POPUP -->
-    <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 stars-bg bg-galaxy-950/92 backdrop-blur-2xl transition-all duration-300 overflow-hidden no-scrollbar">
+    <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 stars-bg bg-galaxy-950/94 backdrop-blur-2xl transition-all duration-300 overflow-hidden no-scrollbar">
         
         <div class="relative w-full max-w-lg glass-card-popup rounded-2xl sm:rounded-3xl p-5 sm:p-7 max-h-[92vh] overflow-y-auto space-y-4 my-auto shadow-2xl no-scrollbar">
 
@@ -707,14 +699,13 @@
                 </div>
 
                 <h2 class="font-heading text-xl sm:text-2xl font-extrabold text-white leading-snug px-1">
-                    המדריך שיעזור לך להשתחרר מביישנות<br>
-                    <span class="bg-gradient-to-r from-fuchsia-400 via-purple-300 to-sky-300 bg-clip-text text-transparent font-heading">ולבנות ביטחון עצמי אותנטי</span> מול אנשים
+                    <span class="bg-gradient-to-r from-fuchsia-400 via-purple-300 to-sky-300 bg-clip-text text-transparent font-heading">מביישנות לביטחון עצמי אמיתי מול אנשים</span>
                 </h2>
 
                 <p class="text-purple-200/90 text-xs sm:text-sm font-normal leading-relaxed max-w-md mx-auto pt-0.5">
-                    <span class="bg-gradient-to-r from-fuchsia-400 via-violet-300 to-cyan-300 bg-clip-text text-transparent font-black">4 צעדים</span> להרגיש יותר בנוח באינטרקציות,<br>
-                    להבין מה גורם לך <span class="text-white font-semibold underline decoration-white/80">לחוסר ביטחון</span> ואיך לפתור את זה –<br>
-                    <span class="text-fuchsia-200 font-semibold">ולבטא את עצמך בחופשיות יותר 🗣️</span>
+                    <span class="text-white font-extrabold text-sm sm:text-base inline-block">המדריך שיעזור לך</span> להרגיש יותר <span class="text-white font-semibold">בנוח באינטראקציות</span>,<br>
+                    להפסיק להתכווץ ליד אנשים ולשחרר את הפחד ממה שיחשבו עליך –<br>
+                    <span class="text-fuchsia-200 font-semibold">ולבטא את עצמך בביטחון ובחופשיות 🗣️</span>
                 </p>
             </div>
 
@@ -743,26 +734,26 @@
             <form onsubmit="return handleGateSubmit(event)" class="space-y-3 relative z-10 pt-1">
                 <div>
                     <input type="text" id="leadName" required placeholder="שם מלא *" 
-                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-2.5 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors">
+                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none">
                 </div>
 
                 <div>
                     <input type="tel" id="leadPhone" required placeholder="מספר טלפון *" dir="rtl"
-                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-2.5 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors">
+                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none">
                 </div>
 
                 <div>
                     <input type="email" id="leadEmail" required placeholder="כתובת מייל *" dir="rtl"
-                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-2.5 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors">
+                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none">
                 </div>
 
                 <div>
                     <textarea id="leadPain" rows="2" placeholder="מה הקושי העיקרי שלך כרגע מול אנשים?" 
-                              class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl p-2.5 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors"></textarea>
+                              class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl p-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none"></textarea>
                 </div>
 
-                <button type="submit" class="btn-primary w-full py-3.5 px-5 rounded-xl text-white font-bold text-base flex items-center justify-center gap-2 mt-2">
-                    <span>אני רוצה לקבל את המדריך!</span>
+                <button type="submit" class="btn-primary w-full min-h-[48px] py-3.5 px-5 rounded-xl text-white font-bold text-base flex items-center justify-center gap-2 mt-2 touch-manipulation active:scale-95">
+                    <span>להורדת המדריך ללא עלות</span>
                     <i class="fa-solid fa-arrow-left text-xs"></i>
                 </button>
 
@@ -775,235 +766,141 @@
         </div>
     </div>
 
-    <!-- MAIN PAGE CONTENT WITH SPACIOUS JOURNEY & SCROLL REFLECTION -->
-    <main class="relative min-h-screen pb-28 pt-8 sm:pt-12">
+    <!-- MAIN PAGE CONTENT WITH CLEAN & STREAMLINED LAYOUT -->
+    <main class="relative min-h-screen pb-20 pt-6 sm:pt-10">
 
-        <!-- SPACIOUS JOURNEY CONTAINER WITH BIG MARGINS TO BUILD CURIOSITY -->
-        <div class="max-w-2xl mx-auto px-4 sm:px-6 space-y-20 sm:space-y-32">
+        <div class="max-w-xl mx-auto px-3.5 sm:px-6 space-y-8 sm:space-y-12">
 
-            <!-- SECTION 1: MAIN PAGE TITLE WITH DARK BACKDROP CARD + CLICKABLE BOUNCING ARROW -->
-            <div id="guideTopSection" class="reveal-on-scroll transform opacity-0 translate-y-16 scale-95 transition-all ombre-halo scroll-reflection">
-                <div class="dark-glass-card rounded-3xl p-6 sm:p-9 text-center space-y-4 border border-fuchsia-500/30 shadow-2xl">
-                    
-                    <h1 class="font-heading text-2xl sm:text-3.5xl font-extrabold text-white leading-snug tracking-tight">
-                        המדריך שיעזור לך להשתחרר מביישנות<br>
-                        <span class="bg-gradient-to-r from-fuchsia-300 via-purple-200 to-sky-300 bg-clip-text text-transparent font-heading">ולבנות ביטחון עצמי אותנטי מול אנשים</span>
-                    </h1>
-
-                    <p class="text-purple-100 text-xs sm:text-base font-normal max-w-lg mx-auto pt-1 leading-relaxed">
-                        <span class="bg-gradient-to-r from-fuchsia-300 via-violet-200 to-cyan-200 bg-clip-text text-transparent font-black">4 צעדים</span> להרגיש יותר בנוח באינטרקציות,<br class="hidden sm:inline">
-                        להבין מה גורם לך <span class="text-white font-semibold underline decoration-white/80">לחוסר ביטחון</span> ואיך לפתור את זה –<br>
-                        <span class="text-fuchsia-200 font-semibold">ולבטא את עצמך בחופשיות יותר 🗣️</span>
-                    </p>
-
-                    <!-- CLICKABLE BOUNCING CHEVRON ARROW DOWN -->
-                    <div class="pt-5 flex justify-center">
-                        <button type="button" onclick="scrollToNextSection('personalizedWelcome', 'personalQuoteSection')" 
-                                class="w-11 h-11 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/50 flex items-center justify-center text-fuchsia-300 text-xl shadow-lg animate-bounce hover:scale-110 active:scale-95 transition-transform" 
-                                title="לחץ לגלילה למטה" aria-label="גלול למטה">
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- SECTION 2: PERSONALIZED WELCOME SPEECH BUBBLE + AVATAR ON LEFT SIDE -->
-            <div id="personalizedWelcome" class="hidden transition-all duration-500 reveal-on-scroll transform opacity-0 translate-y-16 scale-95 scroll-reflection">
-                <div class="space-y-6">
-                    <div class="relative max-w-md mx-auto flex items-start gap-3 sm:gap-4">
+            <!-- SECTION 1: PERSONALIZED WELCOME BANNER WITH MADLEN'S AVATAR -->
+            <div id="personalizedWelcome" class="hidden transition-all duration-500 reveal-on-scroll transform opacity-0 translate-y-10 scale-95 scroll-reflection">
+                <div class="space-y-3">
+                    <div class="relative max-w-md mx-auto flex items-start gap-2.5 sm:gap-4">
                         
-                        <!-- SPEECH BUBBLE CARD WITH TAIL POINTING DIRECTLY LEFT TO THE AVATAR -->
-                        <div class="speech-bubble rounded-2xl py-4 px-5 sm:px-6 shadow-xl border border-fuchsia-400/35 relative flex-1">
+                        <div class="speech-bubble rounded-2xl py-3.5 px-4 sm:px-6 shadow-xl border border-fuchsia-400/35 relative flex-1">
                             <p class="text-xs sm:text-base text-purple-100 font-medium leading-relaxed text-right">
                                 היי <span id="userNameDisplay" class="font-bold text-fuchsia-300"></span>, איזה כיף שהגעת לכאן! 👋<br>
-                                המדריך מחכה לך ממש כאן למטה 👇<br>
-                                <span class="text-fuchsia-200 font-semibold">מחכה לשמוע איך היה לך.</span>
+                                ההדרכה שלך מוכנה וצופה לך ממש כאן למטה 👇
                             </p>
                         </div>
 
-                        <!-- AVATAR IMAGE POSITIONED ON THE LEFT SIDE -->
                         <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
-                             alt="מדלן" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-fuchsia-400 shadow-xl shrink-0 mt-1">
+                             alt="מדלן" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-fuchsia-400 shadow-xl shrink-0 mt-0.5">
 
-                    </div>
-
-                    <!-- CLICKABLE BOUNCING ARROW DOWN -->
-                    <div class="flex justify-center">
-                        <button type="button" onclick="scrollToNextSection('personalQuoteSection')" class="scroll-arrow-badge animate-bounce" title="לחץ לגלילה למטה" aria-label="גלול למטה">
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- SECTION 3: PERSONAL QUOTE BLOCK ("אם הייתי יודעת...") WITH CIRCULAR BRAIN BADGE FRAME + WELL-SPACED ARROW -->
-            <div id="personalQuoteSection" class="relative py-2 text-center space-y-6 max-w-xl mx-auto reveal-on-scroll transform opacity-0 translate-y-16 scale-95 scroll-reflection">
+            <!-- SECTION 2: VIDEO DISPLAY & QUESTIONNAIRE CTA -->
+            <div id="videoSection" class="space-y-4 sm:space-y-6 reveal-on-scroll transform opacity-0 translate-y-10 scale-95 scroll-reflection">
                 
-                <div class="space-y-4">
-                    <!-- CIRCULAR BRAIN EMOJI FRAME BADGE -->
-                    <div class="w-14 h-14 sm:w-16 sm:h-16 mx-auto rounded-full bg-gradient-to-tr from-purple-900/80 via-fuchsia-900/50 to-indigo-900/60 border-2 border-fuchsia-400/60 backdrop-blur-md flex items-center justify-center text-2xl sm:text-3xl shadow-xl shadow-fuchsia-950/60">
-                        🧠
-                    </div>
-
-                    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-fuchsia-500/25">
-                        <p class="text-xs sm:text-base text-gray-200 leading-relaxed font-normal">
-                            "אם הייתי יודעת את הכלים והתוכן הזה לפני,<br>
-                            זה היה חוסך לי המון שנים שהייתי <span class="bg-gradient-to-r from-fuchsia-300 to-pink-300 bg-clip-text text-transparent font-bold">נבלעת באינטרקציות</span>,<br>
-                            מרגישה לא שייכת, <span class="text-purple-200 font-medium underline decoration-purple-400/50">פוחדת להראות את עצמי באמת</span> מול אנשים..<br>
-                            וכן <span class="bg-gradient-to-r from-fuchsia-300 via-purple-200 to-pink-200 bg-clip-text text-transparent font-extrabold">אפשר אחרת</span> כשיודעים לעשות את זה נכון. שמחה שהגעת לכאן." 🩷
-                        </p>
-                    </div>
+                <div class="text-center space-y-1.5">
+                    <h1 class="font-heading text-base sm:text-2xl font-black text-white leading-snug px-1">
+                        <span class="bg-gradient-to-r from-fuchsia-300 via-purple-100 to-pink-300 bg-clip-text text-transparent">4 צעדים איך לעבור מביישנות לביטחון עצמי אמיתי מול אנשים</span>
+                    </h1>
+                    <p class="text-[11px] sm:text-xs text-purple-200/90 font-medium">
+                        * ממליצה לך לכתוב תובנות במחברת 📝
+                    </p>
                 </div>
 
-                <!-- SPACED ARROW PROMPT PREVENTING OVERLAP ON TEXT -->
-                <div class="flex flex-col items-center gap-3 text-purple-300/80 pt-5">
-                    <span class="text-xs sm:text-sm font-semibold tracking-wide">המשיכו לגלול למטה להדרכה 👇</span>
-                    <button type="button" onclick="scrollToNextSection('videoSection')" class="scroll-arrow-badge animate-bounce mt-1" title="לחץ לגלילה להדרכה" aria-label="גלול להדרכה">
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </button>
-                </div>
-
-            </div>
-
-            <!-- SECTION 4: TRANSITION PROMPT AND VIDEO DISPLAY -->
-            <div id="videoSection" class="space-y-5 reveal-on-scroll transform opacity-0 translate-y-16 scale-95 scroll-reflection">
-                
-                <div class="text-center space-y-2.5">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-400/40 text-fuchsia-300 text-xs sm:text-sm font-bold shadow-lg animate-pulse mb-1">
-                        <span>🎬 המדריך שלך מחכה לך כאן 👇</span>
-                    </div>
-
-                    <h2 class="font-heading text-base sm:text-xl font-extrabold text-white leading-snug">
-                        <span class="bg-gradient-to-r from-fuchsia-300 via-purple-200 to-sky-300 bg-clip-text text-transparent font-black">4 צעדים</span> איך להפסיק להתבייש <span class="underline decoration-white/80 decoration-2 underline-offset-4">ולחזק את הביטחון שלך מול אנשים</span>
-                    </h2>
-                    
-                    <div class="inline-flex items-center gap-2 text-xs text-purple-200/90 font-medium bg-galaxy-900/80 py-1.5 px-4 rounded-full border border-purple-500/30 backdrop-blur-md">
-                        <i class="fa-solid fa-pen-to-square text-fuchsia-400"></i>
-                        <span>נ.ב: ממליצה לכתוב תובנות במחברת 📝</span>
+                <!-- PREMIUM EMBEDDED VIDEO PLAYER -->
+                <div class="glass-panel p-1.5 sm:p-3 rounded-2xl sm:rounded-3xl border border-fuchsia-400/40 shadow-2xl relative ombre-halo">
+                    <div class="relative w-full aspect-video rounded-xl sm:rounded-2xl overflow-hidden bg-black shadow-inner">
+                        <iframe id="guideVideoIframe" 
+                                src="https://www.youtube-nocookie.com/embed/KQ3UdwH-9MU?enablejsapi=1&rel=0" 
+                                title="סרטון הדרכה"
+                                class="w-full h-full absolute inset-0 z-10" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen></iframe>
                     </div>
                 </div>
 
-                <!-- DIRECT VIDEO PLAYER CONTAINER SHOWING VIDEO THUMBNAIL & CONTROLS -->
-                <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-purple-500/35 shadow-2xl bg-black">
-                    
-                    <!-- DIRECT YOUTUBE IFRAME DISPLAY -->
-                    <iframe id="guideVideoIframe" 
-                            src="https://www.youtube-nocookie.com/embed/KQ3UdwH-9MU?enablejsapi=1&rel=0" 
-                            title="סרטון הדרכה"
-                            class="w-full h-full absolute inset-0 z-10" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen></iframe>
-
-                </div>
-
-                <div class="text-center pt-2">
+                <!-- SINGLE CLEAR CTA BUTTON FOR QUESTIONNAIRE -->
+                <div class="text-center pt-1 flex flex-col items-center justify-center gap-2">
                     <a href="https://madlenfrid.netlify.app/" target="_blank" rel="noopener noreferrer" 
-                       class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-galaxy-900/90 hover:bg-galaxy-850 border border-fuchsia-500/35 text-purple-200 hover:text-white text-xs sm:text-sm font-semibold transition-all group shadow-md hover:scale-102 active:scale-98">
-                        <i class="fa-solid fa-list-check text-fuchsia-400 text-sm"></i>
-                        <span>למעבר לשאלון אבחון לפגישה</span>
-                        <i class="fa-solid fa-chevron-left text-xs group-hover:-translate-x-1 transition-transform text-fuchsia-400"></i>
+                       class="btn-primary min-h-[48px] py-3.5 px-5 sm:px-6 rounded-2xl text-white font-extrabold text-xs sm:text-base inline-flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-all group border border-fuchsia-400/40 touch-manipulation w-full sm:w-auto">
+                        <i class="fa-solid fa-clipboard-question text-fuchsia-200 text-sm sm:text-base"></i>
+                        <span>למילוי שאלון קצר לקביעת פגישה איתי</span>
+                        <i class="fa-solid fa-arrow-left text-xs group-hover:-translate-x-1 transition-transform"></i>
                     </a>
                 </div>
             </div>
 
-            <!-- SECTION 5: CLICKABLE SCROLL PROMPT -->
-            <div class="text-center py-2 space-y-2 text-purple-300/70 animate-pulse reveal-on-scroll transform opacity-0 translate-y-12">
-                <p class="text-xs font-semibold tracking-wider">המשיכו לגלול למטה לצעד הבא 👇</p>
-                <button type="button" onclick="scrollToNextSection('sessionSection')" class="scroll-arrow-badge animate-bounce" title="לחץ לגלילה לצעד הבא" aria-label="גלול לצעד הבא">
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-            </div>
-
-            <!-- SECTION 6: 1:1 SESSION OFFER WITH PRICE BADGE BELOW INPUT FIELDS -->
-            <div id="sessionSection" class="glass-panel rounded-3xl p-6 sm:p-9 space-y-5 relative overflow-hidden reveal-on-scroll transform opacity-0 translate-y-16 scale-95 transition-all duration-800 ombre-halo my-20 sm:my-32 scroll-reflection">
+            <!-- SECTION 3: SIMPLE DIRECT SESSION CALLBACK FORM -->
+            <div id="sessionSection" class="glass-panel rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-4 relative overflow-hidden reveal-on-scroll transform opacity-0 translate-y-10 scale-95 transition-all ombre-halo scroll-reflection">
                 
-                <div class="text-center space-y-3 relative z-10">
-                    
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-fuchsia-500/15 border border-fuchsia-400/35 text-fuchsia-300 text-xs font-semibold">
-                        <span>✨ איזה כיף, הצעד הבא שלך מחכה לך כאן! ✨</span>
-                    </div>
-
-                    <h2 class="font-heading text-xl sm:text-2xl font-extrabold text-white flex items-center justify-center gap-2">
-                        <span>📹</span>
-                        <span class="bg-gradient-to-r from-fuchsia-200 via-white to-pink-200 bg-clip-text text-transparent">מגיעה לך הטבה על פגישה אישית 1:1</span>
+                <div class="text-center space-y-2 relative z-10">
+                    <h2 class="font-heading text-lg sm:text-2xl font-extrabold text-white">
+                        <span class="bg-gradient-to-r from-fuchsia-200 via-white to-pink-200 bg-clip-text text-transparent">שיחת אבחון וייעוץ אישית</span>
                     </h2>
 
-                    <p class="text-xs sm:text-sm text-gray-200 max-w-md mx-auto leading-relaxed">
-                        נבין ביחד לעומק מה <span class="text-fuchsia-300 font-semibold underline decoration-fuchsia-400/60">הסיפור הפנימי</span> שעוצר אותך מלבטא את עצמך <span class="text-fuchsia-300 font-semibold underline decoration-fuchsia-400/60">בביטחון ובחופשיות</span> מול אנשים, <span class="text-fuchsia-300 font-bold">ונעבוד על זה.</span>
+                    <p class="text-xs sm:text-sm text-gray-200 max-w-sm mx-auto leading-relaxed">
+                        השאירו פרטים קצרים, ואחזור אליכם באופן אישי כדי להבין בדיוק מה מעכב אתכם ואיך נוכל לבנות לכם דרך לפריצה וביטחון עצמי אותנטי.
                     </p>
                 </div>
 
-                <form id="sessionForm" onsubmit="return handleDirectSessionSubmit(event)" class="space-y-3 max-w-sm mx-auto relative z-10 pt-1">
+                <!-- SIMPLE LEAD FORM -->
+                <form id="sessionForm" onsubmit="return handleDirectSessionSubmit(event)" class="space-y-3 max-w-sm mx-auto relative z-10">
                     
-                    <!-- INPUT FIELDS FIRST -->
                     <input type="text" id="sessionLeadName" required placeholder="שם מלא *" 
-                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-2.5 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors">
+                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none">
 
                     <input type="tel" id="sessionLeadPhone" required placeholder="מספר טלפון *" dir="rtl"
-                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-2.5 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors">
+                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none">
 
-                    <textarea id="sessionLeadPain" rows="2" placeholder="על מה הכי חשוב לך לעבוד ולפתור בפגישה הזאת?" 
-                              class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl p-2.5 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors"></textarea>
+                    <textarea id="sessionLeadPain" rows="2" placeholder="מה הכי חשוב לך לפתור כרגע מול אנשים?" 
+                              class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl p-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none"></textarea>
 
-                    <!-- COMPACT PRICE TAG BELOW THE INPUT FIELDS AND ABOVE SUBMIT BUTTON -->
-                    <div class="inline-flex items-center justify-center gap-3 px-4 py-2 rounded-xl bg-galaxy-950/90 border border-fuchsia-500/40 shadow-md w-full my-1">
-                        <div class="flex items-baseline gap-1.5">
-                            <span class="text-xl font-black text-emerald-400">₪97</span>
-                            <span class="text-2xs text-gray-400 line-through">₪350</span>
-                        </div>
-                        <span class="w-px h-4 bg-purple-500/30"></span>
-                        <span class="text-2xs text-purple-200 font-medium">פגישה ממוקדת בזום (60 דק')</span>
-                    </div>
-
-                    <button type="submit" class="btn-emerald w-full py-3.5 px-5 rounded-xl text-white font-extrabold text-base flex items-center justify-center gap-2 shadow-lg">
-                        <span>אני רוצה לקבוע פגישה אישית!</span>
+                    <button type="submit" class="btn-emerald w-full min-h-[48px] py-3.5 px-5 rounded-xl text-white font-extrabold text-base flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all touch-manipulation">
+                        <span>אני רוצה לפתור את זה! 👈</span>
                         <i class="fa-solid fa-arrow-left text-xs"></i>
                     </button>
 
-                    <div class="flex items-center justify-center gap-1.5 text-2xs text-gray-400 pt-1">
-                        <i class="fa-solid fa-lock text-emerald-400"></i>
-                        <span>תשלום מאובטח ב-SSL • מעבר מיידי לתיאום מועד נוח</span>
-                    </div>
+                    <p class="text-[10px] sm:text-[11px] text-purple-300/80 text-center font-medium pt-0.5">
+                        🔒 הפרטים שלכם שמורים באופן דיסקרטי לחלוטין
+                    </p>
                 </form>
 
-                <div id="sessionSuccessMsg" class="hidden text-center py-5 space-y-2">
-                    <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-2xl mx-auto border border-emerald-500/30">
+                <!-- SUCCESS MESSAGE -->
+                <div id="sessionSuccessMsg" class="hidden text-center py-6 space-y-2">
+                    <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-2xl mx-auto border border-emerald-500/40 shadow-xl">
                         <i class="fa-solid fa-check"></i>
                     </div>
-                    <h3 class="font-heading text-lg font-bold text-white">הפרטים התקבלו!</h3>
-                    <p class="text-xs text-gray-300">מעבירים אותך כעת לתשלום והסדרת התור...</p>
+                    <h3 class="font-heading text-base sm:text-lg font-bold text-white">
+                        תודה <span id="successLeadName" class="text-fuchsia-300"></span>! הפרטים התקבלו בהצלחה 💖
+                    </h3>
+                    <p class="text-xs text-purple-200/90 max-w-sm mx-auto leading-relaxed">
+                        קיבלתי את הפרטים. מדלן תחזור אליך בהקדם לשיחת אבחון קצרה ואישית!
+                    </p>
                 </div>
             </div>
 
-            <!-- SECTION 7: SUBTLE SOCIAL MEDIA FOLLOW INVITATION -->
-            <div id="socialSection" class="text-center space-y-3 pt-20 sm:pt-28 pb-4 reveal-on-scroll transform opacity-0 translate-y-12">
-                <div class="space-y-1 max-w-sm mx-auto">
+            <!-- SECTION 4: SOCIAL MEDIA FOLLOW INVITATION -->
+            <div id="socialSection" class="text-center space-y-3 pt-6 pb-2 reveal-on-scroll transform opacity-0 translate-y-12">
+                <div class="space-y-0.5 max-w-sm mx-auto">
                     <p class="text-[11px] font-semibold text-fuchsia-300/90">תכנים יומיומיים וכלים נוספים 💖</p>
-                    <h3 class="font-heading text-xs sm:text-sm font-medium text-gray-200/90">
+                    <h3 class="font-heading text-xs font-medium text-gray-200/90">
                         מזמינה אותך להמשיך לעקוב אחרי התכנים בעמודים הבאים:
                     </h3>
                 </div>
 
-                <!-- COMPACT SOCIAL BUTTONS WITH SMALLER EMOJIS & ICONS -->
                 <div class="flex flex-row items-center justify-center gap-4 pt-1">
                     <a href="https://www.instagram.com/madlen.frid/" target="_blank" rel="noopener noreferrer" 
-                       class="btn-instagram-icon w-10 h-10 sm:w-11 sm:h-11 rounded-xl text-white flex items-center justify-center shadow-md active:scale-95" 
+                       class="btn-instagram-icon w-10 h-10 rounded-xl text-white flex items-center justify-center shadow-md active:scale-95" 
                        aria-label="אינסטגרם" title="אינסטגרם">
-                        <i class="fa-brands fa-instagram text-lg sm:text-xl"></i>
+                        <i class="fa-brands fa-instagram text-lg"></i>
                     </a>
 
                     <a href="https://www.tiktok.com/@madlenfrid?lang=he-IL" target="_blank" rel="noopener noreferrer" 
-                       class="btn-tiktok-icon w-10 h-10 sm:w-11 sm:h-11 rounded-xl text-white flex items-center justify-center shadow-md active:scale-95" 
+                       class="btn-tiktok-icon w-10 h-10 rounded-xl text-white flex items-center justify-center shadow-md active:scale-95" 
                        aria-label="טיקטוק" title="טיקטוק">
-                        <i class="fa-brands fa-tiktok text-lg sm:text-xl"></i>
+                        <i class="fa-brands fa-tiktok text-lg"></i>
                     </a>
                 </div>
             </div>
 
             <!-- FOOTER -->
-            <footer class="text-center py-4 border-t border-purple-900/20 mt-4">
+            <footer class="text-center py-2 border-t border-purple-900/20">
                 <button type="button" onclick="openAdminModal()" class="text-[10px] text-purple-300/40 hover:text-purple-200 transition-colors underline decoration-purple-500/20">
                     מדלן פריד - לבטא את עצמך באותנטיות
                 </button>
@@ -1039,7 +936,7 @@
                     <div class="flex gap-2">
                         <button onclick="filterLeadsTab('all')" id="tabAll" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-fuchsia-600 text-white">הכל</button>
                         <button onclick="filterLeadsTab('guide')" id="tabGuide" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-galaxy-900 text-gray-300 hover:text-white">מדריך חינמי</button>
-                        <button onclick="filterLeadsTab('session')" id="tabSession" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-galaxy-900 text-gray-300 hover:text-white">פגישות 1:1</button>
+                        <button onclick="filterLeadsTab('session')" id="tabSession" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-galaxy-900 text-gray-300 hover:text-white">שיחות אבחון</button>
                     </div>
                     <span id="leadsCountBadge" class="text-xs bg-purple-500/20 text-purple-300 px-2.5 py-1 rounded-full border border-purple-500/30">0 לידים</span>
                 </div>
@@ -1114,7 +1011,7 @@
 
             tbody.innerHTML = filtered.map(lead => {
                 const typeTag = lead.type === 'session' 
-                    ? `<span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded text-2xs border border-emerald-500/30">פגישה</span>`
+                    ? `<span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded text-2xs border border-emerald-500/30">שיחה</span>`
                     : `<span class="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-2xs border border-purple-500/30">מדריך</span>`;
                 
                 const cleanPhone = (lead.phone || '').replace(/[^0-9]/g, '');
