@@ -1,0 +1,2484 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MADLEN — המרחב האישי והעסקי</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Assistant', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              wine: '#4A1525',
+              burgundy: '#631E35',
+              rose: '#9E4762',
+              roseLight: '#E8A7BC',
+              powder: '#FAF0F4',
+              powderHover: '#F4E3EB',
+              powderLight: '#FFF8FA',
+              border: '#F2DFE7',
+              borderSubtle: '#F9EDF2',
+              cardBg: '#FFFFFF',
+            },
+            muted: {
+              dark: '#543D45',
+              DEFAULT: '#8A727C',
+              light: '#B59FA8',
+            }
+          },
+          boxShadow: {
+            'soft': '0 2px 12px 0 rgba(74, 21, 37, 0.025)',
+            'card': '0 4px 18px -2px rgba(74, 21, 37, 0.03)',
+            'float': '0 12px 32px -6px rgba(74, 21, 37, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FAF5F7;
+      background-image: 
+        radial-gradient(at 15% 15%, #FFF0F4 0px, transparent 40%),
+        radial-gradient(at 85% 85%, #FAF1F5 0px, transparent 40%);
+      color: #4A1525;
+      min-height: 100vh;
+      font-family: 'Assistant', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .evening-card {
+      background: #F4ECEF;
+      border: 1px solid #E5D5DC;
+      border-radius: 1.25rem;
+      box-shadow: 0 3px 14px -2px rgba(74, 21, 37, 0.03);
+    }
+    .evening-input {
+      background: #FFFFFF;
+      border: 1px solid #DFCCD5;
+      border-radius: 0.85rem;
+      transition: all 0.2s ease;
+    }
+    .evening-input:focus {
+      outline: none;
+      border-color: #631E35;
+      box-shadow: 0 0 0 2px rgba(99, 30, 53, 0.08);
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E8CCD9;
+      border-radius: 99px;
+    }
+
+    .zen-card {
+      background: #FFFFFF;
+      border: 1px solid #F2DFE7;
+      border-radius: 1.25rem;
+      box-shadow: 0 3px 14px -2px rgba(74, 21, 37, 0.025);
+    }
+
+    .hero-zen {
+      background: #FFF5F8;
+      border: 1px solid #F5DFE7;
+      border-radius: 1.25rem;
+    }
+
+    .zen-input {
+      background: #FFFFFF;
+      border: 1px solid #EED7E2;
+      border-radius: 0.85rem;
+      transition: all 0.2s ease;
+    }
+    .zen-input:focus {
+      outline: none;
+      border-color: #9E4762;
+      box-shadow: 0 0 0 2px rgba(158, 71, 98, 0.08);
+    }
+
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0.55rem 0.9rem;
+      border-radius: 0.95rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #543D45;
+      transition: all 0.15s ease;
+    }
+    .sidebar-btn:hover {
+      background-color: #FFF0F4;
+      color: #4A1525;
+    }
+    .sidebar-btn.active {
+      background-color: #FAF0F4;
+      color: #4A1525;
+      font-weight: 700;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tab-view.active {
+      display: block;
+      animation: fadeIn 0.18s ease-out forwards;
+    }
+    .tab-view {
+      display: none;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-brand-powder selection:text-brand-wine min-h-screen">
+
+  <!-- Toast Box for notifications -->
+  <div id="toast-box" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <div class="min-h-screen flex flex-col md:flex-row">
+
+    <!-- ========================================================================= -->
+    <!-- RIGHT SIDEBAR -->
+    <!-- ========================================================================= -->
+    <aside class="w-full md:w-56 bg-white/70 md:bg-white border-l border-brand-border px-4 py-6 flex flex-col justify-between shrink-0 z-20">
+      
+      <div class="space-y-5">
+        <!-- Logo -->
+        <div class="px-2 cursor-pointer text-center md:text-right" onclick="switchTab('today')">
+          <h1 class="text-xl font-serif font-bold text-brand-wine tracking-tight">MADLEN</h1>
+          <p class="text-[11px] text-muted font-light">המרחב האישי והעסקי</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="space-y-1">
+          <button onclick="switchTab('today')" id="nav-today" class="sidebar-btn active">
+            <span>היום שלי</span>
+            <span class="text-sm">🏠</span>
+          </button>
+          
+          <button onclick="switchTab('weekly')" id="nav-weekly" class="sidebar-btn">
+            <span>שבועי</span>
+            <span class="text-sm">📅</span>
+          </button>
+          
+          <button onclick="switchTab('monthly')" id="nav-monthly" class="sidebar-btn">
+            <span>חודשי</span>
+            <span class="text-sm">🗓️</span>
+          </button>
+          
+          <button onclick="switchTab('patterns')" id="nav-patterns" class="sidebar-btn">
+            <span>עבודה עם דפוסים</span>
+            <span class="text-sm">👑</span>
+          </button>
+          
+          <button onclick="switchTab('vision')" id="nav-vision" class="sidebar-btn">
+            <span>החזון והלמה</span>
+            <span class="text-sm">✨</span>
+          </button>
+          
+          <button onclick="switchTab('wins')" id="nav-wins" class="sidebar-btn">
+            <span>הצלחות</span>
+            <span class="text-sm">🏆</span>
+          </button>
+          
+          <button onclick="switchTab('coach')" id="nav-coach" class="sidebar-btn">
+            <span>המאמן</span>
+            <span class="text-sm">💬</span>
+          </button>
+        </nav>
+
+        <!-- Quick Action -->
+        <div class="pt-3 border-t border-brand-borderSubtle space-y-1.5">
+          <button onclick="openStuckModal()" class="w-full py-1.5 px-3 rounded-xl bg-brand-powder hover:bg-brand-powderHover text-brand-wine text-[11px] font-medium transition border border-brand-border flex items-center justify-between">
+            <span>עוצרת דחייה</span>
+            <span class="text-[11px]">🔒</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-brand-borderSubtle text-center text-[10px] text-muted font-light">
+        חשיבה ← בחירה ← פעולה
+      </div>
+
+    </aside>
+
+    <!-- ========================================================================= -->
+    <!-- MAIN CONTENT AREA -->
+    <!-- ========================================================================= -->
+    <main class="flex-1 px-4 sm:px-8 py-6 max-w-3xl mx-auto w-full pb-10">
+
+      <!-- ======================================================================= -->
+      <!-- TAB 1: TODAY (היום שלי) -->
+      <!-- ======================================================================= -->
+      <div id="view-today" class="tab-view active space-y-4">
+
+        <!-- 1. Hero Card -->
+        <div class="hero-zen p-5 text-center space-y-2 relative">
+          <div class="flex items-center justify-end text-[11px] text-muted mb-0.5">
+            <span id="hero-date" class="font-medium text-brand-wine">יום שישי</span>
+          </div>
+          <h1 id="hero-greeting-title" class="text-xl sm:text-2xl font-serif font-bold text-brand-wine">
+            בוקר טוב מדלן 🩷
+          </h1>
+          <p class="text-xs text-brand-burgundy font-semibold">
+            מה הכי מקדם אותי היום? ✨
+          </p>
+        </div>
+
+        <!-- 2. Dynamic Energy State Selector -->
+        <div class="zen-card p-4 space-y-3">
+          <div class="border-b border-brand-borderSubtle pb-1.5">
+            <span class="text-xs font-serif font-bold text-brand-wine block">
+              איך קמתי הבוקר?
+            </span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <button type="button" id="btn-energy-high" onclick="setDailyEnergyState('high')" class="p-2.5 rounded-xl border border-brand-border text-center transition font-medium hover:border-brand-rose bg-white text-brand-wine">
+              <span class="text-base block mb-0.5">🔥</span>
+              <span class="font-bold block text-xs">אנרגיה גבוהה</span>
+              <span class="text-[10px] text-muted block">דרייב & פעולות כסף</span>
+            </button>
+            <button type="button" id="btn-energy-normal" onclick="setDailyEnergyState('normal')" class="p-2.5 rounded-xl border-2 border-brand-wine bg-brand-powder text-center transition font-bold text-brand-wine shadow-soft">
+              <span class="text-base block mb-0.5">🌿</span>
+              <span class="font-bold block text-xs">אנרגיה רגועה</span>
+              <span class="text-[10px] text-muted block">מיקוד וקצב נעים</span>
+            </button>
+            <button type="button" id="btn-energy-low" onclick="setDailyEnergyState('low')" class="p-2.5 rounded-xl border border-brand-border text-center transition font-medium hover:border-brand-rose bg-white text-brand-wine">
+              <span class="text-base block mb-0.5">🔋</span>
+              <span class="font-bold block text-xs">אנרגיה נמוכה</span>
+              <span class="text-[10px] text-muted block">עייפות / הצפה</span>
+            </button>
+          </div>
+
+          <!-- Dynamic Trigger Input based on selected energy -->
+          <div class="p-2.5 rounded-xl bg-[#FCF8FA] border border-brand-border space-y-1.5">
+            <label class="text-[11px] font-bold text-brand-wine flex items-center justify-between">
+              <span id="energy-cause-label">מה יצר את האנרגיה הרגועה והנעימה הבוקר?</span>
+              <span class="text-[10px] font-normal text-muted">לזיהוי מה מקדם אותך</span>
+            </label>
+            <input type="text" id="energy-cause-input" placeholder="למשל: ישנתי מעולה / שיחה מרימה / עומס מחשבות..." oninput="saveEnergyCause(this.value)" class="w-full zen-input p-2 text-xs text-brand-wine">
+          </div>
+
+          <!-- Dynamic Coaching Guide -->
+          <div id="energy-coaching-guide" class="p-2.5 rounded-xl bg-brand-powderLight border border-brand-border text-xs text-brand-wine leading-relaxed">
+            🌿 <strong>עוגן אימוני להיום:</strong> שומרות על קצב רגוע וממוקד. פעולת כסף אחת משמעותית וזמן מזין לעצמך.
+          </div>
+        </div>
+
+        <!-- 3. Daily Mantra -->
+        <div class="zen-card p-4 space-y-2 bg-gradient-to-r from-brand-powderLight via-white to-brand-powderLight">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-serif font-bold text-brand-wine flex items-center gap-1.5">
+              <span>מנטרה יומית:</span>
+            </label>
+            <button onclick="inspireMantraFromVision()" class="text-[10px] px-2.5 py-1 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-brand-burgundy font-bold transition border border-brand-border flex items-center gap-1">
+              <span>שליפת מנטרה מהחזון</span>
+            </button>
+          </div>
+          <input type="text" id="daily-mantra-input" placeholder="למשל: אני פועלת מתוך ביטחון ושקט פנימי, הכל קורה בזמן הנכון..." oninput="saveDailyMantra(this.value)" class="w-full zen-input p-2.5 text-xs text-brand-wine font-medium">
+        </div>
+
+        <!-- 4. Morning Rituals -->
+        <div class="zen-card p-3.5 sm:p-4 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-brand-borderSubtle pb-1.5 px-0.5">
+            <span class="text-xs font-serif font-bold text-brand-wine tracking-wide">
+              טקס בוקר
+            </span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 sm:gap-2 text-xs">
+            <label class="flex items-center gap-2 cursor-pointer text-brand-wine font-medium p-1.5 rounded-lg hover:bg-brand-powderLight transition">
+              <input type="checkbox" id="rit-1" onchange="toggleRitual(1)" class="w-3.5 h-3.5 rounded accent-brand-rose">
+              <span class="text-[11px] leading-tight">1. הוקרת תודה</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-brand-wine font-medium p-1.5 rounded-lg hover:bg-brand-powderLight transition">
+              <input type="checkbox" id="rit-2" onchange="toggleRitual(2)" class="w-3.5 h-3.5 rounded accent-brand-rose">
+              <span class="text-[11px] leading-tight">2. כתיבה אינטואיטיבית</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-brand-wine font-medium p-1.5 rounded-lg hover:bg-brand-powderLight transition">
+              <input type="checkbox" id="rit-3" onchange="toggleRitual(3)" class="w-3.5 h-3.5 rounded accent-brand-rose">
+              <span class="text-[11px] leading-tight">3. סידור מיטה וחדר</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-brand-wine font-medium p-1.5 rounded-lg hover:bg-brand-powderLight transition">
+              <input type="checkbox" id="rit-4" onchange="toggleRitual(4)" class="w-3.5 h-3.5 rounded accent-brand-rose">
+              <span class="text-[11px] leading-tight">4. כתיבת מטרות וכוונות</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-brand-wine font-medium p-1.5 rounded-lg hover:bg-brand-powderLight transition col-span-2 sm:col-span-1">
+              <input type="checkbox" id="rit-5" onchange="toggleRitual(5)" class="w-3.5 h-3.5 rounded accent-brand-rose">
+              <span class="text-[11px] leading-tight">5. התארגנות מושקעת</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 5. 3 Gratitudes -->
+        <div class="zen-card p-4 space-y-2.5">
+          <span class="text-xs font-serif font-bold text-brand-wine border-b border-brand-borderSubtle pb-1.5 block">
+            3 דברים שאני מודה עליהם בחיים שלי:
+          </span>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+            <input type="text" id="gratitude-1" placeholder="1. תודה על..." oninput="saveGratitude(1, this.value)" class="w-full zen-input p-2 text-xs text-brand-wine">
+            <input type="text" id="gratitude-2" placeholder="2. תודה על..." oninput="saveGratitude(2, this.value)" class="w-full zen-input p-2 text-xs text-brand-wine">
+            <input type="text" id="gratitude-3" placeholder="3. תודה על..." oninput="saveGratitude(3, this.value)" class="w-full zen-input p-2 text-xs text-brand-wine">
+          </div>
+        </div>
+
+        <!-- 6. Short & Sharp Coaching Anchors -->
+        <div class="zen-card p-4 sm:p-5 space-y-3">
+          <div class="space-y-3 text-xs">
+            <!-- Q1 -->
+            <div class="space-y-1">
+              <label class="font-semibold text-brand-wine block">1. איך אני מרגישה היום?</label>
+              <input type="text" id="q-wellbeing" placeholder="נוכחת, רגועה, שמחה, מקשיבה לעצמי..." oninput="saveAnchor('q1', this.value)" class="w-full zen-input p-2.5 text-xs text-brand-wine">
+            </div>
+
+            <!-- Q2: Business (Dynamic) -->
+            <div class="space-y-1">
+              <label id="q2-coaching-label" class="font-semibold text-brand-burgundy block">2. מה הפעולה המדויקת שתקדם את העסק היום? 💼</label>
+              <input type="text" id="q-business" placeholder="שיחת התאמה / פולואפ / הצעה / סגירת פעולה קונקרטית..." oninput="saveAnchor('q2', this.value)" class="w-full zen-input p-2.5 text-xs text-brand-burgundy font-medium">
+            </div>
+
+            <!-- Q3 -->
+            <div class="space-y-1">
+              <label class="font-semibold text-brand-wine block">3. מה יעשה לי טוב וימלא אותי בסוף היום? 🩷</label>
+              <input type="text" id="q-pleasure" placeholder="הליכה בשקיעה / יין ושיחה טובה / מקלחת מפנקת / מנוחה..." oninput="saveAnchor('q3', this.value)" class="w-full zen-input p-2.5 text-xs text-brand-wine">
+            </div>
+
+            <!-- Q4: Identity in Action -->
+            <div class="space-y-1 pt-1 border-t border-brand-borderSubtle">
+              <label class="font-bold text-brand-rose block">4. איך מדלן העוצמתית והחיה בוחרת לפעול היום? מה היא בוחרת לעשות? 👑</label>
+              <input type="text" id="identity-action-input" placeholder="למשל: מקבלת החלטה מהירה / יוזמת שיחה מתוך ביטחון / פועלת בלי היסוס..." oninput="saveIdentityAction(this.value)" class="w-full zen-input p-2.5 text-xs text-brand-burgundy font-semibold">
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Weekly Tasks Synced to Today -->
+        <div class="zen-card p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-brand-borderSubtle pb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-serif font-bold text-brand-wine">משימות השבוע שלי (להיום — <span id="today-day-name">יום שישי</span>):</span>
+              <span id="today-weekly-tasks-count" class="bg-brand-powder text-brand-wine text-[10px] px-2 py-0.5 rounded-full font-bold">0</span>
+            </div>
+            <button onclick="switchTab('weekly')" class="text-[11px] text-brand-rose hover:text-brand-wine font-semibold underline">
+              לעריכת ה-TO DO השבועי ←
+            </button>
+          </div>
+          <div id="today-weekly-tasks-list" class="space-y-2 text-xs"></div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- EVENING DIVIDER & TRANSITION -->
+        <!-- ================================================================= -->
+        <div class="pt-6 pb-2">
+          <div class="relative flex items-center justify-center">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-[#DCC7D1]"></div>
+            </div>
+            <div class="relative bg-[#FAF5F7] px-4 text-xs font-serif font-bold text-brand-burgundy flex items-center gap-2">
+              <span>🌙</span>
+              <span>סגירת יום ותכנון למחר</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evening Reflection Card -->
+        <div class="evening-card p-4 sm:p-5 space-y-4">
+          
+          <div class="border-b border-[#E1D1D8] pb-2">
+            <span class="text-xs font-serif font-bold text-brand-wine flex items-center gap-1.5">
+              <span>🌙 סגירת יום ותכנון למחר</span>
+            </span>
+          </div>
+
+          <!-- Evening Questions -->
+          <div class="space-y-3 text-xs">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="space-y-1">
+                <label class="font-semibold text-emerald-900 block">מה היה טוב היום?</label>
+                <textarea id="ev-what-good" rows="2" placeholder="דברים שהלכו חלק, שיחות טובות, רגעים שעשו טוב..." class="w-full evening-input p-2.5 text-xs text-brand-wine"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-burgundy block">מה היה פחות טוב?</label>
+                <textarea id="ev-what-not-good" rows="2" placeholder="איפה נתקעתי, מה פחות עבד או עייף אותי..." class="w-full evening-input p-2.5 text-xs text-brand-wine"></textarea>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-rose block">מה אני בוחרת לשפר למחר?</label>
+                <input type="text" id="ev-improve-tomorrow" placeholder="למשל: לפתוח את הבוקר בשיחה / לא לגעת בטלפון בשעה הראשונה..." class="w-full evening-input p-2.5 text-xs text-brand-wine font-medium">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-burgundy block">הצלחה מהיום:</label>
+                <input type="text" id="ev-one-win" placeholder="החלטה אמיצה שקיבלתי / שיחה שעשיתי / שבחרתי בעצמי..." class="w-full evening-input p-2.5 text-xs text-brand-burgundy font-bold">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Next Day Setup -->
+          <div class="pt-3 border-t border-[#E1D1D8] space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-serif font-bold text-brand-wine flex items-center gap-1.5">
+                <span>תכנון וכוונות למחר:</span>
+              </span>
+              <button onclick="transferTomorrowToMorning()" class="text-[10px] text-brand-rose hover:text-brand-wine underline font-semibold">
+                העבירי כוונות אלו לבוקר עכשיו ↩
+              </button>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+              <div class="space-y-1">
+                <label class="text-[11px] font-semibold text-brand-burgundy block">מה אני רוצה למחר?</label>
+                <input type="text" id="ev-tomorrow-biz" placeholder="למשל: סגירת שיחה חשובה / נוכחות אסרטיבית / מהלך שיווקי ממוקד..." class="w-full evening-input p-2 text-xs font-medium text-brand-burgundy">
+              </div>
+              <div class="space-y-1">
+                <label class="text-[11px] font-semibold text-brand-wine block">מה הדבר שירגש אותי מחר?</label>
+                <input type="text" id="ev-tomorrow-pleasure" placeholder="אימון בוקר / קפה בשקט / הליכה בים / זמן איכות..." class="w-full evening-input p-2 text-xs font-medium text-brand-wine">
+              </div>
+            </div>
+          </div>
+
+          <!-- Save Button at the Bottom -->
+          <div class="pt-2 border-t border-[#E1D1D8]">
+            <button onclick="saveEveningReflection()" class="w-full py-2.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft hover:bg-brand-burgundy transition">
+              שמירת סגירת יום ותכנון למחר ✓
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Consistency Streak at the Bottom -->
+        <div class="pt-4 flex items-center justify-center">
+          <div class="inline-flex items-center gap-2 bg-brand-powder/80 border border-brand-border px-3.5 py-1.5 rounded-full text-xs text-brand-wine">
+            <span>רצף התמדה:</span>
+            <span id="streak-counter" class="text-brand-burgundy font-extrabold">1 ימים</span>
+            <span class="text-muted text-[10px] font-normal" id="streak-start-date">(התחלת היום)</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 2: WEEKLY (שבועי) -->
+      <!-- ======================================================================= -->
+      <div id="view-weekly" class="tab-view space-y-4">
+        
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-1">
+          <div>
+            <h2 class="text-xl font-serif font-bold text-brand-wine">שבועי</h2>
+            <p class="text-xs text-muted">כשרואים בבהירות מתקדמים יותר</p>
+          </div>
+          
+          <div class="inline-flex bg-brand-powder p-1 rounded-2xl border border-brand-border self-start sm:self-auto">
+            <button onclick="switchWeeklySubTab('summary')" id="btn-sub-summary" class="px-3.5 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft transition-all duration-200">
+              סיכום שבוע
+            </button>
+            <button onclick="switchWeeklySubTab('plan')" id="btn-sub-plan" class="px-3.5 py-1.5 rounded-xl text-brand-wine text-xs font-medium hover:bg-white/60 transition-all duration-200">
+              תכנון שבוע
+            </button>
+          </div>
+        </div>
+
+        <!-- Subtab 1: Weekly Summary -->
+        <div id="weekly-sub-summary" class="space-y-4">
+          <div class="zen-card p-5 sm:p-6 space-y-4">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-brand-borderSubtle">
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <span class="text-xs font-semibold text-brand-wine shrink-0">תאריכי השבוע המסוכם:</span>
+                <input type="text" id="ws-date-range" placeholder="למשל: 24–30 באוגוסט 2026" class="zen-input px-3 py-1.5 text-xs font-semibold text-brand-wine w-full sm:w-56 bg-[#FCF8FA]">
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button onclick="clearWeeklySummaryForm()" class="px-2.5 py-1.5 rounded-xl text-xs text-muted hover:text-brand-wine hover:bg-brand-powder transition">
+                  איפוס
+                </button>
+                <button onclick="saveWeeklySummary()" class="px-4 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft hover:bg-brand-burgundy transition">
+                  שמירת סיכום שבוע ✓
+                </button>
+              </div>
+            </div>
+
+            <!-- Single Row Questions -->
+            <div class="space-y-3.5 text-xs">
+              
+              <div class="space-y-1">
+                <label class="font-bold text-brand-wine block text-xs sm:text-sm">1. איך היה השבוע? איך הרגשתי השבוע?</label>
+                <textarea id="ws-how-was-week" rows="2" placeholder="תחושה כללית, נוכחות, מצב רוח..." class="w-full zen-input p-2.5 text-xs sm:text-sm leading-relaxed"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-emerald-900 block text-xs sm:text-sm">2. מה היה טוב?</label>
+                <textarea id="ws-what-good" rows="2" placeholder="דברים שזרמו, רגעים טובים, עשייה..." class="w-full zen-input p-2.5 text-xs sm:text-sm"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-burgundy block text-xs sm:text-sm">3. מה היה פחות טוב?</label>
+                <textarea id="ws-what-less-good" rows="2" placeholder="דברים שפחות עבדו, עייפות, עומס..." class="w-full zen-input p-2.5 text-xs sm:text-sm"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-rose block text-xs sm:text-sm">4. איפה הצלחתי? (בפן העסקי ובפן האישי)</label>
+                <textarea id="ws-wins" rows="2" placeholder="הצלחות עסקיות, החלטות אמיצות, הצלחות אישיות וזמן לעצמי..." class="w-full zen-input p-2.5 text-xs sm:text-sm leading-relaxed"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-wine block text-xs sm:text-sm">5. מה עבד מעולה ויצר תוצאות?</label>
+                <textarea id="ws-what-worked" rows="2" placeholder="פעולות, שיחות, מהלכים שקידמו אותי בעסק ובחיים..." class="w-full zen-input p-2.5 text-xs sm:text-sm"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-burgundy block text-xs sm:text-sm">6. איפה הייתה הימנעות או דחייה?</label>
+                <textarea id="ws-what-avoided" rows="2" placeholder="איפה נתקעתי, דחיתי שיחה או חיכיתי להרגיש מוכנה..." class="w-full zen-input p-2.5 text-xs sm:text-sm"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-wine block text-xs sm:text-sm">7. מה התובנה שלי מהשבוע?</label>
+                <input type="text" id="ws-lesson" placeholder="מסקנה ברורה ופשוטה לקחת קדימה..." class="w-full zen-input p-2.5 text-xs sm:text-sm font-semibold text-brand-wine">
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Subtab 2: Weekly Plan -->
+        <div id="weekly-sub-plan" class="space-y-4 hidden">
+          <div class="zen-card p-5 sm:p-6 space-y-4">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-brand-borderSubtle">
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <span class="text-xs font-semibold text-brand-wine shrink-0">תאריכי השבוע לתכנון:</span>
+                <input type="text" id="wp-date-range" placeholder="למשל: 24–30 באוגוסט 2026" class="zen-input px-3 py-1.5 text-xs font-semibold text-brand-wine w-full sm:w-56 bg-[#FCF8FA]">
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button onclick="clearWeeklyPlanForm()" class="px-2.5 py-1.5 rounded-xl text-xs text-muted hover:text-brand-wine hover:bg-brand-powder transition">
+                  איפוס
+                </button>
+                <button onclick="saveWeeklyPlan()" class="px-4 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft hover:bg-brand-burgundy transition">
+                  שמירת תכנון שבוע ✓
+                </button>
+              </div>
+            </div>
+
+            <!-- Clean Vertical Layout (1 Question Per Row) -->
+            <div class="space-y-3.5 text-xs sm:text-sm">
+              
+              <div class="space-y-1">
+                <label class="font-bold text-brand-wine block">1. איזו מילה תגדיר את השבוע החדש?</label>
+                <input type="text" id="wp-look-word" placeholder="למשל: זרימה / עוצמה / קלילות / מיקוד והתרחבות..." class="w-full zen-input p-2.5 text-xs sm:text-sm font-medium">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-rose block">2. איזו מדלן אני בוחרת להיות השבוע?</label>
+                <input type="text" id="wp-being-identity" placeholder="אסרטיבית, נוכחת, פועלת מתוך ביטחון ושקט..." class="w-full zen-input p-2.5 text-xs sm:text-sm font-semibold text-brand-rose">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-burgundy block">3. מה הפעולה האחת שתגרום לשבוע הזה להיות מוצלח?</label>
+                <input type="text" id="wp-one-success-action" placeholder="למשל: 3 שיחות התאמה / השקת מהלך חדש / סגירת פעולה מרכזית..." class="w-full zen-input p-2.5 text-xs sm:text-sm font-semibold text-brand-burgundy">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-wine block">4. מה הפעולה האחת שתקדם הכי הרבה את העסק השבוע?</label>
+                <input type="text" id="wp-anchor-habit" placeholder="פעולת כסף ישירה, פולואפ מדויק, הצעה ברורה..." class="w-full zen-input p-2.5 text-xs sm:text-sm">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-wine block">5. איפה אני רוצה להיות בסוף השבוע? (תוצאות + תחושה):</label>
+                <input type="text" id="wp-goal-main" placeholder="למשל: 2 לקוחות חדשים ותחושת שלווה וסיפוק..." class="w-full zen-input p-2.5 text-xs sm:text-sm font-medium">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-burgundy block">6. מה אני שמה מאחור?</label>
+                <input type="text" id="wp-leave-behind" placeholder="דחיינות, ניתוח יתר, פחד מתשובות..." class="w-full zen-input p-2.5 text-xs sm:text-sm text-brand-burgundy">
+              </div>
+
+            </div>
+
+            <!-- Weekly TO DO List With Interactive Subtask Builder -->
+            <div class="pt-4 border-t border-brand-borderSubtle space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <span class="font-serif font-bold text-brand-wine text-xs sm:text-sm block">Weekly TO DO List</span>
+                
+                <!-- Day Filter Buttons -->
+                <div class="flex items-center gap-1 overflow-x-auto text-[10px] pb-1 sm:pb-0">
+                  <button onclick="filterWeeklyTasksByDay('all')" id="day-filter-all" class="px-2.5 py-0.5 rounded-lg bg-brand-wine text-white font-bold transition">כל השבוע</button>
+                  <button onclick="filterWeeklyTasksByDay('sun')" id="day-filter-sun" class="px-2.5 py-0.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-medium transition">יום א'</button>
+                  <button onclick="filterWeeklyTasksByDay('mon')" id="day-filter-mon" class="px-2.5 py-0.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-medium transition">יום ב'</button>
+                  <button onclick="filterWeeklyTasksByDay('tue')" id="day-filter-tue" class="px-2.5 py-0.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-medium transition">יום ג'</button>
+                  <button onclick="filterWeeklyTasksByDay('wed')" id="day-filter-wed" class="px-2.5 py-0.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-medium transition">יום ד'</button>
+                  <button onclick="filterWeeklyTasksByDay('thu')" id="day-filter-thu" class="px-2.5 py-0.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-medium transition">יום ה'</button>
+                  <button onclick="filterWeeklyTasksByDay('fri')" id="day-filter-fri" class="px-2.5 py-0.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-medium transition">יום ו'</button>
+                </div>
+              </div>
+              
+              <!-- Subtask Creation Builder -->
+              <div class="p-3.5 rounded-xl bg-[#FCF8FA] border border-brand-border space-y-2.5">
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 text-xs">
+                  <input type="text" id="new-task-main-input" placeholder="משימה ראשית (למשל: דף נחיתה / קמפיין)..." class="sm:col-span-8 zen-input p-2 text-xs font-semibold">
+                  <select id="new-task-day-select" class="sm:col-span-4 zen-input p-2 text-xs font-semibold text-brand-wine">
+                    <option value="all">כל השבוע</option>
+                    <option value="sun">יום ראשון</option>
+                    <option value="mon">יום שני</option>
+                    <option value="tue">יום שלישי</option>
+                    <option value="wed">יום רביעי</option>
+                    <option value="thu">יום חמישי</option>
+                    <option value="fri">יום שישי</option>
+                  </select>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <input type="text" id="temp-subtask-input" placeholder="הוסיפי תת-משימה (למשל: ניתוח שוק - 20 דק')..." onkeydown="if(event.key==='Enter'){event.preventDefault(); addTempSubtask();}" class="flex-1 zen-input p-2 text-xs">
+                  <button type="button" onclick="addTempSubtask()" class="px-3 py-2 rounded-xl bg-brand-powder hover:bg-brand-powderHover text-brand-wine text-xs font-semibold border border-brand-border transition">
+                    + הוספת תת-משימה
+                  </button>
+                </div>
+
+                <div id="temp-subtasks-preview" class="flex flex-wrap gap-1.5 min-h-[24px]"></div>
+
+                <div class="pt-1 flex justify-end">
+                  <button onclick="commitNewTaskWithSubtasks()" class="px-4 py-2 rounded-xl bg-brand-wine text-white text-xs font-semibold hover:bg-brand-burgundy transition shadow-soft">
+                    הוספת משימה ללוח השבועי ✓
+                  </button>
+                </div>
+              </div>
+
+              <!-- List Container -->
+              <div id="weekly-todo-list-container" class="space-y-2 pt-1"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- History Drawer -->
+        <div class="zen-card p-3.5 space-y-2">
+          <button onclick="toggleHistoryDrawer('weekly-history-content', 'weekly-history-icon')" class="w-full flex items-center justify-between text-xs font-bold text-brand-wine py-1 px-1 hover:text-brand-rose transition">
+            <span class="flex items-center gap-2">
+              <span>היסטוריית תכנונים וסיכומים שבועיים</span>
+              <span id="weekly-history-count" class="bg-brand-powder text-brand-wine text-[10px] px-2 py-0.5 rounded-full font-bold">0</span>
+            </span>
+            <i id="weekly-history-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
+          
+          <div id="weekly-history-content" class="space-y-2 pt-2 border-t border-brand-borderSubtle hidden">
+            <div id="weekly-history-list" class="space-y-2"></div>
+          </div>
+        </div>
+
+        <!-- Energy Distribution Statistics at Bottom of Weekly -->
+        <div class="zen-card p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-muted">
+          <span class="font-semibold text-brand-wine flex items-center gap-1.5">
+            <span>תמונת האנרגיה והתדרים שלך:</span>
+          </span>
+          <div class="flex items-center gap-2 font-bold text-[10px]">
+            <span class="bg-amber-50 border border-amber-200 text-amber-900 px-2.5 py-1 rounded-md" id="count-energy-high">גבוהה: 0</span>
+            <span class="bg-emerald-50 border border-emerald-200 text-emerald-900 px-2.5 py-1 rounded-md" id="count-energy-normal">רגועה: 0</span>
+            <span class="bg-rose-50 border border-rose-200 text-brand-wine px-2.5 py-1 rounded-md" id="count-energy-low">נמוכה: 0</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 3: MONTHLY (חודשי) -->
+      <!-- ======================================================================= -->
+      <div id="view-monthly" class="tab-view space-y-4">
+        
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-1">
+          <div>
+            <h2 class="text-xl font-serif font-bold text-brand-wine">חודשי</h2>
+            <p class="text-xs text-muted">יעדים מרכזיים, הכנסה ופירוק שבועות</p>
+          </div>
+          
+          <div class="inline-flex bg-brand-powder p-1 rounded-2xl border border-brand-border self-start sm:self-auto">
+            <button onclick="switchMonthlySubTab('summary')" id="btn-m-sub-summary" class="px-3.5 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft transition-all duration-200">
+              סיכום חודש
+            </button>
+            <button onclick="switchMonthlySubTab('plan')" id="btn-m-sub-plan" class="px-3.5 py-1.5 rounded-xl text-brand-wine text-xs font-medium hover:bg-white/60 transition-all duration-200">
+              תכנון חודש
+            </button>
+          </div>
+        </div>
+
+        <!-- Subtab 1: Monthly Summary -->
+        <div id="monthly-sub-summary" class="space-y-4">
+          <div class="zen-card p-5 sm:p-6 space-y-4">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-brand-borderSubtle">
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <span class="text-xs font-semibold text-brand-wine shrink-0">חודש מסוכם:</span>
+                <input type="text" id="ms-month-name" placeholder="למשל: אוגוסט 2026" class="zen-input px-3 py-1.5 text-xs font-semibold text-brand-wine w-full sm:w-56 bg-[#FCF8FA]">
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button onclick="clearMonthlySummaryForm()" class="px-2.5 py-1.5 rounded-xl text-xs text-muted hover:text-brand-wine hover:bg-brand-powder transition">
+                  איפוס
+                </button>
+                <button onclick="saveMonthlySummary()" class="px-4 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft hover:bg-brand-burgundy transition">
+                  שמירת סיכום חודש ✓
+                </button>
+              </div>
+            </div>
+
+            <!-- Clean Single Row Questions -->
+            <div class="space-y-3.5 text-xs">
+              
+              <div class="space-y-1">
+                <label class="font-bold text-brand-burgundy block text-xs sm:text-sm">1. הכנסה בפועל שנוצרה החודש:</label>
+                <input type="text" id="ms-actual-income" placeholder="למשל: 28,000 ₪" class="w-full zen-input p-2.5 text-xs sm:text-sm font-bold text-brand-burgundy">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-wine block text-xs sm:text-sm">2. כמות לקוחות פעילים:</label>
+                <input type="text" id="ms-active-clients" placeholder="למשל: 6 לקוחות פרימיום" class="w-full zen-input p-2.5 text-xs sm:text-sm">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-rose block text-xs sm:text-sm">3. 3 הניצחונות הגדולים של החודש:</label>
+                <textarea id="ms-wins" rows="2" placeholder="1. ...&#10;2. ...&#10;3. ..." class="w-full zen-input p-2.5 text-xs sm:text-sm leading-relaxed"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-wine block text-xs sm:text-sm">4. מה יצר הכי הרבה תוצאות החודש?</label>
+                <textarea id="ms-what-worked" rows="2" placeholder="פעולות ומהלכים שעבדו מעולה..." class="w-full zen-input p-2.5 text-xs sm:text-sm"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-burgundy block text-xs sm:text-sm">5. איפה בוזבזה אנרגיה / הימנעות?</label>
+                <textarea id="ms-what-avoided" rows="2" placeholder="איפה נתקעתי בניתוח יתר או דחייה..." class="w-full zen-input p-2.5 text-xs sm:text-sm"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-rose block text-xs sm:text-sm">6. מי מדלן שהפכתי להיות החודש?</label>
+                <input type="text" id="ms-identity-growth" placeholder="אסרטיבית, נוכחת, פועלת..." class="w-full zen-input p-2.5 text-xs sm:text-sm">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-wine block text-xs sm:text-sm">7. התובנה המזוקקת לקחת לחודש הבא:</label>
+                <input type="text" id="ms-lesson" placeholder="החלטה ברורה לדרך קדימה..." class="w-full zen-input p-2.5 text-xs sm:text-sm">
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Subtab 2: Monthly Plan -->
+        <div id="monthly-sub-plan" class="space-y-4 hidden">
+          <div class="zen-card p-5 sm:p-6 space-y-4">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-brand-borderSubtle">
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <span class="text-xs font-semibold text-brand-wine shrink-0">שם החודש:</span>
+                <input type="text" id="mp-month-name" placeholder="למשל: ספטמבר 2026" class="zen-input px-3 py-1.5 text-xs font-semibold text-brand-wine w-full sm:w-56 bg-[#FCF8FA]">
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button onclick="clearMonthlyPlanForm()" class="px-2.5 py-1.5 rounded-xl text-xs text-muted hover:text-brand-wine hover:bg-brand-powder transition">
+                  איפוס
+                </button>
+                <button onclick="saveMonthlyPlan()" class="px-4 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft hover:bg-brand-burgundy transition">
+                  שמירת חודש ✓
+                </button>
+              </div>
+            </div>
+
+            <!-- Clean Vertical Single Row Layout -->
+            <div class="space-y-3.5 text-xs sm:text-sm">
+              
+              <div class="space-y-1">
+                <label class="font-bold text-brand-wine block">1. יעד עסקי מרכזי לחודש:</label>
+                <input type="text" id="mp-business-goal" placeholder="למשל: 5–7 לקוחות פרימיום פעילים..." class="w-full zen-input p-2.5 text-xs sm:text-sm font-medium">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-burgundy block">2. יעד הכנסה חודשי:</label>
+                <input type="text" id="mp-income-goal" placeholder="25,000–30,000 ₪" class="w-full zen-input p-2.5 text-xs sm:text-sm font-bold text-brand-burgundy">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-bold text-brand-rose block">3. יעד אישי / חיים / תל אביב:</label>
+                <input type="text" id="mp-personal-goal" placeholder="אימונים, דייטים, זמן לעצמי, שקט..." class="w-full zen-input p-2.5 text-xs sm:text-sm font-medium">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-wine block">4. הרגל או זהות שאני מפתחת החודש:</label>
+                <input type="text" id="mp-habit-growth" placeholder="למשל: קבלת החלטות מהירות בלי להיתקע בניתוח..." class="w-full zen-input p-2.5 text-xs sm:text-sm">
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-brand-burgundy block">5. דבר אחד שאני מפסיקה לעשות החודש:</label>
+                <input type="text" id="mp-stop-doing" placeholder="למשל: לחכות להרגיש מוכנה כדי להעלות סטורי / ליזום שיחה..." class="w-full zen-input p-2.5 text-xs sm:text-sm text-brand-burgundy">
+              </div>
+
+            </div>
+
+            <!-- 4 Weeks Breakdown -->
+            <div class="pt-4 border-t border-brand-borderSubtle space-y-3">
+              <span class="font-serif font-bold text-brand-wine text-xs sm:text-sm block">פירוק החודש ל-4 שבועות</span>
+              
+              <div class="space-y-2.5 text-xs">
+                <div class="space-y-1">
+                  <span class="text-[11px] font-semibold text-muted block">שבוע 1:</span>
+                  <input type="text" id="mp-w1" placeholder="פוקוס שבוע 1..." class="w-full zen-input p-2 text-xs">
+                </div>
+                <div class="space-y-1">
+                  <span class="text-[11px] font-semibold text-muted block">שבוע 2:</span>
+                  <input type="text" id="mp-w2" placeholder="פוקוס שבוע 2..." class="w-full zen-input p-2 text-xs">
+                </div>
+                <div class="space-y-1">
+                  <span class="text-[11px] font-semibold text-muted block">שבוע 3:</span>
+                  <input type="text" id="mp-w3" placeholder="פוקוס שבוע 3..." class="w-full zen-input p-2 text-xs">
+                </div>
+                <div class="space-y-1">
+                  <span class="text-[11px] font-semibold text-muted block">שבוע 4:</span>
+                  <input type="text" id="mp-w4" placeholder="פוקוס שבוע 4..." class="w-full zen-input p-2 text-xs">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- History Drawer -->
+        <div class="zen-card p-3.5 space-y-2">
+          <button onclick="toggleHistoryDrawer('monthly-history-content', 'monthly-history-icon')" class="w-full flex items-center justify-between text-xs font-bold text-brand-wine py-1 px-1 hover:text-brand-rose transition">
+            <span class="flex items-center gap-2">
+              <span>היסטוריית תוכניות וסיכומים חודשיים</span>
+              <span id="monthly-history-count" class="bg-brand-powder text-brand-wine text-[10px] px-2 py-0.5 rounded-full font-bold">0</span>
+            </span>
+            <i id="monthly-history-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
+          
+          <div id="monthly-history-content" class="space-y-2 pt-2 border-t border-brand-borderSubtle hidden">
+            <div id="monthly-history-list" class="space-y-2"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 4: PATTERNS (עבודה עם דפוסים) -->
+      <!-- ======================================================================= -->
+      <div id="view-patterns" class="tab-view space-y-3.5">
+        <div class="zen-card p-5 space-y-4">
+          <div class="border-b border-brand-borderSubtle pb-2">
+            <h2 class="text-lg font-serif font-bold text-brand-wine">עבודה עם דפוסים 👑</h2>
+            <p class="text-[11px] text-muted">זיהוי דפוס בזמן אמת, עצירת דחייה ויציאה מיידית לפעולה</p>
+          </div>
+
+          <!-- Active Timer Display Banner -->
+          <div id="active-timer-box" class="hidden p-4 rounded-xl bg-brand-powder text-center border border-brand-border space-y-2">
+            <span class="text-xs font-bold text-brand-wine block" id="active-timer-title">טיימר פוקוס בפעולה</span>
+            <div class="text-3xl font-mono font-extrabold text-brand-wine" id="active-timer-countdown">05:00</div>
+            <button onclick="stopFocusTimer()" class="px-3 py-1 rounded-lg bg-white border border-brand-border text-xs text-brand-wine font-semibold hover:bg-rose-50 transition">
+              עצירת טיימר ⏹️
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            
+            <div class="p-3.5 rounded-xl bg-brand-powderLight border border-brand-border space-y-2">
+              <span class="font-bold text-brand-wine block text-sm">דחיית שיחות / הצעות מחיר</span>
+              <p class="text-[11px] text-muted leading-tight">המטרה היא להבין אדם ולעזור — לא להוכיח שום דבר. שיחה אחת עכשיו.</p>
+              <div class="flex items-center gap-1.5 pt-1">
+                <button onclick="startFocusTimer('שיחת מכירה / הודעה', 5)" class="flex-1 py-1.5 rounded-lg bg-brand-wine text-white font-semibold text-[10px] shadow-soft hover:bg-brand-burgundy transition">
+                  טיימר 5 דקות ⏱️
+                </button>
+                <button onclick="startFocusTimer('שיחת מכירה / הודעה', 10)" class="flex-1 py-1.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-semibold text-[10px] border border-brand-border transition">
+                  טיימר 10 דקות ⏱️
+                </button>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-brand-powderLight border border-brand-border space-y-2">
+              <span class="font-bold text-brand-wine block text-sm">הצפה ועומס רגשי</span>
+              <p class="text-[11px] text-muted leading-tight">רגש הוא לא עובדה. כתיבה מהירה של 5 דקות לפריקת המחשבות והרגעת הראש.</p>
+              <div class="flex items-center gap-1.5 pt-1">
+                <button onclick="startFocusTimer('פריקת עומס וכתיבה', 5)" class="flex-1 py-1.5 rounded-lg bg-brand-wine text-white font-semibold text-[10px] shadow-soft hover:bg-brand-burgundy transition">
+                  טיימר כתיבה 5 דק' ✍️
+                </button>
+                <button onclick="openStuckModal()" class="flex-1 py-1.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-semibold text-[10px] border border-brand-border transition">
+                  מרחב שחרור 🌸
+                </button>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-brand-powderLight border border-brand-border space-y-2">
+              <span class="font-bold text-brand-wine block text-sm">התפזרות בין רעיונות</span>
+              <p class="text-[11px] text-muted leading-tight">יש לך מספיק מידע. סגרי פעולה ממוקדת אחת בלבד ב-15 דקות הבאות.</p>
+              <div class="pt-1">
+                <button onclick="startFocusTimer('פעולה ממוקדת אחת', 15)" class="w-full py-1.5 rounded-lg bg-brand-wine text-white font-semibold text-[10px] shadow-soft hover:bg-brand-burgundy transition">
+                  סגירת פעולה — 15 דקות 🎯
+                </button>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-brand-powderLight border border-brand-border space-y-2">
+              <span class="font-bold text-brand-wine block text-sm">לחכות להרגיש מוכנה</span>
+              <p class="text-[11px] text-muted leading-tight">מוטיבציה היא תוצאה של הפעולה, לא תנאי לפעולה. צעד קטן של 5 דקות.</p>
+              <div class="pt-1">
+                <button onclick="startFocusTimer('צעד קטן ראשון', 5)" class="w-full py-1.5 rounded-lg bg-brand-wine text-white font-semibold text-[10px] shadow-soft hover:bg-brand-burgundy transition">
+                  מתחילה בצעד של 5 דקות 🌿
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 5: VISION (החזון והלמה) -->
+      <!-- ======================================================================= -->
+      <div id="view-vision" class="tab-view space-y-4">
+        <div class="zen-card p-5 sm:p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-brand-borderSubtle pb-2.5">
+            <div>
+              <h2 class="text-xl font-serif font-bold text-brand-wine">החזון והלמה הרגשי ✨</h2>
+              <p class="text-xs text-muted">אוגוסט 2026 → אוגוסט 2027</p>
+            </div>
+            <span class="text-xs bg-brand-powder text-brand-wine px-3 py-1 rounded-full font-bold self-start sm:self-auto border border-brand-border">
+              25,000–30,000 ₪ לחודש
+            </span>
+          </div>
+          
+          <!-- Core Why -->
+          <div class="p-4 rounded-xl bg-brand-powderLight border border-brand-border space-y-1.5 text-xs text-brand-wine leading-relaxed">
+            <span class="font-bold text-sm block text-brand-burgundy">הלמה המרכזי של מדלן:</span>
+            <p class="text-xs sm:text-sm">חיים של חופש, הצלחה, אהבה, ביטוי עצמי ושקט פנימי עמוק. עסק יציב של 5–7 לקוחות פרימיום שמשרת את החיים שלי ולא מנהל אותי.</p>
+          </div>
+
+          <!-- Structured Vision Pillars -->
+          <div class="space-y-3 text-xs sm:text-sm">
+            
+            <div class="p-3.5 rounded-xl bg-white border border-brand-border space-y-1">
+              <span class="font-bold text-brand-rose block">מי מדלן (הזהות & ה-Being):</span>
+              <p class="text-muted-dark leading-relaxed">אישה אסרטיבית, נשית, כריזמטית, מלאת ביטחון ושקט פנימי. יודעת מה הערך שלה, מקבלת החלטות באומץ ולא זקוקה לאישור חיצוני.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-white border border-brand-border space-y-1">
+              <span class="font-bold text-brand-burgundy block">העסק והחופש הכלכלי:</span>
+              <p class="text-muted-dark leading-relaxed">25,000–30,000 ₪ בחודש באופן יציב וטבעי. 5–7 לקוחות פרימיום מדויקים שמעריכים את התוצאות, עבודה בשעות נעימות ותהליכים פשוטים ומסודרים.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-white border border-brand-border space-y-1">
+              <span class="font-bold text-brand-wine block">סגנון החיים והאישי:</span>
+              <p class="text-muted-dark leading-relaxed">דירה אסתטית ומעוצבת בתל אביב, קרבה לים, זוגיות עמוקה ומעצימה, אימונים וזמן איכות יומיומי לעצמי.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-[#FCF8FA] border border-brand-border space-y-1">
+              <span class="font-bold text-brand-wine block">תפיסת המכירה והעשייה:</span>
+              <p class="text-muted-dark leading-relaxed">מכירה היא הבנת האדם והצעת עזרה אמיתית. אין צורך לשכנע או להוכיח. מוטיבציה היא תוצאה של הפעולה ולא תנאי לה.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 6: WINS (הצלחות) -->
+      <!-- ======================================================================= -->
+      <div id="view-wins" class="tab-view space-y-3.5">
+        <div class="zen-card p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-brand-borderSubtle pb-2">
+            <div>
+              <h2 class="text-lg font-serif font-bold text-brand-wine">ספר הניצחונות 🏆</h2>
+              <p class="text-[11px] text-muted">אומץ, גבולות ובחירה בעצמך</p>
+            </div>
+            <button onclick="openWinModal()" class="px-3 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft hover:bg-brand-burgundy transition">
+              + ניצחון
+            </button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs" id="wins-grid"></div>
+        </div>
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 7: COACH (המאמן) -->
+      <!-- ======================================================================= -->
+      <div id="view-coach" class="tab-view space-y-3.5">
+        <div class="zen-card p-5 space-y-3">
+          <div class="border-b border-brand-borderSubtle pb-2">
+            <h2 class="text-lg font-serif font-bold text-brand-wine">המאמן האישי 💬</h2>
+            <p class="text-[11px] text-muted">קונטרה חדה, עצירת ניתוח יתר וחזרה לפעולה</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-[#FCF8FA] border border-brand-border min-h-[180px] max-h-[260px] overflow-y-auto space-y-2 text-xs" id="coach-messages">
+            <div class="p-2.5 rounded-xl bg-white border border-brand-border text-brand-wine leading-relaxed">
+              מדלן יקרה 🩷 כשתרגישי שאת מתפזרת, דוחה שיחה או מחפשת מוטיבציה — שתפי אותי ונעבור מיידית לפעולה הבאה.
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 pt-1">
+            <input type="text" id="coach-input" placeholder="מה קורה עכשיו? (דוחה שיחה, מתפזרת, עייפה...)" onkeydown="if(event.key==='Enter') sendToCoach()" class="flex-1 zen-input p-2 text-xs">
+            <button onclick="sendToCoach()" class="px-4 py-2 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft hover:bg-brand-burgundy transition">
+              שלחי
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODALS -->
+  <!-- ========================================================================= -->
+  <!-- Modal: Stuck / Avoidance -->
+  <div id="modal-stuck" class="fixed inset-0 z-50 bg-brand-wine/20 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="zen-card p-5 max-w-sm w-full shadow-float space-y-3">
+      <div class="flex items-center justify-between border-b border-brand-borderSubtle pb-2">
+        <h3 class="font-serif font-bold text-brand-wine text-sm">רגע עצירה: מה קורה?</h3>
+        <button onclick="closeModal('modal-stuck')" class="text-muted hover:text-brand-wine text-sm"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="space-y-2 text-xs">
+        <div class="grid grid-cols-2 gap-1.5">
+          <button onclick="stuckIntervention('avoid')" class="p-2 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-right font-medium">דוחה שיחה</button>
+          <button onclick="stuckIntervention('ideas')" class="p-2 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-right font-medium">מתפזרת</button>
+          <button onclick="stuckIntervention('overload')" class="p-2 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-right font-medium">מוצפת</button>
+          <button onclick="stuckIntervention('tired')" class="p-2 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-right font-medium">עייפה</button>
+        </div>
+        <div id="stuck-msg-box" class="hidden p-2.5 rounded-xl bg-brand-powderLight border border-brand-border space-y-2 mt-1">
+          <p class="text-xs text-brand-wine leading-relaxed" id="stuck-txt"></p>
+          <button onclick="closeModal('modal-stuck'); showToast('יוצאת לפעולה ממוקדת עכשיו!', 'success'); triggerConfetti();" class="w-full py-1.5 rounded-lg bg-brand-wine text-white font-semibold text-xs">
+            מתחילה עכשיו ⏱️
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add Win -->
+  <div id="modal-win" class="fixed inset-0 z-50 bg-brand-wine/20 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="zen-card p-5 max-w-sm w-full shadow-float space-y-3">
+      <div class="flex items-center justify-between border-b border-brand-borderSubtle pb-2">
+        <h3 class="font-serif font-bold text-brand-wine text-sm">+ ניצחון 🏆</h3>
+        <button onclick="closeModal('modal-win')" class="text-muted hover:text-brand-wine text-sm"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="handleWinSubmit(event)" class="space-y-2.5 text-xs">
+        <input type="text" id="win-txt-in" required placeholder="שיחה, גבול, החלטה או פעולה..." class="w-full zen-input p-2 font-medium">
+        <button type="submit" class="w-full py-2 rounded-xl bg-brand-wine text-white font-semibold text-xs hover:bg-brand-burgundy transition shadow-soft">
+          שמירה ב-WIN BOOK ✨
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT STATE & LOGIC -->
+  <!-- ========================================================================= -->
+  <script>
+    const visionMantras = [
+      "אני פועלת מתוך ביטחון ושקט פנימי — עסק שמשרת את החיים שלי ולא מנהל אותי.",
+      "אני אישה אסרטיבית, נשית, כריזמטית ופועלת — הערך שלי ברור ויציב.",
+      "מכירה היא להבין אדם ולהציע עזרה אמיתית — אני לא צריכה להוכיח שום דבר.",
+      "חופש + הצלחה + אהבה + שקט: אני לא מחכה להרגיש מושלמת כדי לפעול.",
+      "25,000–30,000 ₪, 5–7 לקוחות פרימיום, בית אסתטי בתל אביב וחיים של חופש.",
+      "מוטיבציה היא תוצאה של פעולה — צעד קטן של 5 דקות מייצר את התנופה.",
+      "מדלן העוצמתית מקבלת החלטה וסוגרת פעולה ממוקדת עכשיו."
+    ];
+
+    const todayDateKey = new Date().toISOString().slice(0, 10);
+    let currentSavedDate = localStorage.getItem('m_saved_date') || todayDateKey;
+
+    let energyState = localStorage.getItem('m_energy_state') || 'normal';
+    let energyCause = localStorage.getItem('m_energy_cause') || '';
+    let energyLog = JSON.parse(localStorage.getItem('m_energy_log')) || {};
+    let streakData = JSON.parse(localStorage.getItem('m_streak_data')) || { startDate: todayDateKey, lastActiveDate: todayDateKey, count: 1 };
+
+    let rituals = JSON.parse(localStorage.getItem('m_rituals')) || { r1: false, r2: false, r3: false, r4: false, r5: false };
+    let anchors = JSON.parse(localStorage.getItem('m_anchors')) || { q1: '', q2: '', q3: '' };
+    let gratitudes = JSON.parse(localStorage.getItem('m_gratitudes')) || { g1: '', g2: '', g3: '' };
+    let dailyMantra = localStorage.getItem('m_daily_mantra') || '';
+    let identityAction = localStorage.getItem('m_identity_action') || '';
+    let weeklyTodos = JSON.parse(localStorage.getItem('m_weekly_todos')) || [];
+    let currentDayFilter = 'all';
+    let tempSubtasks = [];
+
+    let timerInterval = null;
+    let timerRemainingSeconds = 0;
+
+    let eveningReflection = JSON.parse(localStorage.getItem('m_evening_reflection')) || { whatGood: '', whatNotGood: '', improveTomorrow: '', oneWin: '', tomorrowBiz: '', tomorrowPleasure: '' };
+    let weeklyPlan = JSON.parse(localStorage.getItem('m_weekly_plan')) || { dateRange: '', lookWord: '', beingIdentity: '', oneSuccessAction: '', anchorHabit: '', mainGoal: '', leaveBehind: '' };
+    let weeklySummary = JSON.parse(localStorage.getItem('m_weekly_summary')) || { dateRange: '', actualIncome: '', clientsCount: '', leadsCount: '', howWasWeek: '', whatGood: '', whatLessGood: '', wins: '', whatWorked: '', whatAvoided: '', lesson: '' };
+    let monthlyPlan = JSON.parse(localStorage.getItem('m_monthly_plan')) || { monthName: '', bizGoal: '', incomeGoal: '', leadsGoal: '', persGoal: '', habit: '', stopDoing: '', w1: '', w1Target: '', w1Life: '', w2: '', w2Target: '', w2Life: '', w3: '', w3Target: '', w3Life: '', w4: '', w4Target: '', w4Life: '' };
+    let monthlySummary = JSON.parse(localStorage.getItem('m_monthly_summary')) || { monthName: '', actualIncome: '', activeClients: '', leadsCount: '', wins: '', whatWorked: '', whatAvoided: '', identityGrowth: '', lesson: '' };
+    let weeklyHistory = JSON.parse(localStorage.getItem('m_weekly_history')) || [];
+    let monthlyHistory = JSON.parse(localStorage.getItem('m_monthly_history')) || [];
+    let wins = JSON.parse(localStorage.getItem('m_wins')) || [];
+
+    const dayKeyMap = { 0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat' };
+    const dayNameMap = { sun: "יום ראשון", mon: "יום שני", tue: "יום שלישי", wed: "יום רביעי", thu: "יום חמישי", fri: "יום שישי", sat: "שבת", all: "כל השבוע" };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateStreak();
+
+      if (currentSavedDate !== todayDateKey) {
+        localStorage.setItem('m_saved_date', todayDateKey);
+        rituals = { r1: false, r2: false, r3: false, r4: false, r5: false };
+        localStorage.setItem('m_rituals', JSON.stringify(rituals));
+      }
+
+      initGreeting();
+      setDailyEnergyState(energyState, false);
+      loadEnergyCause();
+      renderEnergyAnalytics();
+      loadRituals();
+      loadAnchors();
+      loadGratitudes();
+      loadDailyMantra();
+      loadEveningReflection();
+      loadWeeklyData();
+      loadMonthlyData();
+      renderWeeklyTodos();
+      renderTodayWeeklyTasks();
+      renderWeeklyHistory();
+      renderMonthlyHistory();
+      renderWins();
+
+      const idActEl = document.getElementById('identity-action-input');
+      if (idActEl) idActEl.value = identityAction;
+
+      const now = new Date();
+      const todayDayLabel = document.getElementById('today-day-name');
+      if (todayDayLabel) {
+        const days = ['יום ראשון', 'יום שני', 'יום שלישי', 'יום רביעי', 'יום חמישי', 'יום שישי', 'שבת'];
+        todayDayLabel.innerText = days[now.getDay()];
+      }
+    });
+
+    function updateStreak() {
+      if (!streakData.startDate) {
+        streakData = { startDate: todayDateKey, lastActiveDate: todayDateKey, count: 1 };
+      } else if (streakData.lastActiveDate !== todayDateKey) {
+        const last = new Date(streakData.lastActiveDate);
+        const today = new Date(todayDateKey);
+        const diffDays = Math.round((today - last) / (1000 * 60 * 60 * 24));
+        if (diffDays === 1) {
+          streakData.count = (streakData.count || 1) + 1;
+        } else if (diffDays > 1) {
+          streakData.count = 1;
+        }
+        streakData.lastActiveDate = todayDateKey;
+      }
+      localStorage.setItem('m_streak_data', JSON.stringify(streakData));
+
+      const streakEl = document.getElementById('streak-counter');
+      const startEl = document.getElementById('streak-start-date');
+      if (streakEl) streakEl.innerText = `${streakData.count} ימים`;
+      if (startEl && streakData.startDate) {
+        const [y, m, d] = streakData.startDate.split('-');
+        startEl.innerText = `(מ-${d}/${m}/${y})`;
+      }
+    }
+
+    function initGreeting() {
+      const heroDate = document.getElementById('hero-date');
+      const heroTitle = document.getElementById('hero-greeting-title');
+      const now = new Date();
+      const hour = now.getHours();
+
+      if (heroDate) {
+        const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+        const months = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+        heroDate.innerText = `יום ${days[now.getDay()]}, ${now.getDate()} ב${months[now.getMonth()]}`;
+      }
+
+      if (heroTitle) {
+        let greeting = 'בוקר טוב מדלן 🩷';
+        if (hour >= 5 && hour < 12) {
+          greeting = 'בוקר טוב מדלן 🩷';
+        } else if (hour >= 12 && hour < 17) {
+          greeting = 'צהריים טובים מדלן 🩷';
+        } else if (hour >= 17 && hour < 21) {
+          greeting = 'ערב טוב מדלן 🩷';
+        } else {
+          greeting = 'לילה טוב מדלן 🩷';
+        }
+        heroTitle.innerText = greeting;
+      }
+    }
+
+    function setDailyEnergyState(state, showNotification = true) {
+      energyState = state;
+      localStorage.setItem('m_energy_state', state);
+
+      if (!energyLog[todayDateKey]) energyLog[todayDateKey] = {};
+      energyLog[todayDateKey].state = state;
+      localStorage.setItem('m_energy_log', JSON.stringify(energyLog));
+      renderEnergyAnalytics();
+
+      const btnHigh = document.getElementById('btn-energy-high');
+      const btnNormal = document.getElementById('btn-energy-normal');
+      const btnLow = document.getElementById('btn-energy-low');
+      const guide = document.getElementById('energy-coaching-guide');
+      const causeLabel = document.getElementById('energy-cause-label');
+      const q2Label = document.getElementById('q2-coaching-label');
+      const q2Input = document.getElementById('q-business');
+
+      [btnHigh, btnNormal, btnLow].forEach(btn => {
+        if (btn) {
+          btn.className = 'p-2.5 rounded-xl border border-brand-border text-center transition font-medium hover:border-brand-rose bg-white text-brand-wine';
+        }
+      });
+
+      if (state === 'high') {
+        if (btnHigh) btnHigh.className = 'p-2.5 rounded-xl border-2 border-brand-wine bg-brand-powder text-center transition font-bold text-brand-wine shadow-soft';
+        if (causeLabel) causeLabel.innerText = 'מה הדליק ומילא אותך באנרגיה גבוהה הבוקר?';
+        if (guide) {
+          guide.innerHTML = '🔥 <strong>תדר עוצמה:</strong> מנצלים את המומנטום לשיחות סגירה, מהלכי הכנסה ישירים ופתיחת דלתות חדשות!';
+        }
+        if (q2Label) q2Label.innerText = '2. מה הפעולה המנצחת והאמיצה שתקדם את העסק היום? 💼';
+        if (q2Input) q2Input.placeholder = 'שיחת התאמה / פולואפ / הצעה / סגירת פעולה קונקרטית...';
+      } else if (state === 'low') {
+        if (btnLow) btnLow.className = 'p-2.5 rounded-xl border-2 border-brand-wine bg-brand-powder text-center transition font-bold text-brand-wine shadow-soft';
+        if (causeLabel) causeLabel.innerText = 'מה רוקן או השפיע על האנרגיה הבוקר?';
+        if (guide) {
+          guide.innerHTML = '🌸 <strong>הגנה על האנרגיה:</strong> היום לא מחפשות שלמות. פעולת מינימום קטנה אחת בלבד — ומנוחה עמוקה ללא רגשות אשמה.';
+        }
+        if (q2Label) q2Label.innerText = '2. איזו פעולה קטנה של 10 דקות תביא אותי היום קדימה? 💼';
+        if (q2Input) q2Input.placeholder = 'לשלוח הודעה קצרה אחת ללקוח/ליד ולשחרר...';
+      } else {
+        if (btnNormal) btnNormal.className = 'p-2.5 rounded-xl border-2 border-brand-wine bg-brand-powder text-center transition font-bold text-brand-wine shadow-soft';
+        if (causeLabel) causeLabel.innerText = 'מה יצר את האנרגיה הרגועה והנעימה הבוקר?';
+        if (guide) {
+          guide.innerHTML = '🌿 <strong>עוגן אימוני להיום:</strong> שומרות על קצב רגוע וממוקד. פעולת כסף אחת משמעותית וזמן מזין לעצמך.';
+        }
+        if (q2Label) q2Label.innerText = '2. מה הפעולה המדויקת שתקדם את העסק היום? 💼';
+        if (q2Input) q2Input.placeholder = 'שיחת התאמה / פולואפ / הצעה / סגירת פעולה קונקרטית...';
+      }
+
+      if (showNotification) {
+        showToast('תדר היום הוגדר', 'info');
+      }
+    }
+
+    function loadEnergyCause() {
+      const el = document.getElementById('energy-cause-input');
+      if (el) el.value = energyCause || '';
+    }
+
+    function saveEnergyCause(val) {
+      energyCause = val;
+      localStorage.setItem('m_energy_cause', energyCause);
+      if (!energyLog[todayDateKey]) energyLog[todayDateKey] = {};
+      energyLog[todayDateKey].cause = val;
+      localStorage.setItem('m_energy_log', JSON.stringify(energyLog));
+    }
+
+    function renderEnergyAnalytics() {
+      let high = 0, normal = 0, low = 0;
+      Object.values(energyLog).forEach(entry => {
+        if (entry.state === 'high') high++;
+        else if (entry.state === 'low') low++;
+        else if (entry.state === 'normal') normal++;
+      });
+      if (high === 0 && normal === 0 && low === 0) {
+        if (energyState === 'high') high = 1;
+        else if (energyState === 'low') low = 1;
+        else normal = 1;
+      }
+
+      const highEl = document.getElementById('count-energy-high');
+      const normEl = document.getElementById('count-energy-normal');
+      const lowEl = document.getElementById('count-energy-low');
+
+      if (highEl) highEl.innerText = `גבוהה: ${high}`;
+      if (normEl) normEl.innerText = `רגועה: ${normal}`;
+      if (lowEl) lowEl.innerText = `נמוכה: ${low}`;
+    }
+
+    function loadDailyMantra() {
+      const el = document.getElementById('daily-mantra-input');
+      if (el) el.value = dailyMantra || '';
+    }
+
+    function launchDirectActionFromQ2() {
+      const q2Input = document.getElementById('q-business');
+      const actionText = q2Input ? q2Input.value.trim() : '';
+      const taskName = actionText || 'פעולה עסקית מקדמת';
+      
+      // Switch to patterns view where the timer runs
+      switchTab('patterns');
+      startFocusTimer(taskName, 10);
+      showToast(`טיימר 10 דקות לפעולה יצא לדרך: ${taskName} 🚀`, 'success');
+    }
+
+    function saveDailyMantra(val) {
+      dailyMantra = val;
+      localStorage.setItem('m_daily_mantra', dailyMantra);
+    }
+
+    function inspireMantraFromVision() {
+      const randomMantra = visionMantras[Math.floor(Math.random() * visionMantras.length)];
+      const el = document.getElementById('daily-mantra-input');
+      if (el) {
+        el.value = randomMantra;
+        saveDailyMantra(randomMantra);
+        triggerConfetti();
+        showToast('מנטרה מהחזון נטענה ונשמרה 👑', 'success');
+      }
+    }
+
+    function loadGratitudes() {
+      const g1 = document.getElementById('gratitude-1');
+      const g2 = document.getElementById('gratitude-2');
+      const g3 = document.getElementById('gratitude-3');
+      if (g1) g1.value = gratitudes.g1 || '';
+      if (g2) g2.value = gratitudes.g2 || '';
+      if (g3) g3.value = gratitudes.g3 || '';
+    }
+
+    function saveGratitude(index, val) {
+      gratitudes[`g${index}`] = val;
+      localStorage.setItem('m_gratitudes', JSON.stringify(gratitudes));
+    }
+
+    function loadRituals() {
+      ['1', '2', '3', '4', '5'].forEach(num => {
+        const el = document.getElementById(`rit-${num}`);
+        if (el) el.checked = !!rituals[`r${num}`];
+      });
+    }
+
+    function toggleRitual(num) {
+      const el = document.getElementById(`rit-${num}`);
+      if (el) rituals[`r${num}`] = el.checked;
+      localStorage.setItem('m_rituals', JSON.stringify(rituals));
+      if (el && el.checked) {
+        triggerConfetti();
+        showToast('עוד צעד בבוקר הושלם 🌸', 'success');
+      }
+    }
+
+    function loadAnchors() {
+      const q1 = document.getElementById('q-wellbeing');
+      const q2 = document.getElementById('q-business');
+      const q3 = document.getElementById('q-pleasure');
+      if (q1) q1.value = anchors.q1 || '';
+      if (q2) q2.value = anchors.q2 || '';
+      if (q3) q3.value = anchors.q3 || '';
+    }
+
+    function saveAnchor(field, value) {
+      anchors[field] = value;
+      localStorage.setItem('m_anchors', JSON.stringify(anchors));
+    }
+
+    function saveIdentityAction(val) {
+      identityAction = val;
+      localStorage.setItem('m_identity_action', identityAction);
+    }
+
+    function loadEveningReflection() {
+      const whatGoodEl = document.getElementById('ev-what-good');
+      const whatNotGoodEl = document.getElementById('ev-what-not-good');
+      const improveEl = document.getElementById('ev-improve-tomorrow');
+      const oneWinEl = document.getElementById('ev-one-win');
+      const tomBizEl = document.getElementById('ev-tomorrow-biz');
+      const tomPleasureEl = document.getElementById('ev-tomorrow-pleasure');
+
+      if (whatGoodEl) whatGoodEl.value = eveningReflection.whatGood || '';
+      if (whatNotGoodEl) whatNotGoodEl.value = eveningReflection.whatNotGood || '';
+      if (improveEl) improveEl.value = eveningReflection.improveTomorrow || '';
+      if (oneWinEl) oneWinEl.value = eveningReflection.oneWin || '';
+      if (tomBizEl) tomBizEl.value = eveningReflection.tomorrowBiz || '';
+      if (tomPleasureEl) tomPleasureEl.value = eveningReflection.tomorrowPleasure || '';
+    }
+
+    function saveEveningReflection() {
+      eveningReflection = {
+        whatGood: (document.getElementById('ev-what-good')?.value || '').trim(),
+        whatNotGood: (document.getElementById('ev-what-not-good')?.value || '').trim(),
+        improveTomorrow: (document.getElementById('ev-improve-tomorrow')?.value || '').trim(),
+        oneWin: (document.getElementById('ev-one-win')?.value || '').trim(),
+        tomorrowBiz: (document.getElementById('ev-tomorrow-biz')?.value || '').trim(),
+        tomorrowPleasure: (document.getElementById('ev-tomorrow-pleasure')?.value || '').trim()
+      };
+      localStorage.setItem('m_evening_reflection', JSON.stringify(eveningReflection));
+
+      if (eveningReflection.oneWin) {
+        const existingWin = wins.find(w => w.text === eveningReflection.oneWin);
+        if (!existingWin) {
+          wins.unshift({ id: 'w_' + Date.now(), text: eveningReflection.oneWin, date: 'הערב' });
+          localStorage.setItem('m_wins', JSON.stringify(wins));
+          renderWins();
+        }
+      }
+
+      triggerConfetti();
+      showToast('סגירת היום והכוונות למחר נשמרו בהצלחה 🌙', 'success');
+    }
+
+    function transferTomorrowToMorning() {
+      const tomBiz = (document.getElementById('ev-tomorrow-biz')?.value || '').trim();
+      const tomPleasure = (document.getElementById('ev-tomorrow-pleasure')?.value || '').trim();
+
+      if (tomBiz) {
+        const qBiz = document.getElementById('q-business');
+        if (qBiz) qBiz.value = tomBiz;
+        anchors.q2 = tomBiz;
+      }
+      if (tomPleasure) {
+        const qPleasure = document.getElementById('q-pleasure');
+        if (qPleasure) qPleasure.value = tomPleasure;
+        anchors.q3 = tomPleasure;
+      }
+      localStorage.setItem('m_anchors', JSON.stringify(anchors));
+      showToast('הכוונות הועברו לשאלות העוגן של הבוקר 🌸', 'success');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* Interactive Subtasks Builder */
+    function addTempSubtask() {
+      const input = document.getElementById('temp-subtask-input');
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) return;
+
+      tempSubtasks.push({ id: 'st_' + Date.now(), text: text, done: false });
+      input.value = '';
+      renderTempSubtasks();
+    }
+
+    function removeTempSubtask(idx) {
+      tempSubtasks.splice(idx, 1);
+      renderTempSubtasks();
+    }
+
+    function renderTempSubtasks() {
+      const container = document.getElementById('temp-subtasks-preview');
+      if (!container) return;
+      if (tempSubtasks.length === 0) {
+        container.innerHTML = `<span class="text-[10px] text-muted italic">עוד לא נוספו תתי-משימות למשימה זו (אופציונלי).</span>`;
+        return;
+      }
+      container.innerHTML = tempSubtasks.map((st, idx) => `
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-brand-border text-[11px] text-brand-wine font-medium">
+          <span>${st.text}</span>
+          <button type="button" onclick="removeTempSubtask(${idx})" class="text-muted hover:text-rose-600 font-bold">&times;</button>
+        </span>
+      `).join('');
+    }
+
+    function commitNewTaskWithSubtasks() {
+      const mainInput = document.getElementById('new-task-main-input');
+      const daySelect = document.getElementById('new-task-day-select');
+      if (!mainInput) return;
+      const text = mainInput.value.trim();
+      if (!text) {
+        showToast('אנא הזיני כותרת למשימה הראשית', 'error');
+        return;
+      }
+
+      const newTask = {
+        id: 'task_' + Date.now(),
+        text: text,
+        day: daySelect ? daySelect.value : 'all',
+        done: false,
+        isExpanded: tempSubtasks.length > 0,
+        subtasks: [...tempSubtasks]
+      };
+
+      weeklyTodos.unshift(newTask);
+      localStorage.setItem('m_weekly_todos', JSON.stringify(weeklyTodos));
+
+      mainInput.value = '';
+      tempSubtasks = [];
+      renderTempSubtasks();
+
+      renderWeeklyTodos();
+      renderTodayWeeklyTasks();
+      triggerConfetti();
+      showToast('המשימה נוספה בהצלחה ללוח השבועי ✨', 'success');
+    }
+
+    function toggleWeeklyTodo(id) {
+      const item = weeklyTodos.find(t => t.id === id);
+      if (item) {
+        item.done = !item.done;
+        if (item.subtasks && item.subtasks.length > 0) {
+          item.subtasks.forEach(st => st.done = item.done);
+        }
+        localStorage.setItem('m_weekly_todos', JSON.stringify(weeklyTodos));
+        if (item.done) triggerConfetti();
+        renderWeeklyTodos();
+        renderTodayWeeklyTasks();
+      }
+    }
+
+    function toggleSubtask(taskId, subtaskId) {
+      const task = weeklyTodos.find(t => t.id === taskId);
+      if (task && task.subtasks) {
+        const st = task.subtasks.find(s => s.id === subtaskId);
+        if (st) {
+          st.done = !st.done;
+          task.done = task.subtasks.every(s => s.done);
+          localStorage.setItem('m_weekly_todos', JSON.stringify(weeklyTodos));
+          if (st.done) triggerConfetti();
+          renderWeeklyTodos();
+          renderTodayWeeklyTasks();
+        }
+      }
+    }
+
+    function toggleTaskExpanded(id) {
+      const item = weeklyTodos.find(t => t.id === id);
+      if (item) {
+        item.isExpanded = !item.isExpanded;
+        localStorage.setItem('m_weekly_todos', JSON.stringify(weeklyTodos));
+        renderWeeklyTodos();
+        renderTodayWeeklyTasks();
+      }
+    }
+
+    function addSubtaskToTask(taskId) {
+      const input = document.getElementById(`subtask-input-${taskId}`);
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) return;
+
+      const task = weeklyTodos.find(t => t.id === taskId);
+      if (task) {
+        if (!task.subtasks) task.subtasks = [];
+        task.subtasks.push({ id: 'st_' + Date.now(), text: text, done: false });
+        task.done = false;
+        task.isExpanded = true;
+        localStorage.setItem('m_weekly_todos', JSON.stringify(weeklyTodos));
+        input.value = '';
+        renderWeeklyTodos();
+        renderTodayWeeklyTasks();
+      }
+    }
+
+    function deleteWeeklyTodo(id) {
+      weeklyTodos = weeklyTodos.filter(t => t.id !== id);
+      localStorage.setItem('m_weekly_todos', JSON.stringify(weeklyTodos));
+      renderWeeklyTodos();
+      renderTodayWeeklyTasks();
+      showToast('משימה נמחקה מהרשימה', 'info');
+    }
+
+    function filterWeeklyTasksByDay(day) {
+      currentDayFilter = day;
+      ['all', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri'].forEach(d => {
+        const btn = document.getElementById(`day-filter-${d}`);
+        if (btn) {
+          if (d === day) {
+            btn.className = 'px-2.5 py-0.5 rounded-lg bg-brand-wine text-white font-bold transition';
+          } else {
+            btn.className = 'px-2.5 py-0.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-medium transition';
+          }
+        }
+      });
+      renderWeeklyTodos();
+    }
+
+    function renderWeeklyTodos() {
+      const container = document.getElementById('weekly-todo-list-container');
+      if (!container) return;
+
+      let filtered = weeklyTodos;
+      if (currentDayFilter !== 'all') {
+        filtered = weeklyTodos.filter(t => t.day === currentDayFilter || t.day === 'all');
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="p-3 text-center text-xs text-muted font-light bg-[#FCF8FA] rounded-xl border border-brand-borderSubtle">הרשימה ריקה ליום זה (${dayNameMap[currentDayFilter] || 'כללי'}). הקלידי משימה למעלה ולחצי + הוספה.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => `
+        <div class="rounded-xl border border-brand-border transition overflow-hidden ${item.done ? 'bg-brand-powderLight/60 opacity-60' : 'bg-white shadow-xs'}">
+          <div class="flex items-center justify-between gap-2 p-2.5">
+            <div class="flex items-center gap-2 flex-1">
+              <label class="flex items-center gap-2.5 cursor-pointer">
+                <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleWeeklyTodo('${item.id}')" class="w-4 h-4 rounded accent-brand-rose">
+                <span class="text-xs ${item.done ? 'line-through text-muted' : 'text-brand-wine font-bold'}">${item.text}</span>
+              </label>
+              <span class="text-[10px] px-2 py-0.5 rounded-md bg-brand-powder border border-brand-border text-brand-burgundy font-medium">
+                ${dayNameMap[item.day] || 'כל השבוע'}
+              </span>
+            </div>
+
+            <div class="flex items-center gap-1.5">
+              ${(item.subtasks && item.subtasks.length > 0) ? `
+                <button onclick="toggleTaskExpanded('${item.id}')" class="text-[10px] px-2 py-0.5 rounded-md bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-semibold flex items-center gap-1">
+                  <span>${item.subtasks.filter(s => s.done).length}/${item.subtasks.length}</span>
+                  <i class="fa-solid fa-chevron-${item.isExpanded ? 'up' : 'down'} text-[8px]"></i>
+                </button>
+              ` : `
+                <button onclick="toggleTaskExpanded('${item.id}')" title="הוספת תתי משימות" class="text-[10px] text-muted hover:text-brand-wine px-1.5 py-0.5 rounded bg-brand-powderLight">
+                  + תת-משימה
+                </button>
+              `}
+              <button onclick="openInGoogleCalendar('${item.text}')" title="Google Calendar" class="text-brand-rose hover:text-brand-wine p-1">
+                <i class="fa-regular fa-calendar-plus text-[11px]"></i>
+              </button>
+              <button onclick="deleteWeeklyTodo('${item.id}')" class="text-muted hover:text-rose-600 p-1">
+                <i class="fa-solid fa-trash text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+
+          ${item.isExpanded ? `
+            <div class="px-3 pb-2.5 pt-1.5 bg-[#FCF8FA] border-t border-brand-borderSubtle space-y-1.5">
+              <div class="space-y-1">
+                ${(item.subtasks || []).map(st => `
+                  <div class="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-white border border-brand-borderSubtle">
+                    <label class="flex items-center gap-2 cursor-pointer flex-1">
+                      <input type="checkbox" ${st.done ? 'checked' : ''} onchange="toggleSubtask('${item.id}', '${st.id}')" class="w-3.5 h-3.5 rounded accent-brand-rose">
+                      <span class="text-[11px] ${st.done ? 'line-through text-muted' : 'text-brand-wine font-medium'}">${st.text}</span>
+                    </label>
+                  </div>
+                `).join('')}
+              </div>
+
+              <div class="flex items-center gap-1.5 pt-1">
+                <input type="text" id="subtask-input-${item.id}" placeholder="הקלידי תת-משימה (למשל: סקיצה ראשונית - 20 דק')..." onkeydown="if(event.key==='Enter') addSubtaskToTask('${item.id}')" class="flex-1 zen-input p-1.5 text-[11px]">
+                <button onclick="addSubtaskToTask('${item.id}')" class="px-2.5 py-1.5 rounded-lg bg-brand-wine text-white text-[10px] font-semibold">
+                  + הוספה
+                </button>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    function renderTodayWeeklyTasks() {
+      const container = document.getElementById('today-weekly-tasks-list');
+      const countEl = document.getElementById('today-weekly-tasks-count');
+      const now = new Date();
+      const currentDayKey = dayKeyMap[now.getDay()] || 'fri';
+
+      const todayTasks = weeklyTodos.filter(t => t.day === currentDayKey || t.day === 'all');
+
+      if (countEl) countEl.innerText = `${todayTasks.length}`;
+      if (!container) return;
+
+      if (todayTasks.length === 0) {
+        container.innerHTML = `<div class="p-2.5 text-center text-xs text-muted font-light bg-brand-powderLight/40 rounded-xl">אין משימות מתוזמנות להיום (${dayNameMap[currentDayKey]}). כל המשימות הושלמו או ממתינות בשבועי.</div>`;
+        return;
+      }
+
+      container.innerHTML = todayTasks.map(item => `
+        <div class="rounded-xl border border-brand-borderSubtle transition overflow-hidden ${item.done ? 'bg-brand-powderLight/60 opacity-60' : 'bg-white shadow-xs'}">
+          <div class="flex items-center justify-between gap-2 p-2.5">
+            <label class="flex items-center gap-2 cursor-pointer flex-1">
+              <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleWeeklyTodo('${item.id}')" class="w-3.5 h-3.5 rounded accent-brand-rose">
+              <span class="text-xs ${item.done ? 'line-through text-muted' : 'text-brand-wine font-bold'}">${item.text}</span>
+            </label>
+            <div class="flex items-center gap-1.5">
+              ${(item.subtasks && item.subtasks.length > 0) ? `
+                <button onclick="toggleTaskExpanded('${item.id}')" class="text-[10px] px-2 py-0.5 rounded-md bg-brand-powder hover:bg-brand-powderHover text-brand-wine font-semibold flex items-center gap-1">
+                  <span>${item.subtasks.filter(s => s.done).length}/${item.subtasks.length}</span>
+                  <i class="fa-solid fa-chevron-${item.isExpanded ? 'up' : 'down'} text-[8px]"></i>
+                </button>
+              ` : ''}
+              <button onclick="openInGoogleCalendar('${item.text}')" title="Google Calendar" class="text-brand-rose hover:text-brand-wine p-1">
+                <i class="fa-regular fa-calendar-plus text-[11px]"></i>
+              </button>
+            </div>
+          </div>
+
+          ${item.isExpanded && item.subtasks && item.subtasks.length > 0 ? `
+            <div class="px-3 pb-2 pt-1 bg-[#FCF8FA] border-t border-brand-borderSubtle space-y-1">
+              ${item.subtasks.map(st => `
+                <div class="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-white border border-brand-borderSubtle">
+                  <label class="flex items-center gap-2 cursor-pointer flex-1">
+                    <input type="checkbox" ${st.done ? 'checked' : ''} onchange="toggleSubtask('${item.id}', '${st.id}')" class="w-3.5 h-3.5 rounded accent-brand-rose">
+                    <span class="text-[11px] ${st.done ? 'line-through text-muted' : 'text-brand-wine font-medium'}">${st.text}</span>
+                  </label>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    function switchWeeklySubTab(tab) {
+      const planView = document.getElementById('weekly-sub-plan');
+      const summaryView = document.getElementById('weekly-sub-summary');
+      const btnPlan = document.getElementById('btn-sub-plan');
+      const btnSummary = document.getElementById('btn-sub-summary');
+
+      if (tab === 'summary') {
+        if (summaryView) summaryView.classList.remove('hidden');
+        if (planView) planView.classList.add('hidden');
+        if (btnSummary) { btnSummary.className = 'px-3.5 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft transition-all duration-200'; }
+        if (btnPlan) { btnPlan.className = 'px-3.5 py-1.5 rounded-xl text-brand-wine text-xs font-medium hover:bg-white/60 transition-all duration-200'; }
+      } else {
+        if (planView) planView.classList.remove('hidden');
+        if (summaryView) summaryView.classList.add('hidden');
+        if (btnPlan) { btnPlan.className = 'px-3.5 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft transition-all duration-200'; }
+        if (btnSummary) { btnSummary.className = 'px-3.5 py-1.5 rounded-xl text-brand-wine text-xs font-medium hover:bg-white/60 transition-all duration-200'; }
+      }
+    }
+
+    function switchMonthlySubTab(tab) {
+      const planView = document.getElementById('monthly-sub-plan');
+      const summaryView = document.getElementById('monthly-sub-summary');
+      const btnPlan = document.getElementById('btn-m-sub-plan');
+      const btnSummary = document.getElementById('btn-m-sub-summary');
+
+      if (tab === 'summary') {
+        if (summaryView) summaryView.classList.remove('hidden');
+        if (planView) planView.classList.add('hidden');
+        if (btnSummary) { btnSummary.className = 'px-3.5 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft transition-all duration-200'; }
+        if (btnPlan) { btnPlan.className = 'px-3.5 py-1.5 rounded-xl text-brand-wine text-xs font-medium hover:bg-white/60 transition-all duration-200'; }
+      } else {
+        if (planView) planView.classList.remove('hidden');
+        if (summaryView) summaryView.classList.add('hidden');
+        if (btnPlan) { btnPlan.className = 'px-3.5 py-1.5 rounded-xl bg-brand-wine text-white text-xs font-semibold shadow-soft transition-all duration-200'; }
+        if (btnSummary) { btnSummary.className = 'px-3.5 py-1.5 rounded-xl text-brand-wine text-xs font-medium hover:bg-white/60 transition-all duration-200'; }
+      }
+    }
+
+    function loadWeeklyData() {
+      const dRange = document.getElementById('wp-date-range');
+      const lWord = document.getElementById('wp-look-word');
+      const bIdent = document.getElementById('wp-being-identity');
+      const oneSucc = document.getElementById('wp-one-success-action');
+      const aHabit = document.getElementById('wp-anchor-habit');
+      const gMain = document.getElementById('wp-goal-main');
+      const lBehind = document.getElementById('wp-leave-behind');
+
+      if (dRange) dRange.value = weeklyPlan.dateRange || '';
+      if (lWord) lWord.value = weeklyPlan.lookWord || '';
+      if (bIdent) bIdent.value = weeklyPlan.beingIdentity || '';
+      if (oneSucc) oneSucc.value = weeklyPlan.oneSuccessAction || '';
+      if (aHabit) aHabit.value = weeklyPlan.anchorHabit || '';
+      if (gMain) gMain.value = weeklyPlan.mainGoal || '';
+      if (lBehind) lBehind.value = weeklyPlan.leaveBehind || '';
+
+      const sRange = document.getElementById('ws-date-range');
+      const sActInc = document.getElementById('ws-actual-income');
+      const sClients = document.getElementById('ws-clients-count');
+      const sLeads = document.getElementById('ws-leads-count');
+      const wHow = document.getElementById('ws-how-was-week');
+      const wGood = document.getElementById('ws-what-good');
+      const wLess = document.getElementById('ws-what-less-good');
+      const wWins = document.getElementById('ws-wins');
+      const wWorked = document.getElementById('ws-what-worked');
+      const wAvoid = document.getElementById('ws-what-avoided');
+      const wLesson = document.getElementById('ws-lesson');
+
+      if (sRange) sRange.value = weeklySummary.dateRange || '';
+      if (sActInc) sActInc.value = weeklySummary.actualIncome || '';
+      if (sClients) sClients.value = weeklySummary.clientsCount || '';
+      if (sLeads) sLeads.value = weeklySummary.leadsCount || '';
+      if (wHow) wHow.value = weeklySummary.howWasWeek || '';
+      if (wGood) wGood.value = weeklySummary.whatGood || '';
+      if (wLess) wLess.value = weeklySummary.whatLessGood || '';
+      if (wWins) wWins.value = weeklySummary.wins || '';
+      if (wWorked) wWorked.value = weeklySummary.whatWorked || '';
+      if (wAvoid) wAvoid.value = weeklySummary.whatAvoided || '';
+      if (wLesson) wLesson.value = weeklySummary.lesson || '';
+    }
+
+    function saveWeeklyPlan() {
+      const dateRangeVal = (document.getElementById('wp-date-range')?.value || '').trim() || new Date().toLocaleDateString('he-IL');
+      weeklyPlan = {
+        dateRange: dateRangeVal,
+        lookWord: (document.getElementById('wp-look-word')?.value || '').trim(),
+        beingIdentity: (document.getElementById('wp-being-identity')?.value || '').trim(),
+        oneSuccessAction: (document.getElementById('wp-one-success-action')?.value || '').trim(),
+        anchorHabit: (document.getElementById('wp-anchor-habit')?.value || '').trim(),
+        mainGoal: (document.getElementById('wp-goal-main')?.value || '').trim(),
+        leaveBehind: (document.getElementById('wp-leave-behind')?.value || '').trim()
+      };
+      localStorage.setItem('m_weekly_plan', JSON.stringify(weeklyPlan));
+
+      weeklyHistory.unshift({
+        id: 'wp_' + Date.now(),
+        type: 'plan',
+        title: `תכנון שבועי: ${dateRangeVal}`,
+        date: dateRangeVal,
+        timestamp: new Date().toLocaleString('he-IL'),
+        data: { ...weeklyPlan }
+      });
+      localStorage.setItem('m_weekly_history', JSON.stringify(weeklyHistory));
+      renderWeeklyHistory();
+      triggerConfetti();
+      showToast('תכנון שבועי נשמר ונוסף לארכיון ✓', 'success');
+    }
+
+    function saveWeeklySummary() {
+      const dateRangeVal = (document.getElementById('ws-date-range')?.value || '').trim() || new Date().toLocaleDateString('he-IL');
+      weeklySummary = {
+        dateRange: dateRangeVal,
+        actualIncome: (document.getElementById('ws-actual-income')?.value || '').trim(),
+        clientsCount: (document.getElementById('ws-clients-count')?.value || '').trim(),
+        leadsCount: (document.getElementById('ws-leads-count')?.value || '').trim(),
+        howWasWeek: (document.getElementById('ws-how-was-week')?.value || '').trim(),
+        whatGood: (document.getElementById('ws-what-good')?.value || '').trim(),
+        whatLessGood: (document.getElementById('ws-what-less-good')?.value || '').trim(),
+        wins: (document.getElementById('ws-wins')?.value || '').trim(),
+        whatWorked: (document.getElementById('ws-what-worked')?.value || '').trim(),
+        whatAvoided: (document.getElementById('ws-what-avoided')?.value || '').trim(),
+        lesson: (document.getElementById('ws-lesson')?.value || '').trim()
+      };
+      localStorage.setItem('m_weekly_summary', JSON.stringify(weeklySummary));
+
+      weeklyHistory.unshift({
+        id: 'ws_' + Date.now(),
+        type: 'summary',
+        title: `סיכום שבועי: ${dateRangeVal}`,
+        date: dateRangeVal,
+        timestamp: new Date().toLocaleString('he-IL'),
+        data: { ...weeklySummary }
+      });
+      localStorage.setItem('m_weekly_history', JSON.stringify(weeklyHistory));
+      renderWeeklyHistory();
+      triggerConfetti();
+      showToast('סיכום שבועי ומספרים נשמרו בארכיון ✓', 'success');
+    }
+
+    function clearWeeklyPlanForm() {
+      document.getElementById('wp-date-range').value = '';
+      document.getElementById('wp-look-word').value = '';
+      document.getElementById('wp-being-identity').value = '';
+      document.getElementById('wp-one-success-action').value = '';
+      document.getElementById('wp-anchor-habit').value = '';
+      document.getElementById('wp-goal-main').value = '';
+      document.getElementById('wp-leave-behind').value = '';
+      showToast('טופס תכנון אופס', 'info');
+    }
+
+    function clearWeeklySummaryForm() {
+      document.getElementById('ws-date-range').value = '';
+      if (document.getElementById('ws-actual-income')) document.getElementById('ws-actual-income').value = '';
+      if (document.getElementById('ws-clients-count')) document.getElementById('ws-clients-count').value = '';
+      if (document.getElementById('ws-leads-count')) document.getElementById('ws-leads-count').value = '';
+      if (document.getElementById('ws-how-was-week')) document.getElementById('ws-how-was-week').value = '';
+      if (document.getElementById('ws-what-good')) document.getElementById('ws-what-good').value = '';
+      if (document.getElementById('ws-what-less-good')) document.getElementById('ws-what-less-good').value = '';
+      document.getElementById('ws-wins').value = '';
+      document.getElementById('ws-what-worked').value = '';
+      document.getElementById('ws-what-avoided').value = '';
+      document.getElementById('ws-lesson').value = '';
+      showToast('טופס סיכום אופס', 'info');
+    }
+
+    function loadMonthlyData() {
+      const mName = document.getElementById('mp-month-name');
+      const bGoal = document.getElementById('mp-business-goal');
+      const iGoal = document.getElementById('mp-income-goal');
+      const lGoal = document.getElementById('mp-leads-goal');
+      const pGoal = document.getElementById('mp-personal-goal');
+      const habit = document.getElementById('mp-habit-growth');
+      const stopD = document.getElementById('mp-stop-doing');
+      
+      const w1 = document.getElementById('mp-w1');
+      const w1Target = document.getElementById('mp-w1-target');
+      const w1Life = document.getElementById('mp-w1-life');
+
+      const w2 = document.getElementById('mp-w2');
+      const w2Target = document.getElementById('mp-w2-target');
+      const w2Life = document.getElementById('mp-w2-life');
+
+      const w3 = document.getElementById('mp-w3');
+      const w3Target = document.getElementById('mp-w3-target');
+      const w3Life = document.getElementById('mp-w3-life');
+
+      const w4 = document.getElementById('mp-w4');
+      const w4Target = document.getElementById('mp-w4-target');
+      const w4Life = document.getElementById('mp-w4-life');
+
+      if (mName) mName.value = monthlyPlan.monthName || '';
+      if (bGoal) bGoal.value = monthlyPlan.bizGoal || '';
+      if (iGoal) iGoal.value = monthlyPlan.incomeGoal || '';
+      if (lGoal) lGoal.value = monthlyPlan.leadsGoal || '';
+      if (pGoal) pGoal.value = monthlyPlan.persGoal || '';
+      if (habit) habit.value = monthlyPlan.habit || '';
+      if (stopD) stopD.value = monthlyPlan.stopDoing || '';
+
+      if (w1) w1.value = monthlyPlan.w1 || '';
+      if (w1Target) w1Target.value = monthlyPlan.w1Target || '';
+      if (w1Life) w1Life.value = monthlyPlan.w1Life || '';
+
+      if (w2) w2.value = monthlyPlan.w2 || '';
+      if (w2Target) w2Target.value = monthlyPlan.w2Target || '';
+      if (w2Life) w2Life.value = monthlyPlan.w2Life || '';
+
+      if (w3) w3.value = monthlyPlan.w3 || '';
+      if (w3Target) w3Target.value = monthlyPlan.w3Target || '';
+      if (w3Life) w3Life.value = monthlyPlan.w3Life || '';
+
+      if (w4) w4.value = monthlyPlan.w4 || '';
+      if (w4Target) w4Target.value = monthlyPlan.w4Target || '';
+      if (w4Life) w4Life.value = monthlyPlan.w4Life || '';
+
+      const msName = document.getElementById('ms-month-name');
+      const msActInc = document.getElementById('ms-actual-income');
+      const msClients = document.getElementById('ms-active-clients');
+      const msLeads = document.getElementById('ms-leads-count');
+      const msWins = document.getElementById('ms-wins');
+      const msWorked = document.getElementById('ms-what-worked');
+      const msAvoid = document.getElementById('ms-what-avoided');
+      const msIdentity = document.getElementById('ms-identity-growth');
+      const msLesson = document.getElementById('ms-lesson');
+
+      if (msName) msName.value = monthlySummary.monthName || '';
+      if (msActInc) msActInc.value = monthlySummary.actualIncome || '';
+      if (msClients) msClients.value = monthlySummary.activeClients || '';
+      if (msLeads) msLeads.value = monthlySummary.leadsCount || '';
+      if (msWins) msWins.value = monthlySummary.wins || '';
+      if (msWorked) msWorked.value = monthlySummary.whatWorked || '';
+      if (msAvoid) msAvoid.value = monthlySummary.whatAvoided || '';
+      if (msIdentity) msIdentity.value = monthlySummary.identityGrowth || '';
+      if (msLesson) msLesson.value = monthlySummary.lesson || '';
+    }
+
+    function saveMonthlyPlan() {
+      const monthNameVal = (document.getElementById('mp-month-name')?.value || '').trim() || 'ספטמבר 2026';
+      monthlyPlan = {
+        monthName: monthNameVal,
+        bizGoal: (document.getElementById('mp-business-goal')?.value || '').trim(),
+        incomeGoal: (document.getElementById('mp-income-goal')?.value || '').trim(),
+        leadsGoal: (document.getElementById('mp-leads-goal')?.value || '').trim(),
+        persGoal: (document.getElementById('mp-personal-goal')?.value || '').trim(),
+        habit: (document.getElementById('mp-habit-growth')?.value || '').trim(),
+        stopDoing: (document.getElementById('mp-stop-doing')?.value || '').trim(),
+        w1: (document.getElementById('mp-w1')?.value || '').trim(),
+        w1Target: (document.getElementById('mp-w1-target')?.value || '').trim(),
+        w1Life: (document.getElementById('mp-w1-life')?.value || '').trim(),
+        w2: (document.getElementById('mp-w2')?.value || '').trim(),
+        w2Target: (document.getElementById('mp-w2-target')?.value || '').trim(),
+        w2Life: (document.getElementById('mp-w2-life')?.value || '').trim(),
+        w3: (document.getElementById('mp-w3')?.value || '').trim(),
+        w3Target: (document.getElementById('mp-w3-target')?.value || '').trim(),
+        w3Life: (document.getElementById('mp-w3-life')?.value || '').trim(),
+        w4: (document.getElementById('mp-w4')?.value || '').trim(),
+        w4Target: (document.getElementById('mp-w4-target')?.value || '').trim(),
+        w4Life: (document.getElementById('mp-w4-life')?.value || '').trim()
+      };
+      localStorage.setItem('m_monthly_plan', JSON.stringify(monthlyPlan));
+
+      monthlyHistory.unshift({
+        id: 'mp_' + Date.now(),
+        type: 'plan',
+        title: `תכנון חודש: ${monthNameVal}`,
+        date: monthNameVal,
+        timestamp: new Date().toLocaleString('he-IL'),
+        data: { ...monthlyPlan }
+      });
+      localStorage.setItem('m_monthly_history', JSON.stringify(monthlyHistory));
+      renderMonthlyHistory();
+      triggerConfetti();
+      showToast('תוכנית חודשית מורחבת נשמרה בארכיון ✓', 'success');
+    }
+
+    function saveMonthlySummary() {
+      const monthNameVal = (document.getElementById('ms-month-name')?.value || '').trim() || 'חודש מסוכם';
+      monthlySummary = {
+        monthName: monthNameVal,
+        actualIncome: (document.getElementById('ms-actual-income')?.value || '').trim(),
+        activeClients: (document.getElementById('ms-active-clients')?.value || '').trim(),
+        leadsCount: (document.getElementById('ms-leads-count')?.value || '').trim(),
+        wins: (document.getElementById('ms-wins')?.value || '').trim(),
+        whatWorked: (document.getElementById('ms-what-worked')?.value || '').trim(),
+        whatAvoided: (document.getElementById('ms-what-avoided')?.value || '').trim(),
+        identityGrowth: (document.getElementById('ms-identity-growth')?.value || '').trim(),
+        lesson: (document.getElementById('ms-lesson')?.value || '').trim()
+      };
+      localStorage.setItem('m_monthly_summary', JSON.stringify(monthlySummary));
+
+      monthlyHistory.unshift({
+        id: 'ms_' + Date.now(),
+        type: 'summary',
+        title: `סיכום חודש: ${monthNameVal}`,
+        date: monthNameVal,
+        timestamp: new Date().toLocaleString('he-IL'),
+        data: { ...monthlySummary }
+      });
+      localStorage.setItem('m_monthly_history', JSON.stringify(monthlyHistory));
+      renderMonthlyHistory();
+      triggerConfetti();
+      showToast('סיכום חודשי ומספרים נשמרו בארכיון 🏆', 'success');
+    }
+
+    function clearMonthlyPlanForm() {
+      document.getElementById('mp-month-name').value = '';
+      document.getElementById('mp-business-goal').value = '';
+      document.getElementById('mp-income-goal').value = '';
+      if (document.getElementById('mp-leads-goal')) document.getElementById('mp-leads-goal').value = '';
+      document.getElementById('mp-personal-goal').value = '';
+      document.getElementById('mp-habit-growth').value = '';
+      document.getElementById('mp-stop-doing').value = '';
+      ['w1', 'w2', 'w3', 'w4'].forEach(w => {
+        if (document.getElementById(`mp-${w}`)) document.getElementById(`mp-${w}`).value = '';
+        if (document.getElementById(`mp-${w}-target`)) document.getElementById(`mp-${w}-target`).value = '';
+        if (document.getElementById(`mp-${w}-life`)) document.getElementById(`mp-${w}-life`).value = '';
+      });
+      showToast('טופס תכנון חודש אופס', 'info');
+    }
+
+    function clearMonthlySummaryForm() {
+      document.getElementById('ms-month-name').value = '';
+      document.getElementById('ms-actual-income').value = '';
+      document.getElementById('ms-active-clients').value = '';
+      if (document.getElementById('ms-leads-count')) document.getElementById('ms-leads-count').value = '';
+      document.getElementById('ms-wins').value = '';
+      document.getElementById('ms-what-worked').value = '';
+      document.getElementById('ms-what-avoided').value = '';
+      document.getElementById('ms-identityGrowth').value = '';
+      document.getElementById('ms-lesson').value = '';
+      showToast('טופס סיכום חודש אופס', 'info');
+    }
+
+    function toggleHistoryDrawer(contentId, iconId) {
+      const content = document.getElementById(contentId);
+      const icon = document.getElementById(iconId);
+      if (!content) return;
+      const isHidden = content.classList.contains('hidden');
+      if (isHidden) {
+        content.classList.remove('hidden');
+        if (icon) icon.classList.add('rotate-180');
+      } else {
+        content.classList.add('hidden');
+        if (icon) icon.classList.remove('rotate-180');
+      }
+    }
+
+    function renderWeeklyHistory() {
+      const list = document.getElementById('weekly-history-list');
+      const countEl = document.getElementById('weekly-history-count');
+      if (countEl) countEl.innerText = `${weeklyHistory.length}`;
+      if (!list) return;
+
+      if (weeklyHistory.length === 0) {
+        list.innerHTML = `<div class="p-3 text-center text-xs text-muted font-light">אין רשומות שמורות בהיסטוריה עדיין. ברגע שתלחצי על "שמירה" הן יישמרו כאן.</div>`;
+        return;
+      }
+
+      list.innerHTML = weeklyHistory.map((item, idx) => `
+        <div class="p-3 rounded-xl bg-[#FCF8FA] border border-brand-border space-y-1.5 transition hover:border-brand-rose/50">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-brand-wine flex items-center gap-1.5">
+              <span>${item.type === 'plan' ? 'תכנון' : 'סיכום'}</span>
+              <span>${item.title}</span>
+            </span>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] text-muted">${item.timestamp || item.date}</span>
+              <button onclick="loadWeeklyFromHistory(${idx})" class="px-2 py-0.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-[10px] text-brand-wine font-semibold transition">
+                טעינה לטופס ↩
+              </button>
+              <button onclick="deleteWeeklyHistory(${idx})" class="text-muted hover:text-rose-600 p-1">
+                <i class="fa-solid fa-trash text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-[11px] text-muted-dark leading-relaxed">
+            ${item.type === 'plan' 
+              ? `<strong>מילה שמגדירה:</strong> ${item.data.lookWord || '—'} | <strong>פעולה מנצחת:</strong> ${item.data.oneSuccessAction || '—'}` 
+              : `<strong>הכנסה:</strong> ${item.data.actualIncome || '—'} | <strong>לקוחות:</strong> ${item.data.clientsCount || '—'} | <strong>הצלחות:</strong> ${item.data.wins || '—'}`}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function loadWeeklyFromHistory(idx) {
+      const item = weeklyHistory[idx];
+      if (!item) return;
+
+      if (item.type === 'plan') {
+        switchWeeklySubTab('plan');
+        weeklyPlan = { ...item.data };
+        loadWeeklyData();
+        showToast(`תכנון ${item.date} נטען לטופס`, 'success');
+      } else {
+        switchWeeklySubTab('summary');
+        weeklySummary = { ...item.data };
+        loadWeeklyData();
+        showToast(`סיכום ${item.date} נטען לטופס`, 'success');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteWeeklyHistory(idx) {
+      weeklyHistory.splice(idx, 1);
+      localStorage.setItem('m_weekly_history', JSON.stringify(weeklyHistory));
+      renderWeeklyHistory();
+      showToast('רשומה נמחקה מההיסטוריה', 'info');
+    }
+
+    function renderMonthlyHistory() {
+      const list = document.getElementById('monthly-history-list');
+      const countEl = document.getElementById('monthly-history-count');
+      if (countEl) countEl.innerText = `${monthlyHistory.length}`;
+      if (!list) return;
+
+      if (monthlyHistory.length === 0) {
+        list.innerHTML = `<div class="p-3 text-center text-xs text-muted font-light">אין רשומות שמורות בהיסטוריה עדיין. ברגע שתלחצי על "שמירה" הן יישמרו כאן.</div>`;
+        return;
+      }
+
+      list.innerHTML = monthlyHistory.map((item, idx) => `
+        <div class="p-3 rounded-xl bg-[#FCF8FA] border border-brand-border space-y-1.5 transition hover:border-brand-rose/50">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-brand-wine flex items-center gap-1.5">
+              <span>${item.type === 'plan' ? 'תכנון' : 'סיכום'}</span>
+              <span>${item.title}</span>
+            </span>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] text-muted">${item.timestamp || item.date}</span>
+              <button onclick="loadMonthlyFromHistory(${idx})" class="px-2 py-0.5 rounded-lg bg-brand-powder hover:bg-brand-powderHover text-[10px] text-brand-wine font-semibold transition">
+                טעינה לטופס ↩
+              </button>
+              <button onclick="deleteMonthlyHistory(${idx})" class="text-muted hover:text-rose-600 p-1">
+                <i class="fa-solid fa-trash text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-[11px] text-muted-dark leading-relaxed">
+            ${item.type === 'plan' 
+              ? `<strong>יעד עסקי:</strong> ${item.data.bizGoal || '—'} | <strong>יעד הכנסה:</strong> ${item.data.incomeGoal || '—'}` 
+              : `<strong>הכנסה בפועל:</strong> ${item.data.actualIncome || '—'} | <strong>לקוחות:</strong> ${item.data.activeClients || '—'} | <strong>תובנה:</strong> ${item.data.lesson || '—'}`}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function loadMonthlyFromHistory(idx) {
+      const item = monthlyHistory[idx];
+      if (!item) return;
+
+      if (item.type === 'plan') {
+        switchMonthlySubTab('plan');
+        monthlyPlan = { ...item.data };
+        loadMonthlyData();
+        showToast(`תכנון ${item.date} נטען לטופס`, 'success');
+      } else {
+        switchMonthlySubTab('summary');
+        monthlySummary = { ...item.data };
+        loadMonthlyData();
+        showToast(`סיכום ${item.date} נטען לטופס`, 'success');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteMonthlyHistory(idx) {
+      monthlyHistory.splice(idx, 1);
+      localStorage.setItem('m_monthly_history', JSON.stringify(monthlyHistory));
+      renderMonthlyHistory();
+      showToast('רשומה נמחקה מההיסטוריה', 'info');
+    }
+
+    /* Interactive Focus Timers for Pattern Work */
+    function startFocusTimer(title, minutes) {
+      if (timerInterval) clearInterval(timerInterval);
+
+      timerRemainingSeconds = minutes * 60;
+      const box = document.getElementById('active-timer-box');
+      const titleEl = document.getElementById('active-timer-title');
+      const displayEl = document.getElementById('active-timer-countdown');
+
+      if (box) box.classList.remove('hidden');
+      if (titleEl) titleEl.innerText = `${title} — פוקוס מלא`;
+
+      updateTimerDisplay();
+
+      timerInterval = setInterval(() => {
+        timerRemainingSeconds--;
+        if (timerRemainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          if (box) box.classList.add('hidden');
+          triggerConfetti();
+          showToast(`הזמן הסתיים! כל הכבוד על הפעולה הממוקדת 🏆`, 'success');
+        } else {
+          updateTimerDisplay();
+        }
+      }, 1000);
+
+      showToast(`טיימר של ${minutes} דקות החל עכשיו ⏱️`, 'info');
+    }
+
+    function updateTimerDisplay() {
+      const displayEl = document.getElementById('active-timer-countdown');
+      if (!displayEl) return;
+      const mins = Math.floor(timerRemainingSeconds / 60);
+      const secs = timerRemainingSeconds % 60;
+      displayEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function stopFocusTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      const box = document.getElementById('active-timer-box');
+      if (box) box.classList.add('hidden');
+      showToast('הטיימר נעצר', 'info');
+    }
+
+    function switchTab(tabId) {
+      const tabs = ['today', 'weekly', 'monthly', 'patterns', 'vision', 'wins', 'coach'];
+      tabs.forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const nav = document.getElementById(`nav-${t}`);
+        const mobNav = document.getElementById(`mob-nav-${t}`);
+        
+        if (view) view.classList.toggle('active', t === tabId);
+        if (nav) nav.classList.toggle('active', t === tabId);
+        if (mobNav) mobNav.classList.toggle('active', t === tabId);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-box');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = 'px-4 py-2 rounded-xl text-xs font-semibold text-white shadow-float pointer-events-auto transition-all duration-300 transform translate-y-2 opacity-0 flex items-center gap-2';
+      
+      if (type === 'success') {
+        toast.classList.add('bg-brand-burgundy');
+      } else if (type === 'error') {
+        toast.classList.add('bg-rose-700');
+      } else {
+        toast.classList.add('bg-brand-wine');
+      }
+
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 40,
+          spread: 50,
+          origin: { y: 0.8 },
+          colors: ['#4A1525', '#9E4762', '#E8A7BC', '#F4ECEF']
+        });
+      }
+    }
+
+    function openInGoogleCalendar(title) {
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}`;
+      window.open(url, '_blank');
+    }
+
+    function openWinModal() {
+      const modal = document.getElementById('modal-win');
+      if (modal) modal.classList.remove('hidden'), modal.classList.add('flex');
+    }
+
+    function openStuckModal() {
+      const modal = document.getElementById('modal-stuck');
+      if (modal) modal.classList.remove('hidden'), modal.classList.add('flex');
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.add('hidden'), modal.classList.remove('flex');
+    }
+
+    function handleWinSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('win-txt-in');
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) return;
+
+      wins.unshift({ id: 'w_' + Date.now(), text, date: new Date().toLocaleDateString('he-IL') });
+      localStorage.setItem('m_wins', JSON.stringify(wins));
+      input.value = '';
+      closeModal('modal-win');
+      renderWins();
+      triggerConfetti();
+      showToast('ניצחון נוסף בהצלחה לספר הניצחונות 🏆', 'success');
+    }
+
+    function renderWins() {
+      const container = document.getElementById('wins-grid');
+      if (!container) return;
+
+      if (wins.length === 0) {
+        container.innerHTML = `<div class="sm:col-span-2 p-3 text-center text-xs text-muted font-light">ספר הניצחונות ממתין להצלחות הראשונות שלך.</div>`;
+        return;
+      }
+
+      container.innerHTML = wins.map(w => `
+        <div class="p-2.5 rounded-xl bg-brand-powderLight border border-brand-border flex items-center justify-between text-xs">
+          <span class="font-medium text-brand-wine">${w.text}</span>
+          <button onclick="deleteWin('${w.id}')" class="text-muted hover:text-rose-600 p-1">
+            <i class="fa-solid fa-trash text-[10px]"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function deleteWin(id) {
+      wins = wins.filter(w => w.id !== id);
+      localStorage.setItem('m_wins', JSON.stringify(wins));
+      renderWins();
+      showToast('הניצחון נמחק', 'info');
+    }
+
+    /* AI Stuck & Avoidance Breakthrough */
+    function setStuckPrompt(text) {
+      const input = document.getElementById('stuck-custom-input');
+      if (input) {
+        input.value = text;
+        input.focus();
+      }
+    }
+
+    async function callGeminiCoachAI(userQuery) {
+      const systemPrompt = `אתה המאמן האישי, העסקי והמנטלי של מדלן (NLP / קואוצ'ינג חד ומדויק).
+החזון של מדלן:
+- יעד הכנסה: 25,000–30,000 ₪ לחודש באופן יציב וטבעי.
+- עסק: 5–7 לקוחות פרימיום מדויקים, תהליכים פשוטים, חופש ושקט.
+- זהות (Being): אישה אסרטיבית, נשית, כריזמטית, מלאת ביטחון ושקט פנימי, שמקבלת החלטות מהירות בלי להיתקע בניתוח יתר או לחכות למוטיבציה.
+- חוקי ברזל: מכירה היא עזרה והקשבה (לא שכנוע/הוכחה). מוטיבציה היא תוצאה של פעולה ולא תנאי לפעולה.
+הסגנון שלך: חד, חם, מחזיר מיידית לקרקע, חותך רגשות אשמה, נותן קונטרה מנטלית ודורש צעד מיקרו-קטן של 2-5 דקות לביצוע עכשיו.
+תשובה קצרה וממוקדת: 2-3 משפטים בלבד + צעד פעולה אחד בלבד. כתוב בעברית בגוף נקבה ישירות למדלן.`;
+
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: userQuery }] }],
+        systemInstruction: { parts: [{ text: systemPrompt }] }
+      };
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) return text.trim();
+      } catch (err) {
+        console.error("AI Coach Error:", err);
+      }
+
+      // High quality fallback in case of offline/timeout
+      if (userQuery.includes("שיחה") || userQuery.includes("הודעה") || userQuery.includes("פולואפ")) {
+        return "מדלן, מכירה היא הבנת אדם ועזרה — לא מבחן על הערך שלך. שלחי עכשיו הודעה קצרה של שורה אחת לליד בלי לתכנן שעה קדימה. צאי לפעולה של 2 דקות עכשיו.";
+      } else if (userQuery.includes("מתפזרת") || userQuery.includes("רעיונות")) {
+        return "יש לך כבר את כל המידע והרעיונות שאת צריכה. בחרי משימה אחת בלבד וסגרי אותה ב-15 דקות הבאות. שחררי את השאר כרגע.";
+      } else if (userQuery.includes("עייפה") || userQuery.includes("כוח")) {
+        return "קבלי את העייפות בלי שיפוט. עשי פעולת כסף אחת של 3 דקות (הודעה/סגירה) וצאי למנוחה אמיתית ללא רגשות אשמה.";
+      }
+      return "רגש הוא גל חולף, לא עובדה. מדלן העוצמתית מקבלת החלטה ועושה צעד קטן של 5 דקות עכשיו כדי לייצר מומנטום.";
+    }
+
+    async function runStuckAIIntervention() {
+      const input = document.getElementById('stuck-custom-input');
+      const box = document.getElementById('stuck-msg-box');
+      const txt = document.getElementById('stuck-txt');
+      const btn = document.getElementById('btn-stuck-ai');
+
+      const userText = input ? input.value.trim() : '';
+      if (!userText) {
+        showToast('כתבי בקצרה מה תוקע אותך', 'info');
+        return;
+      }
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span>מפענח ומזקק קונטרה... ⏳</span>`;
+      }
+
+      const aiReply = await callGeminiCoachAI(userText);
+
+      if (txt) txt.innerText = aiReply;
+      if (box) box.classList.remove('hidden');
+
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `<span>פרקי את הדחייה עם המאמן ⚡</span>`;
+      }
+    }
+
+    async function sendToCoach() {
+      const input = document.getElementById('coach-input');
+      const container = document.getElementById('coach-messages');
+      const btn = document.getElementById('btn-send-coach');
+      if (!input || !container) return;
+
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      // Append user bubble
+      const userBubble = document.createElement('div');
+      userBubble.className = 'p-3 rounded-xl bg-brand-powder text-brand-wine font-medium text-xs leading-relaxed text-right border border-brand-border';
+      userBubble.innerHTML = `<span class="font-bold block text-[10px] text-brand-burgundy mb-0.5">מדלן:</span>${userText}`;
+      container.appendChild(userBubble);
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+
+      // Loading bubble
+      const loadingBubble = document.createElement('div');
+      loadingBubble.className = 'p-3 rounded-xl bg-white border border-brand-border text-muted font-medium text-xs leading-relaxed shadow-xs flex items-center gap-2';
+      loadingBubble.innerHTML = `<span class="inline-block animate-spin">⏳</span> <span>המאמן מזקק את הקונטרה המדויקת עבורך...</span>`;
+      container.appendChild(loadingBubble);
+      container.scrollTop = container.scrollHeight;
+
+      if (btn) btn.disabled = true;
+
+      const aiResponse = await callGeminiCoachAI(userText);
+
+      loadingBubble.remove();
+
+      const coachBubble = document.createElement('div');
+      coachBubble.className = 'p-3 rounded-xl bg-white border border-brand-rose/40 text-brand-burgundy font-semibold text-xs leading-relaxed shadow-soft';
+      coachBubble.innerHTML = `<span class="font-bold block text-[10px] text-brand-rose mb-1 flex items-center gap-1"><span>המאמן ⚡</span></span>${aiResponse}`;
+      container.appendChild(coachBubble);
+      container.scrollTop = container.scrollHeight;
+
+      if (btn) btn.disabled = false;
+    }
+  </script>
+</body>
+</html>
