@@ -1,183 +1,3471 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מדלן פריד - קישורים</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Heebo & Assistant -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Heebo', 'Assistant', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            dark: '#080711',
-                            card: 'rgba(255, 255, 255, 0.03)',
-                            cardHover: 'rgba(255, 255, 255, 0.06)',
-                            pink: '#ec4899',
-                            purple: '#a855f7',
-                            emerald: '#10b981'
-                        }
-                    }
-                }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>MADLEN — Executive Business & Life OS</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Rubik + Playfair Display + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Rubik', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            pinkTheme: {
+              bg: '#FFF5F8',
+              card: '#FFFFFF',
+              border: '#FCE0EB',
+              borderHover: '#F7C5D9',
+              primary: '#E87A9E',
+              primaryHover: '#D45D83',
+              deep: '#111111',
+              text: '#111111',
+              textMuted: '#4A4A4A',
+              textLight: '#71717A',
+              softPill: '#FFF0F5',
+              softPillHover: '#FFE4EE',
             }
+          },
+          boxShadow: {
+            'clean': '0 2px 8px 0 rgba(232, 122, 158, 0.04)',
+            'card': '0 4px 18px -2px rgba(232, 122, 158, 0.08)',
+            'float': '0 16px 36px -8px rgba(232, 122, 158, 0.2)',
+          }
         }
-    </script>
+      }
+    }
+  </script>
 
-    <style>
-        body {
-            background-color: #070611;
-            color: #f3f4f6;
-            font-family: 'Heebo', sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
+  <style>
+    :root {
+      --safe-bottom: env(safe-area-inset-bottom, 20px);
+    }
+    body {
+      background-color: #FFF5F8;
+      color: #111111;
+      min-height: 100vh;
+      font-family: 'Rubik', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      padding-bottom: calc(var(--safe-bottom) + 20px);
+    }
 
-        /* Ambient Glow Backgrounds */
-        .ambient-glow-1 {
-            position: fixed;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 320px;
-            height: 320px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(236, 72, 153, 0.08) 50%, rgba(0,0,0,0) 70%);
-            filter: blur(60px);
-            pointer-events: none;
-            z-index: 0;
-        }
+    input, textarea, select {
+      font-size: 16px !important;
+      color: #111111 !important;
+    }
+    @media (min-width: 640px) {
+      input, textarea, select {
+        font-size: 0.90rem !important;
+      }
+    }
 
-        .ambient-glow-2 {
-            position: fixed;
-            bottom: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 360px;
-            height: 360px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(16, 185, 129, 0.06) 50%, rgba(0,0,0,0) 70%);
-            filter: blur(70px);
-            pointer-events: none;
-            z-index: 0;
-        }
+    .exec-card {
+      background: #FFFFFF;
+      border: 1px solid #FCE0EB;
+      border-radius: 1.15rem;
+      box-shadow: 0 3px 16px -2px rgba(232, 122, 158, 0.06);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .exec-card:hover {
+      border-color: #F7C5D9;
+    }
 
-        /* Avatar Subtle Gradient Halo */
-        .avatar-halo {
-            position: relative;
-        }
-        .avatar-halo::before {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            border-radius: 9999px;
-            background: linear-gradient(135deg, rgba(236,72,153,0.8), rgba(168,85,247,0.8), rgba(59,130,246,0.8));
-            opacity: 0.85;
-            z-index: -1;
-            filter: blur(6px);
-            transition: opacity 0.3s ease;
-        }
+    .silk-input {
+      background: #FFF9FB;
+      border: 1px solid #FCE0EB;
+      border-radius: 0.85rem;
+      transition: all 0.18s ease;
+      color: #111111;
+    }
+    .silk-input:focus {
+      outline: none;
+      background: #FFFFFF;
+      border-color: #E87A9E;
+      box-shadow: 0 0 0 3px rgba(232, 122, 158, 0.12);
+    }
 
-        /* Premium Glass Card */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.035);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    /* Tactile Ritual Pill */
+    .ritual-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 0.85rem;
+      border: 1px solid #FCE0EB;
+      background: #FFFFFF;
+      color: #111111;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: all 0.16s ease;
+      cursor: pointer;
+      user-select: none;
+      min-height: 38px;
+    }
+    .ritual-pill:active {
+      transform: scale(0.97);
+    }
+    .ritual-pill.completed {
+      background: #E87A9E;
+      color: #FFFFFF;
+      border-color: #E87A9E;
+    }
 
-        .glass-card:hover {
-            background: rgba(255, 255, 255, 0.065);
-            border-color: rgba(255, 255, 255, 0.18);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
-        }
+    /* Sidebar Navigation Button */
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0.6rem 0.85rem;
+      border-radius: 0.85rem;
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: #4A4A4A;
+      transition: all 0.16s ease;
+      min-height: 40px;
+    }
+    .sidebar-btn:hover {
+      background-color: #FFF0F5;
+      color: #111111;
+    }
+    .sidebar-btn.active {
+      background-color: #FFF0F5;
+      color: #111111;
+      font-weight: 700;
+      border-right: 3px solid #E87A9E;
+    }
 
-        .glass-card:active {
-            transform: translateY(0);
-        }
+    /* Mobile Bottom Navigation Button */
+    .mobile-tab-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding: 0.4rem 0.1rem;
+      color: #B57E94;
+      font-size: 0.68rem;
+      font-weight: 600;
+      transition: all 0.18s ease;
+      min-height: 48px;
+    }
+    .mobile-tab-btn.active {
+      color: #E87A9E;
+      font-weight: 800;
+    }
 
-        /* Text Gradient */
-        .text-gradient {
-            background: linear-gradient(135deg, #f472b6 0%, #c084fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    </style>
+    /* Tab Transitions */
+    .tab-view.active {
+      display: block;
+      animation: gentleFade 0.18s ease forwards;
+    }
+    .tab-view {
+      display: none;
+    }
+    @keyframes gentleFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Circular SVG Timer Progress */
+    .timer-ring-circle {
+      transition: stroke-dashoffset 0.35s linear;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+
+    /* Fluid Accordion Transitions */
+    .accordion-body {
+      transition: max-height 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease;
+      max-height: 1400px;
+      overflow: hidden;
+      opacity: 1;
+    }
+    .accordion-body.collapsed {
+      max-height: 0 !important;
+      opacity: 0;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      pointer-events: none;
+    }
+    .accordion-chevron {
+      transition: transform 0.22s ease;
+    }
+    .accordion-chevron.collapsed {
+      transform: rotate(-90deg);
+    }
+
+    /* Floating Fast Note (+) */
+    .fab-btn {
+      position: fixed;
+      bottom: calc(var(--safe-bottom) + 64px);
+      left: 1.25rem;
+      z-index: 45;
+      width: 48px;
+      height: 48px;
+      border-radius: 9999px;
+      background: #E87A9E;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 22px -3px rgba(232, 122, 158, 0.45);
+      transition: transform 0.18s ease, background-color 0.18s ease;
+    }
+    .fab-btn:hover {
+      background: #D45D83;
+    }
+    .fab-btn:active {
+      transform: scale(0.92);
+    }
+    @media (min-width: 768px) {
+      .fab-btn {
+        bottom: 2rem;
+        left: 2rem;
+        width: 52px;
+        height: 52px;
+      }
+    }
+  </style>
 </head>
-<body class="relative flex flex-col items-center justify-start min-h-screen pt-12 pb-10 px-4 select-none">
+<body class="antialiased selection:bg-pinkTheme-softPill selection:text-pinkTheme-text min-h-screen pb-24 md:pb-8 bg-pinkTheme-bg">
 
-    <!-- Ambient Ambient Lighting -->
-    <div class="ambient-glow-1"></div>
-    <div class="ambient-glow-2"></div>
+  <!-- Toast Notification System -->
+  <div id="toast-box" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-11/12 max-w-sm"></div>
 
-    <main class="relative z-10 w-full max-w-md flex flex-col items-center my-auto">
+  <!-- Floating Fast Action (+) Button -->
+  <button onclick="openQuickAddModal()" title="לכידת מחשבה או משימה" class="fab-btn">
+    <i class="fa-solid fa-plus text-sm"></i>
+  </button>
 
-        <!-- Profile Header Section -->
-        <section class="flex flex-col items-center text-center w-full mb-8">
-            <!-- Profile Avatar -->
-            <div class="avatar-halo mb-4">
-                <div class="relative w-24 h-24 rounded-full overflow-hidden border border-white/20 bg-slate-900 shadow-2xl flex items-center justify-center">
-                    <img id="profile-img" src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a5de83d14f09f15e476e37ac3aac27de97903f0d/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" alt="מדלן פריד" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300/1e1b4b/ffffff?text=מדלן+פריד'">
-                </div>
+  <div class="min-h-screen flex flex-col md:flex-row">
+
+    <!-- DESKTOP SIDEBAR -->
+    <aside class="hidden md:flex w-60 bg-white border-l border-pinkTheme-border px-3.5 py-6 flex-col justify-between shrink-0 z-20 shadow-clean">
+      <div class="space-y-6">
+        <!-- Brand Header -->
+        <div class="px-2 cursor-pointer text-right" onclick="switchTab('dashboard')">
+          <div class="flex items-center justify-between">
+            <h1 class="text-xl font-serif font-bold text-pinkTheme-deep tracking-tight">MADLEN</h1>
+            <span class="text-[9px] font-mono uppercase bg-pinkTheme-softPill text-pinkTheme-primary px-2 py-0.5 rounded-full font-bold border border-pinkTheme-border">OS</span>
+          </div>
+          <p class="text-[11px] text-pinkTheme-textMuted font-light mt-0.5">מרחב בהירות, שקט ועשייה</p>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="space-y-4">
+          <!-- Group 1: שגרה ויומיום -->
+          <div class="space-y-1">
+            <span class="text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-2 block uppercase">יומיום</span>
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-btn active">
+              <span>העסק של מדלן</span>
+              <span class="text-xs">⚡</span>
+            </button>
+            <button onclick="switchTab('today')" id="nav-today" class="sidebar-btn">
+              <span>היום שלך</span>
+              <span class="text-xs">🎯</span>
+            </button>
+            <button onclick="switchTab('tasks')" id="nav-tasks" class="sidebar-btn">
+              <span>אינבוקס משימות</span>
+              <span class="text-xs">✍️</span>
+            </button>
+            <button onclick="switchTab('schedule')" id="nav-schedule" class="sidebar-btn">
+              <span>לו"ז עבודה</span>
+              <span class="text-xs">⏱️</span>
+            </button>
+          </div>
+
+          <!-- Group 2: עסק ותכנון -->
+          <div class="space-y-1">
+            <span class="text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-2 block uppercase">עסק ותכנון</span>
+            <button onclick="switchTab('pipeline')" id="nav-pipeline" class="sidebar-btn">
+              <span>לקוחות ושיחות</span>
+              <span class="text-xs">💼</span>
+            </button>
+            <button onclick="switchTab('weekly')" id="nav-weekly" class="sidebar-btn">
+              <span>שבועי</span>
+              <span class="text-xs">📅</span>
+            </button>
+            <button onclick="switchTab('monthly')" id="nav-monthly" class="sidebar-btn">
+              <span>חודשי</span>
+              <span class="text-xs">🗓️</span>
+            </button>
+            <button onclick="switchTab('playbooks')" id="nav-playbooks" class="sidebar-btn">
+              <span>תבניות עבודה</span>
+              <span class="text-xs">📐</span>
+            </button>
+          </div>
+
+          <!-- Group 3: שקט ופוקוס -->
+          <div class="space-y-1">
+            <span class="text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-2 block uppercase">שקט ופוקוס</span>
+            <button onclick="switchTab('patterns')" id="nav-patterns" class="sidebar-btn">
+              <span>טיימר פומודורו</span>
+              <span class="text-xs">🌸</span>
+            </button>
+            <button onclick="switchTab('notes')" id="nav-notes" class="sidebar-btn">
+              <span>הקלטות קוליות</span>
+              <span class="text-xs">🎙️</span>
+            </button>
+            <button onclick="switchTab('vision')" id="nav-vision" class="sidebar-btn">
+              <span>החזון שלך</span>
+              <span class="text-xs">✨</span>
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <div class="pt-3 border-t border-pinkTheme-border text-center text-[10px] text-pinkTheme-textMuted font-medium">
+        בהירות • שקט • דיוק
+      </div>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="flex-1 px-3.5 sm:px-8 py-5 max-w-2xl mx-auto w-full">
+
+      <!-- Mobile Top Bar -->
+      <div class="flex md:hidden items-center justify-between pb-3 mb-3 border-b border-pinkTheme-border">
+        <div onclick="switchTab('dashboard')" class="cursor-pointer">
+          <div class="flex items-center gap-1.5">
+            <h1 class="text-lg font-serif font-bold text-pinkTheme-deep tracking-tight">MADLEN</h1>
+            <span class="text-[9px] font-mono uppercase bg-pinkTheme-softPill text-pinkTheme-primary px-1.5 py-0.5 rounded font-bold border border-pinkTheme-border">OS</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button onclick="openFocusSprintModal('')" class="px-2.5 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold shadow-clean">
+            <span>משימה אחת ⏱️</span>
+          </button>
+          <button onclick="openQuickAddModal()" class="px-2.5 py-1.5 rounded-xl bg-pinkTheme-softPill text-pinkTheme-primary text-xs font-bold border border-pinkTheme-border">
+            <span>+ פתק</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 0: DASHBOARD (העסק של מדלן) -->
+      <!-- ======================================================================= -->
+      <div id="view-dashboard" class="tab-view active space-y-3.5">
+        
+        <!-- Header Banner -->
+        <div class="exec-card p-4 sm:p-5 space-y-1 bg-white border-pinkTheme-border">
+          <div class="flex items-center justify-between text-xs text-pinkTheme-textMuted">
+            <span class="text-xs font-bold text-pinkTheme-primary">מרכז הפיקוד</span>
+            <span id="dash-hero-date" class="font-medium text-pinkTheme-text font-mono">היום</span>
+          </div>
+          <h2 class="text-xl font-serif font-bold text-pinkTheme-deep">מה העסק צריך ממך היום ✨</h2>
+        </div>
+
+        <!-- 3 Pillars of Business Action -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+          <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-1 shadow-clean">
+            <span class="font-bold text-pinkTheme-deep flex items-center gap-1.5">
+              <span>💼</span>
+              <span>1. מכירות & כסף</span>
+            </span>
+            <p class="text-[11px] text-pinkTheme-textMuted leading-relaxed">שיחות התאמה, הצעות מחיר ופולואפים.</p>
+          </div>
+          <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-1 shadow-clean">
+            <span class="font-bold text-pinkTheme-deep flex items-center gap-1.5">
+              <span>📱</span>
+              <span>2. שיווק & תוכן</span>
+            </span>
+            <p class="text-[11px] text-pinkTheme-textMuted leading-relaxed">תוכן ממיר, סטוריז ומשיכת לקוחות.</p>
+          </div>
+          <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-1 shadow-clean">
+            <span class="font-bold text-pinkTheme-deep flex items-center gap-1.5">
+              <span>👑</span>
+              <span>3. לקוחות & ערך</span>
+            </span>
+            <p class="text-[11px] text-pinkTheme-textMuted leading-relaxed">ליווי איכותי ודליברי מדויק.</p>
+          </div>
+        </div>
+
+        <!-- Core Action Card (Gold Lever) -->
+        <div class="exec-card p-4 space-y-2 border-r-4 border-r-pinkTheme-primary bg-pinkTheme-softPill/60">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-pinkTheme-deep">פעולת הזהב היומית:</span>
+            <button onclick="switchTab('today')" class="text-[11px] text-pinkTheme-primary underline font-semibold hover:text-pinkTheme-primaryHover">עריכה בהיום שלך</button>
+          </div>
+          <p id="dash-core-action-text" class="text-xs sm:text-sm font-semibold text-pinkTheme-text leading-snug">
+            מה הדבר שהכי יקדם אותי היום?
+          </p>
+          
+          <div class="flex flex-wrap items-center gap-2 pt-1 border-t border-pinkTheme-border">
+            <button onclick="openFocusSprintModal(anchors.q2 || '')" class="px-3.5 py-1.5 rounded-xl bg-pinkTheme-primary hover:bg-pinkTheme-primaryHover text-white text-xs font-bold shadow-clean flex items-center gap-1.5 transition">
+              <span>משימה אחת</span>
+              <span class="text-[10px]">⏱️</span>
+            </button>
+            <button onclick="switchTab('tasks')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-pinkTheme-softPill text-pinkTheme-text text-xs font-semibold border border-pinkTheme-border transition">
+              משימות ✍️
+            </button>
+            <button onclick="switchTab('today')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-pinkTheme-softPill text-pinkTheme-text text-xs font-semibold border border-pinkTheme-border transition">
+              היום שלך ←
+            </button>
+          </div>
+        </div>
+
+        <!-- Schedule Preview -->
+        <div class="exec-card p-4 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+            <span class="text-xs font-bold text-pinkTheme-deep">חלוקת זמנים בלו"ז היומי</span>
+            <button onclick="switchTab('schedule')" class="text-[11px] font-bold text-pinkTheme-primary hover:text-pinkTheme-primaryHover">
+              עריכת הלו"ז המלא ←
+            </button>
+          </div>
+          <div class="space-y-1.5 text-xs" id="dash-schedule-preview"></div>
+        </div>
+
+        <!-- Thoughts & Notes Hub -->
+        <div class="exec-card p-4 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+            <span class="text-xs font-bold text-pinkTheme-deep">מחשבות, רעיונות ותזכורות</span>
+            <button onclick="openQuickAddModal()" class="text-[11px] text-pinkTheme-primary font-bold hover:underline">+ פתק חדש</button>
+          </div>
+          <div id="dash-mini-notes-list" class="space-y-1.5 max-h-48 overflow-y-auto"></div>
+        </div>
+
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 1: TODAY'S FOCUS & RITUALS (היום שלך) -->
+      <!-- ======================================================================= -->
+      <div id="view-today" class="tab-view space-y-4">
+        
+        <!-- Header & Momentum Bar -->
+        <div class="exec-card p-4 sm:p-5 bg-white space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-pinkTheme-border pb-2.5">
+            <div>
+              <h2 id="hero-greeting-title" class="text-lg sm:text-xl font-serif font-bold text-pinkTheme-deep">היום שלך 🩷</h2>
+              <span id="hero-date" class="text-xs font-mono font-semibold text-pinkTheme-textMuted">היום</span>
+            </div>
+            <button onclick="toggleAllTodayAccordions()" class="text-xs px-2.5 py-1 rounded-lg bg-white border border-pinkTheme-border text-pinkTheme-text hover:bg-pinkTheme-softPill font-semibold self-start sm:self-auto transition">
+              פתיחה/סגירה של הכל ↕
+            </button>
+          </div>
+
+          <!-- Live Momentum Bar -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-semibold text-pinkTheme-deep">מומנטום והתקדמות:</span>
+              <span id="daily-completion-pct" class="font-mono font-bold text-pinkTheme-primary">0% הושלם</span>
+            </div>
+            <div class="w-full bg-pinkTheme-softPill rounded-full h-2 overflow-hidden p-0.5 border border-pinkTheme-border">
+              <div id="daily-progress-bar" class="bg-pinkTheme-primary h-full rounded-full transition-all duration-300 w-0"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PHASE 1: MORNING AWAKENING (שלב 1) -->
+        <!-- ========================================== -->
+        <div class="exec-card p-4 sm:p-5 border-r-4 border-r-pinkTheme-primary">
+          <!-- Accordion Header -->
+          <div onclick="toggleSectionAccordion('today-phase-1', 'today-hdr-1')" class="flex items-center justify-between cursor-pointer select-none pb-2 border-b border-pinkTheme-border">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-pinkTheme-softPill text-pinkTheme-primary text-xs font-bold flex items-center justify-center">🌅</span>
+              <h3 class="text-xs sm:text-sm font-bold text-pinkTheme-deep">שלב 1: פתיחת בוקר & תדר</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] text-pinkTheme-textMuted font-medium">3 דקות</span>
+              <i id="today-hdr-1" class="fa-solid fa-chevron-down text-xs text-pinkTheme-textMuted accordion-chevron"></i>
+            </div>
+          </div>
+
+          <!-- Accordion Body -->
+          <div id="today-phase-1" class="accordion-body space-y-3.5 pt-3">
+            <!-- Energy State Selector -->
+            <div class="space-y-2">
+              <span class="text-xs font-bold text-pinkTheme-deep block">איך קמת הבוקר?</span>
+              <div class="grid grid-cols-3 gap-2 text-xs">
+                <button type="button" id="btn-energy-high" onclick="setDailyEnergyState('high')" class="p-2.5 rounded-xl border border-pinkTheme-border text-center transition font-medium hover:border-pinkTheme-primary bg-white text-pinkTheme-text min-h-[44px] shadow-clean">
+                  <span class="block text-sm">🔥</span>
+                  <span class="font-bold block text-xs">אנרגיה גבוהה</span>
+                </button>
+                <button type="button" id="btn-energy-normal" onclick="setDailyEnergyState('normal')" class="p-2.5 rounded-xl border border-pinkTheme-border text-center transition font-medium hover:border-pinkTheme-primary bg-white text-pinkTheme-text min-h-[44px] shadow-clean">
+                  <span class="block text-sm">🌿</span>
+                  <span class="font-bold block text-xs">אנרגיה רגועה</span>
+                </button>
+                <button type="button" id="btn-energy-low" onclick="setDailyEnergyState('low')" class="p-2.5 rounded-xl border border-pinkTheme-border text-center transition font-medium hover:border-pinkTheme-primary bg-white text-pinkTheme-text min-h-[44px] shadow-clean">
+                  <span class="block text-sm">🔋</span>
+                  <span class="font-bold block text-xs">אנרגיה נמוכה</span>
+                </button>
+              </div>
+              <input type="text" id="energy-cause-input" oninput="saveEnergyCause(this.value)" placeholder="מה השפיע על האנרגיה הבוקר? (שעות שינה, מחשבה...)" class="w-full silk-input p-2 text-xs bg-pinkTheme-softPill/40">
             </div>
 
-            <!-- Name -->
-            <h1 id="profile-name" class="text-2xl font-extrabold tracking-tight text-white mb-1 drop-shadow-sm">
-                מדלן פריד
-            </h1>
+            <!-- Daily Mantra -->
+            <div class="space-y-1.5 pt-1">
+              <div class="flex items-center justify-between">
+                <label class="text-xs font-bold text-pinkTheme-deep">המנטרה וה-Being להיום:</label>
+                <button onclick="inspireMantraFromVision()" class="text-[11px] text-pinkTheme-primary underline font-semibold hover:text-pinkTheme-primaryHover">שליפה מהחזון ✨</button>
+              </div>
+              <input type="text" id="daily-mantra-input" oninput="saveDailyMantra(this.value)" placeholder="את פועלת מתוך שקט, ביטחון וערך בלתי מתפשר..." class="w-full silk-input p-2.5 text-xs sm:text-sm font-semibold text-pinkTheme-text bg-white">
+            </div>
+
+            <!-- Morning Rituals Pills -->
+            <div class="space-y-1.5 pt-1">
+              <span class="text-xs font-bold text-pinkTheme-deep block">טקסי בוקר:</span>
+              <div class="flex flex-wrap gap-1.5">
+                <div onclick="toggleRitualPill(1)" id="pill-rit-1" class="ritual-pill">
+                  <span id="pill-check-1">⚪</span>
+                  <span>מים & נשימות</span>
+                </div>
+                <div onclick="toggleRitualPill(2)" id="pill-rit-2" class="ritual-pill">
+                  <span id="pill-check-2">⚪</span>
+                  <span>אימון / תנועה</span>
+                </div>
+                <div onclick="toggleRitualPill(3)" id="pill-rit-3" class="ritual-pill">
+                  <span id="pill-check-3">⚪</span>
+                  <span>טיפוח & התארגנות</span>
+                </div>
+                <div onclick="toggleRitualPill(4)" id="pill-rit-4" class="ritual-pill">
+                  <span id="pill-check-4">⚪</span>
+                  <span>חיבור לחזון</span>
+                </div>
+                <div onclick="toggleRitualPill(5)" id="pill-rit-5" class="ritual-pill">
+                  <span id="pill-check-5">⚪</span>
+                  <span>בוקר ללא רשתות</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3 Gratitudes -->
+            <div class="space-y-1.5 pt-1">
+              <span class="text-xs font-bold text-pinkTheme-deep block">3 דברים שאת מודה עליהם הבוקר:</span>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                <input type="text" id="gratitude-1" oninput="saveGratitude(1, this.value)" placeholder="1. הודיה ראשונה..." class="silk-input p-2 bg-white">
+                <input type="text" id="gratitude-2" oninput="saveGratitude(2, this.value)" placeholder="2. הודיה שנייה..." class="silk-input p-2 bg-white">
+                <input type="text" id="gratitude-3" oninput="saveGratitude(3, this.value)" placeholder="3. הודיה שלישית..." class="silk-input p-2 bg-white">
+              </div>
+            </div>
+
+            <!-- Reflection Trigger -->
+            <div class="pt-2">
+              <button 
+                type="button" 
+                onclick="generateMorningCoachingReflection()" 
+                class="w-full py-3 px-4 rounded-xl bg-pinkTheme-primary hover:bg-pinkTheme-primaryHover text-white text-xs sm:text-sm font-bold transition-all shadow-clean flex items-center justify-center gap-2 min-h-[44px] cursor-pointer"
+              >
+                <span>✨ מילאתי — שיקוף אימוני ליום שלך 🩷</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PHASE 2: THE EXECUTION ENGINE (שלב 2) -->
+        <!-- ========================================== -->
+        <div class="exec-card p-4 sm:p-5 border-r-4 border-r-pinkTheme-primary">
+          <!-- Accordion Header -->
+          <div onclick="toggleSectionAccordion('today-phase-2', 'today-hdr-2')" class="flex items-center justify-between cursor-pointer select-none pb-2 border-b border-pinkTheme-border">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-pinkTheme-primary text-white text-xs font-bold flex items-center justify-center">⚡</span>
+              <h3 class="text-xs sm:text-sm font-bold text-pinkTheme-deep">שלב 2: שולחן עבודה ועשייה</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] text-pinkTheme-primary font-bold">מיקוד בתוצאות</span>
+              <i id="today-hdr-2" class="fa-solid fa-chevron-down text-xs text-pinkTheme-textMuted accordion-chevron"></i>
+            </div>
+          </div>
+
+          <!-- Accordion Body -->
+          <div id="today-phase-2" class="accordion-body space-y-4 pt-3">
+            <!-- Core Action Hero -->
+            <div class="p-3.5 rounded-xl bg-pinkTheme-softPill/50 border border-pinkTheme-border space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-pinkTheme-deep flex items-center gap-1.5">
+                  <span>💼</span>
+                  <span>פעולת הזהב היומית:</span>
+                </span>
+                <button onclick="openFocusSprintModal(document.getElementById('q-business')?.value || '')" class="text-xs px-2.5 py-1 rounded-lg bg-pinkTheme-primary text-white font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean flex items-center gap-1">
+                  <span>משימה אחת</span>
+                  <span class="text-[10px]">⏱️</span>
+                </button>
+              </div>
+              <input 
+                type="text" 
+                id="q-business" 
+                oninput="saveAnchor('q2', this.value); syncDashboardAction(this.value);" 
+                placeholder="שיחת מכירה, פולואפ, הצעת מחיר, תוכן ממיר..." 
+                class="w-full silk-input p-2.5 bg-white font-bold text-pinkTheme-text text-xs sm:text-sm"
+              >
+            </div>
+
+            <!-- Digital Taskbook -->
+            <div class="space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-pinkTheme-border pb-2">
+                <div>
+                  <h4 class="text-xs sm:text-sm font-bold text-pinkTheme-deep">מחברת משימות יומית 📖</h4>
+                  <p class="text-[11px] text-pinkTheme-textMuted">משימות עם זמן משוער וקטגוריה</p>
+                </div>
+                <div class="flex items-center gap-2 self-start sm:self-auto">
+                  <span id="today-taskbook-stats" class="text-xs font-mono font-bold text-pinkTheme-deep px-2 py-0.5 rounded-lg bg-pinkTheme-softPill border border-pinkTheme-border">
+                    0 / 0 הושלמו
+                  </span>
+                  <button onclick="syncTodayTaskbookToGoogleCalendar()" title="סנכרון ליומן Google" class="text-xs px-2.5 py-1 rounded-xl bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep border border-pinkTheme-border font-bold transition flex items-center gap-1 shadow-clean">
+                    <span>📅 סנכרון ליומן</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Task Input Creator -->
+              <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-2 shadow-clean">
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 text-xs">
+                  <input 
+                    type="text" 
+                    id="today-task-title-in" 
+                    placeholder="כתבי כאן משימה (Enter)..." 
+                    onkeydown="if(event.key==='Enter'){event.preventDefault(); addTodayTaskbookItem();}"
+                    class="sm:col-span-6 silk-input p-2 text-xs sm:text-sm font-medium bg-pinkTheme-softPill/30"
+                  >
+                  <select id="today-task-category-in" class="sm:col-span-3 silk-input p-2 text-xs font-semibold text-pinkTheme-text bg-pinkTheme-softPill/30">
+                    <option value="sales">💼 מכירות & כסף</option>
+                    <option value="marketing">📱 שיווק & תוכן</option>
+                    <option value="clients">👑 שירות & לקוחות</option>
+                    <option value="admin">⚡ אדמין & תפעול</option>
+                    <option value="personal">🌸 אישי & מנוחה</option>
+                  </select>
+                  <select id="today-task-duration-in" class="sm:col-span-3 silk-input p-2 text-xs font-semibold text-pinkTheme-text bg-pinkTheme-softPill/30 font-mono">
+                    <option value="15">⏱️ 15 דקות</option>
+                    <option value="30" selected>⏱️ 30 דקות</option>
+                    <option value="45">⏱️ 45 דקות</option>
+                    <option value="60">⏱️ 60 דקות</option>
+                  </select>
+                </div>
+                
+                <div class="flex items-center justify-between pt-1">
+                  <button onclick="clearCompletedTodayTasks()" class="text-[11px] text-pinkTheme-textMuted hover:text-pinkTheme-primary font-semibold transition">
+                    ניקוי שבוצעו
+                  </button>
+                  <button 
+                    onclick="addTodayTaskbookItem()" 
+                    class="px-4 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-semibold hover:bg-pinkTheme-primaryHover transition shadow-clean"
+                  >
+                    + הוספה למחברת
+                  </button>
+                </div>
+              </div>
+
+              <!-- Taskbook Items Container -->
+              <div id="today-taskbook-list" class="space-y-1.5"></div>
+            </div>
+
+            <!-- Weekly Tasks Synced for Today -->
+            <div class="pt-2 border-t border-pinkTheme-border space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-pinkTheme-deep">משימות מתוזמנות להיום מהשבועי</span>
+                <span id="today-weekly-tasks-count" class="bg-pinkTheme-softPill text-pinkTheme-deep text-[10px] px-2 py-0.5 rounded-full font-bold">0</span>
+              </div>
+              <div id="today-weekly-tasks-list" class="space-y-1.5"></div>
+            </div>
+
+            <!-- 2 Well-being Anchors -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
+              <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">מה ימלא אותך בסוף היום? 🩷</label>
+                <input type="text" id="q-pleasure" oninput="saveAnchor('q3', this.value)" placeholder="הליכה לים, שקט, חברים, ספר..." class="w-full silk-input p-2 bg-white">
+              </div>
+              <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">איך את בוחרת לפעול היום? 👑</label>
+                <input type="text" id="q-identity" oninput="saveIdentityAction(this.value)" placeholder="בנחישות, ברוגע, בלי היסוס..." class="w-full silk-input p-2 bg-white">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PHASE 3: EVENING RESET (שלב 3) -->
+        <!-- ========================================== -->
+        <div class="exec-card p-4 sm:p-5 border-t-4 border-t-pinkTheme-primary">
+          <!-- Accordion Header -->
+          <div onclick="toggleSectionAccordion('today-phase-3', 'today-hdr-3')" class="flex items-center justify-between cursor-pointer select-none pb-2 border-b border-pinkTheme-border">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-pinkTheme-primary text-white text-xs font-bold flex items-center justify-center">🌙</span>
+              <h3 class="text-xs sm:text-sm font-bold text-pinkTheme-deep">שלב 3: סגירת יום וריסט לילה</h3>
+            </div>
+            <i id="today-hdr-3" class="fa-solid fa-chevron-down text-xs text-pinkTheme-textMuted accordion-chevron"></i>
+          </div>
+
+          <!-- Accordion Body -->
+          <div id="today-phase-3" class="accordion-body space-y-3.5 pt-3">
+            <div class="space-y-2.5 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div class="space-y-1">
+                  <label class="font-bold text-pinkTheme-deep block">הניצחון של היום (One Win) 🏆:</label>
+                  <input type="text" id="ev-one-win" placeholder="מה הדבר הכי טוב שהשגת היום..." class="w-full silk-input p-2 bg-white font-semibold text-pinkTheme-deep">
+                </div>
+                <div class="space-y-1">
+                  <label class="font-bold text-pinkTheme-deep block">מה את בוחרת לשפר למחר?</label>
+                  <input type="text" id="ev-improve-tomorrow" placeholder="דבר אחד קטן ומדויק..." class="w-full silk-input p-2 bg-white">
+                </div>
+              </div>
+
+              <!-- Tomorrow Setup & Auto Transfer -->
+              <div class="pt-2 border-t border-pinkTheme-border space-y-2">
+                <span class="text-xs font-bold text-pinkTheme-deep block">כוונות לקראת מחר:</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input type="text" id="ev-tomorrow-biz" placeholder="פוקוס עסקי למחר..." class="w-full silk-input p-2 bg-white font-semibold text-pinkTheme-deep">
+                  <input type="text" id="ev-tomorrow-pleasure" placeholder="משהו אישי למחר..." class="w-full silk-input p-2 bg-white">
+                </div>
+
+                <div class="flex items-center justify-between pt-1">
+                  <button type="button" onclick="transferTomorrowToMorning()" class="text-xs text-pinkTheme-primary font-bold underline hover:text-pinkTheme-primaryHover transition">
+                    העבירי לפתיחת הבוקר ↩
+                  </button>
+                  <button type="button" onclick="saveEveningReflection()" class="px-3.5 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-semibold hover:bg-pinkTheme-primaryHover transition shadow-clean">
+                    שמירת סגירת יום ✓
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB: TASK INBOX (אינבוקס משימות) -->
+      <!-- ======================================================================= -->
+      <div id="view-tasks" class="tab-view space-y-3.5">
+        <div class="exec-card p-4 sm:p-5 space-y-3.5 bg-white">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-pinkTheme-border pb-3">
+            <div>
+              <h2 class="text-lg font-serif font-bold text-pinkTheme-deep">אינבוקס משימות ✍️</h2>
+              <p class="text-xs text-pinkTheme-textMuted">פריקת משימות מהירה וסימון מה שבוצע</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="free-tasks-stats" class="text-xs font-mono font-bold text-pinkTheme-deep px-2.5 py-1 rounded-xl bg-pinkTheme-softPill border border-pinkTheme-border">
+                0 משימות
+              </span>
+              <button onclick="syncAllTasksToGoogleCalendar()" title="סנכרון משימות ליומן" class="text-xs px-2.5 py-1 rounded-xl bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep font-bold border border-pinkTheme-border transition flex items-center gap-1">
+                <span>📅 ליומן</span>
+              </button>
+              <button onclick="clearCompletedFreeTasks()" class="text-xs px-2.5 py-1 rounded-xl bg-white hover:bg-pinkTheme-softPill text-pinkTheme-textMuted hover:text-pinkTheme-primary font-semibold border border-pinkTheme-border transition">
+                ניקוי
+              </button>
+            </div>
+          </div>
+
+          <!-- Input Box -->
+          <div class="flex items-center gap-2">
+            <input 
+              type="text" 
+              id="free-task-input" 
+              placeholder="כתבי כאן משימה (Enter)..." 
+              onkeydown="if(event.key==='Enter'){event.preventDefault(); addFreeTask();}"
+              class="flex-1 silk-input p-2.5 text-xs sm:text-sm font-medium bg-white"
+            >
+            <button 
+              onclick="addFreeTask()" 
+              class="px-4 py-2.5 rounded-xl bg-pinkTheme-primary text-white text-xs sm:text-sm font-semibold hover:bg-pinkTheme-primaryHover transition shrink-0 min-h-[40px]"
+            >
+              + הוספה
+            </button>
+          </div>
+
+          <!-- Checklist Container -->
+          <div id="free-tasks-list" class="space-y-1.5 pt-1"></div>
+        </div>
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 2: SCHEDULE (לו"ז עבודה) -->
+      <!-- ======================================================================= -->
+      <div id="view-schedule" class="tab-view space-y-3.5">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
+          <div>
+            <h2 class="text-lg font-serif font-bold text-pinkTheme-deep">לו"ז עבודה ⏱️</h2>
+            <p class="text-xs text-pinkTheme-textMuted">זמנים מוגנים כדי להתקדם ברוגע</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+            <button onclick="syncScheduleToGoogleCalendar()" title="סנכרון ליומן Google" class="text-xs px-3 py-1.5 rounded-xl bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep border border-pinkTheme-border font-bold transition flex items-center gap-1.5 shadow-clean">
+              <span>📅 סנכרון ליומן Google</span>
+            </button>
+            <button onclick="openAddScheduleBlockModal()" class="text-xs px-3 py-1.5 rounded-xl bg-pinkTheme-primary text-white font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean">
+              + בלוק חדש
+            </button>
+            <button onclick="resetDefaultSchedule()" class="text-xs px-3 py-1.5 rounded-xl bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep font-bold border border-pinkTheme-border">
+              איפוס ↩
+            </button>
+          </div>
+        </div>
+
+        <!-- Schedule Blocks List -->
+        <div class="space-y-2.5" id="schedule-blocks-container"></div>
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 3: PIPELINE (מעקב לקוחות ושיחות) -->
+      <!-- ======================================================================= -->
+      <div id="view-pipeline" class="tab-view space-y-3.5">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
+          <div>
+            <h2 class="text-lg font-serif font-bold text-pinkTheme-deep">מעקב לקוחות & שיחות 💼</h2>
+            <p class="text-xs text-pinkTheme-textMuted">מי מתעניין, עם מי יש שיחה ומי סגר</p>
+          </div>
+          <button onclick="openAddLeadModal()" class="px-3.5 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-semibold hover:bg-pinkTheme-primaryHover transition self-start sm:self-auto flex items-center gap-1.5 shadow-clean">
+            <span>+ הוספת לקוח / שיחה</span>
+          </button>
+        </div>
+
+        <!-- Stages Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl bg-white border border-pinkTheme-border text-center space-y-0.5 shadow-clean">
+            <span class="text-[10px] text-pinkTheme-textMuted block">מתעניינים</span>
+            <span id="stage-count-leads" class="text-sm font-bold text-pinkTheme-deep font-mono">0</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-white border border-pinkTheme-border text-center space-y-0.5 shadow-clean">
+            <span class="text-[10px] text-pinkTheme-textMuted block">שיחות</span>
+            <span id="stage-count-calls" class="text-sm font-bold text-pinkTheme-primary font-mono">0</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-white border border-pinkTheme-border text-center space-y-0.5 shadow-clean">
+            <span class="text-[10px] text-pinkTheme-textMuted block">הצעות</span>
+            <span id="stage-count-proposals" class="text-sm font-bold text-pinkTheme-deep font-mono">0</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-pinkTheme-softPill border border-pinkTheme-border text-center space-y-0.5 shadow-clean">
+            <span class="text-[10px] text-pinkTheme-deep font-bold block">לקוחות שסגרו 🏆</span>
+            <span id="stage-count-won" class="text-sm font-bold text-pinkTheme-primary font-mono">0</span>
+          </div>
+        </div>
+
+        <!-- Pipeline Deals List -->
+        <div class="exec-card p-4 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+            <span class="text-xs font-bold text-pinkTheme-deep">רשימת לקוחות ושיחות</span>
+            <span class="text-[10px] text-pinkTheme-textMuted">לחצי על הסטטוס לעדכון</span>
+          </div>
+          <div id="pipeline-deals-list" class="space-y-2"></div>
+        </div>
+
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 4: PLAYBOOKS (תבניות עבודה) -->
+      <!-- ======================================================================= -->
+      <div id="view-playbooks" class="tab-view space-y-3.5">
+        <div>
+          <h2 class="text-lg font-serif font-bold text-pinkTheme-deep">תבניות עבודה & שיטות 📐</h2>
+          <p class="text-xs text-pinkTheme-textMuted">תבניות מדויקות לשיחות מכירה ותוכן</p>
+        </div>
+
+        <div class="exec-card p-4 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+            <span class="text-xs sm:text-sm font-bold text-pinkTheme-deep">📞 תבנית שיחת התאמה ומכירה</span>
+            <span class="text-[10px] bg-pinkTheme-softPill text-pinkTheme-deep px-2 py-0.5 rounded-full font-bold">4 שלבים</span>
+          </div>
+          <div class="space-y-1.5 text-xs leading-relaxed text-pinkTheme-text">
+            <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border">
+              <strong class="text-pinkTheme-deep block">שלב 1: פתיחה ומיסגור (2 דק')</strong>
+              "המטרה של השיחה היא להבין איפה את עומדת ומה היעד שלך. בסוף אם נראה שיש התאמה מדויקת, אסביר איך נכון לעבוד יחד."
+            </div>
+            <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border">
+              <strong class="text-pinkTheme-deep block">שלב 2: אבחון כאב ופער (10 דק')</strong>
+              "איפה בדיוק את מרגישה תקועה? מה ניסית עד עכשיו ומה קורה אם המצב נשאר ככה בעוד חצי שנה?"
+            </div>
+            <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border">
+              <strong class="text-pinkTheme-deep block">שלב 3: הפתרון כגשר (5 דק')</strong>
+              להציג רק את מה שפותר ישירות את הפער שלה, בלי עומס טכני.
+            </div>
+            <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border">
+              <strong class="text-pinkTheme-deep block">שלב 4: סגירה נקייה וביטחון במחיר (3 דק')</strong>
+              "ההשקעה בתהליך היא [X ₪]. איך זה מרגיש לך?" (שקט מוחלט, להמתין לתשובה).
+            </div>
+          </div>
+        </div>
+
+        <div class="exec-card p-4 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+            <span class="text-xs sm:text-sm font-bold text-pinkTheme-primary">📱 תבנית תוכן ממוקד</span>
+            <span class="text-[10px] bg-pinkTheme-softPill text-pinkTheme-deep px-2 py-0.5 rounded-full font-bold">Hook ➔ CTA</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-white border border-pinkTheme-border space-y-0.5 shadow-clean">
+              <strong class="text-pinkTheme-deep block">1. Hook חותך</strong>
+              טעות נפוצה / מיתוס שנשבר / שאלה שפוגשת כאב.
+            </div>
+            <div class="p-2.5 rounded-xl bg-white border border-pinkTheme-border space-y-0.5 shadow-clean">
+              <strong class="text-pinkTheme-deep block">2. תובנת עומק</strong>
+              שינוי פרספקטיבה: להסביר למה מה שעשו לא עבד.
+            </div>
+            <div class="p-2.5 rounded-xl bg-white border border-pinkTheme-border space-y-0.5 shadow-clean">
+              <strong class="text-pinkTheme-deep block">3. הוכחה חיה</strong>
+              דוגמה קצרה מתהליך עם לקוחה או מהחוויה שלך.
+            </div>
+            <div class="p-2.5 rounded-xl bg-white border border-pinkTheme-border space-y-0.5 shadow-clean">
+              <strong class="text-pinkTheme-deep block">4. הנעה לפעולה</strong>
+              "אם את רוצה ליישם את זה — שלחי לי הודעה עם המילה 'מיקוד'."
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 5: WEEKLY (השבוע שלך) -->
+      <!-- ======================================================================= -->
+      <div id="view-weekly" class="tab-view space-y-3.5">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
+          <div>
+            <h2 class="text-lg font-serif font-bold text-pinkTheme-deep">השבוע שלך</h2>
+            <p class="text-xs text-pinkTheme-textMuted">סיכום ותכנון שבועי מדויק</p>
+          </div>
+          
+          <div class="inline-flex bg-pinkTheme-softPill p-1 rounded-xl border border-pinkTheme-border self-start sm:self-auto">
+            <button onclick="switchWeeklySubTab('summary')" id="btn-sub-summary" class="px-3 py-1 rounded-lg bg-pinkTheme-primary text-white text-xs font-semibold transition">
+              סיכום שבוע
+            </button>
+            <button onclick="switchWeeklySubTab('plan')" id="btn-sub-plan" class="px-3 py-1 rounded-lg text-pinkTheme-deep text-xs font-medium hover:bg-white/60 transition">
+              תכנון שבוע
+            </button>
+          </div>
+        </div>
+
+        <!-- Weekly Summary -->
+        <div id="weekly-sub-summary" class="space-y-3.5">
+          <div class="exec-card p-4 sm:p-5 space-y-3.5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-pinkTheme-border">
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <span class="text-xs font-semibold text-pinkTheme-deep shrink-0">תאריכים:</span>
+                <input type="text" id="ws-date-range" placeholder="24–30 באוגוסט" class="silk-input px-2.5 py-1 text-xs font-semibold text-pinkTheme-deep w-full sm:w-48 bg-pinkTheme-softPill/30">
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button onclick="clearWeeklySummaryForm()" class="px-2.5 py-1 rounded-lg text-xs text-pinkTheme-textMuted hover:text-pinkTheme-deep transition">
+                  איפוס
+                </button>
+                <button onclick="saveWeeklySummary()" class="px-3.5 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-semibold hover:bg-pinkTheme-primaryHover transition shadow-clean">
+                  שמירה ✓
+                </button>
+              </div>
+            </div>
+
+            <!-- Numbers -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">הכנסה שנוצרה (₪):</label>
+                <input type="text" id="ws-actual-income" placeholder="3,500 ₪" class="w-full silk-input p-2 text-xs font-bold text-pinkTheme-deep font-mono">
+              </div>
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">לקוחות פעילים/חדשים:</label>
+                <input type="text" id="ws-clients-count" placeholder="2 לקוחות" class="w-full silk-input p-2 text-xs font-medium">
+              </div>
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-primary block">לידים ושיחות התאמה:</label>
+                <input type="text" id="ws-leads-count" placeholder="4 שיחות" class="w-full silk-input p-2 text-xs font-medium">
+              </div>
+            </div>
+
+            <div class="space-y-2 text-xs pt-1 border-t border-pinkTheme-border">
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">מה היה טוב והביא תוצאות?</label>
+                <textarea id="ws-what-good" rows="2" placeholder="דברים שזרמו, רגעים טובים, עשייה..." class="w-full silk-input p-2 text-xs"></textarea>
+              </div>
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">איפה הייתה דחייה או מה לשפר?</label>
+                <textarea id="ws-what-avoided" rows="2" placeholder="איפה הייתה דחייה..." class="w-full silk-input p-2 text-xs"></textarea>
+              </div>
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">התובנה המזוקקת מהשבוע:</label>
+                <input type="text" id="ws-lesson" placeholder="מסקנה ברורה לקחת קדימה..." class="w-full silk-input p-2 text-xs font-semibold text-pinkTheme-deep">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Plan -->
+        <div id="weekly-sub-plan" class="space-y-3.5 hidden">
+          <div class="exec-card p-4 sm:p-5 space-y-3.5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-pinkTheme-border">
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <span class="text-xs font-semibold text-pinkTheme-deep shrink-0">תאריכים:</span>
+                <input type="text" id="wp-date-range" placeholder="24–30 באוגוסט" class="silk-input px-2.5 py-1 text-xs font-semibold text-pinkTheme-deep w-full sm:w-48 bg-pinkTheme-softPill/30">
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button onclick="clearWeeklyPlanForm()" class="px-2.5 py-1 rounded-lg text-xs text-pinkTheme-textMuted hover:text-pinkTheme-deep transition">
+                  איפוס
+                </button>
+                <button onclick="saveWeeklyPlan()" class="px-3.5 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-semibold hover:bg-pinkTheme-primaryHover transition shadow-clean">
+                  שמירה ✓
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-2 text-xs sm:text-sm">
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">1. הפעולה האחת שתקדם הכי הרבה את העסק השבוע:</label>
+                <input type="text" id="wp-one-success-action" placeholder="למשל: 3 שיחות התאמה / סגירת פעולה מרכזית..." class="w-full silk-input p-2 text-xs sm:text-sm font-semibold text-pinkTheme-deep">
+              </div>
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-primary block">2. איזו מדלן את בוחרת להיות השבוע?</label>
+                <input type="text" id="wp-being-identity" placeholder="אסרטיבית, נוכחת, פועלת מתוך ביטחון ושקט..." class="w-full silk-input p-2 text-xs sm:text-sm font-semibold text-pinkTheme-primary">
+              </div>
+            </div>
+
+            <!-- Weekly TO DO Builder -->
+            <div class="pt-3 border-t border-pinkTheme-border space-y-2.5">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                <span class="font-bold text-pinkTheme-deep text-xs sm:text-sm block">משימות שבועיות</span>
+                
+                <div class="flex items-center gap-1 overflow-x-auto text-[11px] pb-1 sm:pb-0">
+                  <button onclick="filterWeeklyTasksByDay('all')" id="day-filter-all" class="px-2 py-0.5 rounded-lg bg-pinkTheme-primary text-white font-bold transition">הכל</button>
+                  <button onclick="filterWeeklyTasksByDay('sun')" id="day-filter-sun" class="px-2 py-0.5 rounded-lg bg-pinkTheme-softPill text-pinkTheme-deep font-medium transition">א'</button>
+                  <button onclick="filterWeeklyTasksByDay('mon')" id="day-filter-mon" class="px-2 py-0.5 rounded-lg bg-pinkTheme-softPill text-pinkTheme-deep font-medium transition">ב'</button>
+                  <button onclick="filterWeeklyTasksByDay('tue')" id="day-filter-tue" class="px-2 py-0.5 rounded-lg bg-pinkTheme-softPill text-pinkTheme-deep font-medium transition">ג'</button>
+                  <button onclick="filterWeeklyTasksByDay('wed')" id="day-filter-wed" class="px-2 py-0.5 rounded-lg bg-pinkTheme-softPill text-pinkTheme-deep font-medium transition">ד'</button>
+                  <button onclick="filterWeeklyTasksByDay('thu')" id="day-filter-thu" class="px-2 py-0.5 rounded-lg bg-pinkTheme-softPill text-pinkTheme-deep font-medium transition">ה'</button>
+                  <button onclick="filterWeeklyTasksByDay('fri')" id="day-filter-fri" class="px-2 py-0.5 rounded-lg bg-pinkTheme-softPill text-pinkTheme-deep font-medium transition">ו'</button>
+                </div>
+              </div>
+              
+              <div class="p-3 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border space-y-2">
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 text-xs">
+                  <input type="text" id="new-task-main-input" placeholder="משימה שבועית..." class="sm:col-span-8 silk-input p-2 text-xs sm:text-sm font-semibold bg-white">
+                  <select id="new-task-day-select" class="sm:col-span-4 silk-input p-2 text-xs font-semibold text-pinkTheme-deep bg-white">
+                    <option value="all">כל השבוע</option>
+                    <option value="sun">יום ראשון</option>
+                    <option value="mon">יום שני</option>
+                    <option value="tue">יום שלישי</option>
+                    <option value="wed">יום רביעי</option>
+                    <option value="thu">יום חמישי</option>
+                    <option value="fri">יום שישי</option>
+                  </select>
+                </div>
+
+                <div class="flex justify-end">
+                  <button onclick="commitNewTaskWithSubtasks()" class="px-4 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-semibold hover:bg-pinkTheme-primaryHover transition shadow-clean">
+                    + הוספה לשבועי
+                  </button>
+                </div>
+              </div>
+
+              <div id="weekly-todo-list-container" class="space-y-1.5 pt-1"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 6: MONTHLY (החודש שלך) -->
+      <!-- ======================================================================= -->
+      <div id="view-monthly" class="tab-view space-y-3.5">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
+          <div>
+            <h2 class="text-lg font-serif font-bold text-pinkTheme-deep">החודש שלך</h2>
+            <p class="text-xs text-pinkTheme-textMuted">יעד חודשי: 10,000 ₪ ופירוק 4 שבועות</p>
+          </div>
+          
+          <div class="inline-flex bg-pinkTheme-softPill p-1 rounded-xl border border-pinkTheme-border self-start sm:self-auto">
+            <button onclick="switchMonthlySubTab('summary')" id="btn-m-sub-summary" class="px-3 py-1 rounded-lg bg-pinkTheme-primary text-white text-xs font-semibold transition">
+              סיכום חודש
+            </button>
+            <button onclick="switchMonthlySubTab('plan')" id="btn-m-sub-plan" class="px-3 py-1 rounded-lg text-pinkTheme-deep text-xs font-medium hover:bg-white/60 transition">
+              תכנון חודש
+            </button>
+          </div>
+        </div>
+
+        <!-- Monthly Summary -->
+        <div id="monthly-sub-summary" class="space-y-3.5">
+          <div class="exec-card p-4 sm:p-5 space-y-3.5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-pinkTheme-border">
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <span class="text-xs font-semibold text-pinkTheme-deep shrink-0">חודש:</span>
+                <input type="text" id="ms-month-name" placeholder="ספטמבר 2026" class="silk-input px-2.5 py-1 text-xs font-semibold text-pinkTheme-deep w-full sm:w-48 bg-pinkTheme-softPill/30">
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button onclick="clearMonthlySummaryForm()" class="px-2.5 py-1 rounded-lg text-xs text-pinkTheme-textMuted hover:text-pinkTheme-deep transition">
+                  איפוס
+                </button>
+                <button onclick="saveMonthlySummary()" class="px-3.5 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-semibold hover:bg-pinkTheme-primaryHover transition shadow-clean">
+                  שמירה ✓
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-2.5 text-xs">
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">1. הכנסה בפועל שנוצרה החודש:</label>
+                <input type="text" id="ms-actual-income" placeholder="10,000 ₪" class="w-full silk-input p-2 text-xs font-bold text-pinkTheme-deep font-mono">
+              </div>
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">2. הניצחונות הגדולים שלך החודש:</label>
+                <textarea id="ms-wins" rows="2" placeholder="1. ...&#10;2. ..." class="w-full silk-input p-2 text-xs"></textarea>
+              </div>
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">3. התובנה המזוקקת לקחת לחודש הבא:</label>
+                <input type="text" id="ms-lesson" placeholder="החלטה ברורה..." class="w-full silk-input p-2 text-xs">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly Plan -->
+        <div id="monthly-sub-plan" class="space-y-3.5 hidden">
+          <div class="exec-card p-4 sm:p-5 space-y-3.5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-pinkTheme-border">
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <span class="text-xs font-semibold text-pinkTheme-deep shrink-0">שם החודש:</span>
+                <input type="text" id="mp-month-name" placeholder="ספטמבר 2026" class="silk-input px-2.5 py-1 text-xs font-semibold text-pinkTheme-deep w-full sm:w-48 bg-pinkTheme-softPill/30">
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button onclick="clearMonthlyPlanForm()" class="px-2.5 py-1 rounded-lg text-xs text-pinkTheme-textMuted hover:text-pinkTheme-deep transition">
+                  איפוס
+                </button>
+                <button onclick="saveMonthlyPlan()" class="px-3.5 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-semibold hover:bg-pinkTheme-primaryHover transition shadow-clean">
+                  שמירה ✓
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-2 text-xs sm:text-sm">
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">1. יעד הכנסה חודשי:</label>
+                <input type="text" id="mp-income-goal" placeholder="10,000 ₪" class="w-full silk-input p-2 text-xs sm:text-sm font-bold text-pinkTheme-deep font-mono">
+              </div>
+              <div class="space-y-1">
+                <label class="font-bold text-pinkTheme-deep block">2. יעד עסקי מרכזי:</label>
+                <input type="text" id="mp-business-goal" placeholder="2–3 לקוחות חדשים..." class="w-full silk-input p-2 text-xs sm:text-sm font-medium">
+              </div>
+            </div>
+
+            <!-- 4 Weeks Breakdown -->
+            <div class="pt-3 border-t border-pinkTheme-border space-y-2">
+              <span class="font-bold text-pinkTheme-deep text-xs sm:text-sm block">פירוק החודש ל-4 שבועות</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border space-y-1">
+                  <span class="font-bold text-pinkTheme-deep block">שבוע 1</span>
+                  <input type="text" id="mp-w1" placeholder="פוקוס עסקי לשבוע 1..." class="w-full silk-input p-1.5 text-xs bg-white">
+                </div>
+                <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border space-y-1">
+                  <span class="font-bold text-pinkTheme-deep block">שבוע 2</span>
+                  <input type="text" id="mp-w2" placeholder="פוקוס עסקי לשבוע 2..." class="w-full silk-input p-1.5 text-xs bg-white">
+                </div>
+                <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border space-y-1">
+                  <span class="font-bold text-pinkTheme-deep block">שבוע 3</span>
+                  <input type="text" id="mp-w3" placeholder="פוקוס עסקי לשבוע 3..." class="w-full silk-input p-1.5 text-xs bg-white">
+                </div>
+                <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border space-y-1">
+                  <span class="font-bold text-pinkTheme-deep block">שבוע 4</span>
+                  <input type="text" id="mp-w4" placeholder="פוקוס עסקי לשבוע 4..." class="w-full silk-input p-1.5 text-xs bg-white">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 7: VOICE MEMOS (הקלטות קוליות) -->
+      <!-- ======================================================================= -->
+      <div id="view-notes" class="tab-view space-y-3.5">
+        
+        <div class="flex items-center justify-between pb-1">
+          <div>
+            <h2 class="text-lg font-serif font-bold text-pinkTheme-deep">הקלטות קוליות 🎙️</h2>
+            <p class="text-xs text-pinkTheme-textMuted">פריקת מחשבות קוליות מהירה</p>
+          </div>
+        </div>
+
+        <!-- Voice Recorder Interface -->
+        <div class="exec-card p-4 sm:p-5 space-y-3 bg-white border border-pinkTheme-border">
+          <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+            <span class="text-xs sm:text-sm font-bold text-pinkTheme-deep">הקלטה קולית</span>
+            <span id="recorder-timer-display" class="font-mono text-xs font-bold text-pinkTheme-primary">00:00</span>
+          </div>
+
+          <div class="flex items-center justify-between gap-2 pt-1">
+            <button type="button" id="btn-record-toggle" onclick="toggleVoiceRecording()" class="px-4 py-2.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold hover:bg-pinkTheme-primaryHover transition flex items-center gap-2 min-h-[40px] shadow-clean">
+              <span id="record-icon" class="w-2.5 h-2.5 rounded-full bg-white"></span>
+              <span id="record-btn-text">התחילי הקלטה 🎙️</span>
+            </button>
             
-            <!-- Tagline -->
-            <p id="profile-title" class="text-sm font-semibold tracking-wide mb-3 flex items-center justify-center gap-1.5">
-                <span class="text-gradient">לבטא את עצמך באותנטיות</span>
-                <span class="text-xs opacity-90">🗣️</span>
-            </p>
+            <button type="button" id="btn-cancel-recording" onclick="cancelVoiceRecording()" class="hidden px-3 py-2 rounded-xl bg-white border border-pinkTheme-border text-xs text-pinkTheme-textMuted hover:text-pinkTheme-primary font-semibold min-h-[40px]">
+              ביטול
+            </button>
+          </div>
 
-            <!-- Bio Description -->
-            <p id="profile-bio" class="text-xs text-gray-300/90 leading-relaxed max-w-xs px-2 font-normal tracking-wide">
-                מלווה מופנמים וביישנים לחזק ביטחון עצמי,<br>ולהתבטא יותר בשחרור מול אנשים.
-            </p>
-        </section>
+          <div id="pending-voice-form" class="hidden p-3 rounded-xl bg-white border border-pinkTheme-border space-y-2 mt-2">
+            <span class="text-xs font-bold text-pinkTheme-deep block">שמירת ההקלטה:</span>
+            <audio id="pending-audio-playback" controls class="w-full h-8 rounded"></audio>
+            <input type="text" id="pending-voice-title" placeholder="כותרת להקלטה..." class="w-full silk-input p-2 font-semibold text-pinkTheme-deep bg-pinkTheme-softPill/30 text-xs">
+            
+            <div class="flex items-center justify-end gap-2 pt-1">
+              <button type="button" onclick="discardPendingVoice()" class="px-3 py-1.5 rounded-lg text-xs text-pinkTheme-textMuted hover:text-pinkTheme-deep font-medium">
+                מחיקה
+              </button>
+              <button type="button" onclick="savePendingVoice()" class="px-3.5 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-semibold hover:bg-pinkTheme-primaryHover shadow-clean">
+                שמירה ✓
+              </button>
+            </div>
+          </div>
+        </div>
 
-        <!-- Links Container -->
-        <section class="w-full flex flex-col gap-4" id="links-list">
+        <!-- Voice Memos Library -->
+        <div class="exec-card p-4 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+            <span class="text-xs font-bold text-pinkTheme-deep">ספריית הקלטות</span>
+            <span id="voice-library-count" class="bg-pinkTheme-softPill text-pinkTheme-deep text-[10px] px-2 py-0.5 rounded-full font-bold">0</span>
+          </div>
+          <div id="voice-memos-list-container" class="space-y-2"></div>
+        </div>
 
-            <!-- Link 1: Single Breakthrough Session Questionnaire -->
-            <a href="https://madlenfrid.netlify.app/" target="_blank" class="group glass-card rounded-2xl px-5 py-4 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 group-hover:bg-pink-500/20 group-hover:scale-105 transition-all">
-                        <i class="fa-regular fa-clipboard text-lg"></i>
-                    </div>
-                    <span class="text-sm font-bold text-gray-100 group-hover:text-white transition-colors">לשאלון התאמה לפגישת פיצוח</span>
-                </div>
-                <i class="fa-solid fa-chevron-left text-gray-500 group-hover:text-pink-400 group-hover:-translate-x-1 transition-all text-xs"></i>
-            </a>
+      </div>
 
-            <!-- Link 2: Direct WhatsApp Message -->
-            <a href="https://wa.me/972524073915?text=היי%20מדלן,%20אשמח%20לשמוע%20על%20התהליך%20!" target="_blank" class="group glass-card rounded-2xl px-5 py-4 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500/20 group-hover:scale-105 transition-all">
-                        <i class="fa-regular fa-comment-dots text-lg"></i>
-                    </div>
-                    <span class="text-sm font-bold text-gray-100 group-hover:text-white transition-colors">אני רוצה לשמוע על התהליך !</span>
-                </div>
-                <i class="fa-solid fa-chevron-left text-gray-500 group-hover:text-emerald-400 group-hover:-translate-x-1 transition-all text-xs"></i>
-            </a>
+      <!-- ======================================================================= -->
+      <!-- TAB 8: CIRCULAR POMODORO (טיימר פומודורו) -->
+      <!-- ======================================================================= -->
+      <div id="view-patterns" class="tab-view space-y-3.5">
+        
+        <!-- Circular Pomodoro Focus Timer Card -->
+        <div class="exec-card p-5 space-y-4 bg-white text-center">
+          <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+            <h2 class="text-sm font-bold text-pinkTheme-deep">טיימר פומודורו ⏱️</h2>
+            <span id="pomodoro-mode-badge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-pinkTheme-softPill text-pinkTheme-deep border border-pinkTheme-border">
+              25 דק' פוקוס
+            </span>
+          </div>
 
-        </section>
+          <!-- Circular SVG Progress -->
+          <div class="flex justify-center items-center py-2">
+            <div class="relative w-44 h-44 flex items-center justify-center">
+              <svg class="w-full h-full" viewBox="0 0 160 160">
+                <circle cx="80" cy="80" r="70" fill="none" stroke="#FFF0F5" stroke-width="8" />
+                <circle 
+                  id="pomodoro-circle-ring" 
+                  class="timer-ring-circle" 
+                  cx="80" 
+                  cy="80" 
+                  r="70" 
+                  fill="none" 
+                  stroke="#E87A9E" 
+                  stroke-width="8" 
+                  stroke-linecap="round"
+                  stroke-dasharray="439.82"
+                  stroke-dashoffset="0"
+                />
+              </svg>
+              <!-- Center Countdown Display -->
+              <div class="absolute inset-0 flex flex-col items-center justify-center space-y-1">
+                <span id="pomodoro-timer-display" class="text-3xl font-mono font-bold text-pinkTheme-deep">25:00</span>
+                <span id="pomodoro-timer-label" class="text-[11px] font-medium text-pinkTheme-textMuted">פוקוס עמוק</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="flex items-center justify-center gap-2">
+            <button id="btn-pomodoro-toggle" onclick="togglePomodoro()" class="px-5 py-2.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean min-h-[40px] flex items-center gap-1.5">
+              <span id="pomodoro-btn-icon"><i class="fa-solid fa-play text-xs"></i></span>
+              <span id="pomodoro-btn-txt">התחילי פוקוס</span>
+            </button>
+            <button onclick="resetPomodoro()" class="px-3.5 py-2.5 rounded-xl bg-white border border-pinkTheme-border text-xs text-pinkTheme-textMuted hover:text-pinkTheme-deep font-semibold transition min-h-[40px]">
+              איפוס ↩
+            </button>
+          </div>
+
+          <!-- Quick Presets -->
+          <div class="flex items-center justify-center gap-1.5 pt-1 text-[11px]">
+            <button onclick="setPomodoroPreset(25, 'פוקוס עמוק')" class="px-2.5 py-1 rounded-lg bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep font-semibold border border-pinkTheme-border">25 דק'</button>
+            <button onclick="setPomodoroPreset(15, 'ספרינט מהיר')" class="px-2.5 py-1 rounded-lg bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep font-semibold border border-pinkTheme-border">15 דק'</button>
+            <button onclick="setPomodoroPreset(5, 'מנוחה קצרה')" class="px-2.5 py-1 rounded-lg bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep font-semibold border border-pinkTheme-border">5 דק' מנוחה</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- TAB 9: VISION (החזון שלך) -->
+      <!-- ======================================================================= -->
+      <div id="view-vision" class="tab-view space-y-3.5">
+        <div class="exec-card p-4 sm:p-6 space-y-3.5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-pinkTheme-border pb-2.5">
+            <div>
+              <h2 class="text-lg font-serif font-bold text-pinkTheme-deep">החזון שלך ✨</h2>
+              <p class="text-xs text-pinkTheme-textMuted">בהירות, שקט ועשייה מדויקת</p>
+            </div>
+            <span class="text-xs bg-pinkTheme-softPill text-pinkTheme-deep px-3 py-1 rounded-full font-bold font-mono self-start sm:self-auto border border-pinkTheme-border">
+              יעד נוכחי: 10,000 ₪
+            </span>
+          </div>
+          
+          <div class="p-3.5 rounded-xl bg-pinkTheme-softPill/50 border border-pinkTheme-border space-y-1 text-xs sm:text-sm text-pinkTheme-text leading-relaxed">
+            <span class="font-bold text-xs sm:text-sm block text-pinkTheme-deep">הלמה המרכזי שלך:</span>
+            <p>חיים של חופש, הצלחה, אהבה, ביטוי עצמי ושקט פנימי עמוק. עסק יציב שנשען על ערך אמיתי ומשרת את החיים שלך.</p>
+          </div>
+
+          <div class="space-y-2 text-xs sm:text-sm">
+            <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-0.5 shadow-clean">
+              <span class="font-bold text-pinkTheme-primary block">הזהות וה-Being שלך:</span>
+              <p class="text-pinkTheme-text leading-relaxed">אישה אסרטיבית, נשית, כריזמטית, מלאת ביטחון ושקט פנימי.</p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-0.5 shadow-clean">
+              <span class="font-bold text-pinkTheme-deep block">העסק והחופש שלך:</span>
+              <p class="text-pinkTheme-text leading-relaxed">עסק יציב ופשוט של לקוחות מדויקים שמעריכים תוצאות.</p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-0.5 shadow-clean">
+              <span class="font-bold text-pinkTheme-deep block">סגנון החיים שלך:</span>
+              <p class="text-pinkTheme-text leading-relaxed">דירה אסתטית בתל אביב, קרבה לים, זוגיות מעצימה, אימונים וזמן איכות יומיומי לעצמך.</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </main>
+  </div>
 
+  <!-- MOBILE BOTTOM BAR -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-pinkTheme-border px-1 py-1 flex items-center justify-around z-40">
+    <button onclick="switchTab('dashboard')" id="mob-nav-dashboard" class="mobile-tab-btn active">
+      <span class="text-sm">⚡</span>
+      <span>ראשי</span>
+    </button>
+    <button onclick="switchTab('today')" id="mob-nav-today" class="mobile-tab-btn">
+      <span class="text-sm">🎯</span>
+      <span>היום</span>
+    </button>
+    <button onclick="switchTab('tasks')" id="mob-nav-tasks" class="mobile-tab-btn">
+      <span class="text-sm">✍️</span>
+      <span>משימות</span>
+    </button>
+    <button onclick="switchTab('schedule')" id="mob-nav-schedule" class="mobile-tab-btn">
+      <span class="text-sm">⏱️</span>
+      <span>לו"ז</span>
+    </button>
+    <button onclick="switchTab('pipeline')" id="mob-nav-pipeline" class="mobile-tab-btn">
+      <span class="text-sm">💼</span>
+      <span>לקוחות</span>
+    </button>
+    <button onclick="switchTab('weekly')" id="mob-nav-weekly" class="mobile-tab-btn">
+      <span class="text-sm">📅</span>
+      <span>שבועי</span>
+    </button>
+  </nav>
+
+  <!-- MODALS -->
+  <!-- Modal: Morning Coaching Reflection -->
+  <div id="modal-morning-reflection" class="fixed inset-0 z-50 bg-pinkTheme-deep/30 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="exec-card p-5 sm:p-6 max-w-md w-full shadow-float space-y-4 bg-white border-2 border-pinkTheme-border">
+      <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-base">✨</span>
+          <h3 class="font-serif font-bold text-pinkTheme-deep text-sm sm:text-base">השיקוף האימוני של מדלן להיום</h3>
+        </div>
+        <button onclick="closeModal('modal-morning-reflection')" class="text-pinkTheme-textMuted hover:text-pinkTheme-deep text-base p-1">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Dynamic Content Box -->
+      <div id="morning-reflection-content" class="space-y-3 text-xs sm:text-sm leading-relaxed text-pinkTheme-text"></div>
+
+      <div class="pt-2 border-t border-pinkTheme-border flex items-center justify-end gap-2">
+        <button onclick="closeModal('modal-morning-reflection'); openFocusSprintModal(anchors.q2 || '');" class="w-full py-2.5 rounded-xl bg-pinkTheme-primary text-white text-xs sm:text-sm font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean flex items-center justify-center gap-1.5">
+          <span>קדימה, למשימה אחת ⏱️</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Focus Sprint (משימה אחת + טיימר + תת-משימות) -->
+  <div id="modal-focus-sprint" class="fixed inset-0 z-50 bg-pinkTheme-deep/30 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="exec-card p-4 sm:p-6 max-w-xl w-full shadow-float space-y-4 bg-white border border-pinkTheme-border my-auto">
+      
+      <!-- Top Header -->
+      <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-lg">🎯</span>
+          <div>
+            <h3 class="font-serif font-bold text-pinkTheme-deep text-sm sm:text-base">ספרינט משימה אחת</h3>
+            <p class="text-[11px] text-pinkTheme-textMuted">בחרי משימה, הגדירי זמן וצאי לפוקוס שקט</p>
+          </div>
+        </div>
+        <button onclick="closeFocusSprintModal()" class="text-pinkTheme-textMuted hover:text-pinkTheme-deep text-base p-1">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- STEP 1: Task Selection & Configuration -->
+      <div id="sprint-step-setup" class="space-y-3.5">
+        <!-- Source Toggle -->
+        <div class="flex items-center justify-between bg-pinkTheme-softPill p-1 rounded-xl border border-pinkTheme-border text-xs">
+          <button type="button" id="btn-sprint-src-existing" onclick="setSprintSource('existing')" class="flex-1 py-1.5 rounded-lg bg-pinkTheme-primary text-white font-bold transition shadow-clean">
+            בחירה מהמשימות הקיימות 📋
+          </button>
+          <button type="button" id="btn-sprint-src-new" onclick="setSprintSource('new')" class="flex-1 py-1.5 rounded-lg text-pinkTheme-deep font-medium hover:bg-white/60 transition">
+            הקלדת משימה חדשה ✍️
+          </button>
+        </div>
+
+        <!-- Option A: Existing Tasks Selector -->
+        <div id="sprint-existing-tasks-container" class="space-y-1.5 text-xs">
+          <label class="font-bold text-pinkTheme-deep block">בחרי משימה:</label>
+          <select id="sprint-existing-task-select" onchange="handleSprintExistingTaskSelect(this.value)" class="w-full silk-input p-2.5 font-semibold text-pinkTheme-deep bg-white">
+          </select>
+        </div>
+
+        <!-- Option B: New Task Input -->
+        <div id="sprint-new-task-container" class="space-y-1.5 text-xs hidden">
+          <label class="font-bold text-pinkTheme-deep block">מה המשימה שאת רוצה לבצע עכשיו?</label>
+          <input type="text" id="sprint-new-task-input" placeholder="למשל: סגירת הצעת מחיר ללקוחה..." class="w-full silk-input p-2.5 font-bold text-pinkTheme-deep bg-white">
+        </div>
+
+        <!-- Duration Picker -->
+        <div class="space-y-1.5 text-xs">
+          <label class="font-bold text-pinkTheme-deep block">משך זמן הפוקוס לספרינט:</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" onclick="setSprintDuration(15)" id="btn-sdur-15" class="p-2 rounded-xl border border-pinkTheme-border text-center font-bold bg-white text-pinkTheme-deep hover:border-pinkTheme-primary transition">
+              15 דק'
+            </button>
+            <button type="button" onclick="setSprintDuration(25)" id="btn-sdur-25" class="p-2 rounded-xl border-2 border-pinkTheme-primary text-center font-bold bg-pinkTheme-softPill text-pinkTheme-deep transition">
+              25 דק'
+            </button>
+            <button type="button" onclick="setSprintDuration(30)" id="btn-sdur-30" class="p-2 rounded-xl border border-pinkTheme-border text-center font-bold bg-white text-pinkTheme-deep hover:border-pinkTheme-primary transition">
+              30 דק'
+            </button>
+            <button type="button" onclick="setSprintDuration(45)" id="btn-sdur-45" class="p-2 rounded-xl border border-pinkTheme-border text-center font-bold bg-white text-pinkTheme-deep hover:border-pinkTheme-primary transition">
+              45 דק'
+            </button>
+          </div>
+        </div>
+
+        <!-- Subtasks Builder for this sprint -->
+        <div class="space-y-2 pt-1 border-t border-pinkTheme-border text-xs">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-pinkTheme-deep">תת-משימות לביצוע (אופציונלי):</label>
+            <span class="text-[10px] text-pinkTheme-textMuted">לפרק כדי להקל</span>
+          </div>
+          
+          <div class="flex items-center gap-1.5">
+            <input type="text" id="sprint-setup-subtask-in" placeholder="הוסיפי צעד קטן (Enter)..." onkeydown="if(event.key==='Enter'){event.preventDefault(); addSprintSetupSubtask();}" class="flex-1 silk-input p-2 bg-white text-xs">
+            <button type="button" onclick="addSprintSetupSubtask()" class="px-3 py-2 rounded-xl bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep font-bold border border-pinkTheme-border shrink-0 transition">
+              +
+            </button>
+          </div>
+
+          <div id="sprint-setup-subtasks-preview" class="flex flex-wrap gap-1.5 min-h-[10px]"></div>
+        </div>
+
+        <!-- Next Button -->
+        <div class="pt-2 border-t border-pinkTheme-border">
+          <button type="button" onclick="proceedToActiveSprintRoom()" class="w-full py-3 rounded-xl bg-pinkTheme-primary hover:bg-pinkTheme-primaryHover text-white font-bold text-xs sm:text-sm transition shadow-clean flex items-center justify-center gap-2">
+            <span>קדימה לטיימר והתחלת פוקוס ←</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Active Focus Room -->
+      <div id="sprint-step-active" class="space-y-4 hidden">
+        
+        <!-- Active Task Header Display -->
+        <div class="p-3.5 rounded-xl bg-pinkTheme-softPill border border-pinkTheme-border space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] uppercase font-bold tracking-wider text-pinkTheme-primary">המשימה הממוקדת שלך:</span>
+            <button onclick="backToSprintSetup()" class="text-[11px] text-pinkTheme-deep underline font-semibold hover:text-pinkTheme-primary">שינוי ↩</button>
+          </div>
+          <h4 id="sprint-active-task-title" class="text-sm sm:text-base font-bold text-pinkTheme-deep leading-snug">
+            שם המשימה
+          </h4>
+        </div>
+
+        <!-- Layout: Circular Timer + Live Subtasks -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          
+          <!-- Timer Area -->
+          <div class="flex flex-col items-center justify-center p-3 rounded-xl bg-white border border-pinkTheme-border space-y-3 shadow-clean">
+            <div class="relative w-36 h-36 flex items-center justify-center">
+              <svg class="w-full h-full" viewBox="0 0 160 160">
+                <circle cx="80" cy="80" r="70" fill="none" stroke="#FFF0F5" stroke-width="8" />
+                <circle 
+                  id="sprint-modal-circle-ring" 
+                  class="timer-ring-circle" 
+                  cx="80" 
+                  cy="80" 
+                  r="70" 
+                  fill="none" 
+                  stroke="#E87A9E" 
+                  stroke-width="8" 
+                  stroke-linecap="round"
+                  stroke-dasharray="439.82"
+                  stroke-dashoffset="0"
+                />
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center space-y-0.5">
+                <span id="sprint-modal-timer-display" class="text-2xl font-mono font-bold text-pinkTheme-deep">25:00</span>
+                <span id="sprint-modal-status-label" class="text-[10px] font-semibold text-pinkTheme-textMuted">מוכנה?</span>
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex items-center gap-2 w-full justify-center">
+              <button id="btn-sprint-modal-toggle" onclick="toggleSprintModalTimer()" class="px-5 py-2 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean flex items-center gap-1.5 min-h-[38px]">
+                <span id="sprint-modal-btn-icon"><i class="fa-solid fa-play text-xs"></i></span>
+                <span id="sprint-modal-btn-text">התחילי פוקוס</span>
+              </button>
+              <button onclick="resetSprintModalTimer()" class="px-3 py-2 rounded-xl bg-white border border-pinkTheme-border text-xs text-pinkTheme-textMuted hover:text-pinkTheme-deep font-semibold transition min-h-[38px]">
+                איפוס
+              </button>
+            </div>
+          </div>
+
+          <!-- Subtasks Live Checklist -->
+          <div class="p-3.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border space-y-2.5 h-full flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between border-b border-pinkTheme-border pb-1.5">
+                <span class="text-xs font-bold text-pinkTheme-deep">תת-משימות לביצוע:</span>
+                <span id="sprint-live-subtasks-count" class="text-[10px] font-mono font-bold bg-white px-2 py-0.5 rounded-full border border-pinkTheme-border">0/0</span>
+              </div>
+
+              <!-- Inline Quick Subtask Adder -->
+              <div class="flex items-center gap-1">
+                <input type="text" id="sprint-live-subtask-in" placeholder="+ הוסיפי צעד קטן..." onkeydown="if(event.key==='Enter'){event.preventDefault(); addSprintLiveSubtask();}" class="flex-1 silk-input p-1.5 bg-white text-xs">
+                <button type="button" onclick="addSprintLiveSubtask()" class="px-2.5 py-1.5 rounded-lg bg-pinkTheme-primary text-white text-xs font-bold shrink-0">
+                  +
+                </button>
+              </div>
+
+              <!-- List of subtasks -->
+              <div id="sprint-live-subtasks-list" class="space-y-1.5 max-h-36 overflow-y-auto pr-0.5"></div>
+            </div>
+
+            <!-- Complete Sprint Button -->
+            <div class="pt-2 border-t border-pinkTheme-border">
+              <button onclick="finishActiveSprintSuccessfully()" class="w-full py-2.5 rounded-xl bg-pinkTheme-primary hover:bg-pinkTheme-primaryHover text-white font-bold text-xs transition shadow-clean flex items-center justify-center gap-1.5">
+                <span>סיימתי את המשימה! 🏆</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal: Add Schedule Block -->
+  <div id="modal-schedule-block" class="fixed inset-0 z-50 bg-pinkTheme-deep/25 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="exec-card p-4 max-w-sm w-full shadow-float space-y-3">
+      <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+        <h3 class="font-serif font-bold text-pinkTheme-deep text-xs sm:text-sm">+ הוספת בלוק זמנים ללו"ז</h3>
+        <button onclick="closeModal('modal-schedule-block')" class="text-pinkTheme-textMuted hover:text-pinkTheme-deep"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="handleAddScheduleBlockSubmit(event)" class="space-y-2.5 text-xs">
+        <div class="space-y-1">
+          <label class="font-bold text-pinkTheme-deep block">שעות (למשל: 09:00 – 11:30):</label>
+          <input type="text" id="sb-time-in" required placeholder="09:00 – 11:30" class="w-full silk-input p-2 font-mono font-medium">
+        </div>
+        <div class="space-y-1">
+          <label class="font-bold text-pinkTheme-deep block">כותרת הבלוק:</label>
+          <input type="text" id="sb-title-in" required placeholder="למשל: זמן מכירות ולידים..." class="w-full silk-input p-2 font-bold">
+        </div>
+        <div class="space-y-1">
+          <label class="font-bold text-pinkTheme-deep block">פירוט הפעולה:</label>
+          <input type="text" id="sb-desc-in" placeholder="פוקוס על שיחות והצעות..." class="w-full silk-input p-2">
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-pinkTheme-primary text-white font-semibold hover:bg-pinkTheme-primaryHover transition shadow-clean">
+          שמירה בלו"ז ✓
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Lead / Deal -->
+  <div id="modal-lead" class="fixed inset-0 z-50 bg-pinkTheme-deep/25 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="exec-card p-4 max-w-sm w-full shadow-float space-y-3">
+      <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+        <h3 class="font-serif font-bold text-pinkTheme-deep text-xs sm:text-sm">+ הוספת לקוח / שיחה</h3>
+        <button onclick="closeModal('modal-lead')" class="text-pinkTheme-textMuted hover:text-pinkTheme-deep"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="handleLeadSubmit(event)" class="space-y-2.5 text-xs">
+        <div class="space-y-1">
+          <label class="font-bold text-pinkTheme-deep block">שם הלקוח / מתעניין:</label>
+          <input type="text" id="lead-name-in" required placeholder="שם..." class="w-full silk-input p-2 font-medium">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="space-y-1">
+            <label class="font-bold text-pinkTheme-deep block">סטטוס:</label>
+            <select id="lead-stage-in" class="w-full silk-input p-2 font-medium">
+              <option value="lead">1. מתעניין חדש</option>
+              <option value="call">2. שיחה מתוכננת</option>
+              <option value="proposal">3. הצעה בהמתנה</option>
+              <option value="won">4. לקוח שסגר 🏆</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="font-bold text-pinkTheme-deep block">שווי עסקה (₪):</label>
+            <input type="text" id="lead-value-in" placeholder="3,000 ₪" class="w-full silk-input p-2 font-bold font-mono">
+          </div>
+        </div>
+        <div class="space-y-1">
+          <label class="font-bold text-pinkTheme-deep block">הערות / הצעד הבא:</label>
+          <input type="text" id="lead-notes-in" placeholder="לשלוח סיכום שיחה..." class="w-full silk-input p-2">
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-pinkTheme-primary text-white font-semibold hover:bg-pinkTheme-primaryHover transition shadow-clean">
+          שמירה ✓
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Quick Add Note -->
+  <div id="modal-quick-add" class="fixed inset-0 z-50 bg-pinkTheme-deep/25 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="exec-card p-4 max-w-sm w-full shadow-float space-y-3">
+      <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+        <h3 class="font-serif font-bold text-pinkTheme-deep text-xs sm:text-sm">+ לכידת מחשבה או משימה</h3>
+        <button onclick="closeModal('modal-quick-add')" class="text-pinkTheme-textMuted hover:text-pinkTheme-deep"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="handleQuickNoteSubmit(event)" class="space-y-2.5 text-xs">
+        <div class="space-y-1">
+          <label class="font-bold text-pinkTheme-deep block">קטגוריה:</label>
+          <select id="qa-note-category" class="w-full silk-input p-2 font-semibold text-pinkTheme-deep bg-white">
+            <option value="biz">עסק</option>
+            <option value="content">תוכן</option>
+            <option value="personal">אישי</option>
+            <option value="idea">רעיון</option>
+            <option value="urgent">דחוף</option>
+          </select>
+        </div>
+        <div class="space-y-1">
+          <label class="font-bold text-pinkTheme-deep block">מה המחשבה / המשימה?</label>
+          <textarea id="qa-note-text" required rows="3" placeholder="הקלידי כאן..." class="w-full silk-input p-2 text-xs bg-white"></textarea>
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-pinkTheme-primary text-white font-semibold text-xs hover:bg-pinkTheme-primaryHover transition shadow-clean">
+          שמירה בדשבורד ✓
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT STATE ENGINE -->
+  <script>
+    const defaultScheduleBlocks = [
+      { id: 'sb_1', time: '07:30 – 08:30', title: 'שגרת בוקר, נשימות ורוגע 🌸', desc: 'זמן שקט לעצמך ללא מסכים.' },
+      { id: 'sb_2', time: '08:30 – 09:30', title: 'חדר כושר & אימון בוקר 💪', desc: 'תנועה ואנרגיה לגוף.' },
+      { id: 'sb_3', time: '10:00 – 11:30', title: 'זמן מכירות ולידים 💼', desc: 'שיחות התאמה, פולואפים והצעות מחיר.' },
+      { id: 'sb_4', time: '11:30 – 13:00', title: 'זמן עבודה — פגישות 🎯', desc: 'פגישות עבודה וליווי לקוחות.' },
+      { id: 'sb_5', time: '14:00 – 15:30', title: 'זמן תוכן & שיווק 📱', desc: 'כתיבה, צילומים והפצה.' },
+      { id: 'sb_6', time: '15:30 – 16:30', title: 'זמן עבודה עם AI ⚡', desc: 'תהליכים ואוטומציות.' },
+      { id: 'sb_7', time: '16:30 – 17:30', title: 'זמן ללמוד ולהעשיר 📚', desc: 'פודקאסטים וספרים.' },
+      { id: 'sb_8', time: '19:00 ואילך', title: 'זמן חברים, יציאות וחיים 🥂', desc: 'מנוחה וזמן איכות.' }
+    ];
+
+    let scheduleBlocks = JSON.parse(localStorage.getItem('m_schedule_blocks') || JSON.stringify(defaultScheduleBlocks));
+    let pipelineDeals = JSON.parse(localStorage.getItem('m_pipeline_deals') || '[]');
+    let quickNotes = JSON.parse(localStorage.getItem('m_quick_notes') || '[]');
+    let freeTasks = JSON.parse(localStorage.getItem('m_free_tasks') || '[]');
+    let todayTaskbook = JSON.parse(localStorage.getItem('m_today_taskbook') || '[]');
+    let voiceMemos = JSON.parse(localStorage.getItem('m_voice_memos') || '[]');
+    let weeklyTodos = JSON.parse(localStorage.getItem('m_weekly_todos') || '[]');
+    let weeklySummary = JSON.parse(localStorage.getItem('m_weekly_summary') || '{}');
+    let weeklyPlan = JSON.parse(localStorage.getItem('m_weekly_plan') || '{}');
+    let monthlySummary = JSON.parse(localStorage.getItem('m_monthly_summary') || '{}');
+    let monthlyPlan = JSON.parse(localStorage.getItem('m_monthly_plan') || '{}');
+    let eveningReflection = JSON.parse(localStorage.getItem('m_evening_reflection') || '{}');
+    let energyState = localStorage.getItem('m_energy_state') || 'normal';
+    let energyCause = localStorage.getItem('m_energy_cause') || '';
+    let dailyMantra = localStorage.getItem('m_daily_mantra') || '';
+    let gratitudes = JSON.parse(localStorage.getItem('m_gratitudes') || '{}');
+    let rituals = JSON.parse(localStorage.getItem('m_rituals') || '{}');
+    let anchors = JSON.parse(localStorage.getItem('m_anchors') || '{}');
+    let identityAction = localStorage.getItem('m_identity_action') || '';
+
+    let tempSubtasks = [];
+    let currentDayFilter = 'all';
+    let isRecording = false;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordingTimerInterval = null;
+    let recordingSeconds = 0;
+    let pendingAudioBlobUrl = null;
+
+    // Pomodoro Timer State
+    let pomodoroInterval = null;
+    let pomodoroTotalSeconds = 25 * 60;
+    let pomodoroRemainingSeconds = 25 * 60;
+    let pomodoroIsRunning = false;
+    const POMODORO_FULL_DASH = 439.82;
+
+    // Focus Sprint State
+    let sprintSource = 'existing';
+    let sprintSelectedDuration = 25;
+    let sprintActiveTask = {
+      title: '',
+      sourceType: 'custom',
+      sourceId: null,
+      subtasks: []
+    };
+    let sprintSetupSubtasks = [];
+    let sprintModalInterval = null;
+    let sprintModalTotalSeconds = 25 * 60;
+    let sprintModalRemainingSeconds = 25 * 60;
+    let sprintModalIsRunning = false;
+
+    const dayKeyMap = { 0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'all' };
+    const dayNameMap = { all: 'כל השבוע', sun: "יום א'", mon: "יום ב'", tue: "יום ג'", wed: "יום ד'", thu: "יום ה'", fri: "יום ו'" };
+
+    const categoryMeta = {
+      sales: { label: 'מכירות & כסף', badge: 'bg-pinkTheme-softPill text-pinkTheme-deep border-pinkTheme-border', icon: '💼' },
+      marketing: { label: 'שיווק & תוכן', badge: 'bg-pinkTheme-softPill text-pinkTheme-deep border-pinkTheme-border', icon: '📱' },
+      clients: { label: 'שירות & לקוחות', badge: 'bg-pinkTheme-softPill text-pinkTheme-deep border-pinkTheme-border', icon: '👑' },
+      admin: { label: 'אדמין & תפעול', badge: 'bg-pinkTheme-softPill text-pinkTheme-deep border-pinkTheme-border', icon: '⚡' },
+      personal: { label: 'אישי & מנוחה', badge: 'bg-pinkTheme-softPill text-pinkTheme-deep border-pinkTheme-border', icon: '🌸' }
+    };
+
+    const visionMantras = [
+      "את פועלת מתוך ביטחון ושקט פנימי עמוק. 👑",
+      "העסק שלך נבנה על ערך אמיתי ובהירות מלאה. ✨",
+      "מכירה היא הבנת האדם והצעת עזרה — אין צורך להוכיח דבר. 🌸",
+      "את בוחרת לפעול באומץ ולא מחכה להרגיש מוכנה. 🌿",
+      "חופש, שלווה ועוצמה נשית הם הסטנדרט שלך. 💖"
+    ];
+
+    const morningEmpowermentQuotes = [
+      "״כשאת פועלת מתוך ביטחון בשקט שלך, העולם מתיישר לפי הסטנדרט שאת מציבה.״ 👑",
+      "״אין צורך להוכיח שום דבר לאף אחד — רק להביא את הערך הייחודי והמדויק שלך בעקביות.״ ✨",
+      "״הצלחה היא תוצאה של בהירות ופעולה ממוקדת אחת אחרי השנייה.״ 🌿",
+      "״את לא צריכה להרגיש 'מוכנה ב-100%' כדי לפעול. הפעולה האמיצה היא זו שמביאה את הביטחון.״ 🔥",
+      "״העסק שלך נבנה כדי לשרת את החופש, הרוגע ואיכות החיים שלך.״ 🌸",
+      "״צעד אחד קטן ומדויק היום שווה יותר מאלף תוכניות שלא יצאו לפועל.״ 🎯",
+      "״מדלן, את מציעה הזדמנות אמיתית לצמיחה.״ 💎"
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initGreeting();
+      renderScheduleBlocks();
+      renderPipeline();
+      renderFreeTasks();
+      renderTodayTaskbook();
+      renderVoiceMemos();
+      renderWeeklyTodos();
+      renderTodayWeeklyTasks();
+      renderMiniDashboard();
+      loadWeeklyData();
+      loadMonthlyData();
+      loadEveningReflection();
+      loadEnergyCause();
+      loadDailyMantra();
+      loadGratitudes();
+      loadRitualPills();
+      loadAnchors();
+      calculateDailyProgress();
+      setDailyEnergyState(energyState, false);
+      syncDashboardAction(anchors.q2 || '');
+      updatePomodoroDisplay();
+      setInterval(initGreeting, 60000);
+    });
+
+    /* Accordion Toggle Engine */
+    function toggleSectionAccordion(bodyId, headerId) {
+      const body = document.getElementById(bodyId);
+      const header = document.getElementById(headerId);
+      if (!body || !header) return;
+
+      const isCollapsed = body.classList.contains('collapsed');
+      if (isCollapsed) {
+        body.classList.remove('collapsed');
+        header.classList.remove('collapsed');
+      } else {
+        body.classList.add('collapsed');
+        header.classList.add('collapsed');
+      }
+    }
+
+    let allTodayExpanded = true;
+    function toggleAllTodayAccordions() {
+      allTodayExpanded = !allTodayExpanded;
+      ['1', '2', '3'].forEach(num => {
+        const body = document.getElementById(`today-phase-${num}`);
+        const header = document.getElementById(`today-hdr-${num}`);
+        if (body && header) {
+          if (allTodayExpanded) {
+            body.classList.remove('collapsed');
+            header.classList.remove('collapsed');
+          } else {
+            body.classList.add('collapsed');
+            header.classList.add('collapsed');
+          }
+        }
+      });
+      showToast(allTodayExpanded ? 'כל השלבים נפתחו ↕' : 'כל השלבים כווצו ↕', 'info');
+    }
+
+    /* Today Digital Taskbook Management */
+    function addTodayTaskbookItem() {
+      const titleInput = document.getElementById('today-task-title-in');
+      const catSelect = document.getElementById('today-task-category-in');
+      const durSelect = document.getElementById('today-task-duration-in');
+
+      if (!titleInput) return;
+      const title = titleInput.value.trim();
+      if (!title) return;
+
+      const category = catSelect ? catSelect.value : 'sales';
+      const duration = durSelect ? durSelect.value : '30';
+
+      todayTaskbook.unshift({
+        id: 'tt_' + Date.now(),
+        title,
+        category,
+        duration: parseInt(duration, 10),
+        done: false
+      });
+
+      localStorage.setItem('m_today_taskbook', JSON.stringify(todayTaskbook));
+      titleInput.value = '';
+      renderTodayTaskbook();
+      calculateDailyProgress();
+      showToast('משימה נוספה למחברת היומית ✓', 'success');
+    }
+
+    function toggleTodayTaskbookItem(id) {
+      const item = todayTaskbook.find(t => t.id === id);
+      if (item) {
+        item.done = !item.done;
+        localStorage.setItem('m_today_taskbook', JSON.stringify(todayTaskbook));
+        renderTodayTaskbook();
+        calculateDailyProgress();
+        if (item.done) triggerConfetti();
+      }
+    }
+
+    function deleteTodayTaskbookItem(id) {
+      todayTaskbook = todayTaskbook.filter(t => t.id !== id);
+      localStorage.setItem('m_today_taskbook', JSON.stringify(todayTaskbook));
+      renderTodayTaskbook();
+      calculateDailyProgress();
+      showToast('המשימה נמחקה', 'info');
+    }
+
+    function clearCompletedTodayTasks() {
+      const initialCount = todayTaskbook.length;
+      todayTaskbook = todayTaskbook.filter(t => !t.done);
+      if (todayTaskbook.length === initialCount) {
+        showToast('אין משימות שבוצעו למחיקה', 'info');
+        return;
+      }
+      localStorage.setItem('m_today_taskbook', JSON.stringify(todayTaskbook));
+      renderTodayTaskbook();
+      calculateDailyProgress();
+      showToast('משימות שבוצעו נוקו ✓', 'success');
+    }
+
+    function renderTodayTaskbook() {
+      const container = document.getElementById('today-taskbook-list');
+      const stats = document.getElementById('today-taskbook-stats');
+      if (!container) return;
+
+      const completedCount = todayTaskbook.filter(t => t.done).length;
+      if (stats) stats.innerText = `${completedCount} / ${todayTaskbook.length} הושלמו`;
+
+      if (todayTaskbook.length === 0) {
+        container.innerHTML = `
+          <div class="p-3 text-center text-xs text-pinkTheme-textMuted bg-pinkTheme-softPill/30 rounded-xl">
+            המחברת ריקה. הקלידי משימה למעלה ✍️
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = todayTaskbook.map(t => {
+        const cat = categoryMeta[t.category] || categoryMeta.sales;
+        return `
+          <div class="p-2.5 rounded-xl border border-pinkTheme-border flex flex-col sm:flex-row sm:items-center justify-between gap-2 transition ${t.done ? 'bg-pinkTheme-softPill/40 opacity-60' : 'bg-white shadow-clean'}">
+            <div class="flex items-center gap-2 flex-1 min-w-0">
+              <input 
+                type="checkbox" 
+                ${t.done ? 'checked' : ''} 
+                onchange="toggleTodayTaskbookItem('${t.id}')" 
+                class="w-4 h-4 rounded accent-pinkTheme-primary cursor-pointer shrink-0"
+              >
+              <div class="min-w-0">
+                <span class="text-xs sm:text-sm block truncate ${t.done ? 'line-through text-pinkTheme-textMuted' : 'text-pinkTheme-deep font-semibold'}">
+                  ${t.title}
+                </span>
+                <div class="flex items-center gap-1.5 pt-0.5">
+                  <span class="text-[9px] px-1.5 py-0.5 rounded-full font-bold border ${cat.badge}">
+                    ${cat.icon} ${cat.label}
+                  </span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded-full font-mono font-bold bg-pinkTheme-softPill text-pinkTheme-deep">
+                    ⏱️ ${t.duration} דק'
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-1.5 self-end sm:self-auto shrink-0">
+              <button 
+                onclick="syncSpecificTaskToCalendar('${t.id}')" 
+                title="סנכרון ליומן Google" 
+                class="px-2 py-1 rounded-lg bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep border border-pinkTheme-border text-[11px] font-bold transition flex items-center gap-1"
+              >
+                <i class="fa-regular fa-calendar-plus text-[10px]"></i>
+                <span>ליומן</span>
+              </button>
+              <button 
+                onclick="deleteTodayTaskbookItem('${t.id}')" 
+                title="מחיקה" 
+                class="text-pinkTheme-textMuted hover:text-pinkTheme-primary p-1 text-xs transition"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function syncSpecificTaskToCalendar(id) {
+      const item = todayTaskbook.find(t => t.id === id);
+      if (!item) return;
+      const cat = categoryMeta[item.category]?.label || 'כללי';
+      const details = `קטגוריה: ${cat}\nמסגרת זמן: ${item.duration} דקות\nMADLEN Executive OS ✨`;
+      const url = createGoogleCalendarUrl(item.title, details);
+      window.open(url, '_blank');
+      showToast('פותח אירוע ביומן Google 📅', 'success');
+    }
+
+    function syncTodayTaskbookToGoogleCalendar() {
+      const openTasks = todayTaskbook.filter(t => !t.done);
+      if (openTasks.length === 0) {
+        showToast('אין משימות פתוחות במחברת', 'info');
+        return;
+      }
+      const summaryList = openTasks.map((t, idx) => {
+        const cat = categoryMeta[t.category]?.label || '';
+        return `${idx + 1}. [${cat} - ${t.duration} דק'] ${t.title}`;
+      }).join('\n');
+
+      const url = createGoogleCalendarUrl('משימות היום — MADLEN OS', summaryList);
+      window.open(url, '_blank');
+      showToast('מסנכרן ליומן Google 📅', 'success');
+    }
+
+    /* Pomodoro Timer Engine */
+    function updatePomodoroDisplay() {
+      const mins = Math.floor(pomodoroRemainingSeconds / 60);
+      const secs = pomodoroRemainingSeconds % 60;
+      const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      
+      const displayEl = document.getElementById('pomodoro-timer-display');
+      if (displayEl) displayEl.innerText = timeStr;
+
+      const circleRing = document.getElementById('pomodoro-circle-ring');
+      if (circleRing && pomodoroTotalSeconds > 0) {
+        const fraction = pomodoroRemainingSeconds / pomodoroTotalSeconds;
+        const offset = POMODORO_FULL_DASH * (1 - fraction);
+        circleRing.style.strokeDashoffset = offset;
+      }
+    }
+
+    function togglePomodoro() {
+      if (pomodoroIsRunning) {
+        pausePomodoro();
+      } else {
+        startPomodoro();
+      }
+    }
+
+    function startPomodoro() {
+      if (pomodoroRemainingSeconds <= 0) return;
+      pomodoroIsRunning = true;
+      document.getElementById('pomodoro-btn-txt').innerText = 'השהייה';
+      document.getElementById('pomodoro-btn-icon').innerHTML = '<i class="fa-solid fa-pause text-xs"></i>';
+      document.getElementById('btn-pomodoro-toggle').className = 'px-5 py-2.5 rounded-xl bg-pinkTheme-primaryHover text-white text-xs font-bold transition shadow-clean min-h-[40px] flex items-center gap-1.5';
+
+      pomodoroInterval = setInterval(() => {
+        pomodoroRemainingSeconds--;
+        updatePomodoroDisplay();
+        if (pomodoroRemainingSeconds <= 0) {
+          clearInterval(pomodoroInterval);
+          pomodoroIsRunning = false;
+          document.getElementById('pomodoro-btn-txt').innerText = 'התחילי פוקוס';
+          document.getElementById('pomodoro-btn-icon').innerHTML = '<i class="fa-solid fa-play text-xs"></i>';
+          document.getElementById('btn-pomodoro-toggle').className = 'px-5 py-2.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean min-h-[40px] flex items-center gap-1.5';
+          triggerConfetti();
+          showToast('זמן הפוקוס הסתיים בהצלחה! 🏆', 'success');
+        }
+      }, 1000);
+      showToast('טיימר פוקוס הופעל ⏱️', 'info');
+    }
+
+    function pausePomodoro() {
+      if (pomodoroInterval) clearInterval(pomodoroInterval);
+      pomodoroIsRunning = false;
+      document.getElementById('pomodoro-btn-txt').innerText = 'המשך';
+      document.getElementById('pomodoro-btn-icon').innerHTML = '<i class="fa-solid fa-play text-xs"></i>';
+      document.getElementById('btn-pomodoro-toggle').className = 'px-5 py-2.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean min-h-[40px] flex items-center gap-1.5';
+      showToast('טיימר הושהה', 'info');
+    }
+
+    function resetPomodoro() {
+      if (pomodoroInterval) clearInterval(pomodoroInterval);
+      pomodoroIsRunning = false;
+      pomodoroRemainingSeconds = pomodoroTotalSeconds;
+      document.getElementById('pomodoro-btn-txt').innerText = 'התחילי פוקוס';
+      document.getElementById('pomodoro-btn-icon').innerHTML = '<i class="fa-solid fa-play text-xs"></i>';
+      document.getElementById('btn-pomodoro-toggle').className = 'px-5 py-2.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean min-h-[40px] flex items-center gap-1.5';
+      updatePomodoroDisplay();
+      showToast('הטיימר אופס', 'info');
+    }
+
+    function setPomodoroPreset(minutes, label) {
+      if (pomodoroInterval) clearInterval(pomodoroInterval);
+      pomodoroIsRunning = false;
+      pomodoroTotalSeconds = minutes * 60;
+      pomodoroRemainingSeconds = minutes * 60;
+      document.getElementById('pomodoro-timer-label').innerText = label;
+      document.getElementById('pomodoro-mode-badge').innerText = `${minutes} דק' ${label}`;
+      document.getElementById('pomodoro-btn-txt').innerText = 'התחילי פוקוס';
+      document.getElementById('pomodoro-btn-icon').innerHTML = '<i class="fa-solid fa-play text-xs"></i>';
+      document.getElementById('btn-pomodoro-toggle').className = 'px-5 py-2.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean min-h-[40px] flex items-center gap-1.5';
+      updatePomodoroDisplay();
+      showToast(`הוגדר ל-${minutes} דקות`, 'info');
+    }
+
+    /* Focus Sprint System */
+    function openFocusSprintModal(prefilledTitle = '') {
+      const modal = document.getElementById('modal-focus-sprint');
+      if (!modal) return;
+
+      document.getElementById('sprint-step-setup')?.classList.remove('hidden');
+      document.getElementById('sprint-step-active')?.classList.add('hidden');
+
+      sprintSetupSubtasks = [];
+      renderSprintSetupSubtasks();
+      populateSprintExistingTasksSelect(prefilledTitle);
+      setSprintDuration(25);
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeFocusSprintModal() {
+      const modal = document.getElementById('modal-focus-sprint');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+      if (sprintModalInterval) {
+        clearInterval(sprintModalInterval);
+        sprintModalIsRunning = false;
+      }
+    }
+
+    function setSprintSource(src) {
+      sprintSource = src;
+      const btnExt = document.getElementById('btn-sprint-src-existing');
+      const btnNew = document.getElementById('btn-sprint-src-new');
+      const cExt = document.getElementById('sprint-existing-tasks-container');
+      const cNew = document.getElementById('sprint-new-task-container');
+
+      if (src === 'existing') {
+        btnExt.className = 'flex-1 py-1.5 rounded-lg bg-pinkTheme-primary text-white font-bold transition shadow-clean';
+        btnNew.className = 'flex-1 py-1.5 rounded-lg text-pinkTheme-deep font-medium hover:bg-white/60 transition';
+        cExt?.classList.remove('hidden');
+        cNew?.classList.add('hidden');
+      } else {
+        btnNew.className = 'flex-1 py-1.5 rounded-lg bg-pinkTheme-primary text-white font-bold transition shadow-clean';
+        btnExt.className = 'flex-1 py-1.5 rounded-lg text-pinkTheme-deep font-medium hover:bg-white/60 transition';
+        cNew?.classList.remove('hidden');
+        cExt?.classList.add('hidden');
+        document.getElementById('sprint-new-task-input')?.focus();
+      }
+    }
+
+    function populateSprintExistingTasksSelect(preferredTitle = '') {
+      const select = document.getElementById('sprint-existing-task-select');
+      if (!select) return;
+
+      const options = [];
+
+      if (anchors.q2 && anchors.q2.trim()) {
+        options.push({
+          id: 'gold_action',
+          type: 'gold',
+          label: `💼 [פעולת זהב] ${anchors.q2.trim()}`,
+          title: anchors.q2.trim(),
+          subtasks: []
+        });
+      }
+
+      const openToday = todayTaskbook.filter(t => !t.done);
+      openToday.forEach(t => {
+        options.push({
+          id: t.id,
+          type: 'today',
+          label: `🎯 [היום] ${t.title} (${t.duration || 30} דק')`,
+          title: t.title,
+          duration: t.duration,
+          subtasks: []
+        });
+      });
+
+      const openWeekly = weeklyTodos.filter(t => !t.done);
+      openWeekly.forEach(w => {
+        options.push({
+          id: w.id,
+          type: 'weekly',
+          label: `📅 [שבועי] ${w.text}`,
+          title: w.text,
+          subtasks: []
+        });
+      });
+
+      if (options.length === 0) {
+        select.innerHTML = `<option value="none">אין משימות פתוחות — עברי להקלדת משימה ✍️</option>`;
+        setSprintSource('new');
+        return;
+      }
+
+      select.innerHTML = options.map(opt => `
+        <option value="${opt.id}" data-type="${opt.type}" data-title="${encodeURIComponent(opt.title)}" data-dur="${opt.duration || 25}">
+          ${opt.label}
+        </option>
+      `).join('');
+
+      if (preferredTitle && preferredTitle.trim()) {
+        const found = options.find(o => o.title.trim().toLowerCase() === preferredTitle.trim().toLowerCase());
+        if (found) select.value = found.id;
+      }
+
+      handleSprintExistingTaskSelect(select.value);
+    }
+
+    function handleSprintExistingTaskSelect(val) {
+      const select = document.getElementById('sprint-existing-task-select');
+      const selectedOpt = select?.options[select.selectedIndex];
+      if (!selectedOpt || val === 'none') return;
+
+      const dur = parseInt(selectedOpt.getAttribute('data-dur') || '25', 10);
+      if (dur && [15, 25, 30, 45].includes(dur)) {
+        setSprintDuration(dur);
+      }
+    }
+
+    function setSprintDuration(mins) {
+      sprintSelectedDuration = mins;
+      [15, 25, 30, 45].forEach(m => {
+        const btn = document.getElementById(`btn-sdur-${m}`);
+        if (btn) {
+          btn.className = m === mins 
+            ? 'p-2 rounded-xl border-2 border-pinkTheme-primary text-center font-bold bg-pinkTheme-softPill text-pinkTheme-deep transition' 
+            : 'p-2 rounded-xl border border-pinkTheme-border text-center font-bold bg-white text-pinkTheme-deep hover:border-pinkTheme-primary transition';
+        }
+      });
+    }
+
+    function addSprintSetupSubtask() {
+      const inEl = document.getElementById('sprint-setup-subtask-in');
+      if (!inEl) return;
+      const text = inEl.value.trim();
+      if (!text) return;
+
+      sprintSetupSubtasks.push({ id: 'st_' + Date.now(), text, done: false });
+      inEl.value = '';
+      renderSprintSetupSubtasks();
+    }
+
+    function removeSprintSetupSubtask(idx) {
+      sprintSetupSubtasks.splice(idx, 1);
+      renderSprintSetupSubtasks();
+    }
+
+    function renderSprintSetupSubtasks() {
+      const c = document.getElementById('sprint-setup-subtasks-preview');
+      if (!c) return;
+      if (sprintSetupSubtasks.length === 0) {
+        c.innerHTML = '';
+        return;
+      }
+      c.innerHTML = sprintSetupSubtasks.map((st, i) => `
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-white border border-pinkTheme-border text-xs text-pinkTheme-deep font-medium shadow-clean">
+          <span>• ${st.text}</span>
+          <button type="button" onclick="removeSprintSetupSubtask(${i})" class="text-pinkTheme-textMuted hover:text-pinkTheme-primary font-bold">&times;</button>
+        </span>
+      `).join('');
+    }
+
+    function proceedToActiveSprintRoom() {
+      let title = '';
+      let sourceType = 'custom';
+      let sourceId = null;
+
+      if (sprintSource === 'existing') {
+        const select = document.getElementById('sprint-existing-task-select');
+        const opt = select?.options[select.selectedIndex];
+        if (!opt || select.value === 'none') {
+          showToast('אנא בחרי משימה או הקלידי משימה חדשה', 'error');
+          return;
+        }
+        title = decodeURIComponent(opt.getAttribute('data-title') || '');
+        sourceType = opt.getAttribute('data-type') || 'custom';
+        sourceId = select.value;
+      } else {
+        const newIn = document.getElementById('sprint-new-task-input');
+        title = newIn ? newIn.value.trim() : '';
+        if (!title) {
+          showToast('אנא הקלידי את שם המשימה', 'error');
+          return;
+        }
+        sourceType = 'custom';
+      }
+
+      sprintActiveTask = {
+        title,
+        sourceType,
+        sourceId,
+        subtasks: [...sprintSetupSubtasks]
+      };
+
+      sprintModalTotalSeconds = sprintSelectedDuration * 60;
+      sprintModalRemainingSeconds = sprintSelectedDuration * 60;
+      sprintModalIsRunning = false;
+      if (sprintModalInterval) clearInterval(sprintModalInterval);
+
+      document.getElementById('sprint-active-task-title').innerText = title;
+      document.getElementById('sprint-step-setup')?.classList.add('hidden');
+      document.getElementById('sprint-step-active')?.classList.remove('hidden');
+
+      updateSprintModalTimerDisplay();
+      renderSprintLiveSubtasks();
+      showToast('מרחב הפוקוס מוכן! ⏱️', 'info');
+    }
+
+    function backToSprintSetup() {
+      if (sprintModalInterval) clearInterval(sprintModalInterval);
+      sprintModalIsRunning = false;
+      document.getElementById('sprint-step-active')?.classList.add('hidden');
+      document.getElementById('sprint-step-setup')?.classList.remove('hidden');
+    }
+
+    function renderSprintLiveSubtasks() {
+      const list = document.getElementById('sprint-live-subtasks-list');
+      const countEl = document.getElementById('sprint-live-subtasks-count');
+      if (!list) return;
+
+      const doneCount = sprintActiveTask.subtasks.filter(s => s.done).length;
+      if (countEl) countEl.innerText = `${doneCount}/${sprintActiveTask.subtasks.length}`;
+
+      if (sprintActiveTask.subtasks.length === 0) {
+        list.innerHTML = `<div class="p-2 text-center text-xs text-pinkTheme-textMuted bg-white rounded-lg border border-pinkTheme-border">אין כרגע תת-משימות.</div>`;
+        return;
+      }
+
+      list.innerHTML = sprintActiveTask.subtasks.map((st, idx) => `
+        <div class="p-1.5 rounded-lg border border-pinkTheme-border flex items-center justify-between transition ${st.done ? 'bg-white/60 opacity-60' : 'bg-white shadow-clean'}">
+          <label class="flex items-center gap-2 cursor-pointer flex-1 select-none">
+            <input type="checkbox" ${st.done ? 'checked' : ''} onchange="toggleSprintLiveSubtask(${idx})" class="w-3.5 h-3.5 rounded accent-pinkTheme-primary cursor-pointer">
+            <span class="text-xs ${st.done ? 'line-through text-pinkTheme-textMuted' : 'text-pinkTheme-deep font-medium'}">${st.text}</span>
+          </label>
+        </div>
+      `).join('');
+    }
+
+    function toggleSprintLiveSubtask(idx) {
+      if (sprintActiveTask.subtasks[idx]) {
+        sprintActiveTask.subtasks[idx].done = !sprintActiveTask.subtasks[idx].done;
+        renderSprintLiveSubtasks();
+        if (sprintActiveTask.subtasks[idx].done) triggerConfetti();
+      }
+    }
+
+    function addSprintLiveSubtask() {
+      const inEl = document.getElementById('sprint-live-subtask-in');
+      if (!inEl) return;
+      const text = inEl.value.trim();
+      if (!text) return;
+
+      sprintActiveTask.subtasks.push({ id: 'st_' + Date.now(), text, done: false });
+      inEl.value = '';
+      renderSprintLiveSubtasks();
+    }
+
+    function updateSprintModalTimerDisplay() {
+      const mins = Math.floor(sprintModalRemainingSeconds / 60);
+      const secs = sprintModalRemainingSeconds % 60;
+      const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      
+      const displayEl = document.getElementById('sprint-modal-timer-display');
+      if (displayEl) displayEl.innerText = timeStr;
+
+      const circleRing = document.getElementById('sprint-modal-circle-ring');
+      if (circleRing && sprintModalTotalSeconds > 0) {
+        const fraction = sprintModalRemainingSeconds / sprintModalTotalSeconds;
+        const offset = POMODORO_FULL_DASH * (1 - fraction);
+        circleRing.style.strokeDashoffset = offset;
+      }
+    }
+
+    function toggleSprintModalTimer() {
+      if (sprintModalIsRunning) {
+        pauseSprintModalTimer();
+      } else {
+        startSprintModalTimer();
+      }
+    }
+
+    function startSprintModalTimer() {
+      if (sprintModalRemainingSeconds <= 0) return;
+      sprintModalIsRunning = true;
+      document.getElementById('sprint-modal-btn-text').innerText = 'השהייה';
+      document.getElementById('sprint-modal-btn-icon').innerHTML = '<i class="fa-solid fa-pause text-xs"></i>';
+      document.getElementById('btn-sprint-modal-toggle').className = 'px-5 py-2 rounded-xl bg-pinkTheme-primaryHover text-white text-xs font-bold transition shadow-clean flex items-center gap-1.5 min-h-[38px]';
+      document.getElementById('sprint-modal-status-label').innerText = 'בפוקוס ✨';
+
+      sprintModalInterval = setInterval(() => {
+        sprintModalRemainingSeconds--;
+        updateSprintModalTimerDisplay();
+        if (sprintModalRemainingSeconds <= 0) {
+          clearInterval(sprintModalInterval);
+          sprintModalIsRunning = false;
+          document.getElementById('sprint-modal-btn-text').innerText = 'התחילי פוקוס';
+          document.getElementById('sprint-modal-btn-icon').innerHTML = '<i class="fa-solid fa-play text-xs"></i>';
+          document.getElementById('btn-sprint-modal-toggle').className = 'px-5 py-2 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean flex items-center gap-1.5 min-h-[38px]';
+          document.getElementById('sprint-modal-status-label').innerText = 'הזמן הסתיים! 🏆';
+          triggerConfetti();
+          showToast('זמן הספרינט הסתיים!', 'success');
+        }
+      }, 1000);
+      showToast('טיימר הפוקוס פועל ⏱️', 'info');
+    }
+
+    function pauseSprintModalTimer() {
+      if (sprintModalInterval) clearInterval(sprintModalInterval);
+      sprintModalIsRunning = false;
+      document.getElementById('sprint-modal-btn-text').innerText = 'המשך';
+      document.getElementById('sprint-modal-btn-icon').innerHTML = '<i class="fa-solid fa-play text-xs"></i>';
+      document.getElementById('btn-sprint-modal-toggle').className = 'px-5 py-2 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean flex items-center gap-1.5 min-h-[38px]';
+      document.getElementById('sprint-modal-status-label').innerText = 'מושהה';
+      showToast('טיימר הושהה', 'info');
+    }
+
+    function resetSprintModalTimer() {
+      if (sprintModalInterval) clearInterval(sprintModalInterval);
+      sprintModalIsRunning = false;
+      sprintModalRemainingSeconds = sprintModalTotalSeconds;
+      document.getElementById('sprint-modal-btn-text').innerText = 'התחילי פוקוס';
+      document.getElementById('sprint-modal-btn-icon').innerHTML = '<i class="fa-solid fa-play text-xs"></i>';
+      document.getElementById('btn-sprint-modal-toggle').className = 'px-5 py-2 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean min-h-[38px]';
+      document.getElementById('sprint-modal-status-label').innerText = 'מוכנה?';
+      updateSprintModalTimerDisplay();
+      showToast('הטיימר אופס', 'info');
+    }
+
+    function finishActiveSprintSuccessfully() {
+      if (sprintModalInterval) clearInterval(sprintModalInterval);
+      sprintModalIsRunning = false;
+
+      if (sprintActiveTask.sourceType === 'today' && sprintActiveTask.sourceId) {
+        toggleTodayTaskbookItem(sprintActiveTask.sourceId);
+      } else if (sprintActiveTask.sourceType === 'weekly' && sprintActiveTask.sourceId) {
+        toggleWeeklyTodo(sprintActiveTask.sourceId);
+      }
+
+      closeFocusSprintModal();
+      triggerConfetti();
+      showToast('משימה הושלמה בהצלחה! 🏆✨', 'success');
+    }
+
+    /* Free Tasks (Inbox) */
+    function renderFreeTasks() {
+      const list = document.getElementById('free-tasks-list');
+      const stats = document.getElementById('free-tasks-stats');
+      if (!list) return;
+
+      const completedCount = freeTasks.filter(t => t.done).length;
+      if (stats) stats.innerText = `${completedCount} / ${freeTasks.length} הושלמו`;
+
+      if (freeTasks.length === 0) {
+        list.innerHTML = `<div class="p-3 text-center text-xs text-pinkTheme-textMuted bg-pinkTheme-softPill/30 rounded-xl">האינבוקס ריק. כתבי משימה למעלה ✍️</div>`;
+        return;
+      }
+
+      list.innerHTML = freeTasks.map(t => `
+        <div class="p-2.5 rounded-xl border border-pinkTheme-border flex items-center justify-between transition ${t.done ? 'bg-pinkTheme-softPill/30 opacity-60' : 'bg-white shadow-clean'}">
+          <label class="flex items-center gap-2 cursor-pointer flex-1 select-none">
+            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleFreeTask('${t.id}')" class="w-3.5 h-3.5 rounded accent-pinkTheme-primary cursor-pointer">
+            <span class="text-xs sm:text-sm ${t.done ? 'line-through text-pinkTheme-textMuted' : 'text-pinkTheme-deep font-semibold'}">${t.text}</span>
+          </label>
+          <div class="flex items-center gap-1.5">
+            <button onclick="syncSingleTaskToGoogleCalendar('${t.id}')" title="סנכרון ליומן Google" class="text-pinkTheme-deep hover:text-pinkTheme-primary p-1 text-xs transition">
+              <i class="fa-regular fa-calendar-plus"></i>
+            </button>
+            <button onclick="deleteFreeTask('${t.id}')" title="מחיקה" class="text-pinkTheme-textMuted hover:text-pinkTheme-primary p-1 text-xs">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addFreeTask() {
+      const input = document.getElementById('free-task-input');
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) return;
+
+      freeTasks.unshift({ id: 'ft_' + Date.now(), text, done: false });
+      localStorage.setItem('m_free_tasks', JSON.stringify(freeTasks));
+      input.value = '';
+      renderFreeTasks();
+      showToast('משימה נוספה לאינבוקס ✓', 'success');
+    }
+
+    function toggleFreeTask(id) {
+      const task = freeTasks.find(t => t.id === id);
+      if (task) {
+        task.done = !task.done;
+        localStorage.setItem('m_free_tasks', JSON.stringify(freeTasks));
+        renderFreeTasks();
+        if (task.done) triggerConfetti();
+      }
+    }
+
+    function deleteFreeTask(id) {
+      freeTasks = freeTasks.filter(t => t.id !== id);
+      localStorage.setItem('m_free_tasks', JSON.stringify(freeTasks));
+      renderFreeTasks();
+      showToast('המשימה נמחקה', 'info');
+    }
+
+    function clearCompletedFreeTasks() {
+      const initialCount = freeTasks.length;
+      freeTasks = freeTasks.filter(t => !t.done);
+      if (freeTasks.length === initialCount) {
+        showToast('אין משימות שבוצעו למחיקה', 'info');
+        return;
+      }
+      localStorage.setItem('m_free_tasks', JSON.stringify(freeTasks));
+      renderFreeTasks();
+      showToast('משימות שבוצעו נוקו ✓', 'success');
+    }
+
+    /* Energy State & Morning Rituals */
+    function setDailyEnergyState(state, showNotification = true) {
+      energyState = state;
+      localStorage.setItem('m_energy_state', state);
+
+      const btnHigh = document.getElementById('btn-energy-high');
+      const btnNormal = document.getElementById('btn-energy-normal');
+      const btnLow = document.getElementById('btn-energy-low');
+
+      [btnHigh, btnNormal, btnLow].forEach(btn => {
+        if (btn) btn.className = 'p-2.5 rounded-xl border border-pinkTheme-border text-center transition font-medium hover:border-pinkTheme-primary bg-white text-pinkTheme-deep min-h-[44px] shadow-clean';
+      });
+
+      if (state === 'high' && btnHigh) {
+        btnHigh.className = 'p-2.5 rounded-xl border-2 border-pinkTheme-primary bg-pinkTheme-softPill text-center font-bold text-pinkTheme-deep min-h-[44px] shadow-clean';
+      } else if (state === 'low' && btnLow) {
+        btnLow.className = 'p-2.5 rounded-xl border-2 border-pinkTheme-primary bg-pinkTheme-softPill text-center font-bold text-pinkTheme-deep min-h-[44px] shadow-clean';
+      } else if (btnNormal) {
+        btnNormal.className = 'p-2.5 rounded-xl border-2 border-pinkTheme-primary bg-pinkTheme-softPill text-center font-bold text-pinkTheme-deep min-h-[44px] shadow-clean';
+      }
+
+      if (showNotification) showToast('תדר האנרגיה הוגדר', 'info');
+    }
+
+    function loadEnergyCause() {
+      const el = document.getElementById('energy-cause-input');
+      if (el) el.value = energyCause || '';
+    }
+
+    function saveEnergyCause(val) {
+      energyCause = val;
+      localStorage.setItem('m_energy_cause', energyCause);
+    }
+
+    function loadDailyMantra() {
+      const el = document.getElementById('daily-mantra-input');
+      if (el) el.value = dailyMantra || '';
+    }
+
+    function saveDailyMantra(val) {
+      dailyMantra = val;
+      localStorage.setItem('m_daily_mantra', dailyMantra);
+      calculateDailyProgress();
+    }
+
+    function inspireMantraFromVision() {
+      const randomMantra = visionMantras[Math.floor(Math.random() * visionMantras.length)];
+      const mantraIn = document.getElementById('daily-mantra-input');
+      if (mantraIn) {
+        mantraIn.value = randomMantra;
+        saveDailyMantra(randomMantra);
+        showToast('מנטרה נשלפה מהחזון ✨', 'success');
+        triggerConfetti();
+      }
+    }
+
+    function loadGratitudes() {
+      if (document.getElementById('gratitude-1')) document.getElementById('gratitude-1').value = gratitudes.g1 || '';
+      if (document.getElementById('gratitude-2')) document.getElementById('gratitude-2').value = gratitudes.g2 || '';
+      if (document.getElementById('gratitude-3')) document.getElementById('gratitude-3').value = gratitudes.g3 || '';
+    }
+
+    function saveGratitude(num, val) {
+      gratitudes[`g${num}`] = val;
+      localStorage.setItem('m_gratitudes', JSON.stringify(gratitudes));
+      calculateDailyProgress();
+    }
+
+    function loadRitualPills() {
+      for (let i = 1; i <= 5; i++) {
+        const pill = document.getElementById(`pill-rit-${i}`);
+        const check = document.getElementById(`pill-check-${i}`);
+        if (pill && check) {
+          if (rituals[`r${i}`]) {
+            pill.classList.add('completed');
+            check.innerText = '✓';
+          } else {
+            pill.classList.remove('completed');
+            check.innerText = '⚪';
+          }
+        }
+      }
+    }
+
+    function toggleRitualPill(num) {
+      rituals[`r${num}`] = !rituals[`r${num}`];
+      localStorage.setItem('m_rituals', JSON.stringify(rituals));
+      loadRitualPills();
+      calculateDailyProgress();
+      if (rituals[`r${num}`]) triggerConfetti();
+    }
+
+    function loadAnchors() {
+      const q2 = document.getElementById('q-business');
+      const q3 = document.getElementById('q-pleasure');
+      const q4 = document.getElementById('q-identity');
+      if (q2) q2.value = anchors.q2 || '';
+      if (q3) q3.value = anchors.q3 || '';
+      if (q4) q4.value = identityAction || '';
+    }
+
+    function saveAnchor(field, val) {
+      anchors[field] = val;
+      localStorage.setItem('m_anchors', JSON.stringify(anchors));
+      calculateDailyProgress();
+    }
+
+    function saveIdentityAction(val) {
+      identityAction = val;
+      localStorage.setItem('m_identity_action', identityAction);
+      calculateDailyProgress();
+    }
+
+    function syncDashboardAction(text) {
+      const el = document.getElementById('dash-core-action-text');
+      if (el) {
+        el.innerText = text && text.trim() ? text : 'מה הדבר שהכי יקדם אותי היום?';
+      }
+    }
+
+    function calculateDailyProgress() {
+      let total = 10;
+      let completed = 0;
+      if (dailyMantra && dailyMantra.trim()) completed++;
+      if (gratitudes.g1 && gratitudes.g1.trim()) completed++;
+      if (gratitudes.g2 && gratitudes.g2.trim()) completed++;
+      if (gratitudes.g3 && gratitudes.g3.trim()) completed++;
+      for (let i = 1; i <= 5; i++) {
+        if (rituals[`r${i}`]) completed++;
+      }
+      if (anchors.q2 && anchors.q2.trim()) completed++;
+
+      const pct = Math.min(100, Math.round((completed / total) * 100));
+      const pctEl = document.getElementById('daily-completion-pct');
+      const barEl = document.getElementById('daily-progress-bar');
+      if (pctEl) pctEl.innerText = `${pct}% הושלם`;
+      if (barEl) barEl.style.width = `${pct}%`;
+    }
+
+    function generateMorningCoachingReflection() {
+      const energyNames = {
+        high: 'גבוהה ומלאת דרייב 🔥',
+        normal: 'רגועה, נעימה ומאוזנת 🌿',
+        low: 'נמוכה וזקוקה לרוך 🔋'
+      };
+      const currentEnergy = energyNames[energyState] || 'נעימה 🌿';
+      const causeText = energyCause && energyCause.trim() ? `(ציינת: "${energyCause.trim()}")` : '';
+      const mantraText = dailyMantra && dailyMantra.trim() ? `"${dailyMantra.trim()}"` : 'את פועלת מתוך ביטחון, שקט וערך בלתי מתפשר ✨';
+
+      const userGratitudes = [gratitudes.g1, gratitudes.g2, gratitudes.g3].filter(g => g && g.trim());
+      let gratitudesHtml = '';
+      if (userGratitudes.length > 0) {
+        gratitudesHtml = `
+          <div class="p-2.5 rounded-xl bg-white border border-pinkTheme-border space-y-1 shadow-clean">
+            <span class="font-bold text-[11px] text-pinkTheme-deep block">ההודיות שלך:</span>
+            <ul class="list-disc list-inside text-xs text-pinkTheme-text space-y-0.5">
+              ${userGratitudes.map(g => `<li>${g.trim()}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+      }
+
+      const coreAction = anchors.q2 && anchors.q2.trim() ? anchors.q2.trim() : 'פעולת הזהב העסקית המרכזית שלך להיום';
+      const openTasks = todayTaskbook.filter(t => !t.done);
+      let tasksSummary = '';
+      if (openTasks.length > 0) {
+        tasksSummary = `
+          <div class="p-2.5 rounded-xl bg-pinkTheme-softPill/40 border border-pinkTheme-border space-y-1">
+            <span class="font-bold text-[11px] text-pinkTheme-deep">משימות במחברת להיום (${openTasks.length}):</span>
+            <div class="space-y-1 pt-0.5">
+              ${openTasks.slice(0, 3).map(t => `
+                <div class="flex items-center justify-between text-[11px] text-pinkTheme-deep bg-white p-1.5 rounded-lg border border-pinkTheme-border">
+                  <span class="font-medium truncate">• ${t.title}</span>
+                  <span class="font-mono text-[9px] text-pinkTheme-textMuted font-bold">${t.duration} דק'</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      const randomQuote = morningEmpowermentQuotes[Math.floor(Math.random() * morningEmpowermentQuotes.length)];
+
+      const contentContainer = document.getElementById('morning-reflection-content');
+      if (contentContainer) {
+        contentContainer.innerHTML = `
+          <div class="p-3 rounded-xl bg-pinkTheme-softPill border border-pinkTheme-border text-center space-y-1">
+            <span class="text-[10px] uppercase tracking-wider font-bold text-pinkTheme-primary">משפט כוח להיום:</span>
+            <p class="font-serif italic font-bold text-pinkTheme-deep text-xs sm:text-sm leading-relaxed">${randomQuote}</p>
+          </div>
+
+          <div class="space-y-1">
+            <p class="text-xs text-pinkTheme-deep">
+              <strong>בוקר מדהים מדלן! 🌸</strong> את באנרגיה <strong>${currentEnergy}</strong> ${causeText}.
+            </p>
+            <p class="text-xs text-pinkTheme-deep">
+              המנטרה שלך: <span class="font-bold text-pinkTheme-primary">${mantraText}</span>
+            </p>
+          </div>
+
+          ${gratitudesHtml}
+
+          <div class="p-2.5 rounded-xl bg-white border border-pinkTheme-border space-y-1 shadow-clean">
+            <span class="font-bold text-xs text-pinkTheme-deep">🎯 פעולת הזהב שתוביל את התוצאות:</span>
+            <p class="font-bold text-xs text-pinkTheme-deep bg-pinkTheme-softPill/30 p-2 rounded-lg border border-pinkTheme-border">
+              ${coreAction}
+            </p>
+          </div>
+
+          ${tasksSummary}
+        `;
+      }
+
+      const modal = document.getElementById('modal-morning-reflection');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+      triggerConfetti();
+      showToast('שיקוף הבוקר נוצר בהצלחה! ✨', 'success');
+    }
+
+    /* Schedule & Calendar Sync */
+    function renderScheduleBlocks() {
+      const container = document.getElementById('schedule-blocks-container');
+      const preview = document.getElementById('dash-schedule-preview');
+      if (!container) return;
+
+      if (scheduleBlocks.length === 0) {
+        container.innerHTML = `<div class="p-3 text-center text-xs text-pinkTheme-textMuted bg-white rounded-xl border border-pinkTheme-border">הלו"ז ריק.</div>`;
+      } else {
+        container.innerHTML = scheduleBlocks.map(b => `
+          <div class="p-3 rounded-xl bg-white border border-pinkTheme-border border-r-4 border-r-pinkTheme-primary space-y-1 shadow-clean">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs font-bold text-pinkTheme-deep px-2 py-0.5 rounded bg-pinkTheme-softPill">${b.time}</span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-pinkTheme-deep">${b.title}</span>
+                <button onclick="syncBlockToGoogleCalendar('${b.id}')" title="ליומן Google" class="text-pinkTheme-deep hover:text-pinkTheme-primary p-1 text-xs flex items-center gap-1 bg-pinkTheme-softPill rounded-lg px-2 border border-pinkTheme-border">
+                  <i class="fa-regular fa-calendar-plus text-[10px]"></i>
+                  <span class="text-[10px] font-bold">ליומן</span>
+                </button>
+                <button onclick="deleteScheduleBlock('${b.id}')" title="מחיקה" class="text-pinkTheme-textMuted hover:text-pinkTheme-primary text-xs p-1">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            ${b.desc ? `<p class="text-[11px] text-pinkTheme-text leading-relaxed">${b.desc}</p>` : ''}
+          </div>
+        `).join('');
+      }
+
+      if (preview) {
+        if (scheduleBlocks.length === 0) {
+          preview.innerHTML = `<span class="text-[11px] text-pinkTheme-textMuted italic">עוד לא הוגדר לו"ז.</span>`;
+        } else {
+          preview.innerHTML = scheduleBlocks.slice(0, 5).map(b => `
+            <div class="flex items-center justify-between p-1.5 rounded-lg bg-pinkTheme-softPill/40 border border-pinkTheme-border">
+              <span class="font-mono text-[10px] font-bold text-pinkTheme-deep">${b.time}</span>
+              <span class="text-xs font-medium text-pinkTheme-deep truncate mr-2">${b.title}</span>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    function createGoogleCalendarUrl(title, details, startTimeStr, endTimeStr) {
+      const baseUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE';
+      const encodedTitle = encodeURIComponent(title || 'משימה - MADLEN OS');
+      const encodedDetails = encodeURIComponent((details || '') + '\n\nMADLEN Executive OS ✨');
+      
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const todayDateIso = `${year}${month}${day}`;
+
+      let datesParam = `${todayDateIso}/${todayDateIso}`;
+
+      if (startTimeStr && endTimeStr) {
+        const cleanStart = startTimeStr.replace(':', '').trim().padStart(4, '0') + '00';
+        const cleanEnd = endTimeStr.replace(':', '').trim().padStart(4, '0') + '00';
+        datesParam = `${todayDateIso}T${cleanStart}/${todayDateIso}T${cleanEnd}`;
+      } else if (startTimeStr) {
+        const cleanStart = startTimeStr.replace(':', '').trim().padStart(4, '0') + '00';
+        datesParam = `${todayDateIso}T${cleanStart}/${todayDateIso}T${cleanStart}`;
+      }
+
+      return `${baseUrl}&text=${encodedTitle}&details=${encodedDetails}&dates=${datesParam}`;
+    }
+
+    function syncSingleTaskToGoogleCalendar(id) {
+      const task = freeTasks.find(t => t.id === id);
+      if (!task) return;
+      const url = createGoogleCalendarUrl(task.text, 'משימה מתוך אינבוקס משימות');
+      window.open(url, '_blank');
+      showToast('פותח אירוע ביומן 📅', 'success');
+    }
+
+    function syncAllTasksToGoogleCalendar() {
+      const pendingTasks = freeTasks.filter(t => !t.done);
+      if (pendingTasks.length === 0) {
+        showToast('אין משימות פתוחות לסנכרון', 'info');
+        return;
+      }
+      const summaryList = pendingTasks.map((t, idx) => `${idx + 1}. ${t.text}`).join('\n');
+      const url = createGoogleCalendarUrl('אינבוקס משימות — MADLEN OS', summaryList);
+      window.open(url, '_blank');
+      showToast('סנכרון ליומן Google 📅', 'success');
+    }
+
+    function syncBlockToGoogleCalendar(id) {
+      const block = scheduleBlocks.find(b => b.id === id);
+      if (!block) return;
+      let start = '';
+      let end = '';
+      if (block.time.includes('–') || block.time.includes('-')) {
+        const parts = block.time.split(/[-–]/);
+        start = parts[0]?.trim();
+        end = parts[1]?.trim();
+      } else {
+        start = block.time.trim();
+      }
+
+      const url = createGoogleCalendarUrl(block.title, block.desc, start, end);
+      window.open(url, '_blank');
+      showToast('פותח ב-Google Calendar 📅', 'success');
+    }
+
+    function syncScheduleToGoogleCalendar() {
+      if (scheduleBlocks.length === 0) {
+        showToast('הלו"ז ריק', 'info');
+        return;
+      }
+      const details = scheduleBlocks.map(b => `${b.time}: ${b.title}\n${b.desc || ''}`).join('\n\n');
+      const url = createGoogleCalendarUrl('לו"ז עבודה יומי — MADLEN OS', details, '08:00', '18:00');
+      window.open(url, '_blank');
+      showToast('סנכרון הלו"ז המלא ליומן Google 📅', 'success');
+    }
+
+    function openAddScheduleBlockModal() {
+      const m = document.getElementById('modal-schedule-block');
+      if (m) { m.classList.remove('hidden'); m.classList.add('flex'); }
+    }
+
+    function handleAddScheduleBlockSubmit(e) {
+      e.preventDefault();
+      const time = document.getElementById('sb-time-in')?.value.trim();
+      const title = document.getElementById('sb-title-in')?.value.trim();
+      const desc = document.getElementById('sb-desc-in')?.value.trim() || '';
+
+      if (!time || !title) return;
+
+      scheduleBlocks.push({ id: 'sb_' + Date.now(), time, title, desc });
+      localStorage.setItem('m_schedule_blocks', JSON.stringify(scheduleBlocks));
+      closeModal('modal-schedule-block');
+      e.target?.reset();
+      renderScheduleBlocks();
+      showToast('בלוק נוסף ללו"ז ✓', 'success');
+    }
+
+    function deleteScheduleBlock(id) {
+      scheduleBlocks = scheduleBlocks.filter(b => b.id !== id);
+      localStorage.setItem('m_schedule_blocks', JSON.stringify(scheduleBlocks));
+      renderScheduleBlocks();
+      showToast('הבלוק נמחק מהלו"ז', 'info');
+    }
+
+    function resetDefaultSchedule() {
+      scheduleBlocks = JSON.parse(JSON.stringify(defaultScheduleBlocks));
+      localStorage.setItem('m_schedule_blocks', JSON.stringify(scheduleBlocks));
+      renderScheduleBlocks();
+      showToast('הלו"ז אופס ↩', 'info');
+    }
+
+    /* Pipeline / CRM */
+    function renderPipeline() {
+      const dealsList = document.getElementById('pipeline-deals-list');
+      const countLeads = document.getElementById('stage-count-leads');
+      const countCalls = document.getElementById('stage-count-calls');
+      const countProposals = document.getElementById('stage-count-proposals');
+      const countWon = document.getElementById('stage-count-won');
+
+      const leads = pipelineDeals.filter(d => d.stage === 'lead').length;
+      const calls = pipelineDeals.filter(d => d.stage === 'call').length;
+      const proposals = pipelineDeals.filter(d => d.stage === 'proposal').length;
+      const won = pipelineDeals.filter(d => d.stage === 'won').length;
+
+      if (countLeads) countLeads.innerText = leads;
+      if (countCalls) countCalls.innerText = calls;
+      if (countProposals) countProposals.innerText = proposals;
+      if (countWon) countWon.innerText = won;
+
+      if (!dealsList) return;
+
+      if (pipelineDeals.length === 0) {
+        dealsList.innerHTML = `<div class="p-3 text-center text-xs text-pinkTheme-textMuted bg-pinkTheme-softPill/30 rounded-xl">אין כרגע לקוחות או שיחות במעקב. לחצי על "+ הוספת לקוח / שיחה".</div>`;
+        return;
+      }
+
+      dealsList.innerHTML = pipelineDeals.map(d => `
+        <div class="p-3 rounded-xl bg-white border border-pinkTheme-border flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-clean">
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-xs sm:text-sm text-pinkTheme-deep">${d.name}</span>
+              ${d.value ? `<span class="text-xs font-mono font-bold text-pinkTheme-deep px-2 py-0.5 rounded bg-pinkTheme-softPill">${d.value}</span>` : ''}
+            </div>
+            ${d.notes ? `<p class="text-[11px] text-pinkTheme-text">${d.notes}</p>` : ''}
+          </div>
+          <div class="flex items-center gap-2 self-end sm:self-auto">
+            <select onchange="updateLeadStage('${d.id}', this.value)" class="silk-input p-1.5 text-xs font-semibold text-pinkTheme-deep bg-pinkTheme-softPill/40">
+              <option value="lead" ${d.stage === 'lead' ? 'selected' : ''}>מתעניין חדש</option>
+              <option value="call" ${d.stage === 'call' ? 'selected' : ''}>שיחה מתוכננת</option>
+              <option value="proposal" ${d.stage === 'proposal' ? 'selected' : ''}>הצעה בהמתנה</option>
+              <option value="won" ${d.stage === 'won' ? 'selected' : ''}>לקוח שסגר 🏆</option>
+            </select>
+            <button onclick="deleteLead('${d.id}')" title="מחיקה" class="text-pinkTheme-textMuted hover:text-pinkTheme-primary p-1 text-xs">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openAddLeadModal() {
+      const m = document.getElementById('modal-lead');
+      if (m) { m.classList.remove('hidden'); m.classList.add('flex'); }
+    }
+
+    function handleLeadSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('lead-name-in')?.value.trim();
+      const stage = document.getElementById('lead-stage-in')?.value || 'lead';
+      const value = document.getElementById('lead-value-in')?.value.trim() || '';
+      const notes = document.getElementById('lead-notes-in')?.value.trim() || '';
+
+      if (!name) return;
+
+      pipelineDeals.unshift({ id: 'deal_' + Date.now(), name, stage, value, notes });
+      localStorage.setItem('m_pipeline_deals', JSON.stringify(pipelineDeals));
+      closeModal('modal-lead');
+      e.target?.reset();
+      renderPipeline();
+      if (stage === 'won') triggerConfetti();
+      showToast('לקוח / שיחה נוספו בהצלחה ✓', 'success');
+    }
+
+    function updateLeadStage(id, stage) {
+      const deal = pipelineDeals.find(d => d.id === id);
+      if (deal) {
+        deal.stage = stage;
+        localStorage.setItem('m_pipeline_deals', JSON.stringify(pipelineDeals));
+        renderPipeline();
+        if (stage === 'won') {
+          triggerConfetti();
+          showToast('סגירה מוצלחת! 🏆', 'success');
+        } else {
+          showToast('הסטטוס עודכן', 'info');
+        }
+      }
+    }
+
+    function deleteLead(id) {
+      pipelineDeals = pipelineDeals.filter(d => d.id !== id);
+      localStorage.setItem('m_pipeline_deals', JSON.stringify(pipelineDeals));
+      renderPipeline();
+      showToast('הלקוח הוסר מהמעקב', 'info');
+    }
+
+    /* Notes & Dashboard Mini List */
+    function renderMiniDashboard() {
+      const container = document.getElementById('dash-mini-notes-list');
+      if (!container) return;
+
+      const catLabels = { biz: 'עסק', content: 'תוכן', personal: 'אישי', idea: 'רעיון', urgent: 'דחוף' };
+
+      if (quickNotes.length === 0) {
+        container.innerHTML = `<div class="p-3 text-center text-xs text-pinkTheme-textMuted bg-pinkTheme-softPill/30 rounded-xl">אין כרגע פתקים. לחצי על "+ פתק חדש".</div>`;
+        return;
+      }
+
+      container.innerHTML = quickNotes.map(n => {
+        const catKey = n.category || 'biz';
+        const label = catLabels[catKey] || 'פתק';
+        return `
+          <div class="p-2.5 rounded-xl border border-pinkTheme-border flex items-center justify-between gap-2 transition ${n.done ? 'bg-pinkTheme-softPill/30 opacity-60' : 'bg-white shadow-clean'}">
+            <div class="flex items-center gap-2 flex-1 min-w-0">
+              <input type="checkbox" ${n.done ? 'checked' : ''} onchange="toggleQuickNote('${n.id}')" class="w-3.5 h-3.5 rounded accent-pinkTheme-primary cursor-pointer shrink-0">
+              <span class="text-xs ${n.done ? 'line-through text-pinkTheme-textMuted' : 'text-pinkTheme-deep font-medium'} truncate">${n.text}</span>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="text-[9px] px-1.5 py-0.5 rounded-full font-bold border bg-pinkTheme-softPill text-pinkTheme-deep border-pinkTheme-border">${label}</span>
+              <button onclick="deleteQuickNote('${n.id}')" title="מחיקה" class="text-pinkTheme-textMuted hover:text-pinkTheme-primary p-1 text-xs"><i class="fa-solid fa-trash text-[10px]"></i></button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleQuickNote(id) {
+      const note = quickNotes.find(n => n.id === id);
+      if (note) {
+        note.done = !note.done;
+        localStorage.setItem('m_quick_notes', JSON.stringify(quickNotes));
+        renderMiniDashboard();
+        if (note.done) triggerConfetti();
+      }
+    }
+
+    function deleteQuickNote(id) {
+      quickNotes = quickNotes.filter(n => n.id !== id);
+      localStorage.setItem('m_quick_notes', JSON.stringify(quickNotes));
+      renderMiniDashboard();
+      showToast('הפתק נמחק', 'info');
+    }
+
+    /* Voice Memos */
+    async function toggleVoiceRecording() {
+      if (isRecording) {
+        stopVoiceRecording();
+      } else {
+        startVoiceRecording();
+      }
+    }
+
+    async function startVoiceRecording() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          const reader = new FileReader();
+          reader.readAsDataURL(audioBlob);
+          reader.onloadend = () => {
+            pendingAudioBlobUrl = reader.result;
+            const pb = document.getElementById('pending-audio-playback');
+            if (pb) pb.src = pendingAudioBlobUrl;
+            document.getElementById('pending-voice-form')?.classList.remove('hidden');
+          };
+          stream.getTracks().forEach(track => track.stop());
+        };
+
+        mediaRecorder.start();
+        isRecording = true;
+        recordingSeconds = 0;
+        document.getElementById('recorder-timer-display').innerText = '00:00';
+        document.getElementById('record-btn-text').innerText = 'עצירת הקלטה ⏹️';
+        document.getElementById('record-icon').className = 'w-2.5 h-2.5 rounded-full bg-white animate-pulse';
+        document.getElementById('btn-cancel-recording')?.classList.remove('hidden');
+
+        recordingTimerInterval = setInterval(() => {
+          recordingSeconds++;
+          const mins = Math.floor(recordingSeconds / 60);
+          const secs = recordingSeconds % 60;
+          document.getElementById('recorder-timer-display').innerText = 
+            `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+
+        showToast('ההקלטה החלה 🎙️', 'info');
+      } catch (err) {
+        showToast('לא ניתנה הרשאת מיקרופון', 'error');
+      }
+    }
+
+    function stopVoiceRecording() {
+      if (mediaRecorder && isRecording) {
+        mediaRecorder.stop();
+        isRecording = false;
+        clearInterval(recordingTimerInterval);
+        document.getElementById('record-btn-text').innerText = 'התחילי הקלטה 🎙️';
+        document.getElementById('record-icon').className = 'w-2.5 h-2.5 rounded-full bg-white';
+        document.getElementById('btn-cancel-recording')?.classList.add('hidden');
+      }
+    }
+
+    function cancelVoiceRecording() {
+      if (mediaRecorder && isRecording) {
+        mediaRecorder.stop();
+        isRecording = false;
+        clearInterval(recordingTimerInterval);
+        audioChunks = [];
+        pendingAudioBlobUrl = null;
+        document.getElementById('record-btn-text').innerText = 'התחילי הקלטה 🎙️';
+        document.getElementById('record-icon').className = 'w-2.5 h-2.5 rounded-full bg-white';
+        document.getElementById('btn-cancel-recording')?.classList.add('hidden');
+        document.getElementById('recorder-timer-display').innerText = '00:00';
+        showToast('ההקלטה בוטלה', 'info');
+      }
+    }
+
+    function savePendingVoice() {
+      const title = document.getElementById('pending-voice-title')?.value.trim() || 'הקלטה עסקית';
+      if (!pendingAudioBlobUrl) return;
+
+      voiceMemos.unshift({
+        id: 'vm_' + Date.now(),
+        title,
+        audioData: pendingAudioBlobUrl,
+        date: new Date().toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' })
+      });
+      localStorage.setItem('m_voice_memos', JSON.stringify(voiceMemos));
+      discardPendingVoice();
+      renderVoiceMemos();
+      triggerConfetti();
+      showToast('ההקלטה נשמרה ✓', 'success');
+    }
+
+    function discardPendingVoice() {
+      pendingAudioBlobUrl = null;
+      audioChunks = [];
+      document.getElementById('pending-voice-form')?.classList.add('hidden');
+      const pb = document.getElementById('pending-audio-playback');
+      if (pb) pb.src = '';
+      if (document.getElementById('pending-voice-title')) document.getElementById('pending-voice-title').value = '';
+    }
+
+    function renderVoiceMemos() {
+      const container = document.getElementById('voice-memos-list-container');
+      const libCount = document.getElementById('voice-library-count');
+      if (libCount) libCount.innerText = `${voiceMemos.length}`;
+      if (!container) return;
+
+      if (voiceMemos.length === 0) {
+        container.innerHTML = `<div class="p-3 text-center text-xs text-pinkTheme-textMuted bg-pinkTheme-softPill/30 rounded-xl">ספריית ההקלטות ריקה.</div>`;
+        return;
+      }
+
+      container.innerHTML = voiceMemos.map(v => `
+        <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-1.5 shadow-clean">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs sm:text-sm text-pinkTheme-deep">${v.title}</span>
+            <button onclick="deleteVoiceMemo('${v.id}')" class="text-pinkTheme-textMuted hover:text-pinkTheme-primary"><i class="fa-solid fa-trash text-xs"></i></button>
+          </div>
+          <audio controls src="${v.audioData}" class="w-full h-8 rounded"></audio>
+        </div>
+      `).join('');
+    }
+
+    function deleteVoiceMemo(id) {
+      voiceMemos = voiceMemos.filter(v => v.id !== id);
+      localStorage.setItem('m_voice_memos', JSON.stringify(voiceMemos));
+      renderVoiceMemos();
+      showToast('הקלטה נמחקה', 'info');
+    }
+
+    /* Weekly & Monthly Handlers */
+    function commitNewTaskWithSubtasks() {
+      const mainInput = document.getElementById('new-task-main-input');
+      const daySelect = document.getElementById('new-task-day-select');
+      if (!mainInput) return;
+      const text = mainInput.value.trim();
+      if (!text) return;
+
+      weeklyTodos.unshift({
+        id: 'task_' + Date.now(),
+        text,
+        day: daySelect ? daySelect.value : 'all',
+        done: false
+      });
+
+      localStorage.setItem('m_weekly_todos', JSON.stringify(weeklyTodos));
+      mainInput.value = '';
+      renderWeeklyTodos();
+      renderTodayWeeklyTasks();
+      triggerConfetti();
+      showToast('המשימה נוספה לשבועי ✓', 'success');
+    }
+
+    function toggleWeeklyTodo(id) {
+      const t = weeklyTodos.find(x => x.id === id);
+      if (t) {
+        t.done = !t.done;
+        localStorage.setItem('m_weekly_todos', JSON.stringify(weeklyTodos));
+        if (t.done) triggerConfetti();
+        renderWeeklyTodos();
+        renderTodayWeeklyTasks();
+      }
+    }
+
+    function renderWeeklyTodos() {
+      const container = document.getElementById('weekly-todo-list-container');
+      if (!container) return;
+      let filtered = weeklyTodos;
+      if (currentDayFilter !== 'all') filtered = weeklyTodos.filter(t => t.day === currentDayFilter || t.day === 'all');
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="p-3 text-center text-xs text-pinkTheme-textMuted bg-pinkTheme-softPill/30 rounded-xl">אין משימות.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(t => `
+        <div class="rounded-xl border border-pinkTheme-border p-2.5 ${t.done ? 'bg-pinkTheme-softPill/40 opacity-60' : 'bg-white shadow-clean'}">
+          <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleWeeklyTodo('${t.id}')" class="w-3.5 h-3.5 rounded accent-pinkTheme-primary cursor-pointer">
+              <span class="text-xs sm:text-sm ${t.done ? 'line-through text-pinkTheme-textMuted' : 'text-pinkTheme-deep font-semibold'}">${t.text}</span>
+            </label>
+            <span class="text-[10px] bg-pinkTheme-softPill px-1.5 py-0.5 rounded text-pinkTheme-deep font-semibold">${dayNameMap[t.day] || 'כל השבוע'}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderTodayWeeklyTasks() {
+      const container = document.getElementById('today-weekly-tasks-list');
+      const countEl = document.getElementById('today-weekly-tasks-count');
+      const now = new Date();
+      const currentDayKey = dayKeyMap[now.getDay()] || 'all';
+      const todayTasks = weeklyTodos.filter(t => t.day === currentDayKey || t.day === 'all');
+
+      if (countEl) countEl.innerText = `${todayTasks.length}`;
+      if (!container) return;
+
+      if (todayTasks.length === 0) {
+        container.innerHTML = `<div class="p-2.5 text-center text-xs text-pinkTheme-textMuted bg-pinkTheme-softPill/30 rounded-lg">אין משימות מתוזמנות להיום.</div>`;
+        return;
+      }
+
+      container.innerHTML = todayTasks.map(t => `
+        <div class="rounded-lg border border-pinkTheme-border p-2 flex items-center justify-between ${t.done ? 'bg-pinkTheme-softPill/40 opacity-60' : 'bg-white shadow-clean'}">
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleWeeklyTodo('${t.id}')" class="w-3.5 h-3.5 rounded accent-pinkTheme-primary cursor-pointer">
+            <span class="text-xs ${t.done ? 'line-through text-pinkTheme-textMuted' : 'text-pinkTheme-deep font-semibold'}">${t.text}</span>
+          </label>
+        </div>
+      `).join('');
+    }
+
+    function filterWeeklyTasksByDay(day) {
+      currentDayFilter = day;
+      ['all', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri'].forEach(d => {
+        const btn = document.getElementById(`day-filter-${d}`);
+        if (btn) btn.className = d === day ? 'px-2 py-0.5 rounded-lg bg-pinkTheme-primary text-white font-bold transition' : 'px-2 py-0.5 rounded-lg bg-pinkTheme-softPill text-pinkTheme-deep font-medium transition';
+      });
+      renderWeeklyTodos();
+    }
+
+    function switchWeeklySubTab(tab) {
+      const p = document.getElementById('weekly-sub-plan');
+      const s = document.getElementById('weekly-sub-summary');
+      const bp = document.getElementById('btn-sub-plan');
+      const bs = document.getElementById('btn-sub-summary');
+      if (tab === 'summary') {
+        s?.classList.remove('hidden'); p?.classList.add('hidden');
+        if (bs) bs.className = 'px-3 py-1 rounded-lg bg-pinkTheme-primary text-white text-xs font-semibold transition shadow-clean';
+        if (bp) bp.className = 'px-3 py-1 rounded-lg text-pinkTheme-deep text-xs font-medium hover:bg-white/60 transition';
+      } else {
+        p?.classList.remove('hidden'); s?.classList.add('hidden');
+        if (bp) bp.className = 'px-3 py-1 rounded-lg bg-pinkTheme-primary text-white text-xs font-semibold transition shadow-clean';
+        if (bs) bs.className = 'px-3 py-1 rounded-lg text-pinkTheme-deep text-xs font-medium hover:bg-white/60 transition';
+      }
+    }
+
+    function switchMonthlySubTab(tab) {
+      const p = document.getElementById('monthly-sub-plan');
+      const s = document.getElementById('monthly-sub-summary');
+      const bp = document.getElementById('btn-m-sub-plan');
+      const bs = document.getElementById('btn-m-sub-summary');
+      if (tab === 'summary') {
+        s?.classList.remove('hidden'); p?.classList.add('hidden');
+        if (bs) bs.className = 'px-3 py-1 rounded-lg bg-pinkTheme-primary text-white text-xs font-semibold transition shadow-clean';
+        if (bp) bp.className = 'px-3 py-1 rounded-lg text-pinkTheme-deep text-xs font-medium hover:bg-white/60 transition';
+      } else {
+        p?.classList.remove('hidden'); s?.classList.add('hidden');
+        if (bp) bp.className = 'px-3 py-1 rounded-lg bg-pinkTheme-primary text-white text-xs font-semibold transition shadow-clean';
+        if (bs) bs.className = 'px-3 py-1 rounded-lg text-pinkTheme-deep text-xs font-medium hover:bg-white/60 transition';
+      }
+    }
+
+    function loadWeeklyData() {
+      if (document.getElementById('ws-date-range')) document.getElementById('ws-date-range').value = weeklySummary.dateRange || '';
+      if (document.getElementById('ws-actual-income')) document.getElementById('ws-actual-income').value = weeklySummary.actualIncome || '';
+      if (document.getElementById('ws-clients-count')) document.getElementById('ws-clients-count').value = weeklySummary.clientsCount || '';
+      if (document.getElementById('ws-leads-count')) document.getElementById('ws-leads-count').value = weeklySummary.leadsCount || '';
+      if (document.getElementById('ws-what-good')) document.getElementById('ws-what-good').value = weeklySummary.whatGood || '';
+      if (document.getElementById('ws-what-avoided')) document.getElementById('ws-what-avoided').value = weeklySummary.whatAvoided || '';
+      if (document.getElementById('ws-lesson')) document.getElementById('ws-lesson').value = weeklySummary.lesson || '';
+
+      if (document.getElementById('wp-date-range')) document.getElementById('wp-date-range').value = weeklyPlan.dateRange || '';
+      if (document.getElementById('wp-being-identity')) document.getElementById('wp-being-identity').value = weeklyPlan.beingIdentity || '';
+      if (document.getElementById('wp-one-success-action')) document.getElementById('wp-one-success-action').value = weeklyPlan.oneSuccessAction || '';
+    }
+
+    function saveWeeklySummary() {
+      weeklySummary = {
+        dateRange: document.getElementById('ws-date-range')?.value || '',
+        actualIncome: document.getElementById('ws-actual-income')?.value || '',
+        clientsCount: document.getElementById('ws-clients-count')?.value || '',
+        leadsCount: document.getElementById('ws-leads-count')?.value || '',
+        whatGood: document.getElementById('ws-what-good')?.value || '',
+        whatAvoided: document.getElementById('ws-what-avoided')?.value || '',
+        lesson: document.getElementById('ws-lesson')?.value || ''
+      };
+      localStorage.setItem('m_weekly_summary', JSON.stringify(weeklySummary));
+      showToast('סיכום שבועי נשמר ✓', 'success');
+      triggerConfetti();
+    }
+
+    function clearWeeklySummaryForm() {
+      weeklySummary = {};
+      localStorage.removeItem('m_weekly_summary');
+      loadWeeklyData();
+      showToast('הטופס אופס', 'info');
+    }
+
+    function saveWeeklyPlan() {
+      weeklyPlan = {
+        dateRange: document.getElementById('wp-date-range')?.value || '',
+        beingIdentity: document.getElementById('wp-being-identity')?.value || '',
+        oneSuccessAction: document.getElementById('wp-one-success-action')?.value || ''
+      };
+      localStorage.setItem('m_weekly_plan', JSON.stringify(weeklyPlan));
+      showToast('תכנון שבועי נשמר ✓', 'success');
+      triggerConfetti();
+    }
+
+    function clearWeeklyPlanForm() {
+      weeklyPlan = {};
+      localStorage.removeItem('m_weekly_plan');
+      loadWeeklyData();
+      showToast('הטופס אופס', 'info');
+    }
+
+    function loadMonthlyData() {
+      if (document.getElementById('ms-month-name')) document.getElementById('ms-month-name').value = monthlySummary.monthName || '';
+      if (document.getElementById('ms-actual-income')) document.getElementById('ms-actual-income').value = monthlySummary.actualIncome || '';
+      if (document.getElementById('ms-wins')) document.getElementById('ms-wins').value = monthlySummary.wins || '';
+      if (document.getElementById('ms-lesson')) document.getElementById('ms-lesson').value = monthlySummary.lesson || '';
+
+      if (document.getElementById('mp-month-name')) document.getElementById('mp-month-name').value = monthlyPlan.monthName || '';
+      if (document.getElementById('mp-business-goal')) document.getElementById('mp-business-goal').value = monthlyPlan.businessGoal || '';
+      if (document.getElementById('mp-income-goal')) document.getElementById('mp-income-goal').value = monthlyPlan.incomeGoal || '';
+      if (document.getElementById('mp-w1')) document.getElementById('mp-w1').value = monthlyPlan.w1 || '';
+      if (document.getElementById('mp-w2')) document.getElementById('mp-w2').value = monthlyPlan.w2 || '';
+      if (document.getElementById('mp-w3')) document.getElementById('mp-w3').value = monthlyPlan.w3 || '';
+      if (document.getElementById('mp-w4')) document.getElementById('mp-w4').value = monthlyPlan.w4 || '';
+    }
+
+    function saveMonthlySummary() {
+      monthlySummary = {
+        monthName: document.getElementById('ms-month-name')?.value || '',
+        actualIncome: document.getElementById('ms-actual-income')?.value || '',
+        wins: document.getElementById('ms-wins')?.value || '',
+        lesson: document.getElementById('ms-lesson')?.value || ''
+      };
+      localStorage.setItem('m_monthly_summary', JSON.stringify(monthlySummary));
+      showToast('סיכום חודשי נשמר ✓', 'success');
+      triggerConfetti();
+    }
+
+    function clearMonthlySummaryForm() {
+      monthlySummary = {};
+      localStorage.removeItem('m_monthly_summary');
+      loadMonthlyData();
+      showToast('טופס סיכום החודש אופס', 'info');
+    }
+
+    function saveMonthlyPlan() {
+      monthlyPlan = {
+        monthName: document.getElementById('mp-month-name')?.value || '',
+        businessGoal: document.getElementById('mp-business-goal')?.value || '',
+        incomeGoal: document.getElementById('mp-income-goal')?.value || '',
+        w1: document.getElementById('mp-w1')?.value || '',
+        w2: document.getElementById('mp-w2')?.value || '',
+        w3: document.getElementById('mp-w3')?.value || '',
+        w4: document.getElementById('mp-w4')?.value || ''
+      };
+      localStorage.setItem('m_monthly_plan', JSON.stringify(monthlyPlan));
+      showToast('תכנון חודשי נשמר ✓', 'success');
+      triggerConfetti();
+    }
+
+    function clearMonthlyPlanForm() {
+      monthlyPlan = {};
+      localStorage.removeItem('m_monthly_plan');
+      loadMonthlyData();
+      showToast('טופס תכנון החודש אופס', 'info');
+    }
+
+    function loadEveningReflection() {
+      if (document.getElementById('ev-improve-tomorrow')) document.getElementById('ev-improve-tomorrow').value = eveningReflection.improveTomorrow || '';
+      if (document.getElementById('ev-one-win')) document.getElementById('ev-one-win').value = eveningReflection.oneWin || '';
+      if (document.getElementById('ev-tomorrow-biz')) document.getElementById('ev-tomorrow-biz').value = eveningReflection.tomorrowBiz || '';
+      if (document.getElementById('ev-tomorrow-pleasure')) document.getElementById('ev-tomorrow-pleasure').value = eveningReflection.tomorrowPleasure || '';
+    }
+
+    function saveEveningReflection() {
+      eveningReflection = {
+        improveTomorrow: document.getElementById('ev-improve-tomorrow')?.value || '',
+        oneWin: document.getElementById('ev-one-win')?.value || '',
+        tomorrowBiz: document.getElementById('ev-tomorrow-biz')?.value || '',
+        tomorrowPleasure: document.getElementById('ev-tomorrow-pleasure')?.value || ''
+      };
+      localStorage.setItem('m_evening_reflection', JSON.stringify(eveningReflection));
+      showToast('סגירת יום נשמרה ✓ לילה שקט ✨', 'success');
+      triggerConfetti();
+    }
+
+    function transferTomorrowToMorning() {
+      const tomorrowBiz = document.getElementById('ev-tomorrow-biz')?.value.trim();
+      const tomorrowPleasure = document.getElementById('ev-tomorrow-pleasure')?.value.trim();
+
+      if (tomorrowBiz) {
+        anchors.q2 = tomorrowBiz;
+        const q2El = document.getElementById('q-business');
+        if (q2El) q2El.value = tomorrowBiz;
+        syncDashboardAction(tomorrowBiz);
+      }
+      if (tomorrowPleasure) {
+        anchors.q3 = tomorrowPleasure;
+        const q3El = document.getElementById('q-pleasure');
+        if (q3El) q3El.value = tomorrowPleasure;
+      }
+      localStorage.setItem('m_anchors', JSON.stringify(anchors));
+      calculateDailyProgress();
+      showToast('הכוונות הועברו לפתיחת הבוקר! 🌅', 'success');
+      triggerConfetti();
+    }
+
+    /* Tab Switcher */
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
+      const targetView = document.getElementById(`view-${tabId}`);
+      if (targetView) targetView.classList.add('active');
+
+      document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
+      const activeSidebarBtn = document.getElementById(`nav-${tabId}`);
+      if (activeSidebarBtn) activeSidebarBtn.classList.add('active');
+
+      document.querySelectorAll('.mobile-tab-btn').forEach(btn => btn.classList.remove('active'));
+      const activeMobBtn = document.getElementById(`mob-nav-${tabId}`);
+      if (activeMobBtn) activeMobBtn.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openQuickAddModal() {
+      const m = document.getElementById('modal-quick-add');
+      if (m) { m.classList.remove('hidden'); m.classList.add('flex'); }
+    }
+
+    function closeModal(id) {
+      const m = document.getElementById(id);
+      if (m) { m.classList.add('hidden'); m.classList.remove('flex'); }
+    }
+
+    function handleQuickNoteSubmit(e) {
+      e.preventDefault();
+      const text = document.getElementById('qa-note-text')?.value.trim();
+      const cat = document.getElementById('qa-note-category')?.value || 'biz';
+      if (!text) return;
+
+      quickNotes.unshift({ id: 'qn_' + Date.now(), text, category: cat, done: false });
+      localStorage.setItem('m_quick_notes', JSON.stringify(quickNotes));
+      document.getElementById('qa-note-text').value = '';
+      closeModal('modal-quick-add');
+      renderMiniDashboard();
+      triggerConfetti();
+      showToast('פתק נשמר בדשבורד ✨', 'success');
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-box');
+      if (!container) return;
+      const toast = document.createElement('div');
+      toast.className = `px-3.5 py-2 rounded-xl text-xs font-semibold text-white shadow-card pointer-events-auto transition-all duration-300 transform translate-y-2 opacity-0 flex items-center gap-2 ${type === 'success' ? 'bg-pinkTheme-primary' : type === 'error' ? 'bg-pinkTheme-deep' : 'bg-pinkTheme-primary'}`;
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
+      setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-2');
+        setTimeout(() => toast.remove(), 2200);
+      }, 2200);
+    }
+
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({ 
+          particleCount: 35, 
+          spread: 45, 
+          origin: { y: 0.8 }, 
+          colors: ['#F4A6C4', '#FFD1E3', '#FFFFFF', '#F78DA7', '#FCE4EC'] 
+        });
+      }
+    }
+
+    function initGreeting() {
+      const dDate = document.getElementById('dash-hero-date');
+      const hDate = document.getElementById('hero-date');
+      const now = new Date();
+
+      const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+      const months = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+      const dateStr = `יום ${days[now.getDay()]}, ${now.getDate()} ב${months[now.getMonth()]}`;
+
+      if (dDate) dDate.innerText = dateStr;
+      if (hDate) hDate.innerText = dateStr;
+    }
+  </script>
 </body>
 </html>
