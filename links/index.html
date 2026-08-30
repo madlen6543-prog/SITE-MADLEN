@@ -23,7 +23,7 @@
         extend: {
           fontFamily: {
             sans: ['Rubik', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-            serif: ['Playfair Display', 'Georgia', 'serif'],
+            serif: ['Rubik', 'Playfair Display', 'Georgia', 'serif'],
             mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
@@ -54,7 +54,7 @@
 
   <style>
     :root {
-      --safe-bottom: env(safe-area-inset-bottom, 20px);
+      --safe-bottom: env(safe-area-inset-bottom, 16px);
     }
     body {
       background-color: #FFF5F8;
@@ -62,12 +62,12 @@
       min-height: 100vh;
       font-family: 'Rubik', sans-serif;
       -webkit-tap-highlight-color: transparent;
-      padding-bottom: calc(var(--safe-bottom) + 20px);
     }
 
     input, textarea, select {
       font-size: 16px !important;
       color: #111111 !important;
+      font-family: 'Rubik', sans-serif !important;
     }
     @media (min-width: 640px) {
       input, textarea, select {
@@ -132,13 +132,13 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      padding: 0.6rem 0.85rem;
+      padding: 0.55rem 0.75rem;
       border-radius: 0.85rem;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       font-weight: 500;
       color: #4A4A4A;
       transition: all 0.16s ease;
-      min-height: 40px;
+      min-height: 38px;
     }
     .sidebar-btn:hover {
       background-color: #FFF0F5;
@@ -149,25 +149,6 @@
       color: #111111;
       font-weight: 700;
       border-right: 3px solid #E87A9E;
-    }
-
-    /* Mobile Bottom Navigation Button */
-    .mobile-tab-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      padding: 0.4rem 0.1rem;
-      color: #B57E94;
-      font-size: 0.68rem;
-      font-weight: 600;
-      transition: all 0.18s ease;
-      min-height: 48px;
-    }
-    .mobile-tab-btn.active {
-      color: #E87A9E;
-      font-weight: 800;
     }
 
     /* Tab Transitions */
@@ -216,18 +197,18 @@
     /* Floating Fast Note (+) */
     .fab-btn {
       position: fixed;
-      bottom: calc(var(--safe-bottom) + 64px);
+      bottom: calc(var(--safe-bottom) + 12px);
       left: 1.25rem;
       z-index: 45;
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       border-radius: 9999px;
       background: #E87A9E;
       color: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 22px -3px rgba(232, 122, 158, 0.45);
+      box-shadow: 0 6px 20px -3px rgba(232, 122, 158, 0.45);
       transition: transform 0.18s ease, background-color 0.18s ease;
     }
     .fab-btn:hover {
@@ -240,124 +221,106 @@
       .fab-btn {
         bottom: 2rem;
         left: 2rem;
-        width: 52px;
-        height: 52px;
+        width: 50px;
+        height: 50px;
       }
     }
   </style>
 </head>
-<body class="antialiased selection:bg-pinkTheme-softPill selection:text-pinkTheme-text min-h-screen pb-24 md:pb-8 bg-pinkTheme-bg">
+<body class="antialiased selection:bg-pinkTheme-softPill selection:text-pinkTheme-text min-h-screen bg-pinkTheme-bg">
 
   <!-- Toast Notification System -->
-  <div id="toast-box" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-11/12 max-w-sm"></div>
+  <div id="toast-box" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-11/12 max-w-sm"></div>
 
   <!-- Floating Fast Action (+) Button -->
   <button onclick="openQuickAddModal()" title="לכידת מחשבה או משימה" class="fab-btn">
     <i class="fa-solid fa-plus text-sm"></i>
   </button>
 
-  <div class="min-h-screen flex flex-col md:flex-row">
+  <div class="min-h-screen flex flex-row">
 
-    <!-- DESKTOP SIDEBAR -->
-    <aside class="hidden md:flex w-60 bg-white border-l border-pinkTheme-border px-3.5 py-6 flex-col justify-between shrink-0 z-20 shadow-clean">
-      <div class="space-y-6">
+    <!-- UNIFIED SIDEBAR -->
+    <aside class="w-48 sm:w-56 bg-white border-l border-pinkTheme-border px-2.5 sm:px-3.5 py-4 sm:py-5 flex flex-col justify-between shrink-0 z-20 shadow-clean min-h-screen sticky top-0 h-screen overflow-y-auto">
+      <div class="space-y-4 sm:space-y-5">
         <!-- Brand Header -->
-        <div class="px-2 cursor-pointer text-right" onclick="switchTab('dashboard')">
+        <div class="px-1.5 sm:px-2 cursor-pointer text-right" onclick="switchTab('dashboard')">
           <div class="flex items-center justify-between">
-            <h1 class="text-xl font-serif font-bold text-pinkTheme-deep tracking-tight">MADLEN</h1>
-            <span class="text-[9px] font-mono uppercase bg-pinkTheme-softPill text-pinkTheme-primary px-2 py-0.5 rounded-full font-bold border border-pinkTheme-border">OS</span>
+            <h1 class="text-base sm:text-lg font-bold text-pinkTheme-deep tracking-tight">MADLEN</h1>
+            <span class="text-[8px] sm:text-[9px] font-mono uppercase bg-pinkTheme-softPill text-pinkTheme-primary px-1.5 sm:px-2 py-0.5 rounded-full font-bold border border-pinkTheme-border">OS</span>
           </div>
-          <p class="text-[11px] text-pinkTheme-textMuted font-light mt-0.5">מרחב בהירות, שקט ועשייה</p>
+          <p class="text-[10px] text-pinkTheme-textMuted font-normal mt-0.5">מרחב בהירות, שקט ועשייה</p>
         </div>
 
         <!-- Navigation Links -->
-        <nav class="space-y-4">
+        <nav class="space-y-3">
           <!-- Group 1: שגרה ויומיום -->
-          <div class="space-y-1">
-            <span class="text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-2 block uppercase">יומיום</span>
+          <div class="space-y-0.5">
+            <span class="text-[8px] sm:text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-1.5 block uppercase">יומיום</span>
             <button onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-btn active">
-              <span>העסק של מדלן</span>
+              <span class="truncate">העסק של מדלן</span>
               <span class="text-xs">⚡</span>
             </button>
             <button onclick="switchTab('today')" id="nav-today" class="sidebar-btn">
-              <span>היום שלך</span>
+              <span class="truncate">היום שלך</span>
               <span class="text-xs">🎯</span>
             </button>
             <button onclick="switchTab('tasks')" id="nav-tasks" class="sidebar-btn">
-              <span>אינבוקס משימות</span>
+              <span class="truncate">אינבוקס משימות</span>
               <span class="text-xs">✍️</span>
             </button>
             <button onclick="switchTab('schedule')" id="nav-schedule" class="sidebar-btn">
-              <span>לו"ז עבודה</span>
+              <span class="truncate">לו"ז עבודה</span>
               <span class="text-xs">⏱️</span>
             </button>
           </div>
 
           <!-- Group 2: עסק ותכנון -->
-          <div class="space-y-1">
-            <span class="text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-2 block uppercase">עסק ותכנון</span>
+          <div class="space-y-0.5">
+            <span class="text-[8px] sm:text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-1.5 block uppercase">עסק ותכנון</span>
             <button onclick="switchTab('pipeline')" id="nav-pipeline" class="sidebar-btn">
-              <span>לקוחות ושיחות</span>
+              <span class="truncate">לקוחות ושיחות</span>
               <span class="text-xs">💼</span>
             </button>
             <button onclick="switchTab('weekly')" id="nav-weekly" class="sidebar-btn">
-              <span>שבועי</span>
+              <span class="truncate">שבועי</span>
               <span class="text-xs">📅</span>
             </button>
             <button onclick="switchTab('monthly')" id="nav-monthly" class="sidebar-btn">
-              <span>חודשי</span>
+              <span class="truncate">חודשי</span>
               <span class="text-xs">🗓️</span>
             </button>
             <button onclick="switchTab('playbooks')" id="nav-playbooks" class="sidebar-btn">
-              <span>תבניות עבודה</span>
+              <span class="truncate">תבניות עבודה</span>
               <span class="text-xs">📐</span>
             </button>
           </div>
 
           <!-- Group 3: שקט ופוקוס -->
-          <div class="space-y-1">
-            <span class="text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-2 block uppercase">שקט ופוקוס</span>
+          <div class="space-y-0.5">
+            <span class="text-[8px] sm:text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-1.5 block uppercase">שקט ופוקוס</span>
             <button onclick="switchTab('patterns')" id="nav-patterns" class="sidebar-btn">
-              <span>טיימר פומודורו</span>
+              <span class="truncate">טיימר פומודורו</span>
               <span class="text-xs">🌸</span>
             </button>
             <button onclick="switchTab('notes')" id="nav-notes" class="sidebar-btn">
-              <span>הקלטות קוליות</span>
+              <span class="truncate">הקלטות קוליות</span>
               <span class="text-xs">🎙️</span>
             </button>
             <button onclick="switchTab('vision')" id="nav-vision" class="sidebar-btn">
-              <span>החזון שלך</span>
+              <span class="truncate">החזון שלך</span>
               <span class="text-xs">✨</span>
             </button>
           </div>
         </nav>
       </div>
 
-      <div class="pt-3 border-t border-pinkTheme-border text-center text-[10px] text-pinkTheme-textMuted font-medium">
+      <div class="pt-2 border-t border-pinkTheme-border text-center text-[9px] text-pinkTheme-textMuted font-medium">
         בהירות • שקט • דיוק
       </div>
     </aside>
 
     <!-- MAIN WORKSPACE -->
-    <main class="flex-1 px-3.5 sm:px-8 py-5 max-w-2xl mx-auto w-full">
-
-      <!-- Mobile Top Bar -->
-      <div class="flex md:hidden items-center justify-between pb-3 mb-3 border-b border-pinkTheme-border">
-        <div onclick="switchTab('dashboard')" class="cursor-pointer">
-          <div class="flex items-center gap-1.5">
-            <h1 class="text-lg font-serif font-bold text-pinkTheme-deep tracking-tight">MADLEN</h1>
-            <span class="text-[9px] font-mono uppercase bg-pinkTheme-softPill text-pinkTheme-primary px-1.5 py-0.5 rounded font-bold border border-pinkTheme-border">OS</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <button onclick="openFocusSprintModal('')" class="px-2.5 py-1.5 rounded-xl bg-pinkTheme-primary text-white text-xs font-bold shadow-clean">
-            <span>משימה אחת ⏱️</span>
-          </button>
-          <button onclick="openQuickAddModal()" class="px-2.5 py-1.5 rounded-xl bg-pinkTheme-softPill text-pinkTheme-primary text-xs font-bold border border-pinkTheme-border">
-            <span>+ פתק</span>
-          </button>
-        </div>
-      </div>
+    <main class="flex-1 px-3.5 sm:px-8 py-4 sm:py-5 max-w-2xl mx-auto w-full pb-16">
 
       <!-- ======================================================================= -->
       <!-- TAB 0: DASHBOARD (העסק של מדלן) -->
@@ -1335,34 +1298,6 @@
 
     </main>
   </div>
-
-  <!-- MOBILE BOTTOM BAR -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-pinkTheme-border px-1 py-1 flex items-center justify-around z-40">
-    <button onclick="switchTab('dashboard')" id="mob-nav-dashboard" class="mobile-tab-btn active">
-      <span class="text-sm">⚡</span>
-      <span>ראשי</span>
-    </button>
-    <button onclick="switchTab('today')" id="mob-nav-today" class="mobile-tab-btn">
-      <span class="text-sm">🎯</span>
-      <span>היום</span>
-    </button>
-    <button onclick="switchTab('tasks')" id="mob-nav-tasks" class="mobile-tab-btn">
-      <span class="text-sm">✍️</span>
-      <span>משימות</span>
-    </button>
-    <button onclick="switchTab('schedule')" id="mob-nav-schedule" class="mobile-tab-btn">
-      <span class="text-sm">⏱️</span>
-      <span>לו"ז</span>
-    </button>
-    <button onclick="switchTab('pipeline')" id="mob-nav-pipeline" class="mobile-tab-btn">
-      <span class="text-sm">💼</span>
-      <span>לקוחות</span>
-    </button>
-    <button onclick="switchTab('weekly')" id="mob-nav-weekly" class="mobile-tab-btn">
-      <span class="text-sm">📅</span>
-      <span>שבועי</span>
-    </button>
-  </nav>
 
   <!-- MODALS -->
   <!-- Modal: Morning Coaching Reflection -->
@@ -3396,10 +3331,6 @@
       document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
       const activeSidebarBtn = document.getElementById(`nav-${tabId}`);
       if (activeSidebarBtn) activeSidebarBtn.classList.add('active');
-
-      document.querySelectorAll('.mobile-tab-btn').forEach(btn => btn.classList.remove('active'));
-      const activeMobBtn = document.getElementById(`mob-nav-${tabId}`);
-      if (activeMobBtn) activeMobBtn.classList.add('active');
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
