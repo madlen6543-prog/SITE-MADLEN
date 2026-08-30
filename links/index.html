@@ -65,7 +65,7 @@
     }
 
     input, textarea, select {
-      font-size: 16px !important;
+      font-size: 15px !important;
       color: #111111 !important;
       font-family: 'Rubik', sans-serif !important;
     }
@@ -139,6 +139,12 @@
       color: #4A4A4A;
       transition: all 0.16s ease;
       min-height: 38px;
+    }
+    @media (max-width: 639px) {
+      .sidebar-btn {
+        justify-content: center;
+        padding: 0.5rem;
+      }
     }
     .sidebar-btn:hover {
       background-color: #FFF0F5;
@@ -217,14 +223,6 @@
     .fab-btn:active {
       transform: scale(0.92);
     }
-    @media (min-width: 768px) {
-      .fab-btn {
-        bottom: 2rem;
-        left: 2rem;
-        width: 50px;
-        height: 50px;
-      }
-    }
   </style>
 </head>
 <body class="antialiased selection:bg-pinkTheme-softPill selection:text-pinkTheme-text min-h-screen bg-pinkTheme-bg">
@@ -239,86 +237,88 @@
 
   <div class="min-h-screen flex flex-row">
 
-    <!-- UNIFIED SIDEBAR -->
-    <aside class="w-48 sm:w-56 bg-white border-l border-pinkTheme-border px-2.5 sm:px-3.5 py-4 sm:py-5 flex flex-col justify-between shrink-0 z-20 shadow-clean min-h-screen sticky top-0 h-screen overflow-y-auto">
+    <!-- UNIFIED 1:1 SIDEBAR (OPTIMIZED FOR BOTH IPHONE & DESKTOP) -->
+    <aside class="w-16 sm:w-56 bg-white border-l border-pinkTheme-border px-1.5 sm:px-3.5 py-4 sm:py-5 flex flex-col justify-between shrink-0 z-20 shadow-clean min-h-screen sticky top-0 h-screen overflow-y-auto">
       <div class="space-y-4 sm:space-y-5">
         <!-- Brand Header -->
-        <div class="px-1.5 sm:px-2 cursor-pointer text-right" onclick="switchTab('dashboard')">
-          <div class="flex items-center justify-between">
-            <h1 class="text-base sm:text-lg font-bold text-pinkTheme-deep tracking-tight">MADLEN</h1>
-            <span class="text-[8px] sm:text-[9px] font-mono uppercase bg-pinkTheme-softPill text-pinkTheme-primary px-1.5 sm:px-2 py-0.5 rounded-full font-bold border border-pinkTheme-border">OS</span>
+        <div class="px-1 sm:px-2 cursor-pointer text-center sm:text-right" onclick="switchTab('dashboard')">
+          <div class="flex items-center justify-center sm:justify-between">
+            <h1 class="text-xs sm:text-lg font-bold text-pinkTheme-deep tracking-tight">MADLEN</h1>
+            <span class="hidden sm:inline-block text-[8px] sm:text-[9px] font-mono uppercase bg-pinkTheme-softPill text-pinkTheme-primary px-1.5 sm:px-2 py-0.5 rounded-full font-bold border border-pinkTheme-border">OS</span>
           </div>
-          <p class="text-[10px] text-pinkTheme-textMuted font-normal mt-0.5">מרחב בהירות, שקט ועשייה</p>
+          <p class="hidden sm:block text-[10px] text-pinkTheme-textMuted font-normal mt-0.5">מרחב בהירות, שקט ועשייה</p>
         </div>
 
         <!-- Navigation Links -->
         <nav class="space-y-3">
-          <!-- Group 1: שגרה ויומיום -->
+          <!-- Group 1: יומיום -->
           <div class="space-y-0.5">
-            <span class="text-[8px] sm:text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-1.5 block uppercase">יומיום</span>
-            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-btn active">
-              <span class="truncate">העסק של מדלן</span>
-              <span class="text-xs">⚡</span>
+            <span class="hidden sm:block text-[8px] sm:text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-1.5 uppercase">יומיום</span>
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" title="העסק של מדלן" class="sidebar-btn active">
+              <span class="hidden sm:inline truncate">העסק של מדלן</span>
+              <span class="text-sm sm:text-xs">⚡</span>
             </button>
-            <button onclick="switchTab('today')" id="nav-today" class="sidebar-btn">
-              <span class="truncate">היום שלך</span>
-              <span class="text-xs">🎯</span>
+            <button onclick="switchTab('today')" id="nav-today" title="היום שלך" class="sidebar-btn">
+              <span class="hidden sm:inline truncate">היום שלך</span>
+              <span class="text-sm sm:text-xs">🎯</span>
             </button>
-            <button onclick="switchTab('tasks')" id="nav-tasks" class="sidebar-btn">
-              <span class="truncate">אינבוקס משימות</span>
-              <span class="text-xs">✍️</span>
+            <button onclick="switchTab('tasks')" id="nav-tasks" title="אינבוקס משימות" class="sidebar-btn">
+              <span class="hidden sm:inline truncate">אינבוקס משימות</span>
+              <span class="text-sm sm:text-xs">✍️</span>
             </button>
-            <button onclick="switchTab('schedule')" id="nav-schedule" class="sidebar-btn">
-              <span class="truncate">לו"ז עבודה</span>
-              <span class="text-xs">⏱️</span>
+            <button onclick="switchTab('schedule')" id="nav-schedule" title="לו&quot;ז עבודה" class="sidebar-btn">
+              <span class="hidden sm:inline truncate">לו"ז עבודה</span>
+              <span class="text-sm sm:text-xs">⏱️</span>
             </button>
           </div>
 
           <!-- Group 2: עסק ותכנון -->
           <div class="space-y-0.5">
-            <span class="text-[8px] sm:text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-1.5 block uppercase">עסק ותכנון</span>
-            <button onclick="switchTab('pipeline')" id="nav-pipeline" class="sidebar-btn">
-              <span class="truncate">לקוחות ושיחות</span>
-              <span class="text-xs">💼</span>
+            <span class="hidden sm:block text-[8px] sm:text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-1.5 uppercase">עסק ותכנון</span>
+            <button onclick="switchTab('pipeline')" id="nav-pipeline" title="לקוחות ושיחות" class="sidebar-btn">
+              <span class="hidden sm:inline truncate">לקוחות ושיחות</span>
+              <span class="text-sm sm:text-xs">💼</span>
             </button>
-            <button onclick="switchTab('weekly')" id="nav-weekly" class="sidebar-btn">
-              <span class="truncate">שבועי</span>
-              <span class="text-xs">📅</span>
+            <button onclick="switchTab('weekly')" id="nav-weekly" title="שבועי" class="sidebar-btn">
+              <span class="hidden sm:inline truncate">שבועי</span>
+              <span class="text-sm sm:text-xs">📅</span>
             </button>
-            <button onclick="switchTab('monthly')" id="nav-monthly" class="sidebar-btn">
-              <span class="truncate">חודשי</span>
-              <span class="text-xs">🗓️</span>
+            <button onclick="switchTab('monthly')" id="nav-monthly" title="חודשי" class="sidebar-btn">
+              <span class="hidden sm:inline truncate">חודשי</span>
+              <span class="text-sm sm:text-xs">🗓️</span>
             </button>
-            <button onclick="switchTab('playbooks')" id="nav-playbooks" class="sidebar-btn">
-              <span class="truncate">תבניות עבודה</span>
-              <span class="text-xs">📐</span>
+            <button onclick="switchTab('playbooks')" id="nav-playbooks" title="תבניות עבודה" class="sidebar-btn">
+              <span class="hidden sm:inline truncate">תבניות עבודה</span>
+              <span class="text-sm sm:text-xs">📐</span>
             </button>
           </div>
 
           <!-- Group 3: שקט ופוקוס -->
           <div class="space-y-0.5">
-            <span class="text-[8px] sm:text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-1.5 block uppercase">שקט ופוקוס</span>
-            <button onclick="switchTab('patterns')" id="nav-patterns" class="sidebar-btn">
-              <span class="truncate">טיימר פומודורו</span>
-              <span class="text-xs">🌸</span>
+            <span class="hidden sm:block text-[8px] sm:text-[9px] font-bold text-pinkTheme-textLight tracking-wider px-1.5 uppercase">שקט ופוקוס</span>
+            <button onclick="switchTab('patterns')" id="nav-patterns" title="טיימר פומודורו" class="sidebar-btn">
+              <span class="hidden sm:inline truncate">טיימר פומודורו</span>
+              <span class="text-sm sm:text-xs">🌸</span>
             </button>
-            <button onclick="switchTab('notes')" id="nav-notes" class="sidebar-btn">
-              <span class="truncate">הקלטות קוליות</span>
-              <span class="text-xs">🎙️</span>
+            <button onclick="switchTab('notes')" id="nav-notes" title="הקלטות קוליות" class="sidebar-btn">
+              <span class="hidden sm:inline truncate">הקלטות קוליות</span>
+              <span class="text-sm sm:text-xs">🎙️</span>
             </button>
-            <button onclick="switchTab('vision')" id="nav-vision" class="sidebar-btn">
-              <span class="truncate">החזון שלך</span>
-              <span class="text-xs">✨</span>
+            <button onclick="switchTab('vision')" id="nav-vision" title="החזון שלך" class="sidebar-btn">
+              <span class="hidden sm:inline truncate">החזון שלך</span>
+              <span class="text-sm sm:text-xs">✨</span>
             </button>
           </div>
         </nav>
       </div>
 
-      <div class="pt-2 border-t border-pinkTheme-border text-center text-[9px] text-pinkTheme-textMuted font-medium">
+      <div class="pt-2 border-t border-pinkTheme-border text-center text-[9px] text-pinkTheme-textMuted font-medium hidden sm:block">
         בהירות • שקט • דיוק
       </div>
     </aside>
 
+    <!-- MAIN WORKSPACE -->
+    <main class="flex-1 px-3 sm:px-8 py-4 sm:py-5 max-w-2xl mx-auto w-full pb-16 min-w-0">
     <!-- MAIN WORKSPACE -->
     <main class="flex-1 px-3.5 sm:px-8 py-4 sm:py-5 max-w-2xl mx-auto w-full pb-16">
 
@@ -334,31 +334,6 @@
             <span id="dash-hero-date" class="font-medium text-pinkTheme-text font-mono">היום</span>
           </div>
           <h2 class="text-xl font-serif font-bold text-pinkTheme-deep">מה העסק צריך ממך היום ✨</h2>
-        </div>
-
-        <!-- 3 Pillars of Business Action -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-          <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-1 shadow-clean">
-            <span class="font-bold text-pinkTheme-deep flex items-center gap-1.5">
-              <span>💼</span>
-              <span>1. מכירות & כסף</span>
-            </span>
-            <p class="text-[11px] text-pinkTheme-textMuted leading-relaxed">שיחות התאמה, הצעות מחיר ופולואפים.</p>
-          </div>
-          <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-1 shadow-clean">
-            <span class="font-bold text-pinkTheme-deep flex items-center gap-1.5">
-              <span>📱</span>
-              <span>2. שיווק & תוכן</span>
-            </span>
-            <p class="text-[11px] text-pinkTheme-textMuted leading-relaxed">תוכן ממיר, סטוריז ומשיכת לקוחות.</p>
-          </div>
-          <div class="p-3 rounded-xl bg-white border border-pinkTheme-border space-y-1 shadow-clean">
-            <span class="font-bold text-pinkTheme-deep flex items-center gap-1.5">
-              <span>👑</span>
-              <span>3. לקוחות & ערך</span>
-            </span>
-            <p class="text-[11px] text-pinkTheme-textMuted leading-relaxed">ליווי איכותי ודליברי מדויק.</p>
-          </div>
         </div>
 
         <!-- Core Action Card (Gold Lever) -->
@@ -750,26 +725,58 @@
       </div>
 
       <!-- ======================================================================= -->
-      <!-- TAB 2: SCHEDULE (לו"ז עבודה) -->
+      <!-- TAB 2: SCHEDULE (לו"ז עבודה & יומן Google) -->
       <!-- ======================================================================= -->
       <div id="view-schedule" class="tab-view space-y-3.5">
         
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
           <div>
-            <h2 class="text-lg font-serif font-bold text-pinkTheme-deep">לו"ז עבודה ⏱️</h2>
-            <p class="text-xs text-pinkTheme-textMuted">זמנים מוגנים כדי להתקדם ברוגע</p>
+            <h2 class="text-lg font-serif font-bold text-pinkTheme-deep">לו"ז עבודה & יומן ⏱️</h2>
+            <p class="text-xs text-pinkTheme-textMuted">לו"ז יומי לצד תצוגת יומן Google שבועית חיה</p>
           </div>
           <div class="flex flex-wrap items-center gap-2 self-start sm:self-auto">
-            <button onclick="syncScheduleToGoogleCalendar()" title="סנכרון ליומן Google" class="text-xs px-3 py-1.5 rounded-xl bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep border border-pinkTheme-border font-bold transition flex items-center gap-1.5 shadow-clean">
-              <span>📅 סנכרון ליומן Google</span>
+            <button onclick="openCalendarSettingsModal()" title="הגדרת חשבון יומן Google" class="text-xs px-3 py-1.5 rounded-xl bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep border border-pinkTheme-border font-bold transition flex items-center gap-1.5 shadow-clean">
+              <span>⚙️ הגדרת יומן</span>
+            </button>
+            <button onclick="openGoogleCalendarDirect()" title="פתיחת Google Calendar בחלון מלא" class="text-xs px-3 py-1.5 rounded-xl bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep border border-pinkTheme-border font-bold transition flex items-center gap-1.5 shadow-clean">
+              <span>📅 פתיחה ב-Google ↗️</span>
             </button>
             <button onclick="openAddScheduleBlockModal()" class="text-xs px-3 py-1.5 rounded-xl bg-pinkTheme-primary text-white font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean">
-              + בלוק חדש
+              + בלוק
             </button>
             <button onclick="resetDefaultSchedule()" class="text-xs px-3 py-1.5 rounded-xl bg-pinkTheme-softPill hover:bg-pinkTheme-softPillHover text-pinkTheme-deep font-bold border border-pinkTheme-border">
               איפוס ↩
             </button>
           </div>
+        </div>
+
+        <!-- Live Google Calendar Embed Frame -->
+        <div class="exec-card p-3 sm:p-4 space-y-2 bg-white">
+          <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-sm">📅</span>
+              <span class="text-xs font-bold text-pinkTheme-deep">היומן השבועי שלך ב-Google Calendar</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="refreshCalendarFrame()" class="text-[11px] text-pinkTheme-primary hover:text-pinkTheme-primaryHover font-bold flex items-center gap-1">
+                <i class="fa-solid fa-arrows-rotate text-[10px]"></i>
+                <span>רענון</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="w-full h-80 sm:h-96 rounded-xl overflow-hidden border border-pinkTheme-border bg-pinkTheme-softPill/30 relative">
+            <iframe 
+              id="gcal-live-iframe" 
+              src="https://calendar.google.com/calendar/embed?ctz=Asia%2FJerusalem&mode=WEEK&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&hl=iw" 
+              class="w-full h-full border-0"
+              frameborder="0" 
+              scrolling="no"
+            ></iframe>
+          </div>
+          <p class="text-[10px] text-pinkTheme-textMuted text-left">
+            * לחצי על "הגדרת יומן" כדי להזין את כתובת ה-Gmail שלך ולראות את היומן האישי.
+          </p>
         </div>
 
         <!-- Schedule Blocks List -->
@@ -1300,6 +1307,40 @@
   </div>
 
   <!-- MODALS -->
+  <!-- Modal: Google Calendar Settings -->
+  <div id="modal-gcal-settings" class="fixed inset-0 z-50 bg-pinkTheme-deep/30 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="exec-card p-5 sm:p-6 max-w-sm w-full shadow-float space-y-3.5 bg-white border-2 border-pinkTheme-border">
+      <div class="flex items-center justify-between border-b border-pinkTheme-border pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-base">⚙️</span>
+          <h3 class="font-serif font-bold text-pinkTheme-deep text-sm sm:text-base">הגדרת יומן Google Calendar</h3>
+        </div>
+        <button onclick="closeModal('modal-gcal-settings')" class="text-pinkTheme-textMuted hover:text-pinkTheme-deep text-base p-1">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2 text-xs">
+        <label class="font-bold text-pinkTheme-deep block">כתובת ה-Gmail של היומן שלך:</label>
+        <input 
+          type="email" 
+          id="gcal-user-email-in" 
+          placeholder="your.email@gmail.com" 
+          class="w-full silk-input p-2.5 text-xs sm:text-sm font-medium bg-white"
+        >
+        <p class="text-[11px] text-pinkTheme-textMuted leading-relaxed">
+          * כדי שהיומן יופיע מוטמע בתוך הדף, ודאי שביומן ב-Google מוגדרת הרשאת צפייה ציבורית/משותפת, או לחצי על "פתיחה ב-Google ↗️" לפתיחה ישירה.
+        </p>
+      </div>
+
+      <div class="pt-2 border-t border-pinkTheme-border flex items-center justify-end gap-2">
+        <button onclick="saveGoogleCalendarEmail()" class="w-full py-2.5 rounded-xl bg-pinkTheme-primary text-white text-xs sm:text-sm font-bold hover:bg-pinkTheme-primaryHover transition shadow-clean">
+          שמירה ורענון יומן ✓
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal: Morning Coaching Reflection -->
   <div id="modal-morning-reflection" class="fixed inset-0 z-50 bg-pinkTheme-deep/30 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="exec-card p-5 sm:p-6 max-w-md w-full shadow-float space-y-4 bg-white border-2 border-pinkTheme-border">
@@ -1619,6 +1660,7 @@
     let monthlySummary = JSON.parse(localStorage.getItem('m_monthly_summary') || '{}');
     let monthlyPlan = JSON.parse(localStorage.getItem('m_monthly_plan') || '{}');
     let eveningReflection = JSON.parse(localStorage.getItem('m_evening_reflection') || '{}');
+    let userCalendarEmail = localStorage.getItem('m_gcal_email') || '';
     let energyState = localStorage.getItem('m_energy_state') || 'normal';
     let energyCause = localStorage.getItem('m_energy_cause') || '';
     let dailyMantra = localStorage.getItem('m_daily_mantra') || '';
@@ -1705,6 +1747,7 @@
       loadGratitudes();
       loadRitualPills();
       loadAnchors();
+      initGoogleCalendarFrame();
       calculateDailyProgress();
       setDailyEnergyState(energyState, false);
       syncDashboardAction(anchors.q2 || '');
@@ -2621,6 +2664,47 @@
     }
 
     /* Schedule & Calendar Sync */
+    function initGoogleCalendarFrame() {
+      const iframe = document.getElementById('gcal-live-iframe');
+      if (!iframe) return;
+
+      const email = userCalendarEmail && userCalendarEmail.trim() ? encodeURIComponent(userCalendarEmail.trim()) : '';
+      const srcUrl = email 
+        ? `https://calendar.google.com/calendar/embed?src=${email}&ctz=Asia%2FJerusalem&mode=WEEK&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&hl=iw`
+        : `https://calendar.google.com/calendar/embed?ctz=Asia%2FJerusalem&mode=WEEK&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&hl=iw`;
+
+      iframe.src = srcUrl;
+    }
+
+    function refreshCalendarFrame() {
+      initGoogleCalendarFrame();
+      showToast('היומן רוענן 🔄', 'info');
+    }
+
+    function openGoogleCalendarDirect() {
+      window.open('https://calendar.google.com/calendar/u/0/r', '_blank');
+    }
+
+    function openCalendarSettingsModal() {
+      const modal = document.getElementById('modal-gcal-settings');
+      const input = document.getElementById('gcal-user-email-in');
+      if (input) input.value = userCalendarEmail || '';
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function saveGoogleCalendarEmail() {
+      const input = document.getElementById('gcal-user-email-in');
+      if (!input) return;
+      userCalendarEmail = input.value.trim();
+      localStorage.setItem('m_gcal_email', userCalendarEmail);
+      closeModal('modal-gcal-settings');
+      initGoogleCalendarFrame();
+      showToast('כתובת היומן נשמרה והתצוגה עודכנה ✓', 'success');
+    }
+
     function renderScheduleBlocks() {
       const container = document.getElementById('schedule-blocks-container');
       const preview = document.getElementById('dash-schedule-preview');
