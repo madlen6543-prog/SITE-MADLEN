@@ -18,6 +18,7 @@
 
     <!-- FIREBASE DATA STORAGE & AUTH MODULE -->
     <script type="module">
+        /* STREAMING_CHUNK:Initializing Firebase and client-side lead sync... */
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -183,6 +184,7 @@
 
     <!-- TAILWIND CONFIG & DOM HANDLERS -->
     <script>
+        /* STREAMING_CHUNK:Configuring custom Tailwind theme and unlock transitions... */
         tailwind.config = {
             theme: {
                 extend: {
@@ -364,6 +366,7 @@
 
     <!-- CUSTOM LUXURY & MOBILE STYLES -->
     <style>
+        /* STREAMING_CHUNK:Refining mobile styles, safe padding, and avatar locks... */
         html, body {
             background-color: #030107;
             color: #f4f4f6;
@@ -487,6 +490,7 @@
 <body class="ambient-studio min-h-screen relative antialiased selection:bg-fuchsia-600 selection:text-white modal-active no-scrollbar">
 
     <!-- 1. HIGH-CONVERTING MODAL GATE (WITH FIXED AVATAR GEOMETRY) -->
+    <!-- STREAMING_CHUNK:Rendering lead opt-in modal with enlarged button and exact formatting... -->
     <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3.5 sm:p-6 bg-obsidian-950/95 backdrop-blur-2xl transition-all duration-300 overflow-hidden no-scrollbar">
         
         <div class="relative w-full max-w-md studio-card-elevated rounded-3xl p-5 sm:p-8 max-h-[92vh] sm:max-h-[94vh] overflow-y-auto space-y-4 sm:space-y-6 my-auto shadow-2xl no-scrollbar">
@@ -502,8 +506,8 @@
                          class="relative w-full h-full rounded-full object-cover border-2 border-white/90 shadow-xl aspect-square">
                 </div>
 
-                <!-- MAIN HOOK HEADLINE (ENLARGED & DEDICATED LINE BREAK) -->
-                <h2 class="font-heading text-2xl sm:text-3xl font-extrabold leading-tight tracking-tight">
+                <!-- MAIN HOOK HEADLINE (ENLARGED & PROMINENT) -->
+                <h2 class="font-heading text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight">
                     <span class="text-white block">איך להפוך ביישנות</span>
                     <span class="text-fuchsia-400 block pt-1">לביטחון אותנטי מול אנשים</span>
                 </h2>
@@ -559,8 +563,8 @@
                               class="w-full bg-obsidian-950/90 border border-purple-400/30 rounded-2xl p-3 sm:p-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none shadow-inner leading-snug"></textarea>
                 </div>
 
-                <button type="submit" class="btn-brand-primary w-full min-h-[50px] sm:min-h-[54px] py-3 sm:py-3.5 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 mt-2 touch-manipulation active:scale-[0.98] shadow-xl">
-                    <span>אני רוצה גישה מיידית למדריך! 👈</span>
+                <button type="submit" class="btn-brand-primary w-full max-w-sm mx-auto min-h-[48px] sm:min-h-[52px] py-3 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center mt-2 touch-manipulation active:scale-[0.98] shadow-lg">
+                    <span>אני רוצה גישה מיידית למדריך!</span>
                 </button>
 
                 <div class="text-center pt-1.5">
@@ -573,6 +577,7 @@
     </div>
 
     <!-- 2. MAIN UNLOCKED HUB PAGE -->
+    <!-- STREAMING_CHUNK:Rendering main hub page with clean typography and generous scrolling distance... -->
     <main class="relative min-h-screen pb-16 sm:pb-20 pt-4 sm:pt-10">
 
         <!-- SPACIOUS LAYOUT CONTAINER -->
@@ -594,8 +599,8 @@
                     </div>
                 </div>
 
-                <!-- NATURAL, FLOWING EDITORIAL COPY WITH REQUESTED LINE BREAK & CLEAN LETTER EMPHASIS -->
-                <div class="pt-4 text-sm sm:text-base text-gray-200 leading-relaxed space-y-3.5 text-right">
+                <!-- NATURAL, FLOWING EDITORIAL COPY WITH EXPANDED AIR BREATHING ROOM & CLEAN LETTER EMPHASIS -->
+                <div class="pt-4 text-sm sm:text-base text-gray-200 leading-relaxed space-y-4 sm:space-y-5 text-right">
                     <p>
                         אני מדלן,<br>
                         והמדריך הזה נוצר במיוחד עבורך.<br>
@@ -614,7 +619,7 @@
                     </p>
 
                     <div class="pt-2 text-fuchsia-200/90 text-xs sm:text-sm font-medium flex items-center gap-2">
-                        <span>💡</span>
+                        <span class="text-base">📝</span>
                         <span>מומלץ להכין מחברת ועט — התובנות שתקבלו כאן שוות זהב!</span>
                     </div>
                 </div>
@@ -622,7 +627,7 @@
             </div>
 
             <!-- B. MASTERCLASS VIDEO STAGE & DIRECT QUESTIONNAIRE CTA (GENEROUS SCROLL DISTANCE) -->
-            <div id="videoSection" class="space-y-4 sm:space-y-5 reveal-block transform opacity-0 translate-y-6 mt-20 sm:mt-28">
+            <div id="videoSection" class="space-y-4 sm:space-y-5 reveal-block transform opacity-0 translate-y-6 mt-36 sm:mt-48">
                 
                 <!-- CLEAN ACCURATE HEADLINE (ENLARGED & DEDICATED LINE BREAK + MINI LABEL) -->
                 <div class="text-center px-1 space-y-1.5">
@@ -648,20 +653,30 @@
                     </div>
                 </div>
 
-                <!-- QUESTIONNAIRE ACTION DIRECT BUTTON (CLEAN TEXT WITHOUT EMOJI) -->
-                <div class="pt-8 sm:pt-10 text-center">
+                <!-- QUESTIONNAIRE ACTION DIRECT BUTTON (UNDERLINE & EXCLAMATION MARK) -->
+                <div class="pt-24 sm:pt-36 text-center">
                     <span class="text-xs text-purple-300/75 block mb-1.5 font-medium tracking-wide">לחצו כאן 👇</span>
                     <a href="https://madlenfrid.netlify.app/" target="_blank" rel="noopener noreferrer" 
                        class="btn-brand-primary inline-flex items-center justify-center gap-2 w-full max-w-sm mx-auto py-3 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base leading-snug shadow-lg active:scale-[0.98] transition-all border border-fuchsia-400/30 touch-manipulation">
-                        <span>לשאלון קצר לקביעת פגישה עם הטבה מיוחדת</span>
+                        <span>לשאלון קצר לקביעת פגישה עם <span class="underline decoration-fuchsia-300 decoration-2 underline-offset-4">הטבה מיוחדת</span>!</span>
                     </a>
                 </div>
             </div>
 
             <!-- C. 1-ON-1 CALLBACK SECTION (EXPANDED AIR SPACE WITH SCROLL DISTANCE) -->
+            <!-- STREAMING_CHUNK:Rendering callback card with airy headline and clean input styling... -->
             <div id="sessionSection" class="studio-card-elevated rounded-3xl p-5 sm:p-8 space-y-4 sm:space-y-5 relative overflow-hidden reveal-block transform opacity-0 translate-y-6 border border-fuchsia-400/25 mt-36 sm:mt-48">
                 
-                <div class="text-center space-y-2 relative z-10">
+                <div class="text-center space-y-3 relative z-10">
+
+                    <!-- APPLE-STYLE LUXURY TECH AVATAR CIRCLE (ENLARGED) -->
+                    <div class="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto flex items-center justify-center mb-1">
+                        <div class="absolute -inset-2 bg-gradient-to-tr from-fuchsia-500/40 via-purple-500/30 to-indigo-500/40 rounded-full blur-md opacity-80"></div>
+                        <div class="relative w-full h-full rounded-full bg-gradient-to-b from-purple-900/60 to-obsidian-950/90 border-2 border-fuchsia-400/60 shadow-2xl backdrop-blur-xl flex items-center justify-center">
+                            <span class="text-3xl sm:text-4xl select-none transform hover:scale-110 transition-transform duration-300">👨‍💻</span>
+                        </div>
+                    </div>
+
                     <h3 class="font-heading text-xl sm:text-2xl font-extrabold text-white leading-tight">
                         רוצה לקחת צעד קדימה ביחד?
                     </h3>
@@ -715,6 +730,7 @@
             </div>
 
             <!-- D. MINIMAL STUDIO FOOTER -->
+            <!-- STREAMING_CHUNK:Rendering minimal footer... -->
             <footer class="text-center pt-2 pb-6 border-t border-white/5">
                 <button type="button" onclick="openAdminModal()" class="text-[10px] text-purple-400/25 hover:text-purple-300/60 transition-colors underline decoration-purple-500/10">
                     מדלן פריד - לבטא את עצמך באותנטיות
@@ -725,6 +741,7 @@
     </main>
 
     <!-- 3. ADMIN PANEL -->
+    <!-- STREAMING_CHUNK:Rendering admin modal and verification scripts... -->
     <div id="adminModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-5 bg-obsidian-950/95 backdrop-blur-md overflow-y-auto no-scrollbar">
         <div class="relative w-full max-w-4xl studio-card-elevated rounded-2xl p-4 sm:p-6 my-auto space-y-4">
             <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -778,6 +795,7 @@
 
     <!-- ADMIN SCRIPTS -->
     <script>
+        /* STREAMING_CHUNK:Configuring admin filtering and lead management functions... */
         function openAdminModal() {
             document.getElementById('adminModal').classList.remove('hidden');
         }
@@ -850,3 +868,14 @@
     </script>
 </body>
 </html>
+```eof
+
+כל הקוד המלא והמעודכן נטען לעורך בחלון הימני.
+
+### כיצד לראות את התצוגה המוכנה:
+הביטי בראש החלון הימני (ממש מעל שורת הקוד הראשונה) ולחצי על כפתור ה-**Preview** (או סמל העין/המסך). 
+
+החלון יעבור באופן מיידי לתצוגה חיה ופעילה:
+1. שער הכניסה ייפתח עם תמונת הפרופיל העגולה, הכותרת הגדולה, וכפתור הכניסה המעודכן ללא אימוג'י יד.
+2. במילוי שם ולחיצה – יופעל צליל עדין, המנעול ייפתח באנימציה, והדף יגלוש ישירות למעלה אל כרטיס הסיפור האישי ("היי...").
+3. תוכלי לגלול בנוחות עם כל מרווחי האוויר הנדיבים, לצפות בסרטון המוטמע, לראות את כפתור השאלון עם הקו התחתון והקישור, ולראות את העיגול המוגדל עם אימוג'י 👨‍💻 בסגנון אפל!
