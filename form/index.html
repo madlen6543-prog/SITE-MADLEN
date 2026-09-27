@@ -18,7 +18,6 @@
 
     <!-- FIREBASE DATA STORAGE & AUTH MODULE -->
     <script type="module">
-        /* STREAMING_CHUNK:Initializing Firebase and client-side lead sync... */
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -184,7 +183,6 @@
 
     <!-- TAILWIND CONFIG & DOM HANDLERS -->
     <script>
-        /* STREAMING_CHUNK:Configuring custom Tailwind theme and unlock transitions... */
         tailwind.config = {
             theme: {
                 extend: {
@@ -355,8 +353,19 @@
             var formEl = document.getElementById('sessionForm');
             var successEl = document.getElementById('sessionSuccessMsg');
             var leadDisplayName = document.getElementById('successLeadName');
+            var waBtn = document.getElementById('sessionDirectWaBtn');
 
             if (leadDisplayName && name) leadDisplayName.textContent = name;
+
+            // Generate personalized direct WhatsApp message
+            var defaultMsg = name 
+                ? 'היי מדלן, קוראים לי ' + name + ', השארתי עכשיו פרטים באתר ואשמח לקבל פרטים נוספים על הליווי האישי!'
+                : 'היי מדלן, השארתי עכשיו פרטים באתר ואשמח לקבל פרטים נוספים על הליווי האישי!';
+
+            if (waBtn) {
+                waBtn.href = 'https://wa.me/972524073915?text=' + encodeURIComponent(defaultMsg);
+            }
+
             if (formEl) formEl.classList.add('hidden');
             if (successEl) successEl.classList.remove('hidden');
 
@@ -366,7 +375,6 @@
 
     <!-- CUSTOM LUXURY & MOBILE STYLES -->
     <style>
-        /* STREAMING_CHUNK:Refining mobile styles, safe padding, and avatar locks... */
         html, body {
             background-color: #030107;
             color: #f4f4f6;
@@ -382,21 +390,21 @@
 
         /* Avatar sizing lock to prevent browser distortion */
         .avatar-gate-box {
-            width: 80px !important;
-            height: 80px !important;
-            min-width: 80px !important;
-            min-height: 80px !important;
-            max-width: 80px !important;
-            max-height: 80px !important;
+            width: 70px !important;
+            height: 70px !important;
+            min-width: 70px !important;
+            min-height: 70px !important;
+            max-width: 70px !important;
+            max-height: 70px !important;
         }
         @media (min-width: 640px) {
             .avatar-gate-box {
-                width: 92px !important;
-                height: 92px !important;
-                min-width: 92px !important;
-                min-height: 92px !important;
-                max-width: 92px !important;
-                max-height: 92px !important;
+                width: 88px !important;
+                height: 88px !important;
+                min-width: 88px !important;
+                min-height: 88px !important;
+                max-width: 88px !important;
+                max-height: 88px !important;
             }
         }
 
@@ -472,13 +480,14 @@
         /* Prevent iOS 16px zoom when focusing input fields */
         input, textarea {
             font-size: 16px !important;
+            touch-action: manipulation;
         }
 
+        /* Jitter-free mobile modal locking */
         .modal-active {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            height: 100%;
+            overflow: hidden !important;
+            height: 100% !important;
+            touch-action: pan-y;
         }
 
         .reveal-block {
@@ -489,16 +498,15 @@
 </head>
 <body class="ambient-studio min-h-screen relative antialiased selection:bg-fuchsia-600 selection:text-white modal-active no-scrollbar">
 
-    <!-- 1. HIGH-CONVERTING MODAL GATE (WITH FIXED AVATAR GEOMETRY) -->
-    <!-- STREAMING_CHUNK:Rendering lead opt-in modal with enlarged button and exact formatting... -->
-    <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3.5 sm:p-6 bg-obsidian-950/95 backdrop-blur-2xl transition-all duration-300 overflow-hidden no-scrollbar">
+    <!-- 1. HIGH-CONVERTING MODAL GATE (STABLE & JITTER-FREE ON MOBILE) -->
+    <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-obsidian-950/95 backdrop-blur-2xl transition-opacity duration-300 overflow-y-auto overscroll-contain no-scrollbar min-h-[100dvh]">
         
-        <div class="relative w-full max-w-md studio-card-elevated rounded-3xl p-5 sm:p-8 max-h-[92vh] sm:max-h-[94vh] overflow-y-auto space-y-4 sm:space-y-6 my-auto shadow-2xl no-scrollbar">
+        <div class="relative w-full max-w-sm sm:max-w-md studio-card-elevated rounded-3xl p-4 sm:p-7 max-h-[90dvh] overflow-y-auto space-y-3 sm:space-y-5 my-auto shadow-2xl no-scrollbar overscroll-contain">
 
             <!-- HEADER & BADGE -->
-            <div class="modal-header text-center space-y-2.5 sm:space-y-3 relative z-10">
+            <div class="modal-header text-center space-y-2 relative z-10">
                 
-                <!-- AVATAR WITH SUBTLE HALO - STRICT DIMENSIONS FIXED -->
+                <!-- AVATAR WITH SUBTLE HALO - BALANCED FOR MOBILE -->
                 <div class="relative avatar-gate-box mx-auto shrink-0 aspect-square">
                     <div class="absolute -inset-1 bg-gradient-to-tr from-fuchsia-500 via-purple-500 to-indigo-500 rounded-full blur-md opacity-60"></div>
                     <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
@@ -506,18 +514,18 @@
                          class="relative w-full h-full rounded-full object-cover border-2 border-white/90 shadow-xl aspect-square">
                 </div>
 
-                <!-- MAIN HOOK HEADLINE (ENLARGED & PROMINENT) -->
-                <h2 class="font-heading text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight">
+                <!-- MAIN HOOK HEADLINE (BALANCED ON MOBILE) -->
+                <h2 class="font-heading text-xl sm:text-3xl font-extrabold leading-snug tracking-tight">
                     <span class="text-white block">איך להפוך ביישנות</span>
-                    <span class="text-fuchsia-400 block pt-1">לביטחון אותנטי מול אנשים</span>
+                    <span class="text-fuchsia-400 block pt-0.5">לביטחון אותנטי מול אנשים</span>
                 </h2>
 
-                <!-- SUBTITLE (ENLARGED WITH USER REQUESTED LINE BREAK) -->
-                <div class="space-y-1.5 pt-1">
-                    <p class="text-white text-base sm:text-lg font-bold">
+                <!-- SUBTITLE (CLEAN ON MOBILE) -->
+                <div class="space-y-1 pt-0.5">
+                    <p class="text-white text-sm sm:text-base font-bold">
                         המדריך שיעזור לך –
                     </p>
-                    <p class="text-gray-200 text-sm sm:text-base leading-relaxed">
+                    <p class="text-gray-200 text-xs sm:text-sm leading-relaxed">
                         להרגיש בנוח באינטראקציות חברתיות,<br>
                         להפסיק להתכווץ ליד אנשים –<br>
                         <span class="text-fuchsia-300 font-semibold block pt-0.5">ולבטא את עצמך בחופשיות 🗣️</span>
@@ -526,16 +534,16 @@
             </div>
 
             <!-- UNLOCK OVERLAY (POST SUBMIT) -->
-            <div id="unlockAnimationOverlay" class="hidden text-center py-6 sm:py-8 space-y-4 relative z-20">
-                <div class="relative w-18 h-18 sm:w-20 sm:h-20 mx-auto flex items-center justify-center shrink-0 aspect-square">
+            <div id="unlockAnimationOverlay" class="hidden text-center py-5 sm:py-7 space-y-3.5 relative z-20">
+                <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto flex items-center justify-center shrink-0 aspect-square">
                     <div id="lockGlowRing" class="absolute -inset-3 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 rounded-full blur-xl opacity-80 animate-pulse"></div>
-                    <div class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-obsidian-900 border border-fuchsia-400/80 flex items-center justify-center shadow-xl aspect-square">
-                        <i id="lockIconEl" class="fa-solid fa-lock text-2xl sm:text-3xl text-fuchsia-300 transition-all duration-500"></i>
+                    <div class="relative w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-obsidian-900 border border-fuchsia-400/80 flex items-center justify-center shadow-xl aspect-square">
+                        <i id="lockIconEl" class="fa-solid fa-lock text-xl sm:text-3xl text-fuchsia-300 transition-all duration-500"></i>
                     </div>
                 </div>
 
                 <div class="space-y-1.5 max-w-xs mx-auto">
-                    <h3 class="font-heading text-base sm:text-lg font-extrabold text-white tracking-wide">
+                    <h3 class="font-heading text-sm sm:text-lg font-extrabold text-white tracking-wide">
                         המנעול נפתח! 🔓
                     </h3>
                     <p class="text-xs text-purple-200/80 font-medium">פותחים לך גישה ישירה למדריך...</p>
@@ -547,15 +555,15 @@
             </div>
 
             <!-- LEAD FORM -->
-            <form onsubmit="return handleGateSubmit(event)" class="space-y-3 relative z-10 pt-1">
+            <form onsubmit="return handleGateSubmit(event)" class="space-y-2.5 sm:space-y-3 relative z-10 pt-0.5">
                 <div>
                     <input type="text" id="leadName" required placeholder="שם מלא *" 
-                           class="w-full bg-obsidian-950/90 border border-purple-400/30 rounded-2xl px-4 py-3 sm:py-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
+                           class="w-full bg-obsidian-950/90 border border-purple-400/30 rounded-2xl px-3.5 py-2.5 sm:py-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
                 </div>
 
                 <div>
                     <input type="tel" id="leadPhone" required placeholder="מספר טלפון *" dir="rtl"
-                           class="w-full bg-obsidian-950/90 border border-purple-400/30 rounded-2xl px-4 py-3 sm:py-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
+                           class="w-full bg-obsidian-950/90 border border-purple-400/30 rounded-2xl px-3.5 py-2.5 sm:py-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
                 </div>
 
                 <div>
@@ -563,11 +571,11 @@
                               class="w-full bg-obsidian-950/90 border border-purple-400/30 rounded-2xl p-3 sm:p-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none shadow-inner leading-snug"></textarea>
                 </div>
 
-                <button type="submit" class="btn-brand-primary w-full max-w-sm mx-auto min-h-[48px] sm:min-h-[52px] py-3 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center mt-2 touch-manipulation active:scale-[0.98] shadow-lg">
+                <button type="submit" class="btn-brand-primary w-full max-w-sm mx-auto min-h-[46px] sm:min-h-[52px] py-2.5 sm:py-3 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center mt-1.5 touch-manipulation active:scale-[0.98] shadow-lg">
                     <span>אני רוצה גישה מיידית למדריך!</span>
                 </button>
 
-                <div class="text-center pt-1.5">
+                <div class="text-center pt-1">
                     <button type="button" onclick="openAdminModal()" class="text-[10px] text-purple-400/25 hover:text-purple-300/60 transition-colors underline decoration-purple-500/10">
                         מדלן פריד - לבטא את עצמך באותנטיות
                     </button>
@@ -577,7 +585,6 @@
     </div>
 
     <!-- 2. MAIN UNLOCKED HUB PAGE -->
-    <!-- STREAMING_CHUNK:Rendering main hub page with clean typography and generous scrolling distance... -->
     <main class="relative min-h-screen pb-16 sm:pb-20 pt-4 sm:pt-10">
 
         <!-- SPACIOUS LAYOUT CONTAINER -->
@@ -664,7 +671,6 @@
             </div>
 
             <!-- C. 1-ON-1 CALLBACK SECTION (EXPANDED AIR SPACE WITH SCROLL DISTANCE) -->
-            <!-- STREAMING_CHUNK:Rendering callback card with airy headline and clean input styling... -->
             <div id="sessionSection" class="studio-card-elevated rounded-3xl p-5 sm:p-8 space-y-4 sm:space-y-5 relative overflow-hidden reveal-block transform opacity-0 translate-y-6 border border-fuchsia-400/25 mt-36 sm:mt-48">
                 
                 <div class="text-center space-y-3 relative z-10">
@@ -707,7 +713,7 @@
 
                     <div>
                         <textarea id="sessionLeadPain" rows="2" placeholder="במה היית רוצה לקבל עזרה?&#10;(לדבר יותר בחופשיות, לחזק ביטחון עצמי...)" 
-                                  class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl p-3 sm:p-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none shadow-inner leading-snug"></textarea>
+                              class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl p-3 sm:p-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none shadow-inner leading-snug"></textarea>
                     </div>
 
                     <button type="submit" class="btn-brand-emerald w-full min-h-[52px] sm:min-h-[54px] py-3.5 sm:py-4 px-6 rounded-xl text-white font-black text-base sm:text-lg flex items-center justify-center gap-2 shadow-xl active:scale-[0.98] transition-all touch-manipulation">
@@ -716,21 +722,38 @@
                 </form>
 
                 <!-- SUCCESS MESSAGE -->
-                <div id="sessionSuccessMsg" class="hidden text-center py-6 space-y-2">
-                    <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-xl mx-auto border border-emerald-500/40 shadow-xl">
+                <div id="sessionSuccessMsg" class="hidden text-center py-6 space-y-4">
+                    <div class="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-2xl mx-auto border border-emerald-500/40 shadow-xl">
                         <i class="fa-solid fa-check"></i>
                     </div>
-                    <h4 class="font-heading text-lg font-bold text-white">
-                        תודה <span id="successLeadName" class="text-white font-black"></span>! הפרטים התקבלו 💖
-                    </h4>
-                    <p class="text-sm text-purple-200 leading-relaxed max-w-sm mx-auto">
-                        קיבלתי את הפרטים. אחזור אליך בהקדם לשיחה אישית!
-                    </p>
+
+                    <div class="space-y-1">
+                        <h4 class="font-heading text-xl font-bold text-white">
+                            תודה <span id="successLeadName" class="text-fuchsia-300 font-black"></span>! הפרטים התקבלו 💖
+                        </h4>
+                        <p class="text-sm text-purple-200 leading-relaxed max-w-sm mx-auto">
+                            קיבלתי את הפרטים ואחזור אליך בהקדם לשיחה אישית.
+                        </p>
+                    </div>
+
+                    <!-- DIRECT WHATSAPP ACTION BUTTON -->
+                    <div class="pt-3 max-w-sm mx-auto space-y-2 border-t border-white/10">
+                        <span class="block text-xs sm:text-sm text-gray-300 font-medium">
+                            רוצה לדבר איתי כבר עכשיו? אפשר לכתוב לי ישירות:
+                        </span>
+                        <a id="sessionDirectWaBtn" 
+                           href="https://wa.me/972524073915?text=%D7%94%D7%99%D7%99%20%D7%9E%D7%93%D7%9C%D7%9F%2C%20%D7%94%D7%A9%D7%90%D7%A8%D7%AA%D7%99%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A7%D7%91%D7%9C%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%94%D7%9C%D7%99%D7%95%D7%95%D7%99%20%D7%94%D7%90%D7%99%D7%A9%D7%99" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="btn-brand-emerald w-full min-h-[50px] py-3.5 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-xl active:scale-[0.98] transition-all touch-manipulation">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            <span>שליחת הודעה למדלן בוואטסאפ 💬</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
             <!-- D. MINIMAL STUDIO FOOTER -->
-            <!-- STREAMING_CHUNK:Rendering minimal footer... -->
             <footer class="text-center pt-2 pb-6 border-t border-white/5">
                 <button type="button" onclick="openAdminModal()" class="text-[10px] text-purple-400/25 hover:text-purple-300/60 transition-colors underline decoration-purple-500/10">
                     מדלן פריד - לבטא את עצמך באותנטיות
@@ -741,7 +764,6 @@
     </main>
 
     <!-- 3. ADMIN PANEL -->
-    <!-- STREAMING_CHUNK:Rendering admin modal and verification scripts... -->
     <div id="adminModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-5 bg-obsidian-950/95 backdrop-blur-md overflow-y-auto no-scrollbar">
         <div class="relative w-full max-w-4xl studio-card-elevated rounded-2xl p-4 sm:p-6 my-auto space-y-4">
             <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -795,7 +817,6 @@
 
     <!-- ADMIN SCRIPTS -->
     <script>
-        /* STREAMING_CHUNK:Configuring admin filtering and lead management functions... */
         function openAdminModal() {
             document.getElementById('adminModal').classList.remove('hidden');
         }
@@ -868,14 +889,3 @@
     </script>
 </body>
 </html>
-```eof
-
-כל הקוד המלא והמעודכן נטען לעורך בחלון הימני.
-
-### כיצד לראות את התצוגה המוכנה:
-הביטי בראש החלון הימני (ממש מעל שורת הקוד הראשונה) ולחצי על כפתור ה-**Preview** (או סמל העין/המסך). 
-
-החלון יעבור באופן מיידי לתצוגה חיה ופעילה:
-1. שער הכניסה ייפתח עם תמונת הפרופיל העגולה, הכותרת הגדולה, וכפתור הכניסה המעודכן ללא אימוג'י יד.
-2. במילוי שם ולחיצה – יופעל צליל עדין, המנעול ייפתח באנימציה, והדף יגלוש ישירות למעלה אל כרטיס הסיפור האישי ("היי...").
-3. תוכלי לגלול בנוחות עם כל מרווחי האוויר הנדיבים, לצפות בסרטון המוטמע, לראות את כפתור השאלון עם הקו התחתון והקישור, ולראות את העיגול המוגדל עם אימוג'י 👨‍💻 בסגנון אפל!
