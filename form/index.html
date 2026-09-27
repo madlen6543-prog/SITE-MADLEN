@@ -8,12 +8,12 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: Rubik & Heebo -->
+    <!-- Google Fonts: Heebo (Body) & Rubik (Display) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome Icons -->
+    <!-- Font Awesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- FIREBASE DATA STORAGE & AUTH MODULE -->
@@ -32,9 +32,7 @@
                 const stored = localStorage.getItem('local_leads');
                 if (stored) {
                     const parsed = JSON.parse(stored);
-                    if (Array.isArray(parsed) && parsed.length > 0) {
-                        return parsed;
-                    }
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
                 }
             } catch(e) {}
 
@@ -42,9 +40,8 @@
                 {
                     id: 'hist_1',
                     name: 'מיכל ברק',
-                    email: 'michal.barak@gmail.com',
                     phone: '052-4567890',
-                    pain: 'רוצה להרגיש יותר משוחררת ובעלת ביטחון בדיבור מול קהל ובמפגשים חברתיים',
+                    pain: 'לדבר יותר בחופשיות, להרגיש בנוח בקבוצה',
                     type: 'guide',
                     timestamp: Date.now() - 3600000,
                     dateFormatted: '13/08/2026, 10:45'
@@ -52,10 +49,9 @@
                 {
                     id: 'hist_2',
                     name: 'דניאל לוי',
-                    email: 'daniel.levi@gmail.com',
                     phone: '050-9876543',
-                    pain: 'קשה לי לפתוח שיחה עם אנשים חדשים, תמיד מרגיש נבוך ומשתתק ברגע האמת',
-                    type: 'session',
+                    pain: 'לחזק ביטחון עצמי מול אנשים',
+                    type: 'session_97',
                     timestamp: Date.now() - 86400000,
                     dateFormatted: '12/08/2026, 19:15'
                 }
@@ -72,12 +68,10 @@
             const firestoreLeads = window.firestoreLeadsData || [];
             
             const allMap = new Map();
-            firestoreLeads.forEach(l => allMap.set(l.id || (l.email + l.phone), l));
+            firestoreLeads.forEach(l => allMap.set(l.id || l.phone, l));
             localLeads.forEach(l => {
-                const key = l.id || (l.email + l.phone);
-                if (!allMap.has(key)) {
-                    allMap.set(key, l);
-                }
+                const key = l.id || l.phone;
+                if (!allMap.has(key)) allMap.set(key, l);
             });
 
             const merged = Array.from(allMap.values());
@@ -88,16 +82,11 @@
             });
 
             window.allLeadsData = merged;
-            if (window.renderAdminLeads) {
-                window.renderAdminLeads(merged);
-            }
+            if (window.renderAdminLeads) window.renderAdminLeads(merged);
         };
 
         async function initFirebase() {
-            if (typeof __firebase_config === 'undefined' || !__firebase_config) {
-                console.warn('Firebase config missing');
-                return;
-            }
+            if (typeof __firebase_config === 'undefined' || !__firebase_config) return;
             try {
                 const firebaseConfig = JSON.parse(__firebase_config);
                 const app = initializeApp(firebaseConfig);
@@ -111,7 +100,6 @@
                     const userCred = await signInAnonymously(auth);
                     currentUser = userCred.user;
                 }
-                
                 setupLeadsListener();
             } catch (err) {
                 console.error("Firebase init error:", err);
@@ -137,14 +125,12 @@
             } catch(e) {}
 
             window.loadAndRenderLeads();
-
             if (!db || !currentUser) return;
 
             try {
                 const leadsRef = collection(db, 'artifacts', appId, 'public', 'data', 'leads');
                 await addDoc(leadsRef, {
                     name: leadData.name || '',
-                    email: leadData.email || '',
                     phone: leadData.phone || '',
                     pain: leadData.pain || '',
                     type: leadData.type || 'guide',
@@ -162,18 +148,12 @@
         function setupLeadsListener() {
             if (!db || !currentUser) return;
             const leadsRef = collection(db, 'artifacts', appId, 'public', 'data', 'leads');
-            
             onSnapshot(leadsRef, (snapshot) => {
                 const leads = [];
-                snapshot.forEach((docSnap) => {
-                    leads.push({ id: docSnap.id, ...docSnap.data() });
-                });
-
+                snapshot.forEach((docSnap) => leads.push({ id: docSnap.id, ...docSnap.data() }));
                 window.firestoreLeadsData = leads;
                 window.loadAndRenderLeads();
-            }, (error) => {
-                console.error("Error listening to leads:", error);
-            });
+            }, (error) => console.error("Error listening to leads:", error));
         }
 
         window.deleteLeadFromFirestore = async function(leadId) {
@@ -191,31 +171,28 @@
                     console.error("Error deleting lead:", err);
                 }
             }
-
             window.loadAndRenderLeads();
         };
 
         window.addEventListener('DOMContentLoaded', () => {
             initFirebase();
             window.loadAndRenderLeads();
-            initCarousel();
             initScrollObserver();
         });
     </script>
 
+    <!-- TAILWIND CONFIG & DOM HANDLERS -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        galaxy: {
-                            950: '#060312',
-                            900: '#0c0622',
-                            850: '#120930',
-                            800: '#1b0e44',
-                            700: '#2b1466',
-                            600: '#431e98',
-                            500: '#642aa8'
+                        obsidian: {
+                            950: '#030107',
+                            900: '#070311',
+                            850: '#0d061e',
+                            800: '#14092b',
+                            700: '#1f0d42'
                         }
                     },
                     fontFamily: {
@@ -226,88 +203,39 @@
             }
         }
 
-        let currentSlide = 0;
-        let slideInterval = null;
-
-        function initCarousel() {
-            const slides = document.querySelectorAll('.carousel-item');
-            if (!slides || slides.length === 0) return;
-
-            function showSlide(index) {
-                slides.forEach((slide, i) => {
-                    if (i === index) {
-                        slide.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-                        slide.classList.add('opacity-100', 'scale-100');
-                    } else {
-                        slide.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-                        slide.classList.remove('opacity-100', 'scale-100');
-                    }
-                });
-            }
-
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            }
-
-            function resetTimer() {
-                if (slideInterval) clearInterval(slideInterval);
-                slideInterval = setInterval(nextSlide, 2800);
-            }
-
-            showSlide(0);
-            resetTimer();
-        }
-
         function initScrollObserver() {
             const observerOptions = {
                 root: null,
                 rootMargin: '0px 0px -40px 0px',
-                threshold: 0.08
+                threshold: 0.05
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.remove('opacity-0', 'translate-y-10', 'scale-95');
-                        entry.target.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+                        entry.target.classList.remove('opacity-0', 'translate-y-6');
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
                     }
                 });
             }, observerOptions);
 
-            const elements = document.querySelectorAll('.reveal-on-scroll');
-            elements.forEach(el => observer.observe(el));
+            document.querySelectorAll('.reveal-block').forEach(el => observer.observe(el));
         }
-
-        window.scrollToNextSection = function(preferredId, fallbackId) {
-            let el = document.getElementById(preferredId);
-            if (!el || el.classList.contains('hidden')) {
-                if (fallbackId) {
-                    el = document.getElementById(fallbackId);
-                }
-            }
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        };
 
         window.handleGateSubmit = function(event) {
             if (event) event.preventDefault();
 
             var nameInput = document.getElementById('leadName');
-            var emailInput = document.getElementById('leadEmail');
             var phoneInput = document.getElementById('leadPhone');
             var painInput = document.getElementById('leadPain');
 
             var name = nameInput ? nameInput.value.trim() : '';
-            var email = emailInput ? emailInput.value.trim() : '';
             var phone = phoneInput ? phoneInput.value.trim() : '';
             var pain = painInput ? painInput.value.trim() : '';
 
             if (window.saveLeadToFirestore) {
                 window.saveLeadToFirestore({
                     name: name,
-                    email: email,
                     phone: phone,
                     pain: pain,
                     type: 'guide'
@@ -317,8 +245,6 @@
             if (name) {
                 var nameDisplay = document.getElementById('userNameDisplay');
                 if (nameDisplay) nameDisplay.textContent = name;
-                var welcomeBanner = document.getElementById('personalizedWelcome');
-                if (welcomeBanner) welcomeBanner.classList.remove('hidden');
 
                 var sessionName = document.getElementById('sessionLeadName');
                 var sessionPhone = document.getElementById('sessionLeadPhone');
@@ -328,13 +254,11 @@
 
             if (pain) {
                 var sessionPainInput = document.getElementById('sessionLeadPain');
-                if (sessionPainInput) {
-                    sessionPainInput.value = pain;
-                }
+                if (sessionPainInput) sessionPainInput.value = pain;
             }
 
             var formEl = document.querySelector('#leadModal form');
-            var headerEl = document.querySelector('#leadModal .text-center');
+            var headerEl = document.querySelector('#leadModal .modal-header');
             var unlockOverlay = document.getElementById('unlockAnimationOverlay');
 
             try {
@@ -372,16 +296,14 @@
                     if (lockGlow) {
                         lockGlow.className = "absolute -inset-3 bg-fuchsia-500 rounded-full blur-xl opacity-70 animate-pulse";
                     }
-                }, 300);
+                }, 250);
 
                 var progress = 0;
                 var progressInterval = setInterval(function() {
-                    progress += 10;
+                    progress += 12;
                     if (progressBar) progressBar.style.width = Math.min(progress, 100) + '%';
-                    if (progress >= 100) {
-                        clearInterval(progressInterval);
-                    }
-                }, 70);
+                    if (progress >= 100) clearInterval(progressInterval);
+                }, 60);
 
                 setTimeout(function() {
                     var modal = document.getElementById('leadModal');
@@ -397,7 +319,7 @@
                         document.body.classList.remove('modal-active');
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     }
-                }, 1500);
+                }, 1300);
             } else {
                 var modal = document.getElementById('leadModal');
                 if (modal) modal.classList.add('hidden');
@@ -424,7 +346,7 @@
                     name: name,
                     phone: phone,
                     pain: pain,
-                    type: 'session'
+                    type: 'session_97'
                 });
             }
 
@@ -432,10 +354,7 @@
             var successEl = document.getElementById('sessionSuccessMsg');
             var leadDisplayName = document.getElementById('successLeadName');
 
-            if (leadDisplayName && name) {
-                leadDisplayName.textContent = name;
-            }
-
+            if (leadDisplayName && name) leadDisplayName.textContent = name;
             if (formEl) formEl.classList.add('hidden');
             if (successEl) successEl.classList.remove('hidden');
 
@@ -443,18 +362,39 @@
         };
     </script>
 
+    <!-- CUSTOM LUXURY & MOBILE STYLES -->
     <style>
         html, body {
-            background-color: #060312;
-            color: #ffffff;
+            background-color: #030107;
+            color: #f4f4f6;
             font-family: 'Heebo', sans-serif;
             overflow-x: hidden;
-            line-height: 1.6;
+            line-height: 1.7;
             -webkit-tap-highlight-color: transparent;
             -webkit-text-size-adjust: 100%;
             scrollbar-width: none !important;
             -ms-overflow-style: none !important;
-            padding-bottom: env(safe-area-inset-bottom);
+            padding-bottom: max(env(safe-area-inset-bottom), 16px);
+        }
+
+        /* Avatar sizing lock to prevent browser distortion */
+        .avatar-gate-box {
+            width: 80px !important;
+            height: 80px !important;
+            min-width: 80px !important;
+            min-height: 80px !important;
+            max-width: 80px !important;
+            max-height: 80px !important;
+        }
+        @media (min-width: 640px) {
+            .avatar-gate-box {
+                width: 92px !important;
+                height: 92px !important;
+                min-width: 92px !important;
+                min-height: 92px !important;
+                max-width: 92px !important;
+                max-height: 92px !important;
+            }
         }
 
         html::-webkit-scrollbar,
@@ -473,140 +413,62 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .stars-bg {
-            background-color: #060312;
+        .ambient-studio {
+            background-color: #030107;
             background-image: 
-                radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.9), rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 120px 180px, rgba(217, 70, 239, 0.75), rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 240px 90px, rgba(255, 255, 255, 0.85), rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 310px 220px, rgba(168, 85, 247, 0.8), rgba(0,0,0,0)),
-                radial-gradient(circle at 50% 0%, rgba(147, 51, 234, 0.4), transparent 70%),
-                radial-gradient(circle at 85% 40%, rgba(192, 38, 211, 0.3), transparent 60%),
-                radial-gradient(circle at 15% 75%, rgba(99, 102, 241, 0.25), transparent 60%);
-            background-repeat: repeat, repeat, repeat, repeat, no-repeat, no-repeat, no-repeat;
-            background-size: 280px 280px, 360px 360px, 240px 240px, 320px 320px, 100% 100%, 100% 100%, 100% 100%;
+                radial-gradient(ellipse 90% 40% at 50% -5%, rgba(139, 92, 246, 0.16), transparent 70%),
+                radial-gradient(circle 500px at 15% 45%, rgba(217, 70, 239, 0.07), transparent 60%),
+                radial-gradient(circle 500px at 85% 85%, rgba(79, 70, 229, 0.06), transparent 60%);
             background-attachment: fixed;
         }
 
-        .ombre-halo {
-            position: relative;
-        }
-        .ombre-halo::before {
-            content: '';
-            position: absolute;
-            inset: -20px;
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.26) 0%, rgba(217, 70, 239, 0.22) 50%, rgba(99, 102, 241, 0.18) 100%);
-            filter: blur(34px);
-            border-radius: 2.5rem;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .scroll-reflection {
-            position: relative;
-        }
-        .scroll-reflection::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 10%;
-            right: 10%;
-            height: 20px;
-            background: radial-gradient(ellipse at center, rgba(217, 70, 239, 0.38) 0%, rgba(168, 85, 247, 0.18) 50%, transparent 80%);
-            filter: blur(14px);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .speech-bubble {
-            position: relative;
-            background: linear-gradient(180deg, rgba(24, 12, 60, 0.96) 0%, rgba(15, 7, 38, 0.94) 100%);
+        .studio-card {
+            background: rgba(13, 6, 26, 0.75);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(217, 70, 239, 0.42);
-            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.8), 0 0 28px -5px rgba(168, 85, 247, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.85);
         }
 
-        .speech-bubble::after {
-            content: '';
-            position: absolute;
-            left: -10px;
-            top: 22px;
-            width: 0;
-            height: 0;
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            border-right: 10px solid rgba(24, 12, 60, 0.96);
-            border-left: none;
-        }
-
-        .dark-glass-card {
-            background: linear-gradient(180deg, rgba(11, 5, 33, 0.95) 0%, rgba(6, 3, 20, 0.93) 100%);
-            backdrop-filter: blur(26px);
-            -webkit-backdrop-filter: blur(26px);
-            border: 1px solid rgba(217, 70, 239, 0.35);
-            box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.92), 0 0 35px -5px rgba(168, 85, 247, 0.28);
-        }
-
-        .glass-panel {
-            background: linear-gradient(180deg, rgba(19, 10, 51, 0.9) 0%, rgba(13, 7, 36, 0.86) 100%);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(192, 38, 211, 0.32);
-            box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.85), 0 0 35px -8px rgba(168, 85, 247, 0.25);
-        }
-
-        .glass-card-popup {
-            background: linear-gradient(180deg, rgba(16, 9, 42, 0.98) 0%, rgba(9, 5, 24, 0.97) 100%);
+        .studio-card-elevated {
+            background: linear-gradient(180deg, rgba(16, 7, 34, 0.88) 0%, rgba(9, 4, 20, 0.96) 100%);
             backdrop-filter: blur(28px);
             -webkit-backdrop-filter: blur(28px);
-            border: 1px solid rgba(217, 70, 239, 0.42);
-            box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.95), 0 0 45px -5px rgba(168, 85, 247, 0.35);
+            border: 1px solid rgba(217, 70, 239, 0.3);
+            box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.9);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #6d28d9 0%, #a855f7 45%, #c026d3 75%, #e11d48 100%);
-            background-size: 200% 200%;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 28px -5px rgba(168, 85, 247, 0.5);
+        .theatre-screen {
+            background: #020104;
+            border: 1px solid rgba(217, 70, 239, 0.32);
+            box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.95), 0 0 32px -8px rgba(168, 85, 247, 0.22);
         }
 
-        .btn-primary:hover, .btn-primary:active {
-            background-position: right center;
-            transform: translateY(-2px);
-            box-shadow: 0 14px 34px -3px rgba(192, 38, 211, 0.7);
+        .btn-brand-primary {
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c026d3 100%);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+            box-shadow: 0 10px 24px -5px rgba(168, 85, 247, 0.45);
         }
 
-        .btn-emerald {
-            background: linear-gradient(135deg, #047857 0%, #10b981 50%, #059669 100%);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.45);
+        .btn-brand-primary:active {
+            transform: scale(0.98);
+            box-shadow: 0 6px 16px -3px rgba(192, 38, 211, 0.65);
         }
 
-        .btn-emerald:hover, .btn-emerald:active {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 30px -3px rgba(16, 185, 129, 0.65);
+        .btn-brand-emerald {
+            background: linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+            box-shadow: 0 10px 24px -5px rgba(16, 185, 129, 0.38);
         }
 
-        .btn-instagram-icon {
-            background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 25px -4px rgba(220, 39, 67, 0.45);
+        .btn-brand-emerald:active {
+            transform: scale(0.98);
+            box-shadow: 0 6px 16px -3px rgba(16, 185, 129, 0.6);
         }
 
-        .btn-instagram-icon:hover, .btn-instagram-icon:active {
-            transform: translateY(-3px) scale(1.08);
-        }
-
-        .btn-tiktok-icon {
-            background: linear-gradient(135deg, #111111 0%, #222222 50%, #ff0050 100%);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 25px -4px rgba(0, 0, 0, 0.65);
-        }
-
-        .btn-tiktok-icon:hover, .btn-tiktok-icon:active {
-            transform: translateY(-3px) scale(1.08);
+        /* Prevent iOS 16px zoom when focusing input fields */
+        input, textarea {
+            font-size: 16px !important;
         }
 
         .modal-active {
@@ -616,148 +478,93 @@
             height: 100%;
         }
 
-        @keyframes border-glow-cycle {
-            0%, 100% {
-                border-color: rgba(192, 38, 211, 0.6);
-            }
-            50% {
-                border-color: rgba(168, 85, 247, 0.85);
-            }
-        }
-
-        .animated-photo-border {
-            border-width: 2px;
-            animation: border-glow-cycle 4s infinite ease-in-out;
-        }
-
-        .reveal-on-scroll {
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease-out;
+        .reveal-block {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease-out;
             will-change: transform, opacity;
-        }
-
-        .scroll-arrow-badge {
-            width: 2.85rem;
-            height: 2.85rem;
-            border-radius: 9999px;
-            background: rgba(217, 70, 239, 0.22);
-            border: 1px solid rgba(217, 70, 239, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #f0abfc;
-            font-size: 1.2rem;
-            box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.45);
-            margin: 0 auto;
-            cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.2s ease;
-        }
-
-        .scroll-arrow-badge:hover, .scroll-arrow-badge:active {
-            transform: scale(1.12);
-            background: rgba(217, 70, 239, 0.35);
         }
     </style>
 </head>
-<body class="stars-bg min-h-screen relative antialiased selection:bg-fuchsia-600 selection:text-white modal-active no-scrollbar">
+<body class="ambient-studio min-h-screen relative antialiased selection:bg-fuchsia-600 selection:text-white modal-active no-scrollbar">
 
-    <!-- LEAD GATE MODAL POPUP -->
-    <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 stars-bg bg-galaxy-950/94 backdrop-blur-2xl transition-all duration-300 overflow-hidden no-scrollbar">
+    <!-- 1. HIGH-CONVERTING MODAL GATE (WITH FIXED AVATAR GEOMETRY) -->
+    <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3.5 sm:p-6 bg-obsidian-950/95 backdrop-blur-2xl transition-all duration-300 overflow-hidden no-scrollbar">
         
-        <div class="relative w-full max-w-lg glass-card-popup rounded-2xl sm:rounded-3xl p-5 sm:p-7 max-h-[92vh] overflow-y-auto space-y-4 my-auto shadow-2xl no-scrollbar">
+        <div class="relative w-full max-w-md studio-card-elevated rounded-3xl p-5 sm:p-8 max-h-[92vh] sm:max-h-[94vh] overflow-y-auto space-y-4 sm:space-y-6 my-auto shadow-2xl no-scrollbar">
 
-            <div class="text-center space-y-3 relative z-10">
+            <!-- HEADER & BADGE -->
+            <div class="modal-header text-center space-y-2.5 sm:space-y-3 relative z-10">
                 
-                <!-- DYNAMIC CAROUSEL WITH 6 PHOTOS -->
-                <div class="relative w-20 h-20 sm:w-22 sm:h-22 mx-auto mb-1">
-                    <div class="relative w-full h-full rounded-2xl overflow-hidden animated-photo-border shadow-md">
-                        
-                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-100 scale-100">
-                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a3d12ae6922c650fd589d7d1a8d569ba729312f6/WhatsApp%20Image%202026-08-13%20at%2015.52.19.jpeg" alt="מדלן 1" class="w-full h-full object-cover">
-                        </div>
-
-                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-0 scale-95 pointer-events-none">
-                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a5de83d14f09f15e476e37ac3aac27de97903f0d/WhatsApp%20Image%202026-08-15%20at%2016.15.42.jpeg" alt="מדלן 2" class="w-full h-full object-cover">
-                        </div>
-
-                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-0 scale-95 pointer-events-none">
-                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/cafdf6074980b780a00919e0ea794fe6b9ff6fc3/WhatsApp%20Image%202026-08-15%20at%2016.15.42%20(1).jpeg" alt="מדלן 3" class="w-full h-full object-cover">
-                        </div>
-
-                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-0 scale-95 pointer-events-none">
-                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a5de83d14f09f15e476e37ac3aac27de97903f0d/WhatsApp%20Image%202026-08-13%20at%2015.57.58%20(1).jpeg" alt="מדלן 4" class="w-full h-full object-cover">
-                        </div>
-
-                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-0 scale-95 pointer-events-none">
-                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a5de83d14f09f15e476e37ac3aac27de97903f0d/WhatsApp%20Image%202026-08-13%20at%2015.57.58%20(2).jpeg" alt="מדלן 5" class="w-full h-full object-cover">
-                        </div>
-
-                        <div class="carousel-item absolute inset-0 transition-all duration-700 ease-in-out opacity-0 scale-95 pointer-events-none">
-                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/a5de83d14f09f15e476e37ac3aac27de97903f0d/WhatsApp%20Image%202026-08-13%20at%2015.57.58.jpeg" alt="מדלן 6" class="w-full h-full object-cover">
-                        </div>
-
-                    </div>
+                <!-- AVATAR WITH SUBTLE HALO - STRICT DIMENSIONS FIXED -->
+                <div class="relative avatar-gate-box mx-auto shrink-0 aspect-square">
+                    <div class="absolute -inset-1 bg-gradient-to-tr from-fuchsia-500 via-purple-500 to-indigo-500 rounded-full blur-md opacity-60"></div>
+                    <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
+                         alt="מדלן פריד" 
+                         class="relative w-full h-full rounded-full object-cover border-2 border-white/90 shadow-xl aspect-square">
                 </div>
 
-                <h2 class="font-heading text-xl sm:text-2xl font-extrabold text-white leading-snug px-1">
-                    <span class="bg-gradient-to-r from-fuchsia-400 via-purple-300 to-sky-300 bg-clip-text text-transparent font-heading">מביישנות לביטחון אותנטי מול אנשים</span>
+                <!-- MAIN HOOK HEADLINE (ENLARGED & DEDICATED LINE BREAK) -->
+                <h2 class="font-heading text-2xl sm:text-3xl font-extrabold leading-tight tracking-tight">
+                    <span class="text-white block">איך להפוך ביישנות</span>
+                    <span class="text-fuchsia-400 block pt-1">לביטחון אותנטי מול אנשים</span>
                 </h2>
 
-                <p class="text-purple-200/90 text-xs sm:text-sm font-normal leading-relaxed max-w-md mx-auto pt-0.5">
-                    <span class="text-white font-extrabold text-sm sm:text-base inline-block">המדריך שיעזור לך</span> להרגיש יותר בנוח באינטראקציות,<br>
-                    להפסיק להתכווץ ליד אנשים ולשחרר את הפחד ממה שיחשבו עליך –<br>
-                    <span class="text-fuchsia-200 font-semibold">ולבטא את עצמך בביטחון ובחופשיות 🗣️</span>
-                </p>
+                <!-- SUBTITLE (ENLARGED WITH USER REQUESTED LINE BREAK) -->
+                <div class="space-y-1.5 pt-1">
+                    <p class="text-white text-base sm:text-lg font-bold">
+                        המדריך שיעזור לך –
+                    </p>
+                    <p class="text-gray-200 text-sm sm:text-base leading-relaxed">
+                        להרגיש בנוח באינטראקציות חברתיות,<br>
+                        להפסיק להתכווץ ליד אנשים –<br>
+                        <span class="text-fuchsia-300 font-semibold block pt-0.5">ולבטא את עצמך בחופשיות 🗣️</span>
+                    </p>
+                </div>
             </div>
 
-            <!-- UNLOCK OVERLAY -->
-            <div id="unlockAnimationOverlay" class="hidden text-center py-8 space-y-4 relative z-20">
-                <div class="relative w-20 h-20 mx-auto flex items-center justify-center">
+            <!-- UNLOCK OVERLAY (POST SUBMIT) -->
+            <div id="unlockAnimationOverlay" class="hidden text-center py-6 sm:py-8 space-y-4 relative z-20">
+                <div class="relative w-18 h-18 sm:w-20 sm:h-20 mx-auto flex items-center justify-center shrink-0 aspect-square">
                     <div id="lockGlowRing" class="absolute -inset-3 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 rounded-full blur-xl opacity-80 animate-pulse"></div>
-                    <div class="relative w-16 h-16 rounded-full bg-galaxy-900 border border-fuchsia-400/80 flex items-center justify-center shadow-xl">
+                    <div class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-obsidian-900 border border-fuchsia-400/80 flex items-center justify-center shadow-xl aspect-square">
                         <i id="lockIconEl" class="fa-solid fa-lock text-2xl sm:text-3xl text-fuchsia-300 transition-all duration-500"></i>
                     </div>
                 </div>
 
                 <div class="space-y-1.5 max-w-xs mx-auto">
-                    <h3 class="font-heading text-lg font-extrabold text-white tracking-wide">
+                    <h3 class="font-heading text-base sm:text-lg font-extrabold text-white tracking-wide">
                         המנעול נפתח! 🔓
                     </h3>
-                    <p class="text-xs text-purple-200/80 font-medium">פותחים לך גישה מיידית למדריך...</p>
+                    <p class="text-xs text-purple-200/80 font-medium">פותחים לך גישה ישירה למדריך...</p>
                     
-                    <div class="w-full bg-galaxy-950 border border-purple-500/30 h-1.5 rounded-full overflow-hidden p-0.5 mt-2">
+                    <div class="w-full bg-obsidian-950 border border-purple-500/30 h-1.5 rounded-full overflow-hidden p-0.5 mt-2">
                         <div id="unlockProgressBar" class="bg-gradient-to-r from-purple-500 via-fuchsia-400 to-emerald-400 h-full rounded-full w-0 transition-all duration-100 ease-out"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- FORM -->
+            <!-- LEAD FORM -->
             <form onsubmit="return handleGateSubmit(event)" class="space-y-3 relative z-10 pt-1">
                 <div>
                     <input type="text" id="leadName" required placeholder="שם מלא *" 
-                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none">
+                           class="w-full bg-obsidian-950/90 border border-purple-400/30 rounded-2xl px-4 py-3 sm:py-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
                 </div>
 
                 <div>
                     <input type="tel" id="leadPhone" required placeholder="מספר טלפון *" dir="rtl"
-                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none">
+                           class="w-full bg-obsidian-950/90 border border-purple-400/30 rounded-2xl px-4 py-3 sm:py-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
                 </div>
 
                 <div>
-                    <input type="email" id="leadEmail" required placeholder="כתובת מייל *" dir="rtl"
-                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none">
+                    <textarea id="leadPain" rows="2" placeholder="במה היית רוצה לקבל עזרה?&#10;(לדבר יותר בחופשיות, לחזק ביטחון עצמי...)" 
+                              class="w-full bg-obsidian-950/90 border border-purple-400/30 rounded-2xl p-3 sm:p-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none shadow-inner leading-snug"></textarea>
                 </div>
 
-                <div>
-                    <textarea id="leadPain" rows="2" placeholder="מה הקושי העיקרי שלך כרגע מול אנשים?" 
-                              class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl p-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none"></textarea>
-                </div>
-
-                <button type="submit" class="btn-primary w-full min-h-[48px] py-3.5 px-5 rounded-xl text-white font-bold text-base flex items-center justify-center gap-2 mt-2 touch-manipulation active:scale-95">
+                <button type="submit" class="btn-brand-primary w-full min-h-[50px] sm:min-h-[54px] py-3 sm:py-3.5 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 mt-2 touch-manipulation active:scale-[0.98] shadow-xl">
                     <span>אני רוצה גישה מיידית למדריך! 👈</span>
                 </button>
 
-                <div class="text-center pt-1">
-                    <button type="button" onclick="openAdminModal()" class="text-[10px] text-purple-300/40 hover:text-purple-200 transition-colors underline decoration-purple-500/20">
+                <div class="text-center pt-1.5">
+                    <button type="button" onclick="openAdminModal()" class="text-[10px] text-purple-400/25 hover:text-purple-300/60 transition-colors underline decoration-purple-500/10">
                         מדלן פריד - לבטא את עצמך באותנטיות
                     </button>
                 </div>
@@ -765,44 +572,71 @@
         </div>
     </div>
 
-    <!-- MAIN PAGE CONTENT WITH CLEAN & STREAMLINED LAYOUT -->
-    <main class="relative min-h-screen pb-20 pt-6 sm:pt-10">
+    <!-- 2. MAIN UNLOCKED HUB PAGE -->
+    <main class="relative min-h-screen pb-16 sm:pb-20 pt-4 sm:pt-10">
 
-        <div class="max-w-xl mx-auto px-3.5 sm:px-6 space-y-8 sm:space-y-12">
+        <!-- SPACIOUS LAYOUT CONTAINER -->
+        <div class="max-w-xl mx-auto px-3.5 sm:px-6">
 
-            <!-- SECTION 1: PERSONALIZED WELCOME BANNER WITH MADLEN'S AVATAR -->
-            <div id="personalizedWelcome" class="hidden transition-all duration-500 reveal-on-scroll transform opacity-0 translate-y-10 scale-95 scroll-reflection">
-                <div class="space-y-3">
-                    <div class="relative max-w-md mx-auto flex items-start gap-2.5 sm:gap-4">
-                        
-                        <div class="speech-bubble rounded-2xl py-3.5 px-4 sm:px-6 shadow-xl border border-fuchsia-400/35 relative flex-1">
-                            <p class="text-xs sm:text-base text-purple-100 font-medium leading-relaxed text-right">
-                                היי <span id="userNameDisplay" class="font-bold text-fuchsia-300"></span>, איזה כיף שהגעת לכאן! 👋<br>
-                                ההדרכה שלך מוכנה ומחכה לך ממש כאן למטה 👇
-                            </p>
+            <!-- A. MADLEN'S AUTHENTIC STORYTELLING CARD -->
+            <div id="storySection" class="studio-card rounded-3xl p-5 sm:p-7 relative reveal-block transform opacity-0 translate-y-6">
+                
+                <!-- SENDER BAR: PHOTO & HEADER -->
+                <div class="flex items-center gap-3 sm:gap-3.5 pb-4 border-b border-white/10">
+                    <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
+                         alt="מדלן פריד" 
+                         class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-cover border border-fuchsia-400/60 shadow-md shrink-0">
+                    
+                    <div class="min-w-0 flex-1">
+                        <div class="text-white font-extrabold text-base sm:text-lg leading-tight truncate">
+                            היי <span id="userNameDisplay" class="text-white font-extrabold"></span>, איזה כיף שהגעת 💖
                         </div>
-
-                        <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
-                             alt="מדלן" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-fuchsia-400 shadow-xl shrink-0 mt-0.5">
-
                     </div>
                 </div>
-            </div>
 
-            <!-- SECTION 2: VIDEO DISPLAY & QUESTIONNAIRE CTA -->
-            <div id="videoSection" class="space-y-4 sm:space-y-6 reveal-on-scroll transform opacity-0 translate-y-10 scale-95 scroll-reflection">
-                
-                <div class="text-center space-y-1.5">
-                    <h1 class="font-heading text-base sm:text-2xl font-black text-white leading-snug px-1">
-                        <span class="bg-gradient-to-r from-fuchsia-300 via-purple-100 to-pink-300 bg-clip-text text-transparent">4 צעדים איך לעבור מביישנות לביטחון אותנטי מול אנשים</span>
-                    </h1>
-                    <p class="text-[11px] sm:text-xs text-purple-200/90 font-medium">
-                        * ממליצה לך לכתוב תובנות במחברת 📝
+                <!-- NATURAL, FLOWING EDITORIAL COPY WITH REQUESTED LINE BREAK & CLEAN LETTER EMPHASIS -->
+                <div class="pt-4 text-sm sm:text-base text-gray-200 leading-relaxed space-y-3.5 text-right">
+                    <p>
+                        אני מדלן,<br>
+                        והמדריך הזה נוצר במיוחד עבורך.<br>
+                        גם אני הייתי פעם ילדה ביישנית שלא מעזה לדבר,<br>
+                        מפחדת לגמגם ונבלעת בתוך קבוצה.
                     </p>
+
+                    <p>
+                        היום — הפכתי למישהי עם <span class="text-fuchsia-300 font-bold">ביטחון עצמי</span>:<br>
+                        כבר לא מפחדת לתפוס מרחב, מביאה את עצמי באותנטיות ומתקשרת בפתיחות ובחופשיות מול אנשים.
+                    </p>
+
+                    <p class="text-purple-100 font-medium">
+                        בסרטון כאן למטה ריכזתי לך <span class="text-fuchsia-300 font-black tracking-wide">4 צעדים פרקטיים ועמוקים</span><br>
+                        שיעזרו גם לך להשתחרר, להתבטא בקלות ולהרגיש ביטחון.
+                    </p>
+
+                    <div class="pt-2 text-fuchsia-200/90 text-xs sm:text-sm font-medium flex items-center gap-2">
+                        <span>💡</span>
+                        <span>מומלץ להכין מחברת ועט — התובנות שתקבלו כאן שוות זהב!</span>
+                    </div>
                 </div>
 
-                <!-- PREMIUM EMBEDDED VIDEO PLAYER -->
-                <div class="glass-panel p-1.5 sm:p-3 rounded-2xl sm:rounded-3xl border border-fuchsia-400/40 shadow-2xl relative ombre-halo">
+            </div>
+
+            <!-- B. MASTERCLASS VIDEO STAGE & DIRECT QUESTIONNAIRE CTA (GENEROUS SCROLL DISTANCE) -->
+            <div id="videoSection" class="space-y-4 sm:space-y-5 reveal-block transform opacity-0 translate-y-6 mt-20 sm:mt-28">
+                
+                <!-- CLEAN ACCURATE HEADLINE (ENLARGED & DEDICATED LINE BREAK + MINI LABEL) -->
+                <div class="text-center px-1 space-y-1.5">
+                    <h1 class="font-heading text-2xl sm:text-3xl lg:text-4xl font-black leading-tight tracking-tight">
+                        <span class="text-white block">איך להפוך ביישנות לביטחון עצמי</span>
+                        <span class="text-fuchsia-400 block pt-1.5">ולבטא את עצמך באותנטיות</span>
+                    </h1>
+                    <span class="inline-block text-[11px] sm:text-xs text-purple-300/60 font-normal tracking-wider">
+                        המדריך כאן
+                    </span>
+                </div>
+
+                <!-- CINEMA VIDEO FRAME -->
+                <div class="theatre-screen p-1.5 sm:p-2.5 rounded-2xl sm:rounded-3xl relative">
                     <div class="relative w-full aspect-video rounded-xl sm:rounded-2xl overflow-hidden bg-black shadow-inner">
                         <iframe id="guideVideoIframe" 
                                 src="https://www.youtube-nocookie.com/embed/KQ3UdwH-9MU?enablejsapi=1&rel=0" 
@@ -814,87 +648,75 @@
                     </div>
                 </div>
 
-                <!-- SINGLE CLEAR CTA BUTTON FOR QUESTIONNAIRE -->
-                <div class="text-center pt-1 flex flex-col items-center justify-center gap-2">
+                <!-- QUESTIONNAIRE ACTION DIRECT BUTTON (CLEAN TEXT WITHOUT EMOJI) -->
+                <div class="pt-8 sm:pt-10 text-center">
+                    <span class="text-xs text-purple-300/75 block mb-1.5 font-medium tracking-wide">לחצו כאן 👇</span>
                     <a href="https://madlenfrid.netlify.app/" target="_blank" rel="noopener noreferrer" 
-                       class="btn-primary min-h-[48px] py-3.5 px-5 sm:px-6 rounded-2xl text-white font-extrabold text-xs sm:text-base inline-flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-all group border border-fuchsia-400/40 touch-manipulation w-full sm:w-auto">
-                        <i class="fa-solid fa-clipboard-question text-fuchsia-200 text-sm sm:text-base"></i>
-                        <span>למילוי שאלון קצר לקביעת פגישה איתי 👈</span>
+                       class="btn-brand-primary inline-flex items-center justify-center gap-2 w-full max-w-sm mx-auto py-3 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base leading-snug shadow-lg active:scale-[0.98] transition-all border border-fuchsia-400/30 touch-manipulation">
+                        <span>לשאלון קצר לקביעת פגישה עם הטבה מיוחדת</span>
                     </a>
                 </div>
             </div>
 
-            <!-- SECTION 3: SIMPLE DIRECT SESSION CALLBACK FORM -->
-            <div id="sessionSection" class="glass-panel rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-4 relative overflow-hidden reveal-on-scroll transform opacity-0 translate-y-10 scale-95 transition-all ombre-halo scroll-reflection">
+            <!-- C. 1-ON-1 CALLBACK SECTION (EXPANDED AIR SPACE WITH SCROLL DISTANCE) -->
+            <div id="sessionSection" class="studio-card-elevated rounded-3xl p-5 sm:p-8 space-y-4 sm:space-y-5 relative overflow-hidden reveal-block transform opacity-0 translate-y-6 border border-fuchsia-400/25 mt-36 sm:mt-48">
                 
                 <div class="text-center space-y-2 relative z-10">
-                    <p class="text-xs sm:text-sm text-gray-200 max-w-sm mx-auto leading-relaxed">
-                        השאירו פרטים קצרים, ואחזור אליכם באופן אישי כדי להבין בדיוק מה מעכב אתכם ואיך נוכל לבנות לכם דרך לחזק את הביטחון והתקשורת שלכם מול אנשים.
+                    <h3 class="font-heading text-xl sm:text-2xl font-extrabold text-white leading-tight">
+                        רוצה לקחת צעד קדימה ביחד?
+                    </h3>
+
+                    <div class="pt-1.5">
+                        <span class="block text-base sm:text-lg text-fuchsia-300 font-extrabold tracking-wide">
+                            לבדיקת התאמה לליווי אישי
+                        </span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-gray-200 max-w-md mx-auto leading-relaxed pt-2">
+                        השאירו פרטים ואחזור אליכם באופן אישי,<br>
+                        כדי להבין מה מעכב אתכם ואיך נוכל לבנות דרך לחזק את הביטחון והתקשורת מול אנשים.
                     </p>
                 </div>
 
-                <!-- SIMPLE LEAD FORM -->
-                <form id="sessionForm" onsubmit="return handleDirectSessionSubmit(event)" class="space-y-3 max-w-sm mx-auto relative z-10">
-                    
-                    <input type="text" id="sessionLeadName" required placeholder="שם מלא *" 
-                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none">
+                <!-- PRE-FILLED FORM -->
+                <form id="sessionForm" onsubmit="return handleDirectSessionSubmit(event)" class="space-y-3 sm:space-y-3.5 max-w-md mx-auto relative z-10 pt-1">
+                    <div>
+                        <input type="text" id="sessionLeadName" required placeholder="שם מלא *" 
+                               class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl px-4 py-3 sm:py-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
+                    </div>
 
-                    <input type="tel" id="sessionLeadPhone" required placeholder="מספר טלפון *" dir="rtl"
-                           class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none">
+                    <div>
+                        <input type="tel" id="sessionLeadPhone" required placeholder="מספר טלפון *" dir="rtl"
+                               class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl px-4 py-3 sm:py-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
+                    </div>
 
-                    <textarea id="sessionLeadPain" rows="2" placeholder="מה הכי חשוב לך לפתור כרגע? (אינטראקציות, סיטואציות חברתיות, ביטחון עצמי...)" 
-                              class="w-full bg-galaxy-950/80 border border-purple-500/30 rounded-xl p-3 text-base sm:text-sm text-white placeholder-purple-300/60 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none"></textarea>
+                    <div>
+                        <textarea id="sessionLeadPain" rows="2" placeholder="במה היית רוצה לקבל עזרה?&#10;(לדבר יותר בחופשיות, לחזק ביטחון עצמי...)" 
+                                  class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl p-3 sm:p-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none shadow-inner leading-snug"></textarea>
+                    </div>
 
-                    <button type="submit" class="btn-emerald w-full min-h-[48px] py-3.5 px-5 rounded-xl text-white font-extrabold text-base flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all touch-manipulation">
-                        <span>אני רוצה לפתור את זה! 👈</span>
+                    <button type="submit" class="btn-brand-emerald w-full min-h-[52px] sm:min-h-[54px] py-3.5 sm:py-4 px-6 rounded-xl text-white font-black text-base sm:text-lg flex items-center justify-center gap-2 shadow-xl active:scale-[0.98] transition-all touch-manipulation">
+                        <span>אני רוצה לפתור את זה!</span>
                     </button>
-
-                    <p class="text-[10px] sm:text-[11px] text-purple-300/80 text-center font-medium pt-0.5">
-                        🔒 הפרטים שלכם שמורים באופן דיסקרטי לחלוטין
-                    </p>
                 </form>
 
                 <!-- SUCCESS MESSAGE -->
                 <div id="sessionSuccessMsg" class="hidden text-center py-6 space-y-2">
-                    <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-2xl mx-auto border border-emerald-500/40 shadow-xl">
+                    <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-xl mx-auto border border-emerald-500/40 shadow-xl">
                         <i class="fa-solid fa-check"></i>
                     </div>
-                    <h3 class="font-heading text-base sm:text-lg font-bold text-white">
-                        תודה <span id="successLeadName" class="text-fuchsia-300"></span>! הפרטים התקבלו בהצלחה 💖
-                    </h3>
-                    <p class="text-xs text-purple-200/90 max-w-sm mx-auto leading-relaxed">
-                        קיבלתי את הפרטים. מדלן תחזור אליך בהקדם לשיחת אבחון קצרה ואישית!
+                    <h4 class="font-heading text-lg font-bold text-white">
+                        תודה <span id="successLeadName" class="text-white font-black"></span>! הפרטים התקבלו 💖
+                    </h4>
+                    <p class="text-sm text-purple-200 leading-relaxed max-w-sm mx-auto">
+                        קיבלתי את הפרטים. אחזור אליך בהקדם לשיחה אישית!
                     </p>
                 </div>
             </div>
 
-            <!-- SECTION 4: SOCIAL MEDIA FOLLOW INVITATION -->
-            <div id="socialSection" class="text-center space-y-3 pt-6 pb-2 reveal-on-scroll transform opacity-0 translate-y-12">
-                <div class="space-y-0.5 max-w-sm mx-auto">
-                    <p class="text-[11px] font-semibold text-fuchsia-300/90">תכנים יומיומיים וכלים נוספים 💖</p>
-                    <h3 class="font-heading text-xs font-medium text-gray-200/90">
-                        מזמינה אותך להמשיך לעקוב אחרי התכנים בעמודים הבאים:
-                    </h3>
-                </div>
-
-                <div class="flex flex-row items-center justify-center gap-4 pt-1">
-                    <a href="https://www.instagram.com/madlen.frid/" target="_blank" rel="noopener noreferrer" 
-                       class="btn-instagram-icon w-10 h-10 rounded-xl text-white flex items-center justify-center shadow-md active:scale-95" 
-                       aria-label="אינסטגרם" title="אינסטגרם">
-                        <i class="fa-brands fa-instagram text-lg"></i>
-                    </a>
-
-                    <a href="https://www.tiktok.com/@madlenfrid?lang=he-IL" target="_blank" rel="noopener noreferrer" 
-                       class="btn-tiktok-icon w-10 h-10 rounded-xl text-white flex items-center justify-center shadow-md active:scale-95" 
-                       aria-label="טיקטוק" title="טיקטוק">
-                        <i class="fa-brands fa-tiktok text-lg"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- FOOTER -->
-            <footer class="text-center py-2 border-t border-purple-900/20">
-                <button type="button" onclick="openAdminModal()" class="text-[10px] text-purple-300/40 hover:text-purple-200 transition-colors underline decoration-purple-500/20">
+            <!-- D. MINIMAL STUDIO FOOTER -->
+            <footer class="text-center pt-2 pb-6 border-t border-white/5">
+                <button type="button" onclick="openAdminModal()" class="text-[10px] text-purple-400/25 hover:text-purple-300/60 transition-colors underline decoration-purple-500/10">
                     מדלן פריד - לבטא את עצמך באותנטיות
                 </button>
             </footer>
@@ -902,10 +724,10 @@
         </div>
     </main>
 
-    <!-- ADMIN MODAL PANEL -->
-    <div id="adminModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-5 bg-galaxy-950/95 backdrop-blur-md overflow-y-auto no-scrollbar">
-        <div class="relative w-full max-w-4xl glass-panel rounded-2xl p-4 sm:p-6 my-auto space-y-4">
-            <div class="flex items-center justify-between border-b border-purple-500/20 pb-3">
+    <!-- 3. ADMIN PANEL -->
+    <div id="adminModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-5 bg-obsidian-950/95 backdrop-blur-md overflow-y-auto no-scrollbar">
+        <div class="relative w-full max-w-4xl studio-card-elevated rounded-2xl p-4 sm:p-6 my-auto space-y-4">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
                 <h3 class="font-heading font-bold text-base text-white flex items-center gap-2">
                     <i class="fa-solid fa-user-gear text-fuchsia-400"></i>
                     כניסה מנהלת
@@ -918,36 +740,35 @@
             <div id="adminAuthSection" class="text-center py-6 space-y-3">
                 <p class="text-xs text-purple-300/80 font-medium">קוד כניסה מנהלת</p>
                 <div class="flex justify-center gap-2 max-w-xs mx-auto">
-                    <input type="password" id="adminPinInput" placeholder="" class="w-full bg-galaxy-950 border border-purple-500/30 rounded-xl px-4 py-2 text-center text-white text-sm focus:outline-none focus:border-fuchsia-400">
-                    <button onclick="verifyAdminPin()" class="btn-primary px-5 py-2 rounded-xl text-white font-bold text-sm shrink-0">כניסה</button>
+                    <input type="password" id="adminPinInput" placeholder="" class="w-full bg-obsidian-950 border border-purple-500/30 rounded-xl px-4 py-2 text-center text-white text-sm focus:outline-none focus:border-fuchsia-400">
+                    <button onclick="verifyAdminPin()" class="btn-brand-primary px-5 py-2 rounded-xl text-white font-bold text-sm shrink-0">כניסה</button>
                 </div>
                 <p id="adminPinError" class="text-xs text-rose-400 hidden">קוד שגוי, נסי שוב</p>
             </div>
 
             <div id="adminContentSection" class="hidden space-y-4">
-                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-purple-900/30 pb-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
                     <div class="flex gap-2">
                         <button onclick="filterLeadsTab('all')" id="tabAll" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-fuchsia-600 text-white">הכל</button>
-                        <button onclick="filterLeadsTab('guide')" id="tabGuide" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-galaxy-900 text-gray-300 hover:text-white">מדריך חינמי</button>
-                        <button onclick="filterLeadsTab('session')" id="tabSession" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-galaxy-900 text-gray-300 hover:text-white">שיחות אבחון</button>
+                        <button onclick="filterLeadsTab('guide')" id="tabGuide" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-obsidian-900 text-gray-300 hover:text-white">מדריך חינמי</button>
+                        <button onclick="filterLeadsTab('session_97')" id="tabSession" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-obsidian-900 text-gray-300 hover:text-white">שיחת ליווי</button>
                     </div>
                     <span id="leadsCountBadge" class="text-xs bg-purple-500/20 text-purple-300 px-2.5 py-1 rounded-full border border-purple-500/30">0 לידים</span>
                 </div>
 
                 <div class="overflow-x-auto max-h-[60vh] overflow-y-auto no-scrollbar">
                     <table class="w-full text-right text-xs sm:text-sm text-gray-200">
-                        <thead class="bg-galaxy-900/90 text-purple-300 font-medium sticky top-0 border-b border-purple-500/30">
+                        <thead class="bg-obsidian-900/90 text-purple-300 font-medium sticky top-0 border-b border-purple-500/30">
                             <tr>
                                 <th class="p-2.5">תאריך</th>
                                 <th class="p-2.5">שם</th>
                                 <th class="p-2.5">טלפון</th>
-                                <th class="p-2.5">מייל</th>
                                 <th class="p-2.5">סוג</th>
-                                <th class="p-2.5">פרטים/קושי</th>
+                                <th class="p-2.5">במה רוצה עזרה</th>
                                 <th class="p-2.5">פעולות</th>
                             </tr>
                         </thead>
-                        <tbody id="leadsTableBody" class="divide-y divide-purple-900/30">
+                        <tbody id="leadsTableBody" class="divide-y divide-white/10">
                         </tbody>
                     </table>
                 </div>
@@ -955,6 +776,7 @@
         </div>
     </div>
 
+    <!-- ADMIN SCRIPTS -->
     <script>
         function openAdminModal() {
             document.getElementById('adminModal').classList.remove('hidden');
@@ -978,7 +800,7 @@
                 const el = document.getElementById(id);
                 if (el) {
                     el.className = "px-3 py-1.5 rounded-lg text-xs font-medium " + 
-                        (id.toLowerCase().includes(type) ? "bg-fuchsia-600 text-white" : "bg-galaxy-900 text-gray-300 hover:text-white");
+                        (id.toLowerCase().includes(type) ? "bg-fuchsia-600 text-white" : "bg-obsidian-900 text-gray-300 hover:text-white");
                 }
             });
             if (window.renderAdminLeads && window.allLeadsData) {
@@ -993,18 +815,18 @@
 
             let filtered = leads || [];
             if (currentTabFilter === 'guide') filtered = filtered.filter(l => l.type === 'guide');
-            if (currentTabFilter === 'session') filtered = filtered.filter(l => l.type === 'session');
+            if (currentTabFilter === 'session_97') filtered = filtered.filter(l => l.type === 'session_97');
 
             if (countBadge) countBadge.textContent = filtered.length + ' לידים';
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-gray-400">אין לידים להצגה</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-gray-400">אין לידים להצגה</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = filtered.map(lead => {
-                const typeTag = lead.type === 'session' 
-                    ? `<span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded text-2xs border border-emerald-500/30">שיחה</span>`
+                const typeTag = lead.type === 'session_97' 
+                    ? `<span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded text-2xs border border-emerald-500/30 font-bold">שיחת ליווי</span>`
                     : `<span class="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-2xs border border-purple-500/30">מדריך</span>`;
                 
                 const cleanPhone = (lead.phone || '').replace(/[^0-9]/g, '');
@@ -1015,7 +837,6 @@
                         <td class="p-2.5 whitespace-nowrap text-gray-400 text-2xs">${lead.dateFormatted || 'מכשיר מקומי'}</td>
                         <td class="p-2.5 font-bold text-white">${lead.name || '-'}</td>
                         <td class="p-2.5 text-fuchsia-300 font-mono" dir="ltr">${lead.phone || '-'}</td>
-                        <td class="p-2.5 text-gray-300" dir="ltr">${lead.email || '-'}</td>
                         <td class="p-2.5">${typeTag}</td>
                         <td class="p-2.5 text-gray-300 max-w-xs truncate" title="${lead.pain || ''}">${lead.pain || '-'}</td>
                         <td class="p-2.5 whitespace-nowrap">
