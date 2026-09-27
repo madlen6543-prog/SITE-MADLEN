@@ -206,15 +206,14 @@
         function initScrollObserver() {
             const observerOptions = {
                 root: null,
-                rootMargin: '0px 0px -40px 0px',
-                threshold: 0.05
+                rootMargin: '0px 0px -60px 0px',
+                threshold: 0.12
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.remove('opacity-0', 'translate-y-6');
-                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.add('revealed');
                     }
                 });
             }, observerOptions);
@@ -291,16 +290,16 @@
                 
                 setTimeout(function() {
                     if (lockIcon) {
-                        lockIcon.className = "fa-solid fa-lock-open text-3xl sm:text-4xl text-fuchsia-300 transform scale-110 transition-all duration-300";
+                        lockIcon.className = "fa-solid fa-lock-open text-3xl sm:text-4xl text-fuchsia-300 transform scale-125 transition-all duration-300";
                     }
                     if (lockGlow) {
-                        lockGlow.className = "absolute -inset-3 bg-fuchsia-500 rounded-full blur-xl opacity-70 animate-pulse";
+                        lockGlow.className = "absolute -inset-4 bg-fuchsia-500 rounded-full blur-2xl opacity-90 animate-pulse";
                     }
                 }, 250);
 
                 var progress = 0;
                 var progressInterval = setInterval(function() {
-                    progress += 12;
+                    progress += 14;
                     if (progressBar) progressBar.style.width = Math.min(progress, 100) + '%';
                     if (progress >= 100) clearInterval(progressInterval);
                 }, 60);
@@ -308,13 +307,16 @@
                 setTimeout(function() {
                     var modal = document.getElementById('leadModal');
                     if (modal) {
-                        modal.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+                        modal.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
                         setTimeout(function() {
                             modal.classList.add('hidden');
-                            modal.classList.remove('opacity-0');
                             document.body.classList.remove('modal-active');
+                            
+                            // Smooth scroll and trigger first card reveal
                             window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }, 500);
+                            var story = document.getElementById('storySection');
+                            if (story) story.classList.add('revealed');
+                        }, 600);
                     } else {
                         document.body.classList.remove('modal-active');
                         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -490,34 +492,54 @@
             touch-action: pan-y;
         }
 
+        /* PREMIUM REVEAL & OMBRE SCROLL ANIMATIONS */
         .reveal-block {
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease-out;
-            will-change: transform, opacity;
+            opacity: 0;
+            transform: translateY(32px) scale(0.98);
+            filter: blur(4px);
+            transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.85s ease-out, 
+                        filter 0.85s ease-out;
+            will-change: transform, opacity, filter;
+        }
+
+        .reveal-block.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        @keyframes subtleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-float {
+            animation: subtleFloat 4s ease-in-out infinite;
         }
     </style>
 </head>
 <body class="ambient-studio min-h-screen relative antialiased selection:bg-fuchsia-600 selection:text-white modal-active no-scrollbar">
 
     <!-- 1. HIGH-CONVERTING MODAL GATE (STABLE & JITTER-FREE ON MOBILE) -->
-    <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-obsidian-950/95 backdrop-blur-2xl transition-opacity duration-300 overflow-y-auto overscroll-contain no-scrollbar min-h-[100dvh]">
+    <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-obsidian-950/95 backdrop-blur-2xl transition-all duration-700 overflow-y-auto overscroll-contain no-scrollbar min-h-[100dvh]">
         
-        <div class="relative w-full max-w-sm sm:max-w-md studio-card-elevated rounded-3xl p-4 sm:p-7 max-h-[90dvh] overflow-y-auto space-y-3 sm:space-y-5 my-auto shadow-2xl no-scrollbar overscroll-contain">
+        <div class="relative w-full max-w-sm sm:max-w-md studio-card-elevated rounded-3xl p-4 sm:p-7 max-h-[90dvh] overflow-y-auto space-y-3 sm:space-y-5 my-auto shadow-2xl no-scrollbar overscroll-contain transition-transform duration-500">
 
             <!-- HEADER & BADGE -->
-            <div class="modal-header text-center space-y-2 relative z-10">
+            <div class="modal-header text-center space-y-2.5 relative z-10">
                 
                 <!-- AVATAR WITH SUBTLE HALO - BALANCED FOR MOBILE -->
-                <div class="relative avatar-gate-box mx-auto shrink-0 aspect-square">
-                    <div class="absolute -inset-1 bg-gradient-to-tr from-fuchsia-500 via-purple-500 to-indigo-500 rounded-full blur-md opacity-60"></div>
+                <div class="relative avatar-gate-box mx-auto shrink-0 aspect-square animate-float">
+                    <div class="absolute -inset-1 bg-gradient-to-tr from-fuchsia-500 via-purple-500 to-indigo-500 rounded-full blur-md opacity-70"></div>
                     <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
                          alt="מדלן פריד" 
                          class="relative w-full h-full rounded-full object-cover border-2 border-white/90 shadow-xl aspect-square">
                 </div>
 
-                <!-- MAIN HOOK HEADLINE (BALANCED ON MOBILE) -->
-                <h2 class="font-heading text-xl sm:text-3xl font-extrabold leading-snug tracking-tight">
-                    <span class="text-white block">איך להפוך ביישנות</span>
-                    <span class="text-fuchsia-400 block pt-0.5">לביטחון אותנטי מול אנשים</span>
+                <!-- MAIN HOOK HEADLINE (BALANCED & ELEGANT) -->
+                <h2 class="font-heading text-xl sm:text-2xl md:text-3xl font-black leading-snug tracking-tight px-1">
+                    <span class="text-white block drop-shadow-md">איך להפוך ביישנות</span>
+                    <span class="text-fuchsia-400 block pt-0.5 bg-gradient-to-r from-fuchsia-400 via-purple-300 to-pink-300 bg-clip-text text-transparent">לביטחון אותנטי מול אנשים</span>
                 </h2>
 
                 <!-- SUBTITLE (CLEAN ON MOBILE) -->
@@ -534,21 +556,21 @@
             </div>
 
             <!-- UNLOCK OVERLAY (POST SUBMIT) -->
-            <div id="unlockAnimationOverlay" class="hidden text-center py-5 sm:py-7 space-y-3.5 relative z-20">
-                <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto flex items-center justify-center shrink-0 aspect-square">
-                    <div id="lockGlowRing" class="absolute -inset-3 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 rounded-full blur-xl opacity-80 animate-pulse"></div>
-                    <div class="relative w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-obsidian-900 border border-fuchsia-400/80 flex items-center justify-center shadow-xl aspect-square">
-                        <i id="lockIconEl" class="fa-solid fa-lock text-xl sm:text-3xl text-fuchsia-300 transition-all duration-500"></i>
+            <div id="unlockAnimationOverlay" class="hidden text-center py-6 sm:py-8 space-y-4 relative z-20">
+                <div class="relative w-20 h-20 mx-auto flex items-center justify-center shrink-0 aspect-square">
+                    <div id="lockGlowRing" class="absolute -inset-4 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 rounded-full blur-2xl opacity-90 animate-pulse"></div>
+                    <div class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-obsidian-900 border-2 border-fuchsia-400 flex items-center justify-center shadow-2xl aspect-square">
+                        <i id="lockIconEl" class="fa-solid fa-lock text-2xl sm:text-3xl text-fuchsia-300 transition-all duration-500"></i>
                     </div>
                 </div>
 
                 <div class="space-y-1.5 max-w-xs mx-auto">
-                    <h3 class="font-heading text-sm sm:text-lg font-extrabold text-white tracking-wide">
+                    <h3 class="font-heading text-base sm:text-xl font-extrabold text-white tracking-wide">
                         המנעול נפתח! 🔓
                     </h3>
-                    <p class="text-xs text-purple-200/80 font-medium">פותחים לך גישה ישירה למדריך...</p>
+                    <p class="text-xs sm:text-sm text-purple-200/90 font-medium">כבר פותחים לך גישה למדריך...</p>
                     
-                    <div class="w-full bg-obsidian-950 border border-purple-500/30 h-1.5 rounded-full overflow-hidden p-0.5 mt-2">
+                    <div class="w-full bg-obsidian-950 border border-purple-500/40 h-2 rounded-full overflow-hidden p-0.5 mt-3 shadow-inner">
                         <div id="unlockProgressBar" class="bg-gradient-to-r from-purple-500 via-fuchsia-400 to-emerald-400 h-full rounded-full w-0 transition-all duration-100 ease-out"></div>
                     </div>
                 </div>
@@ -571,9 +593,12 @@
                               class="w-full bg-obsidian-950/90 border border-purple-400/30 rounded-2xl p-3 sm:p-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none shadow-inner leading-snug"></textarea>
                 </div>
 
-                <button type="submit" class="btn-brand-primary w-full max-w-sm mx-auto min-h-[46px] sm:min-h-[52px] py-2.5 sm:py-3 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center mt-1.5 touch-manipulation active:scale-[0.98] shadow-lg">
-                    <span>אני רוצה גישה מיידית למדריך!</span>
-                </button>
+                <!-- COMPACT SIZED BUTTON (SMALLER FOOTPRINT, SAME PROMINENT TEXT) -->
+                <div class="pt-1 flex justify-center">
+                    <button type="submit" class="btn-brand-primary w-[88%] max-w-[290px] min-h-[44px] sm:min-h-[48px] py-2 sm:py-2.5 px-4 rounded-xl text-white font-extrabold text-sm sm:text-base flex items-center justify-center touch-manipulation active:scale-[0.97] shadow-lg hover:shadow-fuchsia-500/25 transition-all">
+                        <span>אני רוצה גישה מיידית למדריך!</span>
+                    </button>
+                </div>
 
                 <div class="text-center pt-1">
                     <button type="button" onclick="openAdminModal()" class="text-[10px] text-purple-400/25 hover:text-purple-300/60 transition-colors underline decoration-purple-500/10">
@@ -585,29 +610,32 @@
     </div>
 
     <!-- 2. MAIN UNLOCKED HUB PAGE -->
-    <main class="relative min-h-screen pb-16 sm:pb-20 pt-4 sm:pt-10">
+    <main class="relative min-h-screen pb-20 sm:pb-28 pt-10 sm:pt-20">
 
         <!-- SPACIOUS LAYOUT CONTAINER -->
         <div class="max-w-xl mx-auto px-3.5 sm:px-6">
 
-            <!-- A. MADLEN'S AUTHENTIC STORYTELLING CARD -->
-            <div id="storySection" class="studio-card rounded-3xl p-5 sm:p-7 relative reveal-block transform opacity-0 translate-y-6">
+            <!-- A. MADLEN'S AUTHENTIC STORYTELLING CARD (GENEROUS TOP SPACE + SLIDE-UP REVEAL) -->
+            <div id="storySection" class="studio-card rounded-3xl p-6 sm:p-8 relative reveal-block mt-4 sm:mt-8 shadow-2xl border border-white/10">
                 
                 <!-- SENDER BAR: PHOTO & HEADER -->
-                <div class="flex items-center gap-3 sm:gap-3.5 pb-4 border-b border-white/10">
-                    <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
-                         alt="מדלן פריד" 
-                         class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-cover border border-fuchsia-400/60 shadow-md shrink-0">
+                <div class="flex items-center gap-3.5 sm:gap-4 pb-4 border-b border-white/10">
+                    <div class="relative shrink-0">
+                        <div class="absolute -inset-1 bg-fuchsia-500/30 rounded-2xl blur-sm"></div>
+                        <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
+                             alt="מדלן פריד" 
+                             class="relative w-13 h-13 sm:w-16 sm:h-16 rounded-2xl object-cover border border-fuchsia-400/60 shadow-md">
+                    </div>
                     
                     <div class="min-w-0 flex-1">
-                        <div class="text-white font-extrabold text-base sm:text-lg leading-tight truncate">
-                            היי <span id="userNameDisplay" class="text-white font-extrabold"></span>, איזה כיף שהגעת 💖
+                        <div class="text-white font-extrabold text-base sm:text-xl leading-tight">
+                            היי <span id="userNameDisplay" class="text-fuchsia-300 font-extrabold"></span>, איזה כיף שהגעת 💖
                         </div>
                     </div>
                 </div>
 
-                <!-- NATURAL, FLOWING EDITORIAL COPY WITH EXPANDED AIR BREATHING ROOM & CLEAN LETTER EMPHASIS -->
-                <div class="pt-4 text-sm sm:text-base text-gray-200 leading-relaxed space-y-4 sm:space-y-5 text-right">
+                <!-- NATURAL, FLOWING EDITORIAL COPY WITH EXPANDED AIR BREATHING ROOM -->
+                <div class="pt-5 text-sm sm:text-base text-gray-200 leading-relaxed space-y-4 sm:space-y-5 text-right">
                     <p>
                         אני מדלן,<br>
                         והמדריך הזה נוצר במיוחד עבורך.<br>
@@ -633,10 +661,10 @@
 
             </div>
 
-            <!-- B. MASTERCLASS VIDEO STAGE & DIRECT QUESTIONNAIRE CTA (GENEROUS SCROLL DISTANCE) -->
-            <div id="videoSection" class="space-y-4 sm:space-y-5 reveal-block transform opacity-0 translate-y-6 mt-36 sm:mt-48">
+            <!-- B. MASTERCLASS VIDEO STAGE & DIRECT QUESTIONNAIRE CTA (GENEROUS SCROLL DISTANCE + OMBRE REVEAL) -->
+            <div id="videoSection" class="space-y-4 sm:space-y-5 reveal-block mt-36 sm:mt-48">
                 
-                <!-- CLEAN ACCURATE HEADLINE (ENLARGED & DEDICATED LINE BREAK + MINI LABEL) -->
+                <!-- CLEAN ACCURATE HEADLINE -->
                 <div class="text-center px-1 space-y-1.5">
                     <h1 class="font-heading text-2xl sm:text-3xl lg:text-4xl font-black leading-tight tracking-tight">
                         <span class="text-white block">איך להפוך ביישנות לביטחון עצמי</span>
@@ -670,8 +698,8 @@
                 </div>
             </div>
 
-            <!-- C. 1-ON-1 CALLBACK SECTION (EXPANDED AIR SPACE WITH SCROLL DISTANCE) -->
-            <div id="sessionSection" class="studio-card-elevated rounded-3xl p-5 sm:p-8 space-y-4 sm:space-y-5 relative overflow-hidden reveal-block transform opacity-0 translate-y-6 border border-fuchsia-400/25 mt-36 sm:mt-48">
+            <!-- C. 1-ON-1 CALLBACK SECTION (EXPANDED AIR SPACE WITH OMBRE REVEAL) -->
+            <div id="sessionSection" class="studio-card-elevated rounded-3xl p-5 sm:p-8 space-y-4 sm:space-y-5 relative overflow-hidden reveal-block border border-fuchsia-400/25 mt-36 sm:mt-48">
                 
                 <div class="text-center space-y-3 relative z-10">
 
