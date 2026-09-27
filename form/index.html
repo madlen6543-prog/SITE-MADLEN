@@ -224,6 +224,11 @@
         window.handleGateSubmit = function(event) {
             if (event) event.preventDefault();
 
+            // Dismiss mobile virtual keyboard immediately to restore full viewport
+            if (document.activeElement && typeof document.activeElement.blur === 'function') {
+                document.activeElement.blur();
+            }
+
             var nameInput = document.getElementById('leadName');
             var phoneInput = document.getElementById('leadPhone');
             var painInput = document.getElementById('leadPain');
@@ -382,22 +387,24 @@
             color: #f4f4f6;
             font-family: 'Heebo', sans-serif;
             overflow-x: hidden;
+            width: 100%;
             line-height: 1.7;
             -webkit-tap-highlight-color: transparent;
             -webkit-text-size-adjust: 100%;
             scrollbar-width: none !important;
             -ms-overflow-style: none !important;
-            padding-bottom: max(env(safe-area-inset-bottom), 16px);
+            padding-top: max(env(safe-area-inset-top), 0px);
+            padding-bottom: max(env(safe-area-inset-bottom), 24px);
         }
 
         /* Avatar sizing lock to prevent browser distortion */
         .avatar-gate-box {
-            width: 70px !important;
-            height: 70px !important;
-            min-width: 70px !important;
-            min-height: 70px !important;
-            max-width: 70px !important;
-            max-height: 70px !important;
+            width: 72px !important;
+            height: 72px !important;
+            min-width: 72px !important;
+            min-height: 72px !important;
+            max-width: 72px !important;
+            max-height: 72px !important;
         }
         @media (min-width: 640px) {
             .avatar-gate-box {
@@ -521,9 +528,9 @@
 <body class="ambient-studio min-h-screen relative antialiased selection:bg-fuchsia-600 selection:text-white modal-active no-scrollbar">
 
     <!-- 1. HIGH-CONVERTING MODAL GATE (STABLE & JITTER-FREE ON MOBILE) -->
-    <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-obsidian-950/95 backdrop-blur-2xl transition-all duration-700 overflow-y-auto overscroll-contain no-scrollbar min-h-[100dvh]">
+    <div id="leadModal" class="fixed inset-0 z-50 flex items-center justify-center p-3.5 sm:p-6 bg-obsidian-950/95 backdrop-blur-2xl transition-all duration-700 overflow-y-auto overscroll-contain no-scrollbar min-h-[100dvh]">
         
-        <div class="relative w-full max-w-sm sm:max-w-md studio-card-elevated rounded-3xl p-4 sm:p-7 max-h-[90dvh] overflow-y-auto space-y-3 sm:space-y-5 my-auto shadow-2xl no-scrollbar overscroll-contain transition-transform duration-500">
+        <div class="relative w-full max-w-sm sm:max-w-md studio-card-elevated rounded-3xl p-4 sm:p-7 max-h-[92dvh] overflow-y-auto space-y-3 sm:space-y-5 my-auto shadow-2xl no-scrollbar overscroll-contain transition-transform duration-500">
 
             <!-- HEADER & BADGE -->
             <div class="modal-header text-center space-y-2.5 relative z-10">
@@ -536,10 +543,10 @@
                          class="relative w-full h-full rounded-full object-cover border-2 border-white/90 shadow-xl aspect-square">
                 </div>
 
-                <!-- MAIN HOOK HEADLINE (BALANCED & ELEGANT) -->
-                <h2 class="font-heading text-xl sm:text-2xl md:text-3xl font-black leading-snug tracking-tight px-1">
+                <!-- MAIN HOOK HEADLINE (ENLARGED & PROMINENT) -->
+                <h2 class="font-heading text-2xl sm:text-3xl md:text-4xl font-black leading-tight tracking-tight px-1">
                     <span class="text-white block drop-shadow-md">איך להפוך ביישנות</span>
-                    <span class="text-fuchsia-400 block pt-0.5 bg-gradient-to-r from-fuchsia-400 via-purple-300 to-pink-300 bg-clip-text text-transparent">לביטחון אותנטי מול אנשים</span>
+                    <span class="text-fuchsia-400 block pt-1 bg-gradient-to-r from-fuchsia-400 via-purple-300 to-pink-300 bg-clip-text text-transparent">לביטחון אותנטי מול אנשים</span>
                 </h2>
 
                 <!-- SUBTITLE (CLEAN ON MOBILE) -->
@@ -616,26 +623,26 @@
         <div class="max-w-xl mx-auto px-3.5 sm:px-6">
 
             <!-- A. MADLEN'S AUTHENTIC STORYTELLING CARD (GENEROUS TOP SPACE + SLIDE-UP REVEAL) -->
-            <div id="storySection" class="studio-card rounded-3xl p-6 sm:p-8 relative reveal-block mt-4 sm:mt-8 shadow-2xl border border-white/10">
+            <div id="storySection" class="studio-card rounded-2xl sm:rounded-3xl p-5 sm:p-7 relative reveal-block mt-4 sm:mt-8 shadow-2xl border border-white/10">
                 
                 <!-- SENDER BAR: PHOTO & HEADER -->
-                <div class="flex items-center gap-3.5 sm:gap-4 pb-4 border-b border-white/10">
+                <div class="flex items-center gap-3 sm:gap-3.5 pb-3.5 border-b border-white/10">
                     <div class="relative shrink-0">
                         <div class="absolute -inset-1 bg-fuchsia-500/30 rounded-2xl blur-sm"></div>
                         <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/817eef101d0f5f8fe2c5976a7045d461cbf17ef4/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
                              alt="מדלן פריד" 
-                             class="relative w-13 h-13 sm:w-16 sm:h-16 rounded-2xl object-cover border border-fuchsia-400/60 shadow-md">
+                             class="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-cover border border-fuchsia-400/60 shadow-md">
                     </div>
                     
                     <div class="min-w-0 flex-1">
-                        <div class="text-white font-extrabold text-base sm:text-xl leading-tight">
+                        <div class="text-white font-extrabold text-base sm:text-lg leading-tight truncate">
                             היי <span id="userNameDisplay" class="text-fuchsia-300 font-extrabold"></span>, איזה כיף שהגעת 💖
                         </div>
                     </div>
                 </div>
 
-                <!-- NATURAL, FLOWING EDITORIAL COPY WITH EXPANDED AIR BREATHING ROOM -->
-                <div class="pt-5 text-sm sm:text-base text-gray-200 leading-relaxed space-y-4 sm:space-y-5 text-right">
+                <!-- NATURAL, FLOWING EDITORIAL COPY -->
+                <div class="pt-4 text-sm sm:text-base text-gray-200 leading-relaxed space-y-3.5 sm:space-y-4 text-right">
                     <p>
                         אני מדלן,<br>
                         והמדריך הזה נוצר במיוחד עבורך.<br>
@@ -653,7 +660,7 @@
                         שיעזרו גם לך להשתחרר, להתבטא בקלות ולהרגיש ביטחון.
                     </p>
 
-                    <div class="pt-2 text-fuchsia-200/90 text-xs sm:text-sm font-medium flex items-center gap-2">
+                    <div class="pt-1.5 text-fuchsia-200/90 text-xs sm:text-sm font-medium flex items-center gap-2">
                         <span class="text-base">📝</span>
                         <span>מומלץ להכין מחברת ועט — התובנות שתקבלו כאן שוות זהב!</span>
                     </div>
@@ -665,10 +672,10 @@
             <div id="videoSection" class="space-y-4 sm:space-y-5 reveal-block mt-36 sm:mt-48">
                 
                 <!-- CLEAN ACCURATE HEADLINE -->
-                <div class="text-center px-1 space-y-1.5">
-                    <h1 class="font-heading text-2xl sm:text-3xl lg:text-4xl font-black leading-tight tracking-tight">
+                <div class="text-center px-1 space-y-1">
+                    <h1 class="font-heading text-xl sm:text-2xl lg:text-3xl font-black leading-tight tracking-tight">
                         <span class="text-white block">איך להפוך ביישנות לביטחון עצמי</span>
-                        <span class="text-fuchsia-400 block pt-1.5">ולבטא את עצמך באותנטיות</span>
+                        <span class="text-fuchsia-400 block pt-1">ולבטא את עצמך באותנטיות</span>
                     </h1>
                     <span class="inline-block text-[11px] sm:text-xs text-purple-300/60 font-normal tracking-wider">
                         המדריך כאן
@@ -688,63 +695,63 @@
                     </div>
                 </div>
 
-                <!-- QUESTIONNAIRE ACTION DIRECT BUTTON (UNDERLINE & EXCLAMATION MARK) -->
+                <!-- QUESTIONNAIRE ACTION DIRECT BUTTON (GENEROUS BREATHING ROOM) -->
                 <div class="pt-24 sm:pt-36 text-center">
-                    <span class="text-xs text-purple-300/75 block mb-1.5 font-medium tracking-wide">לחצו כאן 👇</span>
+                    <span class="text-xs text-purple-300/80 block mb-1.5 font-medium tracking-wide">לחצו כאן 👇</span>
                     <a href="https://madlenfrid.netlify.app/" target="_blank" rel="noopener noreferrer" 
-                       class="btn-brand-primary inline-flex items-center justify-center gap-2 w-full max-w-sm mx-auto py-3 px-5 rounded-2xl text-white font-extrabold text-sm sm:text-base leading-snug shadow-lg active:scale-[0.98] transition-all border border-fuchsia-400/30 touch-manipulation">
+                       class="btn-brand-primary inline-flex items-center justify-center gap-2 w-full max-w-sm mx-auto py-3 px-4 rounded-xl text-white font-extrabold text-sm sm:text-base leading-snug shadow-lg active:scale-[0.98] transition-all border border-fuchsia-400/30 touch-manipulation">
                         <span>לשאלון קצר לקביעת פגישה עם <span class="underline decoration-fuchsia-300 decoration-2 underline-offset-4">הטבה מיוחדת</span>!</span>
                     </a>
                 </div>
             </div>
 
             <!-- C. 1-ON-1 CALLBACK SECTION (EXPANDED AIR SPACE WITH OMBRE REVEAL) -->
-            <div id="sessionSection" class="studio-card-elevated rounded-3xl p-5 sm:p-8 space-y-4 sm:space-y-5 relative overflow-hidden reveal-block border border-fuchsia-400/25 mt-36 sm:mt-48">
+            <div id="sessionSection" class="studio-card-elevated rounded-2xl sm:rounded-3xl p-5 sm:p-7 space-y-3.5 sm:space-y-4 relative overflow-hidden reveal-block border border-fuchsia-400/25 mt-36 sm:mt-48">
                 
-                <div class="text-center space-y-3 relative z-10">
+                <div class="text-center space-y-2 relative z-10">
 
-                    <!-- APPLE-STYLE LUXURY TECH AVATAR CIRCLE (ENLARGED) -->
-                    <div class="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto flex items-center justify-center mb-1">
-                        <div class="absolute -inset-2 bg-gradient-to-tr from-fuchsia-500/40 via-purple-500/30 to-indigo-500/40 rounded-full blur-md opacity-80"></div>
+                    <!-- APPLE-STYLE LUXURY TECH AVATAR CIRCLE -->
+                    <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto flex items-center justify-center mb-0.5">
+                        <div class="absolute -inset-1.5 bg-gradient-to-tr from-fuchsia-500/40 via-purple-500/30 to-indigo-500/40 rounded-full blur-md opacity-80"></div>
                         <div class="relative w-full h-full rounded-full bg-gradient-to-b from-purple-900/60 to-obsidian-950/90 border-2 border-fuchsia-400/60 shadow-2xl backdrop-blur-xl flex items-center justify-center">
-                            <span class="text-3xl sm:text-4xl select-none transform hover:scale-110 transition-transform duration-300">👨‍💻</span>
+                            <span class="text-2xl sm:text-3xl select-none">👨‍💻</span>
                         </div>
                     </div>
 
-                    <h3 class="font-heading text-xl sm:text-2xl font-extrabold text-white leading-tight">
+                    <h3 class="font-heading text-lg sm:text-xl font-extrabold text-white leading-tight">
                         רוצה לקחת צעד קדימה ביחד?
                     </h3>
 
-                    <div class="pt-1.5">
-                        <span class="block text-base sm:text-lg text-fuchsia-300 font-extrabold tracking-wide">
+                    <div class="pt-0.5">
+                        <span class="block text-sm sm:text-base text-fuchsia-300 font-extrabold tracking-wide">
                             לבדיקת התאמה לליווי אישי
                         </span>
                     </div>
 
-                    <p class="text-xs sm:text-sm text-gray-200 max-w-md mx-auto leading-relaxed pt-2">
+                    <p class="text-xs sm:text-sm text-gray-200 max-w-md mx-auto leading-relaxed pt-1">
                         השאירו פרטים ואחזור אליכם באופן אישי,<br>
                         כדי להבין מה מעכב אתכם ואיך נוכל לבנות דרך לחזק את הביטחון והתקשורת מול אנשים.
                     </p>
                 </div>
 
                 <!-- PRE-FILLED FORM -->
-                <form id="sessionForm" onsubmit="return handleDirectSessionSubmit(event)" class="space-y-3 sm:space-y-3.5 max-w-md mx-auto relative z-10 pt-1">
+                <form id="sessionForm" onsubmit="return handleDirectSessionSubmit(event)" class="space-y-2.5 sm:space-y-3 max-w-md mx-auto relative z-10 pt-1">
                     <div>
                         <input type="text" id="sessionLeadName" required placeholder="שם מלא *" 
-                               class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl px-4 py-3 sm:py-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
+                               class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl px-3.5 py-2.5 sm:py-3 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
                     </div>
 
                     <div>
                         <input type="tel" id="sessionLeadPhone" required placeholder="מספר טלפון *" dir="rtl"
-                               class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl px-4 py-3 sm:py-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
+                               class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl px-3.5 py-2.5 sm:py-3 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 transition-colors appearance-none shadow-inner">
                     </div>
 
                     <div>
                         <textarea id="sessionLeadPain" rows="2" placeholder="במה היית רוצה לקבל עזרה?&#10;(לדבר יותר בחופשיות, לחזק ביטחון עצמי...)" 
-                              class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl p-3 sm:p-3.5 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none shadow-inner leading-snug"></textarea>
+                              class="w-full bg-obsidian-950/90 border border-purple-400/25 rounded-xl p-3 text-base text-white placeholder-purple-300/50 focus:outline-none focus:border-fuchsia-400 resize-none transition-colors appearance-none shadow-inner leading-snug"></textarea>
                     </div>
 
-                    <button type="submit" class="btn-brand-emerald w-full min-h-[52px] sm:min-h-[54px] py-3.5 sm:py-4 px-6 rounded-xl text-white font-black text-base sm:text-lg flex items-center justify-center gap-2 shadow-xl active:scale-[0.98] transition-all touch-manipulation">
+                    <button type="submit" class="btn-brand-emerald w-full min-h-[48px] sm:min-h-[52px] py-3 sm:py-3.5 px-5 rounded-xl text-white font-black text-sm sm:text-base flex items-center justify-center gap-2 shadow-xl active:scale-[0.98] transition-all touch-manipulation">
                         <span>אני רוצה לפתור את זה!</span>
                     </button>
                 </form>
