@@ -28,13 +28,13 @@
             background-attachment: fixed;
             background-size: cover;
             min-height: 100vh;
-            min-height: -webkit-fill-available;
+            min-height: 100dvh;
             color: #f3f4f6;
             overflow-x: hidden;
         }
 
         html {
-            height: -webkit-fill-available;
+            height: 100%;
             background-color: #05060f;
         }
 
@@ -124,7 +124,16 @@
         .progress-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, #d946ef, #a855f7, #6366f1); transition: width 0.4s ease; box-shadow: 0 0 15px #d946ef; }
 
-        .back-btn { transition: all 0.2s ease; color: rgba(255, 255, 255, 0.6); min-height: 40px; }
+        .back-btn { 
+            transition: all 0.2s ease; 
+            color: rgba(255, 255, 255, 0.7); 
+            min-height: 44px; 
+            min-width: 44px; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center;
+            touch-action: manipulation;
+        }
         .back-btn:hover, .back-btn:active { color: #d946ef; }
 
         /* Mobile form input adjustments - font-size 16px to prevent iOS auto-zoom */
@@ -224,22 +233,12 @@
         </div>
     </div>
 
-    <div id="app-wrapper" class="max-w-md w-full min-h-[88vh] flex flex-col justify-between py-2 sm:py-6 relative z-10 text-white">
-        
-        <!-- Header Logo -->
-        <div class="flex justify-start mb-2 sm:mb-4">
-            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl p-[2px] bg-gradient-to-tr from-fuchsia-500 via-purple-500 to-indigo-500 shadow-[0_0_25px_rgba(217,70,239,0.55)] overflow-hidden">
-                <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/cd400a65af7952d67664bfd5b34fdf998b28b33d/%D7%A6%D7%99%D7%9C%D7%95%D7%9D%20%D7%9E%D7%A1%D7%9A%202026-07-25%20174407.png" 
-                     alt="מדלן פריד" 
-                     onerror="this.onerror=null; this.src='https://github.com/madlen6543-prog/IMAGES-/raw/cd400a65af7952d67664bfd5b34fdf998b28b33d/%D7%A6%D7%99%D7%9C%D7%95%D7%9D%20%D7%9E%D7%A1%D7%9A%202026-07-25%20174407.png';"
-                     class="w-full h-full object-cover rounded-[14px]">
-            </div>
-        </div>
+    <div id="app-wrapper" class="max-w-md w-full min-h-[88vh] min-h-[88dvh] flex flex-col justify-between py-2 sm:py-6 relative z-10 text-white">
 
         <!-- Progress Header -->
-        <div id="top-nav" class="mb-4 sm:mb-6 opacity-0 transition-opacity duration-300 pointer-events-none">
-            <div class="flex items-center justify-between mb-3 text-white">
-                <button onclick="goBack()" class="back-btn flex items-center gap-1.5 text-xs sm:text-sm font-bold p-1.5 -mr-1">
+        <div id="top-nav" class="mb-3 sm:mb-5 opacity-0 transition-opacity duration-300 pointer-events-none">
+            <div class="flex items-center justify-between mb-2 text-white">
+                <button onclick="goBack()" aria-label="חזרה לשלב הקודם" class="back-btn -mr-2 px-2.5 py-2 text-xs sm:text-sm font-bold gap-1 rounded-xl">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     חזרה
                 </button>
@@ -250,7 +249,7 @@
 
         <main class="flex-grow flex flex-col justify-center">
             
-            <div id="step-0" class="step-container step-active flex-col text-center main-card-frame p-5 sm:p-8">
+            <div id="step-0" class="step-container step-active flex-col text-center main-card-frame p-6 sm:p-10 my-auto">
                 <div class="mb-6 sm:mb-8 px-1">
                     <div class="inline-block p-4 sm:p-5 bg-fuchsia-500/10 rounded-full text-4xl sm:text-5xl mb-5 sm:mb-6 animate-pulse border border-fuchsia-500/20 shadow-[0_0_20px_rgba(217,70,239,0.3)]">🗣️</div>
                     <h1 class="text-2xl sm:text-3xl md:text-4xl font-black mb-5 sm:mb-6 leading-tight tracking-tight text-white">
@@ -262,7 +261,7 @@
                     </div>
                 </div>
                 <button onclick="startQuiz()" class="btn-main w-full py-4 sm:py-5 px-4 rounded-2xl font-black text-base sm:text-lg shadow-2xl text-white">
-                    אני רוצה לדעת <span class="text-ombre-target font-black">איך עושים את זה</span> ✨
+                    <span class="text-white font-black">אני רוצה לדעת איך פותרים את זה !</span> ✨
                 </button>
             </div>
 
@@ -274,7 +273,7 @@
                         <div onclick="selectOption('האתגר המרכזי', 'להראות מי אני באמת', 2)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">להראות מי אני באמת מול אנשים</div>
                         <div onclick="selectOption('האתגר המרכזי', 'אני נבלע בתוך קבוצות', 2)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">אני נבלע/ת בתוך קבוצות</div>
                         <div onclick="selectOption('האתגר המרכזי', 'מחשבות יתר לפני הדיבור', 2)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">מחשבות יתר לפני הדיבור</div>
-                        <div onclick="selectOption('האתגר המרכזי', 'להרגיש בנוח עם כולם', 2)" class="option-card p-4 sm:p-5 border-fuchsia-500/30 bg-fuchsia-500/10 font-bold italic text-right text-sm sm:text-base">מזדהה עם הכל</div>
+                        <div onclick="selectOption('האתגר המרכזי', 'לגשת ולהתחיל / דייטים', 2)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">לגשת ולהתחיל / דייטים</div>
                     </div>
                 </div>
 
@@ -284,14 +283,14 @@
                     <div class="grid gap-2.5 sm:gap-3">
                         <div onclick="selectOption('איפה זה מורגש', 'באינטרקציות חברתיות', 3)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">באינטרקציות חברתיות וקבוצתיות</div>
                         <div onclick="selectOption('איפה זה מורגש', 'עם אנשים חדשים', 3)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">עם אנשים חדשים</div>
-                        <div onclick="selectOption('איפה זה מורגש', 'במקומות חדשים ולא מוכרים', 3)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">במקומות חדשים ולא מוכרים</div>
+                        <div onclick="selectOption('איפה זה מורגש', 'רומנטיקה / דייטים', 3)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">רומנטיקה / דייטים</div>
                         <div onclick="selectOption('איפה זה מורגש', 'ברשתות / מול מצלמה', 3)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">ברשתות / מול מצלמה</div>
                     </div>
                 </div>
 
                 <!-- Step 3 -->
                 <div id="step-3" class="step-container flex-col main-card-frame p-5 sm:p-8">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-fuchsia-300 text-center">מה הדבר שהכי מתסכל בזה?</h2>
+                    <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-fuchsia-300 text-center">מה הכי מתסכל בזה?</h2>
                     <div class="grid gap-2.5 sm:gap-3">
                         <div onclick="selectOption('התסכול העיקרי', 'שיש לי מה להגיד ואני שותק', 4)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">שיש לי מה להגיד – אבל אני שותק/ת</div>
                         <div onclick="selectOption('התסכול העיקרי', 'חוסר ביטחון ותחושה שזה לא מספיק טוב', 4)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">מרגיש/ה חוסר ביטחון ולא מספיק טוב/ה</div>
@@ -300,47 +299,13 @@
                     </div>
                 </div>
 
-                <!-- Step 4 -->
+                <!-- Step 4 (Sharing / Context) -->
                 <div id="step-4" class="step-container flex-col main-card-frame p-5 sm:p-8">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-fuchsia-300 text-center">איזה משפט הכי מדויק עבורך?</h2>
-                    <div class="grid gap-2.5 sm:gap-3">
-                        <div onclick="selectOption('המשפט המדויק', 'בגלל המופנמות קשה להתחבר אלי', 5)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">בגלל המופנמות שלי, קשה להתחבר אליי</div>
-                        <div onclick="selectOption('המשפט המדויק', 'הקושי בדיבור תוקע אותי', 5)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">הקושי בדיבור או הגמגום תוקע אותי</div>
-                        <div onclick="selectOption('המשפט המדויק', 'אני מפספס הזדמנויות בגלל הפחד לדבר', 5)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">אני מפספס/ת הזדמנויות בגלל הפחד לדבר</div>
-                        <div onclick="selectOption('המשפט המדויק', 'בא לי פשוט להשתחרר ולזרום', 5)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">בא לי פשוט להשתחרר ולזרום</div>
+                    <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-fuchsia-300 text-center">מה הכי בוער לך לשנות כרגע?</h2>
+                    <div class="space-y-4">
+                        <textarea id="urgencyCustom" placeholder="כאן כותבים מה שעל הלב" class="w-full p-4 rounded-2xl h-32 sm:h-36 text-right resize-none text-sm sm:text-base leading-relaxed"></textarea>
+                        <button onclick="submitUrgencyCustom()" class="btn-main w-full py-4 rounded-2xl font-bold text-base sm:text-lg text-white shadow-xl">המשך</button>
                     </div>
-                </div>
-
-                <!-- Step 5 -->
-                <div id="step-5" class="step-container flex-col main-card-frame p-5 sm:p-8">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-fuchsia-300 text-center">מה הכי בא לך להרגיש?</h2>
-                    <div class="grid gap-2.5 sm:gap-3">
-                        <div onclick="selectOption('השאיפה שלי', 'ביטחון במי שאני', 6)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">להרגיש ביטחון במי שאני</div>
-                        <div onclick="selectOption('השאיפה שלי', 'חופש ביטוי מלא', 6)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">חופש להגיד ולעשות מה שבא לי</div>
-                        <div onclick="selectOption('השאיפה שלי', 'תחושת שייכות ונוחות', 6)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">להרגיש שייכת ובנוח</div>
-                        <div onclick="selectOption('השאיפה שלי', 'שהכל נכון ופשוט להיות שם', 6)" class="option-card p-4 sm:p-5 border-fuchsia-500/40 bg-fuchsia-500/10 font-bold text-right text-sm sm:text-base">כל התשובות נכונות</div>
-                    </div>
-                </div>
-
-                <!-- Step 6 -->
-                <div id="step-6" class="step-container flex-col text-center main-card-frame p-5 sm:p-8">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-fuchsia-300">עד כמה זה מפריע לך (1-10)?</h2>
-                    <div class="px-2 sm:px-4 py-6 sm:py-8">
-                        <input type="range" id="q6-slider" min="1" max="10" value="5" class="w-full accent-fuchsia-500 cursor-pointer h-3 bg-gray-700 rounded-lg">
-                        <div class="flex justify-between items-center mt-6 text-2xl font-black text-fuchsia-400">
-                            <span>1</span>
-                            <span id="slider-val" class="bg-fuchsia-500/20 px-5 py-2 rounded-2xl border border-fuchsia-500/30 text-2xl sm:text-3xl">5</span>
-                            <span>10</span>
-                        </div>
-                    </div>
-                    <button onclick="saveSliderAndNext()" class="btn-main w-full py-4 sm:py-5 rounded-2xl font-bold mt-4 sm:mt-6 text-white text-base sm:text-lg">המשך</button>
-                </div>
-
-                <!-- Step 7 -->
-                <div id="step-7" class="step-container flex-col main-card-frame p-5 sm:p-8">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-fuchsia-300 text-center">מה הכי בוער לך לשנות כרגע?</h2>
-                    <textarea id="q7-text" class="w-full p-4 sm:p-5 rounded-2xl outline-none h-36 sm:h-40 text-right text-base text-white resize-none" placeholder="כאן כותבים מה שעל הלב..."></textarea>
-                    <button onclick="saveTextAndNext()" class="btn-main w-full py-4 sm:py-5 rounded-2xl font-bold mt-4 sm:mt-6 text-white text-base sm:text-lg">המשך</button>
                 </div>
 
                 <!-- Reflection -->
@@ -366,39 +331,50 @@
                 <!-- Contact Details Step -->
                 <div id="step-details" class="step-container flex-col main-card-frame p-5 sm:p-8">
                     <h2 class="text-xl sm:text-2xl font-black mb-1.5 text-center bg-gradient-to-r from-fuchsia-400 via-purple-300 to-indigo-300 bg-clip-text text-transparent">כאן משאירים את הפרטים שלך:</h2>
-                    <p class="text-xs sm:text-sm text-gray-400 mb-5 text-center leading-relaxed">כדי שנוכל לתאם,<br>ונתחיל לשחרר את התקיעות הזו יחד.</p>
+                    <p class="text-xs sm:text-sm text-gray-400 mb-5 text-center leading-relaxed">כדי שנוכל לשריין עבורך את שיחת הפיצוח בהטבה,<br>ונתחיל לשחרר את התקיעות הזו יחד.</p>
                     <div class="space-y-3.5">
                         <div class="space-y-2.5">
-                            <input type="text" id="userName" placeholder="שם מלא" class="w-full p-3.5 sm:p-4 rounded-2xl text-right">
+                            <input type="text" id="userName" name="name" autocomplete="name" placeholder="שם מלא *" class="w-full p-3.5 sm:p-4 rounded-2xl text-right">
                             <div class="flex gap-2.5">
-                                <input type="number" id="userAge" placeholder="גיל (לא חובה)" class="w-1/3 p-3.5 sm:p-4 rounded-2xl text-center">
-                                <input type="tel" id="userPhone" placeholder="טלפון / וואטסאפ" class="w-2/3 p-3.5 sm:p-4 rounded-2xl text-center">
+                                <input type="number" id="userAge" name="age" inputmode="numeric" placeholder="גיל" class="w-1/3 p-3.5 sm:p-4 rounded-2xl text-center">
+                                <input type="tel" id="userPhone" name="tel" inputmode="tel" autocomplete="tel" placeholder="טלפון *" class="w-2/3 p-3.5 sm:p-4 rounded-2xl text-center">
                             </div>
                         </div>
 
-                        <div class="space-y-1.5">
-                            <textarea id="userNote" placeholder="מה הכי תפס אותך אצלי / התחברת אליו?" class="w-full p-3.5 sm:p-4 rounded-2xl h-20 sm:h-24 text-right resize-none"></textarea>
+                        <div class="space-y-2.5">
+                            <textarea id="userConnected" placeholder="מה הכי תפס אותך אצלי / התחברת אליו? (לא חובה)" class="w-full p-3 sm:p-3.5 rounded-2xl h-20 text-right resize-none text-sm"></textarea>
+                            <textarea id="userExpectations" placeholder="מה היית רוצה לקבל בפגישה איתי? *" class="w-full p-3 sm:p-3.5 rounded-2xl h-20 text-right resize-none text-sm"></textarea>
                         </div>
 
-                        <div class="space-y-1.5">
-                            <textarea id="userExpectations" placeholder="מה היית רוצה לקבל בתוך הפגישה?" class="w-full p-3.5 sm:p-4 rounded-2xl h-20 sm:h-24 text-right resize-none"></textarea>
-                        </div>
-
-                        <button onclick="submitLeadData()" id="finalSubmitBtn" class="btn-main w-full py-4 sm:py-5 rounded-2xl font-bold text-base sm:text-lg mt-1 text-white">המשך</button>
+                        <button onclick="submitLeadData()" id="finalSubmitBtn" class="btn-main w-full py-4 sm:py-5 rounded-2xl font-bold text-base sm:text-lg mt-1 text-white">
+                            המשך לפרטי הפגישה וההטבה ✨
+                        </button>
                     </div>
                 </div>
             </div>
 
             <!-- Step Summary -->
             <div id="step-summary" class="step-container flex-col text-center text-white">
-                <div class="main-card-frame p-5 sm:p-8 mb-5 text-right shadow-2xl relative">
+                <div class="main-card-frame p-4.5 sm:p-8 mb-5 text-right shadow-2xl relative">
                     
                     <!-- Exclusive Benefit Badge -->
                     <div class="inline-block bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white text-[11px] sm:text-xs font-black px-3 py-1.5 rounded-full mb-3 shadow-lg">
                         🎁 הטבה מיוחדת עבורך
                     </div>
 
-                    <h3 class="text-xl sm:text-2xl md:text-3xl font-black mb-2 text-white">שיחת פיצוח אישית יחד איתי</h3>
+                    <!-- Personal Profile Trust Header -->
+                    <div class="flex items-center gap-3.5 mb-4 pb-3.5 border-b border-white/10">
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full p-[2px] bg-gradient-to-tr from-fuchsia-500 via-purple-500 to-indigo-500 shrink-0 shadow-[0_0_15px_rgba(217,70,239,0.5)]">
+                            <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/d37437efe97bfb87cec39db22d6543eaffc739c6/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
+                                 alt="מדלן פריד" 
+                                 onerror="this.onerror=null; this.src='https://github.com/madlen6543-prog/IMAGES-/raw/d37437efe97bfb87cec39db22d6543eaffc739c6/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg';"
+                                 class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <div class="text-right">
+                            <h3 class="text-lg sm:text-xl font-black text-white">שיחת פיצוח אישית איתי</h3>
+                        </div>
+                    </div>
+
                     <p id="summary-personalized-intro" class="text-fuchsia-300 font-bold text-xs sm:text-sm md:text-base mb-1 leading-normal">בהתאם לתשובות שלך, הפגישה בול עבורך.</p>
                     <p class="text-white font-extrabold text-xs sm:text-sm mb-4">מה מחכה לך בפגישה?</p>
                     
@@ -414,36 +390,41 @@
                     </div>
 
                     <!-- Price & CTA -->
-                    <div class="flex flex-row items-center justify-between gap-2 mt-4 bg-black/60 p-3.5 sm:p-4 rounded-2xl border border-white/5">
+                    <div class="flex flex-row items-center justify-between gap-2.5 mt-4 bg-black/60 p-3 sm:p-4 rounded-2xl border border-white/5">
                         <div class="text-right leading-none shrink-0">
                             <span class="text-[10px] sm:text-[11px] text-fuchsia-400 font-bold block mb-1">ניצול הטבה</span>
                             <span class="text-2xl sm:text-3xl font-black italic text-fuchsia-300 block">₪97</span>
                             <span class="text-[11px] sm:text-xs text-gray-400 line-through font-semibold">₪300</span>
                         </div>
-                        <button onclick="handleDirectPayment()" class="bg-gradient-to-r from-emerald-500 via-green-500 to-teal-600 hover:from-emerald-400 hover:to-green-500 active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(217,70,239,0.35)] hover:shadow-[0_0_40px_rgba(217,70,239,0.55)] px-5 sm:px-6 py-3.5 sm:py-4 rounded-xl font-black text-sm sm:text-base text-white flex items-center gap-2 border border-fuchsia-400/30">
-                            <span>בוא/י נצא לדרך!</span>
+                        <button onclick="handleDirectPayment()" class="bg-gradient-to-r from-emerald-500 via-green-500 to-teal-600 hover:from-emerald-400 hover:to-green-500 active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(217,70,239,0.35)] hover:shadow-[0_0_40px_rgba(217,70,239,0.55)] px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl font-black text-sm sm:text-base text-white flex items-center justify-center gap-1.5 border border-fuchsia-400/30 shrink">
+                            <span class="whitespace-nowrap">בוא/י נצא לדרך!</span>
                             <span>🚀</span>
                         </button>
+                    </div>
+
+                    <!-- Logistics Reassurance Line -->
+                    <div class="flex items-center justify-center gap-1.5 text-[11px] sm:text-xs text-fuchsia-200/90 mt-3 font-medium text-center">
+                        <span>לאחר מכן נתאם לנו את הפגישה ביחד ✨</span>
                     </div>
                 </div>
 
                 <!-- Sales Nudge -->
-                <div class="mb-6 px-2 text-center">
-                    <p class="text-xs text-gray-300 mb-1.5 font-medium">יש לך שאלות?</p>
-                    <button onclick="handleSuitabilityCheck()" class="text-fuchsia-400 font-extrabold underline text-xs sm:text-sm decoration-fuchsia-500/50 underline-offset-4 hover:text-fuchsia-300 transition-colors">
+                <div class="mb-5 px-2 text-center">
+                    <p class="text-xs text-gray-300 mb-1 font-medium">יש לך שאלות?</p>
+                    <button onclick="handleSuitabilityCheck()" class="text-fuchsia-400 font-extrabold underline text-xs sm:text-sm decoration-fuchsia-500/50 underline-offset-4 hover:text-fuchsia-300 transition-colors py-1">
                         אפשר לבדוק התאמה בלחיצה כאן 💬
                     </button>
                 </div>
 
                 <!-- Deep Mentoring Offer -->
                 <div class="mt-1 pb-4 text-center">
-                    <button onclick="selectFullProcess()" class="w-full bg-gradient-to-r from-purple-950/60 via-fuchsia-950/70 to-purple-950/60 hover:from-purple-900 hover:to-fuchsia-900 border-2 border-fuchsia-500/50 hover:border-fuchsia-400 text-white font-black text-sm sm:text-base md:text-lg py-4 px-4 rounded-2xl shadow-[0_0_20px_rgba(217,70,239,0.25)] hover:shadow-[0_0_30px_rgba(217,70,239,0.45)] transition-all duration-300 flex items-center justify-center gap-2 group">
-                        <span class="text-lg sm:text-xl animate-pulse">✨</span>
+                    <button onclick="selectFullProcess()" class="w-full bg-gradient-to-r from-purple-950/60 via-fuchsia-950/70 to-purple-950/60 hover:from-purple-900 hover:to-fuchsia-900 border-2 border-fuchsia-500/50 hover:border-fuchsia-400 text-white font-black text-xs sm:text-base py-3.5 sm:py-4 px-3 sm:px-4 rounded-2xl shadow-[0_0_20px_rgba(217,70,239,0.25)] hover:shadow-[0_0_30px_rgba(217,70,239,0.45)] transition-all duration-300 flex items-center justify-center gap-2 group leading-snug">
+                        <span class="text-base sm:text-xl animate-pulse shrink-0">✨</span>
                         <span>אני רוצה לשמוע על תהליך הליווי המלא והעמוק</span>
-                        <span class="group-hover:-translate-x-1 transition-transform text-fuchsia-300">←</span>
+                        <span class="group-hover:-translate-x-1 transition-transform text-fuchsia-300 shrink-0">←</span>
                     </button>
-                    <div class="text-[10px] sm:text-[11px] text-gray-400 mt-2.5 font-medium leading-relaxed">
-                        אם הגיע הזמן לשינוי אמיתי ועמוק, הליווי האישי מעניק לך מעטפת מלאה וצמודה
+                    <div class="text-[10px] sm:text-[11px] text-gray-400 mt-2 font-medium leading-relaxed px-1">
+                        רוצה להעמיק יותר ולפתור כבר מהשורש את מה שמעכב ומציק לך? הליווי האישי מעניק לך מעטפת מלאה וצמודה
                     </div>
                 </div>
             </div>
@@ -581,13 +562,13 @@
             
             if(stepId.startsWith('step-') && !isNaN(stepId.split('-')[1])) {
                 const num = parseInt(stepId.split('-')[1]);
-                document.getElementById('progress-fill').style.width = Math.round((num / 7) * 100) + '%';
+                document.getElementById('progress-fill').style.width = Math.round((num / 4) * 100) + '%';
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function goBack() {
-            const history = ['step-0', 'step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'step-6', 'step-7', 'step-reflection', 'step-details', 'step-summary', 'step-success'];
+            const history = ['step-0', 'step-1', 'step-2', 'step-3', 'step-4', 'step-reflection', 'step-details', 'step-summary', 'step-success'];
             const activeElem = document.querySelector('.step-active');
             if(!activeElem) return;
             const cur = activeElem.id;
@@ -602,27 +583,17 @@
             if (answer.includes("מי אני")) msg = "צעד אמיץ.";
             else if (answer.includes("נבלע")) msg = "מגיע לך להיראות.";
             else if (answer.includes("מחשבות")) msg = "ננקה מחשבות.";
-            else if (answer.includes("מזדהה עם הכל")) msg = "וואו, לגמרי חשוב לעבוד על זה!";
+            else if (answer.includes("דייטים") || answer.includes("לגשת")) msg = "נטפל בזה יחד.";
             
             else if (answer.includes("חברתיות")) msg = "הזדמנות לצמיחה.";
             else if (answer.includes("חדשים")) msg = "אתגר טבעי.";
-            else if (answer.includes("מקומות חדשים")) msg = "נטפל בזה.";
+            else if (answer.includes("רומנטיקה")) msg = "נשחרר את הלחץ.";
             else if (answer.includes("מצלמה")) msg = "כוח שקיים בך.";
             
             else if (answer.includes("שותק")) msg = "הקול שלך חשוב.";
             else if (answer.includes("חוסר ביטחון")) msg = "נחזק את זה.";
             else if (answer.includes("לא מכירים")) msg = "נכיר את המהות.";
             else if (answer.includes("בדידות")) msg = "את/ה לא לבד.";
-            
-            else if (answer.includes("מופנמות")) msg = "יופי פנימי.";
-            else if (answer.includes("קושי בדיבור")) msg = "נשחרר את המחסום.";
-            else if (answer.includes("מפספס הזדמנויות")) msg = "ניצור הזדמנויות.";
-            else if (answer.includes("להשתחרר")) msg = "השחרור מחכה.";
-            
-            else if (answer.includes("ביטחון")) msg = "שאיפה אפשרית.";
-            else if (answer.includes("חופש ביטוי")) msg = "חופש ביטוי.";
-            else if (answer.includes("שייכות")) msg = "תחושת שייכות.";
-            else if (answer.includes("כל התשובות")) msg = "שינוי מקיף.";
             
             else msg = "צעד חשוב קדימה.";
             
@@ -638,15 +609,9 @@
             setTimeout(() => showStep('step-' + n), 400);
         }
 
-        function saveSliderAndNext() {
-            leadData.answers['רמת הפרעה'] = document.getElementById('q6-slider').value;
-            showStep('step-7');
-        }
-
-        function saveTextAndNext() {
-            const val = document.getElementById('q7-text').value;
-            if(!val || val.trim().length < 2) { showMsg('חשוב לי לשמוע מה הכי בוער לך לשנות כרגע'); return; }
-            leadData.answers['בוער לשנות'] = val;
+        function submitUrgencyCustom() {
+            const val = document.getElementById('urgencyCustom').value.trim();
+            leadData.answers['בוער לשנות'] = val || 'לשחרר את התקיעות ולהרגיש ביטחון';
             buildReflection();
             showStep('step-reflection');
         }
@@ -654,14 +619,11 @@
         function buildReflection() {
             const challenge = leadData.answers['האתגר המרכזי'] || 'הקושי שלך';
             const where = leadData.answers['איפה זה מורגש'] || 'בסיטואציות שונות';
-            const goal = leadData.answers['השאיפה שלי'] || 'להרגיש טוב יותר';
-            let goalPart = goal.replace('להרגיש ', '');
-            if (goalPart === 'פשוט להיות שם בנוח') goalPart = 'תחושת הנוחות שלך';
             const challengePart = challenge.replace('להראות ', '').replace('אני ', '');
             
             const html = `
                 <p>אני רואה את ההתמודדות שלך עם <b>${challengePart}</b>, במיוחד כשזה קורה ב-<b>${where}</b>.</p>
-                <p class="mt-2">זה לגמרי הגיוני שחשוב לך <b>לחזק</b> את ה-<b>${goalPart}</b>.</p>
+                <p class="mt-2">זה לגמרי הגיוני שחשוב לך <b>לשחרר את התקיעות הזו</b> ולהרגיש ביטחון אמיתי.</p>
             `;
             document.getElementById('reflection-summary').innerHTML = html;
 
@@ -674,19 +636,18 @@
 
         async function submitLeadData() {
             const btn = document.getElementById('finalSubmitBtn');
-            const name = document.getElementById('userName').value;
-            const phone = document.getElementById('userPhone').value;
-            const age = document.getElementById('userAge').value;
-            const note = document.getElementById('userNote').value;
-            const expectations = document.getElementById('userExpectations').value;
+            const name = document.getElementById('userName').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            const age = document.getElementById('userAge').value.trim();
+            const expectations = document.getElementById('userExpectations').value.trim();
+            const connected = document.getElementById('userConnected').value.trim();
             
-            if(!name || !phone) { showMsg('נא למלא פרטי קשר מלאים'); return; }
-            if(!note || note.trim().length < 2) { showMsg('ספרי לי מה תפס אותך אצלי / התחברת אליו'); return; }
-            if(!expectations || expectations.trim().length < 2) { showMsg('שתף/י מה היית רוצה לקבל בפגישה'); return; }
+            if(!name || !phone) { showMsg('נא למלא שם וטלפון'); return; }
+            if(!expectations) { showMsg('נא למלא מה היית רוצה לקבל בפגישה איתי'); return; }
             
             btn.innerText = 'שומר...'; btn.disabled = true;
             leadData.personal = { 
-                name, phone, age: age || 'לא צוין', note: note, expectations: expectations
+                name, phone, age: age || 'לא צוין', expectations, connected: connected || 'לא צוין'
             };
             
             try { 
@@ -696,7 +657,7 @@
                 console.warn("Save sync warning:", e); 
             } finally { 
                 showStep('step-summary'); 
-                btn.innerText = 'המשך'; 
+                btn.innerText = 'המשך לפרטי הפגישה וההטבה ✨'; 
                 btn.disabled = false; 
             }
         }
@@ -790,7 +751,7 @@
                     let quizHtml = '';
                     if(l.answers) {
                         for (const [key, value] of Object.entries(l.answers)) {
-                            if(key === 'בוער לשנות' || key === 'רמת הפרעה') continue;
+                            if(key === 'בוער לשנות') continue;
                             quizHtml += `<div class="mb-1 border-b border-slate-100 pb-1"><b>${key}:</b> ${value}</div>`;
                         }
                     }
@@ -808,13 +769,13 @@
                             </div>
                             <div class="text-xs"><b>סטטוס פנייה:</b> <span class="bg-fuchsia-100 text-fuchsia-800 px-3 py-1 rounded-full font-bold">${l.choice || 'לא נבחר'}</span></div>
                             <div class="space-y-2">
-                                <div class="p-3 bg-fuchsia-50 rounded-xl border border-fuchsia-100">
-                                    <div class="text-[10px] uppercase font-bold text-fuchsia-600 mb-1">מה תפס אותי / התחברתי:</div>
-                                    <div class="italic text-slate-800 font-semibold">${l.personal?.note || '--'}</div>
-                                </div>
                                 <div class="p-3 bg-purple-50 rounded-xl border border-purple-100">
-                                    <div class="text-[10px] uppercase font-bold text-purple-600 mb-1">מה הציפיות מהפגישה:</div>
+                                    <div class="text-[10px] uppercase font-bold text-purple-600 mb-1">מה היית רוצה לקבל בפגישה:</div>
                                     <div class="italic text-slate-800 font-semibold">${l.personal?.expectations || '--'}</div>
+                                </div>
+                                <div class="p-3 bg-pink-50 rounded-xl border border-pink-100">
+                                    <div class="text-[10px] uppercase font-bold text-pink-600 mb-1">מה תפס אצלי / התחבר:</div>
+                                    <div class="italic text-slate-800 font-semibold">${l.personal?.connected || '--'}</div>
                                 </div>
                                 <div class="p-3 bg-blue-50 rounded-xl border border-blue-100">
                                     <div class="text-[10px] uppercase font-bold text-blue-600 mb-1">מה הכי בוער לשנות:</div>
@@ -852,10 +813,6 @@
             n.style.opacity = '1'; 
             setTimeout(()=> n.style.opacity = '0', 3500); 
         }
-
-        document.getElementById('q6-slider').oninput = function() { 
-            document.getElementById('slider-val').innerText = this.value; 
-        };
     </script>
 </body>
 </html>
