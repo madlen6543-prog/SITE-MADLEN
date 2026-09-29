@@ -380,7 +380,10 @@
                         </div>
                     </div>
 
-                    <p id="summary-personalized-intro" class="text-fuchsia-300 font-bold text-sm sm:text-base mb-3 leading-relaxed">בהתאם לתשובות שלך,<br>הפגישה בול עבורך.</p>
+                    <p id="summary-personalized-intro" class="text-fuchsia-300 font-bold text-sm sm:text-base mb-3 leading-relaxed">
+                        בהתאם לתשובות שלך,<br class="block mb-1">
+                        הפגישה בול עבורך.
+                    </p>
                     <p class="text-white font-extrabold text-sm sm:text-base mb-3.5">מה מחכה לך?</p>
                     
                     <!-- Combined card with spacing -->
@@ -411,26 +414,26 @@
 
                     <!-- Logistics Reassurance Line -->
                     <div class="flex items-center justify-center gap-1.5 text-xs sm:text-sm text-fuchsia-200/90 mt-3 font-medium text-center">
-                        <span>לאחר מכן נתאם לנו את הפגישה ביחד ✨</span>
+                        <span>לאחר מכן נתאם לנו בוואטסאפ ביחד ✨</span>
                     </div>
                 </div>
 
-                <!-- Sales Nudge -->
-                <div class="mb-5 px-2 text-center">
-                    <p class="text-xs sm:text-sm text-gray-300 mb-1 font-medium">יש לך שאלות?</p>
-                    <button onclick="handleSuitabilityCheck()" class="text-fuchsia-400 font-extrabold underline text-xs sm:text-sm md:text-base decoration-fuchsia-500/50 underline-offset-4 hover:text-fuchsia-300 transition-colors py-1">
+                <!-- Sales Nudge with extra breathing room -->
+                <div class="my-7 px-2 text-center">
+                    <p class="text-xs sm:text-sm text-gray-300 mb-1.5 font-medium">יש לך שאלות?</p>
+                    <button onclick="handleSuitabilityCheck()" class="text-fuchsia-400 font-extrabold underline text-sm sm:text-base md:text-lg decoration-fuchsia-500/50 underline-offset-4 hover:text-fuchsia-300 transition-colors py-1">
                         אפשר לבדוק התאמה בלחיצה כאן 💬
                     </button>
                 </div>
 
-                <!-- Deep Mentoring Offer -->
-                <div class="mt-1 pb-4 text-center">
-                    <button onclick="selectFullProcess()" class="w-full bg-gradient-to-r from-purple-950/60 via-fuchsia-950/70 to-purple-950/60 hover:from-purple-900 hover:to-fuchsia-900 border-2 border-fuchsia-500/50 hover:border-fuchsia-400 text-white font-black text-xs sm:text-base py-3.5 sm:py-4 px-3 sm:px-4 rounded-2xl shadow-[0_0_20px_rgba(217,70,239,0.25)] hover:shadow-[0_0_30px_rgba(217,70,239,0.45)] transition-all duration-300 flex items-center justify-center gap-2 group leading-snug">
-                        <span class="text-base sm:text-xl animate-pulse shrink-0">✨</span>
-                        <span>אני רוצה לשמוע על תהליך הליווי המלא והעמוק</span>
-                        <span class="group-hover:-translate-x-1 transition-transform text-fuchsia-300 shrink-0">←</span>
+                <!-- Deep Mentoring Offer with extra breathing room & larger font -->
+                <div class="mt-4 pb-6 text-center">
+                    <button onclick="selectFullProcess()" class="w-full bg-gradient-to-r from-purple-950/60 via-fuchsia-950/70 to-purple-950/60 hover:from-purple-900 hover:to-fuchsia-900 border-2 border-fuchsia-500/50 hover:border-fuchsia-400 text-white font-black text-sm sm:text-lg py-4 sm:py-5 px-3 sm:px-5 rounded-2xl shadow-[0_0_20px_rgba(217,70,239,0.25)] hover:shadow-[0_0_30px_rgba(217,70,239,0.45)] transition-all duration-300 flex items-center justify-center gap-2 group leading-snug">
+                        <span class="text-lg sm:text-2xl animate-pulse shrink-0">✨</span>
+                        <span class="font-extrabold">אני רוצה לשמוע על תהליך הליווי המלא והעמוק</span>
+                        <span class="group-hover:-translate-x-1 transition-transform text-fuchsia-300 shrink-0 text-lg">←</span>
                     </button>
-                    <div class="text-[11px] sm:text-xs text-gray-400 mt-2 font-medium leading-relaxed px-1">
+                    <div class="text-[11px] sm:text-xs text-gray-400 mt-2.5 font-medium leading-relaxed px-1">
                         רוצה להעמיק יותר ולפתור כבר מהשורש את מה שמעכב ומציק לך? הליווי האישי מעניק לך מעטפת מלאה וצמודה
                     </div>
                 </div>
@@ -634,10 +637,10 @@
             `;
             document.getElementById('reflection-summary').innerHTML = html;
 
-            // Update summary personalized snippet
+            // Update summary personalized snippet with line breaks as requested
             const summaryIntro = document.getElementById('summary-personalized-intro');
             if (summaryIntro) {
-                summaryIntro.innerHTML = `בהתאם לתשובות שלך (במיוחד ההתמודדות עם <b>${challengePart}</b> ב-<b>${where}</b>),<br class="block mt-0.5">הפגישה בול עבורך.`;
+                summaryIntro.innerHTML = `בהתאם לתשובות שלך,<br class="block mb-1.5"><span class="text-xs sm:text-sm font-semibold opacity-90">(במיוחד ההתמודדות עם <b>${challengePart}</b> ב-<b>${where}</b>)</span><br class="block mt-1.5"><span class="text-white font-extrabold">הפגישה בול עבורך.</span>`;
             }
         }
 
