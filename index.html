@@ -212,7 +212,7 @@
         }
     </style>
 </head>
-<body class="flex items-center justify-center p-3 sm:p-5 min-h-screen" dir="rtl">
+<body class="flex items-start sm:items-center justify-center p-2.5 sm:p-5 pt-3 sm:pt-6 min-h-screen" dir="rtl">
 
     <div id="feedback-toast" class="feedback-pop">הבנתי אותך...</div>
 
@@ -233,10 +233,10 @@
         </div>
     </div>
 
-    <div id="app-wrapper" class="max-w-md w-full min-h-[88vh] min-h-[88dvh] flex flex-col justify-between py-2 sm:py-6 relative z-10 text-white">
+    <div id="app-wrapper" class="max-w-md w-full min-h-[82vh] min-h-[82dvh] flex flex-col justify-start sm:justify-between py-1 sm:py-6 relative z-10 text-white">
 
         <!-- Progress Header -->
-        <div id="top-nav" class="mb-3 sm:mb-5 opacity-0 transition-opacity duration-300 pointer-events-none">
+        <div id="top-nav" class="mb-2 sm:mb-5 opacity-0 transition-opacity duration-300 pointer-events-none">
             <div class="flex items-center justify-between mb-2 text-white">
                 <button onclick="goBack()" aria-label="חזרה לשלב הקודם" class="back-btn -mr-2 px-2.5 py-2 text-xs sm:text-sm font-bold gap-1 rounded-xl">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -247,11 +247,11 @@
             <div class="progress-bar"><div id="progress-fill" class="progress-fill" style="width: 0%;"></div></div>
         </div>
 
-        <main class="flex-grow flex flex-col justify-center">
+        <main class="flex-grow flex flex-col justify-start sm:justify-center">
             
-            <div id="step-0" class="step-container step-active flex-col text-center main-card-frame p-6 sm:p-10 my-auto">
-                <div class="mb-6 sm:mb-8 px-1">
-                    <div class="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-5 sm:mb-6 rounded-full p-[2.5px] bg-gradient-to-tr from-fuchsia-500 via-purple-500 to-indigo-500 shadow-[0_0_25px_rgba(217,70,239,0.45)]">
+            <div id="step-0" class="step-container step-active flex-col text-center main-card-frame p-5 sm:p-10 my-1 sm:my-auto">
+                <div class="mb-5 sm:mb-8 px-1">
+                    <div class="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 rounded-full p-[2.5px] bg-gradient-to-tr from-fuchsia-500 via-purple-500 to-indigo-500 shadow-[0_0_25px_rgba(217,70,239,0.45)]">
                         <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/d37437efe97bfb87cec39db22d6543eaffc739c6/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
                              alt="מדלן פריד" 
                              onerror="this.onerror=null; this.src='https://github.com/madlen6543-prog/IMAGES-/raw/d37437efe97bfb87cec39db22d6543eaffc739c6/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg';"
