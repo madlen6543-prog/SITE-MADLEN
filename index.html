@@ -69,7 +69,7 @@
             background: linear-gradient(135deg, #d946ef 0%, #8b5cf6 50%, #6366f1 100%);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 10px 35px -5px rgba(217, 70, 239, 0.5);
-            min-height: 54px;
+            min-height: 56px;
             touch-action: manipulation;
         }
         .btn-main:hover:not(:disabled),
@@ -85,12 +85,19 @@
             transition: all 0.25s ease;
             cursor: pointer;
             border-radius: 1.25rem;
-            min-height: 52px;
+            min-height: 54px;
             display: flex;
             align-items: center;
             touch-action: manipulation;
             width: 100%;
             word-break: break-word;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        @media (min-width: 640px) {
+            .option-card {
+                font-size: 16px;
+            }
         }
         .option-card:hover, .option-card:active { 
             border-color: rgba(217, 70, 239, 0.7); 
@@ -210,7 +217,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     חזרה
                 </button>
-                <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-fuchsia-300 font-bold">כדי לבדוק שזה באמת מתאים לך ✨</div>
+                <div class="text-[11px] sm:text-xs text-fuchsia-300 font-bold">שאלון התאמה קצר ✨</div>
             </div>
             <div class="progress-bar"><div id="progress-fill" class="progress-fill" style="width: 0%;"></div></div>
         </div>
@@ -219,33 +226,39 @@
             
             <!-- Step 0: Welcome Screen with Speaking Emoji & 100% Pain-Hook Focus -->
             <div id="step-0" class="step-container step-active flex-col text-center main-card-frame p-6 sm:p-9 my-auto">
-                <div class="mb-6 sm:mb-8 px-1">
+                <div class="mb-5 sm:mb-7 px-1">
                     
                     <!-- Glowing Speaking Emoji Avatar -->
-                    <div class="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-fuchsia-500/20 via-purple-500/25 to-indigo-500/20 border-2 border-fuchsia-400/40 shadow-[0_0_30px_rgba(217,70,239,0.35)] text-4xl sm:text-5xl mb-5 sm:mb-6 mx-auto animate-pulse">
+                    <div class="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-fuchsia-500/20 via-purple-500/25 to-indigo-500/20 border-2 border-fuchsia-400/40 shadow-[0_0_25px_rgba(217,70,239,0.35)] text-3xl sm:text-4xl mb-4 mx-auto animate-pulse">
                         🗣️
                     </div>
 
-                    <!-- Clean typography with line breaks -->
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-black mb-5 sm:mb-6 leading-snug tracking-tight text-white max-w-[340px] sm:max-w-none mx-auto">
+                    <!-- Clean 2-line balanced typography with larger emphasis on closing/disappearing -->
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-black mb-4 leading-snug tracking-tight text-white max-w-[340px] sm:max-w-none mx-auto">
                         למה מול אנשים הרבה יותר קל לך<br>
-                        <span class="text-fuchsia-400 inline-block">להיעלם</span> <span class="text-fuchsia-400 block sm:inline mt-0.5 sm:mt-0">ולהיסגר?</span>
+                        <span class="text-fuchsia-400 inline-block mt-1">להיעלם ולהיסגר?</span>
                     </h1>
 
-                    <div class="space-y-3.5 text-gray-300 text-sm sm:text-base md:text-lg font-medium max-w-[340px] mx-auto leading-relaxed">
-                        <p>יש לך הרבה מה להגיד ולהראות,<br>אבל כלפי חוץ משהו בך <span class="underline decoration-fuchsia-400/50 underline-offset-4">תקוע</span>.</p>
-                        <p class="text-white font-bold border-t border-white/10 pt-4 mt-2">הגיע הזמן להפסיק לפחד<br>לבטא את עצמך באמת ולחזק את הביטחון שלך.</p>
+                    <!-- Balanced psychological contrast: Deep & punchy without overwhelming text -->
+                    <div class="space-y-2 text-gray-300 text-sm sm:text-base md:text-lg font-medium max-w-[340px] mx-auto leading-relaxed">
+                        <p>
+                            יש בך כל כך הרבה מה להגיד ולהראות,<br>
+                            אבל כלפי חוץ משהו בך <span class="underline decoration-fuchsia-400/50 underline-offset-4 text-white font-bold">פשוט נתקע</span>.
+                        </p>
+                        <p class="text-fuchsia-200/90 text-xs sm:text-sm font-semibold pt-1">
+                            הגיע הזמן להפסיק לפחד ולבטא את עצמך בביטחון.
+                        </p>
                     </div>
                 </div>
-                <button onclick="startQuiz()" class="btn-main w-full py-4 sm:py-5 px-4 rounded-2xl font-black text-base sm:text-lg shadow-2xl text-white">
-                    <span class="text-white font-black">אני רוצה לדעת איך פותרים את זה !</span> ✨
+                <button onclick="startQuiz()" class="btn-main w-full py-4 rounded-2xl font-black text-base sm:text-lg shadow-2xl text-white">
+                    אני רוצה להבין למה זה קורה לי ←
                 </button>
             </div>
 
             <div id="quiz-flow">
                 <!-- Step 1 -->
                 <div id="step-1" class="step-container flex-col main-card-frame p-5 sm:p-8 my-auto">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-fuchsia-300 text-center">מה הכי מאתגר אותך כרגע?</h2>
+                    <h2 class="text-xl sm:text-2xl font-black mb-5 sm:mb-6 text-fuchsia-300 text-center">מה הכי מאתגר אותך כרגע?</h2>
                     <div class="grid gap-2.5 sm:gap-3">
                         <div onclick="selectOption('האתגר המרכזי', 'להראות מי אני באמת', 2)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base leading-snug">להראות מי אני באמת מול אנשים</div>
                         <div onclick="selectOption('האתגר המרכזי', 'אני נבלע בתוך קבוצות', 2)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base leading-snug">אני נבלע/ת בתוך קבוצות</div>
@@ -256,80 +269,72 @@
 
                 <!-- Step 2 -->
                 <div id="step-2" class="step-container flex-col main-card-frame p-5 sm:p-8 my-auto">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-fuchsia-300 text-center">איפה זה הכי מורגש אצלך?</h2>
+                    <h2 class="text-xl sm:text-2xl font-black mb-5 sm:mb-6 text-fuchsia-300 text-center">איפה זה הכי מורגש אצלך ביום-יום?</h2>
                     <div class="grid gap-2.5 sm:gap-3">
-                        <div onclick="selectOption('איפה זה מורגש', 'באינטרקציות חברתיות', 3)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">באינטרקציות חברתיות וקבוצתיות</div>
-                        <div onclick="selectOption('איפה זה מורגש', 'עם אנשים חדשים', 3)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">עם אנשים חדשים</div>
-                        <div onclick="selectOption('איפה זה מורגש', 'רומנטיקה / דייטים', 3)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">רומנטיקה / דייטים</div>
-                        <div onclick="selectOption('איפה זה מורגש', 'ברשתות / מול מצלמה', 3)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">ברשתות / מול מצלמה</div>
+                        <div onclick="selectOption('איפה זה מורגש', 'באינטרקציות חברתיות וקבוצות', 'open')" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">באינטרקציות חברתיות וקבוצות</div>
+                        <div onclick="selectOption('איפה זה מורגש', 'עם אנשים חדשים', 'open')" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">עם אנשים חדשים</div>
+                        <div onclick="selectOption('איפה זה מורגש', 'בדייטים / סיטואציות רומנטיות', 'open')" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">בדייטים / סיטואציות רומנטיות</div>
+                        <div onclick="selectOption('איפה זה מורגש', 'בעבודה / לימודים / מול סמכות', 'open')" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">בעבודה / לימודים / מול סמכות</div>
                     </div>
                 </div>
 
-                <!-- Step 3 -->
-                <div id="step-3" class="step-container flex-col main-card-frame p-5 sm:p-8 my-auto">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-fuchsia-300 text-center">מה הכי מתסכל בזה?</h2>
-                    <div class="grid gap-2.5 sm:gap-3">
-                        <div onclick="selectOption('התסכול העיקרי', 'שיש לי מה להגיד ואני שותק', 4)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">שיש לי מה להגיד – אבל אני שותק/ת</div>
-                        <div onclick="selectOption('התסכול העיקרי', 'חוסר ביטחון ותחושה שזה לא מספיק טוב', 4)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">מרגיש/ה חוסר ביטחון ולא מספיק טוב/ה</div>
-                        <div onclick="selectOption('התסכול העיקרי', 'שלא באמת מכירים אותי', 4)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">שלא באמת מכירים את מי שאני</div>
-                        <div onclick="selectOption('התסכול העיקרי', 'תחושת לבד ובדידות', 4)" class="option-card p-4 sm:p-5 text-right text-sm sm:text-base">תחושת לבד ובדידות</div>
-                    </div>
-                </div>
-
-                <!-- Step 4 (Open Sharing) -->
-                <div id="step-4" class="step-container flex-col main-card-frame p-5 sm:p-8 my-auto">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 text-fuchsia-300 text-center">מה הכי בוער לך לשנות כרגע?</h2>
+                <!-- Step Open: Open Sharing -->
+                <div id="step-open" class="step-container flex-col main-card-frame p-5 sm:p-8 my-auto">
+                    <h2 class="text-xl sm:text-2xl font-black mb-2 text-fuchsia-300 text-center">מה הכי בוער לך לשנות כרגע?</h2>
+                    <p class="text-xs sm:text-sm text-gray-400 mb-5 text-center leading-relaxed">כמה מילים חופשיות על מה שעל הלב (גם משפט קצר מספיק):</p>
                     <div class="space-y-4">
-                        <textarea id="urgencyCustom" placeholder="כאן כותבים מה שעל הלב (חופשי לגמרי)..." class="w-full p-4 rounded-2xl h-32 sm:h-36 text-right resize-none text-sm sm:text-base leading-relaxed"></textarea>
-                        <button onclick="submitUrgencyCustom()" class="btn-main w-full py-4 rounded-2xl font-bold text-base sm:text-lg text-white shadow-xl">המשך לסיכום</button>
+                        <textarea id="urgencyCustom" placeholder="כאן כותבים חופשי מה שמרגיש לך..." class="w-full p-4 rounded-2xl h-32 sm:h-36 text-right resize-none text-sm sm:text-base leading-relaxed"></textarea>
+                        <button onclick="submitUrgencyCustom()" class="btn-main w-full py-4 sm:py-5 rounded-2xl font-black text-base sm:text-lg text-white shadow-xl">
+                            המשך ←
+                        </button>
                     </div>
                 </div>
 
                 <!-- Reflection Step -->
                 <div id="step-reflection" class="step-container flex-col text-center main-card-frame p-5 sm:p-8 my-auto">
                     <div class="inline-block p-3.5 bg-fuchsia-500/10 rounded-full text-3xl sm:text-4xl mb-3 self-center border border-fuchsia-500/20 shadow-[0_0_15px_rgba(217,70,239,0.2)]">🤍</div>
-                    <h2 class="text-2xl sm:text-3xl font-black mb-3 text-fuchsia-400">תודה רבה על השיתוף שלך.</h2>
+                    <h2 class="text-2xl sm:text-3xl font-black mb-2 text-fuchsia-400">תודה על השיתוף הכנה שלך.</h2>
+                    <p class="text-xs sm:text-sm text-gray-300 mb-3">זה דורש אומץ להודות בזה אפילו מול עצמך.</p>
+                    
                     <div class="space-y-3.5 text-sm sm:text-base leading-relaxed text-gray-200">
-                        <p class="text-base sm:text-lg font-bold text-white">מה שכתבת מעיד על עומק ורגישות מדהימה.</p>
-                        
-                        <div id="reflection-summary" class="glass p-4 sm:p-6 rounded-2xl space-y-2.5 border-fuchsia-500/20 mt-3 text-right leading-relaxed italic text-white font-medium text-xs sm:text-sm">
+                        <div id="reflection-summary" class="glass p-4 sm:p-5 rounded-2xl space-y-2 border-fuchsia-500/20 text-right leading-relaxed italic text-white font-medium text-xs sm:text-sm">
                             <!-- Dynamic summary injected here -->
                         </div>
                         
-                        <p class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-pink-200 to-purple-300 font-extrabold text-base sm:text-lg pt-4 drop-shadow-[0_2px_12px_rgba(217,70,239,0.4)] animate-pulse">
-                            הגיע הזמן שנעשה ביחד את הצעד הראשון 👇
+                        <p class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-pink-200 to-purple-300 font-extrabold text-sm sm:text-base pt-3 drop-shadow-[0_2px_12px_rgba(217,70,239,0.4)]">
+                            הבנתי בדיוק איפה הנקודה שתוקעת אותך – הגיע הזמן לעשות את הצעד הראשון 👇
                         </p>
                     </div>
-                    <button onclick="showStep('step-details')" class="btn-main group w-full py-4 sm:py-5 rounded-2xl font-bold text-base sm:text-lg text-white mt-6 sm:mt-8">
-                        <span class="group-hover:text-amber-200 group-active:text-yellow-300 transition-colors duration-200 font-black text-white">איך מתקדמים מפה?</span>
+                    <button onclick="showStep('step-details')" class="btn-main w-full py-4 rounded-2xl font-black text-base sm:text-lg text-white mt-6 shadow-xl">
+                        איך מתקדמים מפה? ←
                     </button>
                 </div>
 
                 <!-- Contact Details Step (High-Conversion, Low Friction) -->
                 <div id="step-details" class="step-container flex-col main-card-frame p-5 sm:p-8 my-auto">
                     <h2 class="text-xl sm:text-2xl font-black mb-1.5 text-center bg-gradient-to-r from-fuchsia-400 via-purple-300 to-indigo-300 bg-clip-text text-transparent">
-                        כאן משאירים פרטים כדי לראות את הצעד הבא:
+                        כדי שנוכל לדייק עבורך את הפתרון,
                     </h2>
-                    <p class="text-xs sm:text-sm text-gray-400 mb-5 text-center leading-relaxed">
-                        כדי שנוכל להתאים עבורך את הפתרון המדויק ביותר,<br>ולשלוח לך את המסקנות בצורה אישית ומדויקת.
+                    <p class="text-xs sm:text-sm text-gray-300 mb-5 text-center leading-relaxed">
+                        כאן משאירים פרטים לקראת הצעד הבא שלנו יחד ✨
                     </p>
                     <div class="space-y-3.5">
                         <div class="space-y-2.5">
                             <input type="text" id="userName" name="name" autocomplete="name" placeholder="שם מלא *" class="w-full p-3.5 sm:p-4 rounded-2xl text-right">
                             <div class="flex gap-2.5">
-                                <input type="number" id="userAge" name="age" inputmode="numeric" placeholder="גיל (לא חובה)" class="w-1/3 p-3.5 sm:p-4 rounded-2xl text-center">
+                                <input type="number" id="userAge" name="age" inputmode="numeric" placeholder="גיל" class="w-1/3 p-3.5 sm:p-4 rounded-2xl text-center">
                                 <input type="tel" id="userPhone" name="tel" inputmode="tel" autocomplete="tel" placeholder="טלפון *" class="w-2/3 p-3.5 sm:p-4 rounded-2xl text-center">
                             </div>
                         </div>
 
                         <div class="space-y-2.5">
-                            <textarea id="userExpectations" placeholder="אם בא לך לשתף – מה הכי חשוב לך שיקרה? (לא חובה)" class="w-full p-3 sm:p-3.5 rounded-2xl h-20 text-right resize-none text-sm"></textarea>
-                            <textarea id="userConnected" placeholder="מה הכי תפס אותך אצלי? (לא חובה)" class="w-full p-3 sm:p-3.5 rounded-2xl h-16 text-right resize-none text-sm"></textarea>
+                            <textarea id="userExpectations" placeholder="במה היית רוצה שאעזור לך איתו?" class="w-full p-3 sm:p-3.5 rounded-2xl h-18 text-right resize-none text-xs sm:text-sm"></textarea>
+                            <textarea id="userConnected" placeholder="מה הכי תפס אותך אצלי?" class="w-full p-3 sm:p-3.5 rounded-2xl h-16 text-right resize-none text-xs sm:text-sm"></textarea>
                         </div>
 
                         <!-- Micro-commitment Button -->
                         <button onclick="submitLeadData()" id="finalSubmitBtn" class="btn-main w-full py-4 sm:py-5 rounded-2xl font-black text-base sm:text-lg mt-2 text-white">
-                            המשך לקבלת הפתרון המותאם ←
+                            לראות את הדרך המדויקת עבורי ←
                         </button>
                         
                         <div class="text-[11px] text-gray-400 text-center font-medium mt-1">
@@ -339,87 +344,76 @@
                 </div>
             </div>
 
-            <!-- Step Summary: The Personalized Offer with Trust Avatar -->
+            <!-- Step Summary: The Personalized Offer -->
             <div id="step-summary" class="step-container flex-col text-center text-white my-auto">
-                <div class="main-card-frame p-5 sm:p-8 mb-5 text-center shadow-2xl relative flex flex-col items-center">
+                <div class="main-card-frame p-5 sm:p-7 mb-4 text-center shadow-2xl relative flex flex-col items-center">
                     
                     <!-- Exclusive Benefit Badge -->
-                    <div class="inline-flex items-center gap-1.5 bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white text-xs sm:text-sm font-black px-4 py-1.5 rounded-full mb-5 shadow-lg border border-fuchsia-400/30">
+                    <div class="inline-flex items-center gap-1.5 bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 text-white text-xs sm:text-sm font-black px-4 py-1.5 rounded-full mb-4 shadow-lg border border-fuchsia-400/30">
                         <span>🎁</span>
                         <span>הטבה מיוחדת עבורך</span>
                     </div>
 
                     <!-- Personal Profile Trust Avatar & Title -->
-                    <div class="flex flex-col items-center mb-5">
-                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-[2.5px] bg-gradient-to-tr from-fuchsia-500 via-purple-500 to-indigo-500 shrink-0 shadow-[0_0_25px_rgba(217,70,239,0.55)] mb-3">
+                    <div class="flex flex-col items-center mb-4">
+                        <div class="w-18 h-18 sm:w-20 sm:h-20 rounded-full p-[2.5px] bg-gradient-to-tr from-fuchsia-500 via-purple-500 to-indigo-500 shrink-0 shadow-[0_0_25px_rgba(217,70,239,0.55)] mb-2.5">
                             <img src="https://raw.githubusercontent.com/madlen6543-prog/IMAGES-/d37437efe97bfb87cec39db22d6543eaffc739c6/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg" 
                                  alt="מדלן פריד" 
-                                 onerror="this.onerror=null; this.src='https://github.com/madlen6543-prog/IMAGES-/raw/d37437efe97bfb87cec39db22d6543eaffc739c6/WhatsApp%20Image%202026-08-12%20at%2013.24.55.jpeg';"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/150x150/831843/ffffff?text=מדלן+פריד';"
                                  class="w-full h-full object-cover rounded-full">
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight">פגישת פיצוח אישית איתי</h3>
+                        <h3 class="text-xl sm:text-2xl font-black text-white leading-tight">פגישת פיצוח אישית איתי</h3>
                     </div>
 
-                    <!-- Personalized Intro Box with Clean Line Breaks -->
-                    <div id="summary-personalized-intro" class="text-fuchsia-200 text-sm sm:text-base font-semibold leading-relaxed mb-6 max-w-sm">
-                        בהתאם לתשובות שלך,<br class="block mb-1.5">
-                        <span class="text-white font-extrabold text-base">הפגישה בול עבורך.</span>
-                    </div>
-
-                    <!-- Section Divider & Intro Question -->
-                    <div class="w-full border-t border-white/10 pt-5 mb-3">
-                        <p class="text-white font-black text-base sm:text-lg tracking-wide">מה מחכה לך?</p>
+                    <!-- Personalized Intro Box -->
+                    <div id="summary-personalized-intro" class="text-fuchsia-200 text-xs sm:text-sm font-medium leading-relaxed mb-4 max-w-sm">
+                        בהתאם לתשובות שלך,<br class="block mb-1">
+                        <span class="text-white font-extrabold text-sm sm:text-base">הפגישה בול עבורך.</span>
                     </div>
                     
                     <!-- Value Proposition Card -->
-                    <div class="w-full bg-gradient-to-b from-fuchsia-500/15 to-purple-900/20 p-5 sm:p-6 rounded-2xl border border-fuchsia-500/30 text-center space-y-3.5 mb-6 shadow-inner">
-                        <div class="inline-flex items-center justify-center gap-2 bg-fuchsia-500/20 px-3.5 py-1.5 rounded-xl border border-fuchsia-400/30 text-white text-sm sm:text-base md:text-lg font-extrabold">
-                            <span class="text-fuchsia-300 text-lg">💻</span>
-                            <span>60 דקות ממוקדות אחד על אחד בזום</span>
+                    <div class="w-full bg-gradient-to-b from-fuchsia-500/15 to-purple-900/20 p-4 sm:p-5 rounded-2xl border border-fuchsia-500/30 text-center space-y-2.5 mb-5 shadow-inner">
+                        <div class="inline-flex items-center justify-center gap-2 bg-fuchsia-500/20 px-3 py-1 rounded-xl border border-fuchsia-400/30 text-white text-xs sm:text-sm font-extrabold">
+                            <span>💻 פגישה אישית בזום</span>
                         </div>
-                        <p class="text-fuchsia-100 text-xs sm:text-sm md:text-base font-medium leading-relaxed max-w-xs sm:max-w-sm mx-auto">
-                            מתוך מה ששיתפת אותי, אנחנו הולכים לקחת את זה צעד קדימה ולעבוד על זה יחד –<br>
-                            <span class="text-white font-bold block my-1">לזהות מה באמת תוקע אותך</span>
-                            <span class="text-fuchsia-200 block">ולמצוא את הדרך המדויקת לפתור את זה.</span>
+                        <p class="text-fuchsia-100 text-xs sm:text-sm font-medium leading-relaxed max-w-xs mx-auto">
+                            נבין בדיוק ונבנה ביחד את הצעדים הפשוטים שיעזרו לך להרגיש ביטחון אותנטי ויותר חופשיות.
                         </p>
                     </div>
 
-                    <!-- Psychological Pricing & Full-Width CTA Box -->
-                    <div class="w-full bg-black/60 p-4 sm:p-6 rounded-2xl border border-fuchsia-500/20 flex flex-col items-center">
-                        <div class="flex items-baseline justify-center gap-3 mb-4">
-                            <span class="text-xs sm:text-sm text-fuchsia-400 font-bold uppercase tracking-wider">ניצול הטבה:</span>
+                    <!-- Psychological Pricing & Full-Width CTA Box with High-Converting Emerald Button -->
+                    <div class="w-full bg-black/60 p-4 sm:p-5 rounded-2xl border border-fuchsia-500/20 flex flex-col items-center">
+                        <div class="flex items-baseline justify-center gap-3 mb-3.5">
+                            <span class="text-xs text-fuchsia-400 font-bold uppercase tracking-wider">ניצול הטבה:</span>
                             <span class="text-3xl sm:text-4xl font-black italic text-fuchsia-300 drop-shadow-[0_0_15px_rgba(217,70,239,0.5)]">₪97</span>
-                            <span class="text-sm sm:text-base text-gray-400 line-through font-semibold">₪300</span>
+                            <span class="text-sm text-gray-400 line-through font-semibold">₪300</span>
                         </div>
                         
-                        <button onclick="handleDirectPayment()" class="w-full bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 hover:from-emerald-400 hover:to-green-400 active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(16,185,129,0.45)] hover:shadow-[0_0_40px_rgba(16,185,129,0.65)] py-4 sm:py-4.5 px-6 rounded-xl font-black text-base sm:text-lg text-white flex items-center justify-center gap-2 border border-emerald-300/40">
-                            <span>בוא/י נצא לדרך!</span>
-                            <span class="text-xl">🚀</span>
+                        <button onclick="handleDirectPayment()" class="w-full bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 hover:from-emerald-400 hover:to-green-400 active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(16,185,129,0.45)] hover:shadow-[0_0_40px_rgba(16,185,129,0.65)] py-4 px-6 rounded-2xl font-black text-base sm:text-lg text-white flex items-center justify-center gap-2 border border-emerald-300/40">
+                            <span>אני רוצה לשריין לי מקום 🚀</span>
                         </button>
 
-                        <!-- Logistics Reassurance Line -->
-                        <div class="flex items-center justify-center gap-1.5 text-xs sm:text-sm text-fuchsia-200/90 mt-3 font-semibold text-center">
-                            <span>לאחר מכן נתאם לנו בוואטסאפ ביחד ✨</span>
+                        <div class="flex items-center justify-center gap-1.5 text-xs text-fuchsia-200/90 mt-2.5 font-semibold text-center">
+                            <span>מיד לאחר מכן נתאם לנו בוואטסאפ מועד שנוח לך ✨</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Questions & Zero-Pressure Suitability Check -->
-                <div class="my-7 px-2 text-center">
-                    <p class="text-xs sm:text-sm text-gray-300 mb-1.5 font-medium">מתלבט/ת אם זה מתאים לך כרגע?</p>
-                    <button onclick="handleSuitabilityCheck()" class="text-fuchsia-400 font-extrabold underline text-sm sm:text-base md:text-lg decoration-fuchsia-500/50 underline-offset-4 hover:text-fuchsia-300 transition-colors py-1">
-                        אפשר להתייעץ איתי בוואטסאפ 💬
+                <div class="my-5 px-2 text-center">
+                    <button onclick="handleSuitabilityCheck()" class="text-fuchsia-400 font-extrabold underline text-sm sm:text-base decoration-fuchsia-500/50 underline-offset-4 hover:text-fuchsia-300 transition-colors py-1">
+                        רוצה לבדוק איתי קודם התאמה בוואטסאפ? 💬
                     </button>
                 </div>
 
                 <!-- Deep Mentoring Offer -->
-                <div class="mt-4 pb-6 text-center">
-                    <button onclick="selectFullProcess()" class="w-full bg-gradient-to-r from-purple-950/60 via-fuchsia-950/70 to-purple-950/60 hover:from-purple-900 hover:to-fuchsia-900 border-2 border-fuchsia-500/50 hover:border-fuchsia-400 text-white font-black text-sm sm:text-base md:text-lg py-4 sm:py-5 px-3 sm:px-5 rounded-2xl shadow-[0_0_20px_rgba(217,70,239,0.25)] hover:shadow-[0_0_30px_rgba(217,70,239,0.45)] transition-all duration-300 flex items-center justify-center gap-2 group leading-snug">
-                        <span class="text-lg sm:text-2xl animate-pulse shrink-0">✨</span>
+                <div class="mt-2 pb-6 text-center">
+                    <button onclick="selectFullProcess()" class="w-full bg-gradient-to-r from-purple-950/60 via-fuchsia-950/70 to-purple-950/60 hover:from-purple-900 hover:to-fuchsia-900 border-2 border-fuchsia-500/50 hover:border-fuchsia-400 text-white font-black text-sm sm:text-base py-4 sm:py-5 px-4 rounded-2xl shadow-[0_0_20px_rgba(217,70,239,0.25)] hover:shadow-[0_0_30px_rgba(217,70,239,0.45)] transition-all duration-300 flex items-center justify-center gap-2 group leading-snug">
+                        <span class="text-lg animate-pulse shrink-0">✨</span>
                         <span class="font-extrabold">מעניין אותי לשמוע על ליווי אישי מלא ומעמיק</span>
-                        <span class="group-hover:-translate-x-1 transition-transform text-fuchsia-300 shrink-0 text-lg">←</span>
+                        <span class="group-hover:-translate-x-1 transition-transform text-fuchsia-300 shrink-0 text-base">←</span>
                     </button>
-                    <div class="text-[11px] sm:text-xs text-gray-400 mt-2.5 font-medium leading-relaxed px-2 max-w-sm mx-auto">
+                    <div class="text-[11px] sm:text-xs text-gray-400 mt-2 font-medium leading-relaxed px-2 max-w-sm mx-auto">
                         למי שרוצה מעטפת אישית צמודה יד ביד – כדי לפרק את המחסומים מהשורש ולבנות ביטחון יציב ואותנטי לתמיד.
                     </div>
                 </div>
@@ -429,7 +423,7 @@
             <div id="step-success" class="step-container flex-col text-center text-white my-auto">
                 <div class="relative main-card-frame p-6 sm:p-8 shadow-[0_0_50px_rgba(217,70,239,0.25)]">
                     
-                    <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-5 flex items-center justify-center">
+                    <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 flex items-center justify-center">
                         <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-fuchsia-600 via-purple-600 to-emerald-400 p-[3px] shadow-[0_0_30px_rgba(217,70,239,0.6)]">
                             <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center">
                                 <svg class="w-8 h-8 sm:w-10 sm:h-10 text-fuchsia-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -437,34 +431,24 @@
                                 </svg>
                             </div>
                         </div>
-                        <span class="absolute -top-1 -right-1 text-yellow-400 text-base sm:text-lg animate-bounce">⭐</span>
                     </div>
 
-                    <h2 class="text-xl sm:text-2xl md:text-3xl font-black mb-2.5 text-white leading-snug">
-                        איזה כיף! עשית את הצעד הראשון 🎉
+                    <h2 class="text-xl sm:text-2xl font-black mb-2 text-white leading-snug">
+                        איזה כיף! עשית צעד ראשון ומשמעותי 🎉
                     </h2>
-                    <p class="text-gray-300 mb-6 sm:mb-8 text-xs sm:text-sm md:text-base leading-relaxed max-w-sm mx-auto font-medium">
-                        הפרטים שלך נקלטו בהצלחה. כעת נותר לנו רק לתאם את מועד הפגישה שלנו בוואטסאפ ולהתחיל!
+                    <p class="text-gray-300 mb-6 text-xs sm:text-sm leading-relaxed max-w-sm mx-auto font-medium">
+                        הפרטים שלך נשמרו אצלי. נותר לנו רק לתאם את המועד המדויק שמתאים לך בוואטסאפ:
                     </p>
 
-                    <button onclick="handleSuccessWhatsApp()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white py-4 px-5 sm:px-6 rounded-2xl font-black text-sm sm:text-base md:text-lg shadow-[0_0_35px_rgba(217,70,239,0.45)] hover:shadow-[0_0_50px_rgba(217,70,239,0.65)] transition-all duration-300 flex items-center justify-center gap-2 group border border-fuchsia-400/40">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6 fill-current text-white shrink-0" viewBox="0 0 24 24">
-                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
-                        </svg>
-                        <span>לחץ/י כאן לתיאום הפגישה בוואטסאפ</span>
-                        <span class="group-hover:-translate-x-1 transition-transform">←</span>
+                    <button onclick="handleSuccessWhatsApp()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white py-4 px-5 rounded-2xl font-black text-base sm:text-lg shadow-[0_0_30px_rgba(16,185,129,0.45)] transition-all flex items-center justify-center gap-2">
+                        <span>לחץ/י כאן לתיאום המועד בוואטסאפ</span>
+                        <span class="text-lg">←</span>
                     </button>
-
-                    <div class="flex items-center justify-center gap-1.5 text-[10px] sm:text-[11px] text-gray-400 mt-3.5 font-medium">
-                        <span>🛡️</span>
-                        <span>בלחיצה יפתח הוואטסאפ שלך עם הודעת תיאום המוכנה לשליחה אלינו.</span>
-                    </div>
                 </div>
 
-                <button onclick="goBack()" class="text-xs text-gray-400 hover:text-fuchsia-300 underline opacity-70 mt-3.5 transition-colors">רגע, אני רוצה לחזור אחורה</button>
+                <button onclick="goBack()" class="text-xs text-gray-400 hover:text-fuchsia-300 underline opacity-70 mt-3 transition-colors">חזרה לשלב הקודם</button>
             </div>
 
-            <!-- Admin Dashboard -->
             <div id="admin-dashboard" class="step-container flex-col bg-slate-900 border border-slate-800 text-slate-100 rounded-3xl p-4 sm:p-6 min-h-[70vh] overflow-y-auto">
                 <div class="flex justify-between items-center mb-5 border-b border-slate-800 pb-3">
                     <h2 class="text-lg sm:text-xl font-black text-fuchsia-400">ניהול פניות (מדלן פריד)</h2>
@@ -542,15 +526,17 @@
             if (hiddenSteps.includes(stepId)) nav.classList.add('opacity-0', 'pointer-events-none');
             else nav.classList.remove('opacity-0', 'pointer-events-none');
             
-            if(stepId.startsWith('step-') && !isNaN(stepId.split('-')[1])) {
-                const num = parseInt(stepId.split('-')[1]);
-                document.getElementById('progress-fill').style.width = Math.round((num / 4) * 100) + '%';
+            if(stepId.startsWith('step-')) {
+                const stepOrder = {'step-1': 1, 'step-2': 2, 'step-open': 3, 'step-reflection': 3.5, 'step-details': 4};
+                if (stepOrder[stepId]) {
+                    document.getElementById('progress-fill').style.width = Math.round((stepOrder[stepId] / 4) * 100) + '%';
+                }
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function goBack() {
-            const history = ['step-0', 'step-1', 'step-2', 'step-3', 'step-4', 'step-reflection', 'step-details', 'step-summary', 'step-success'];
+            const history = ['step-0', 'step-1', 'step-2', 'step-open', 'step-reflection', 'step-details', 'step-summary', 'step-success'];
             const activeElem = document.querySelector('.step-active');
             if(!activeElem) return;
             const cur = activeElem.id;
@@ -564,16 +550,10 @@
             let msg = "";
             if (answer.includes("מי אני")) msg = "צעד אמיץ.";
             else if (answer.includes("נבלע")) msg = "מגיע לך להיראות.";
-            else if (answer.includes("מחשבות")) msg = "ננקה מחשבות.";
-            else if (answer.includes("דייטים") || answer.includes("לגשת")) msg = "נטפל בזה יחד.";
+            else if (answer.includes("מחשבות")) msg = "ננקה את הרעש.";
+            else if (answer.includes("דייטים") || answer.includes("לגשת")) msg = "נטפל בזה ביחד.";
             else if (answer.includes("חברתיות")) msg = "הזדמנות לצמיחה.";
             else if (answer.includes("חדשים")) msg = "אתגר טבעי.";
-            else if (answer.includes("רומנטיקה")) msg = "נשחרר את הלחץ.";
-            else if (answer.includes("מצלמה")) msg = "כוח שקיים בך.";
-            else if (answer.includes("שותק")) msg = "הקול שלך חשוב.";
-            else if (answer.includes("חוסר ביטחון")) msg = "נחזק את זה.";
-            else if (answer.includes("לא מכירים")) msg = "נכיר את המהות.";
-            else if (answer.includes("בדידות")) msg = "את/ה לא לבד.";
             else msg = "צעד חשוב קדימה.";
             
             const toast = document.getElementById('feedback-toast');
@@ -582,37 +562,38 @@
             setTimeout(() => { toast.style.opacity = '0'; }, 1800);
         }
 
-        function selectOption(q, v, n) {
+        function selectOption(q, v, nextTarget) {
             leadData.answers[q] = v;
             showContextualFeedback(v);
-            setTimeout(() => showStep('step-' + n), 400);
+            setTimeout(() => {
+                if (nextTarget === 'open') showStep('step-open');
+                else showStep('step-' + nextTarget);
+            }, 380);
         }
 
         function submitUrgencyCustom() {
             const val = document.getElementById('urgencyCustom').value.trim();
-            leadData.answers['בוער לשנות'] = val || 'לשחרר את התקיעות ולהרגיש ביטחון';
+            leadData.answers['בוער לשנות'] = val || 'להרגיש ביטחון ולהפסיק להיסגר';
             buildReflection();
             showStep('step-reflection');
         }
 
         function buildReflection() {
-            const challenge = leadData.answers['האתגר המרכזי'] || 'הקושי שלך';
-            const where = leadData.answers['איפה זה מורגש'] || 'בסיטואציות שונות';
+            const challenge = leadData.answers['האתגר המרכזי'] || 'הקושי מול אנשים';
+            const where = leadData.answers['איפה זה מורגש'] || 'באינטרקציות שונות';
             const challengePart = challenge.replace('להראות ', '').replace('אני ', '');
             
             const html = `
-                <p>אני רואה את ההתמודדות שלך עם <b>${challengePart}</b>, במיוחד כשזה קורה ב-<b>${where}</b>.</p>
-                <p class="mt-2">זה לגמרי הגיוני שחשוב לך <b>לשחרר את התקיעות הזו</b> ולהרגיש ביטחון אמיתי.</p>
+                <p>אני רואה כמה מעייף להתמודד עם <b>${challengePart}</b> ב-<b>${where}</b>, זה לגמרי טבעי.</p>
             `;
             document.getElementById('reflection-summary').innerHTML = html;
 
             const summaryIntro = document.getElementById('summary-personalized-intro');
             if (summaryIntro) {
-                summaryIntro.innerHTML = `בהתאם לתשובות שלך,<br class="block mb-1.5"><span class="text-xs sm:text-sm font-semibold opacity-90">(במיוחד ההתמודדות עם <b>${challengePart}</b> ב-<b>${where}</b>)</span><br class="block mt-1.5"><span class="text-white font-extrabold text-base">הפגישה בול עבורך.</span>`;
+                summaryIntro.innerHTML = `בהתאם לתשובות שלך,<br class="block mb-1"><span class="text-xs font-semibold opacity-90">(במיוחד ההתמודדות עם <b>${challengePart}</b> ב-<b>${where}</b>)</span><br class="block mt-1"><span class="text-white font-extrabold text-sm sm:text-base">הפגישה בול עבורך.</span>`;
             }
         }
 
-        // Contact Details Submit: Low friction, captures lead before any payment step
         async function submitLeadData() {
             const btn = document.getElementById('finalSubmitBtn');
             const name = document.getElementById('userName').value.trim();
@@ -621,13 +602,12 @@
             const expectations = document.getElementById('userExpectations').value.trim();
             const connected = document.getElementById('userConnected').value.trim();
             
-            // Only Name and Phone are strictly required to ensure maximum completion rate!
             if(!name || !phone) { 
                 showMsg('נא למלא שם וטלפון'); 
                 return; 
             }
             
-            btn.innerText = 'מעביר לצעד הבא...'; 
+            btn.innerHTML = '<span>מעביר לצעד הבא...</span>'; 
             btn.disabled = true;
             
             leadData.personal = { 
@@ -645,7 +625,7 @@
                 console.warn("Save sync warning:", e); 
             } finally { 
                 showStep('step-summary'); 
-                btn.innerText = 'המשך לקבלת הפתרון המותאם ←'; 
+                btn.innerHTML = '<span>לראות את הדרך המדויקת עבורי</span> <span class="text-lg">←</span>'; 
                 btn.disabled = false; 
             }
         }
@@ -668,17 +648,17 @@
         }
 
         function handleSuitabilityCheck() {
-            leadData.choice = 'בירור / בדיקת התאמה'; 
+            leadData.choice = 'בירור בוואטסאפ'; 
             saveToFirebase();
             const userName = leadData.personal?.name || '';
-            const msg = `היי מדלן, השארתי פרטים אבל אשמח להתייעץ איתך רגע בוואטסאפ ולבדוק התאמה... ❤️${userName ? ` שם: ${userName}` : ''}`;
+            const msg = `היי מדלן, עניתי עכשיו על השאלון ואשמח לבדוק איתך התאמה לפגישה ❤️${userName ? ` (שם: ${userName})` : ''}`;
             window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(msg)}`, '_blank');
             showStep('step-success');
         }
 
         function handleSuccessWhatsApp() {
             const userName = leadData.personal?.name || '';
-            const msg = `היי מדלן, שריינתי עכשיו את פגישת הפיצוח שלנו! אשמח שנתאם מועד שנוח לנו ביחד ❤️${userName ? ` (שם: ${userName})` : ''}`;
+            const msg = `היי מדלן, שריינתי עכשיו את פגישת הפיצוח שלנו! אשמח שנתאם מועד שנוח לנו יחד ❤️${userName ? ` (שם: ${userName})` : ''}`;
             window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
@@ -686,7 +666,7 @@
             leadData.choice = 'התעניינות בליווי עמוק'; 
             saveToFirebase();
             const userName = leadData.personal?.name || '';
-            const msg = `היי מדלן, השלמתי עכשיו את האבחון והסתקרנתי מאוד מהליווי העמוק... אני רוצה לשמוע איך זה עובד 💜${userName ? ` שם: ${userName}` : ''}`;
+            const msg = `היי מדלן, השלמתי עכשיו את השאלון ומעניין אותי לשמוע על ליווי אישי מלא ומעמיק 💜${userName ? ` (שם: ${userName})` : ''}`;
             window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(msg)}`, '_blank');
             showStep('step-success');
         }
@@ -746,7 +726,7 @@
                             <div class="text-xs"><b>סטטוס פנייה:</b> <span class="bg-fuchsia-100 text-fuchsia-800 px-3 py-1 rounded-full font-bold">${l.choice || 'לא נבחר'}</span></div>
                             <div class="space-y-2">
                                 <div class="p-3 bg-purple-50 rounded-xl border border-purple-100">
-                                    <div class="text-[10px] uppercase font-bold text-purple-600 mb-1">מה היית רוצה שיקרה:</div>
+                                    <div class="text-[10px] uppercase font-bold text-purple-600 mb-1">במה לעזור:</div>
                                     <div class="italic text-slate-800 font-semibold">${l.personal?.expectations || '--'}</div>
                                 </div>
                                 <div class="p-3 bg-pink-50 rounded-xl border border-pink-100">
@@ -759,7 +739,7 @@
                                 </div>
                             </div>
                             <div class="mt-2 pt-2 border-t border-slate-200">
-                                <div class="text-[10px] uppercase font-bold text-slate-500 mb-1">תשובות מפורטות מהשאלון:</div>
+                                <div class="text-[10px] uppercase font-bold text-slate-500 mb-1">תשובות מהשאלון:</div>
                                 <div class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl">${quizHtml}</div>
                             </div>
                         </div>`;
