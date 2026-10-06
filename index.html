@@ -398,28 +398,37 @@
                         </button>
 
                         <div class="flex items-center justify-center gap-1.5 text-xs text-fuchsia-200/90 mt-2 font-semibold text-center">
-                            <span>נתאם לנו בוואטסאפ מועד שנוח לך ✨</span>
+                            <span>לאחר מכן נתאם לנו מועד בוואטסאפ ✨</span>
                         </div>
                     </div>
                 </div>
 
+                <!-- Subtle & Understated WhatsApp Option (Soft White, Small, Secondary) -->
+                <div class="my-2.5 px-2 text-center">
+                    <button onclick="handleSuitabilityCheck()" class="text-gray-400 hover:text-white text-[11px] sm:text-xs transition-colors py-1 inline-flex items-center gap-1 opacity-80 hover:opacity-100 underline decoration-gray-500/40 underline-offset-4">
                 <!-- Questions & Zero-Pressure Suitability Check -->
-                <div class="my-3 px-2 text-center">
-                    <button onclick="handleSuitabilityCheck()" class="text-fuchsia-400 font-extrabold underline text-xs sm:text-sm decoration-fuchsia-500/50 underline-offset-4 hover:text-fuchsia-300 transition-colors py-1">
-                        רוצה לבדוק איתי קודם התאמה בוואטסאפ? 💬
+                <div class="my-2.5 px-2 text-center">
+                    <button onclick="handleSuitabilityCheck()" class="text-gray-400 hover:text-white transition-colors text-xs font-medium py-1">
+                        יש לך שאלה לפני כן? אפשר לכתוב לי בוואטסאפ 💬
                     </button>
                 </div>
 
-                <!-- Deep Mentoring Offer -->
-                <div class="mt-1 pb-6 text-center">
-                    <button onclick="selectFullProcess()" class="w-full bg-gradient-to-r from-purple-950/60 via-fuchsia-950/70 to-purple-950/60 hover:from-purple-900 hover:to-fuchsia-900 border-2 border-fuchsia-500/50 hover:border-fuchsia-400 text-white font-black text-xs sm:text-base py-3.5 sm:py-4 px-4 rounded-2xl shadow-[0_0_20px_rgba(217,70,239,0.25)] hover:shadow-[0_0_30px_rgba(217,70,239,0.45)] transition-all duration-300 flex items-center justify-center gap-2 group leading-snug">
-                        <span class="text-base sm:text-lg animate-pulse shrink-0">✨</span>
-                        <span class="font-extrabold">מעניין אותי לשמוע על ליווי אישי מלא ומעמיק</span>
-                    </button>
-                    <div class="text-[11px] sm:text-xs text-gray-300 mt-2 font-medium leading-relaxed px-2 max-w-sm mx-auto space-y-1">
-                        <p class="text-white font-bold text-xs sm:text-sm">למי שמוכן/ה לעבודת עומק מהשורש עם ליווי צמוד ביחד איתי –</p>
-                        <p class="text-gray-300">כדי לפרק את המחסומים ולבנות ביטחון אותנטי וביטוי חופשי.</p>
+                <!-- Deep Mentoring Offer (Clean, Non-AI Human Tone, No Outer Box) -->
+                <div class="mt-4 pb-6 text-center max-w-sm mx-auto px-1">
+                    <div class="space-y-1.5 mb-3 text-center">
+                        <h4 class="text-white font-black text-sm sm:text-base leading-snug">
+                            רק למי שמוכן/ה לעבודת עומק מהשורש עם ליווי צמוד ביחד איתי –
+                        </h4>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
+                            כדי לפרק את המחסומים ולבנות ביטחון אותנטי וביטוי חופשי כמו שצריך מול אנשים
+                        </p>
+                        <div class="text-sm pt-1 text-fuchsia-400">👇</div>
                     </div>
+                    
+                    <button onclick="selectFullProcess()" class="w-full bg-gradient-to-r from-purple-950/70 via-fuchsia-950/80 to-purple-950/70 hover:from-purple-900 hover:to-fuchsia-900 border-2 border-fuchsia-500/50 hover:border-fuchsia-400 text-white font-black text-sm sm:text-base py-4 px-5 rounded-2xl shadow-[0_0_20px_rgba(217,70,239,0.25)] hover:shadow-[0_0_30px_rgba(217,70,239,0.45)] transition-all duration-300 flex items-center justify-center gap-2 group active:scale-[0.98]">
+                        <span class="text-base sm:text-lg animate-pulse shrink-0">✨</span>
+                        <span>מעניין אותי לשמוע על ליווי אישי איתך</span>
+                    </button>
                 </div>
             </div>
 
@@ -667,10 +676,10 @@
         }
 
         function selectFullProcess() {
-            leadData.choice = 'התעניינות בליווי עמוק'; 
+            leadData.choice = 'התעניינות בליווי אישי'; 
             saveToFirebase();
             const userName = leadData.personal?.name || '';
-            const msg = `היי מדלן, השלמתי עכשיו את השאלון ומעניין אותי לשמוע על ליווי אישי מלא ומעמיק 💜${userName ? ` (שם: ${userName})` : ''}`;
+            const msg = `היי מדלן, השלמתי עכשיו את השאלון ומעניין אותי לשמוע על ליווי אישי איתך 💜${userName ? ` (שם: ${userName})` : ''}`;
             window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(msg)}`, '_blank');
             showStep('step-success');
         }
