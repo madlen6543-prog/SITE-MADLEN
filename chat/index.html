@@ -12,29 +12,16 @@
   const phone = "972524073915";
 
   const message =
-    "\u05D4\u05D9\u05D9 \u05DE\u05D3\u05DC\u05DF! " +
-    "\u05D0\u05E9\u05DE\u05D7 \u05DC\u05E7\u05D1\u05D5\u05E2 " +
-    "\u05D0\u05D9\u05EA\u05DA \u05E9\u05D9\u05D7\u05EA " +
-    "\u05D4\u05EA\u05D0\u05DE\u05D4 \u{1F60A}";
+    "היי מדלן! אשמח לקבוע איתך שיחת התאמה " +
+    "\u{1F60A}";
 
-  const text = encodeURIComponent(message);
+  const url =
+    "https://api.whatsapp.com/send?phone=" +
+    phone +
+    "&text=" +
+    encodeURIComponent(message);
 
-  const appLink =
-    "whatsapp://send?phone=" + phone +
-    "&text=" + text;
-
-  const webLink =
-    "https://wa.me/" + phone +
-    "?text=" + text;
-
-  // ניסיון פתיחה ישירה מתוך TikTok
-  if (/TikTok|musical_ly|Bytedance/i.test(
-      navigator.userAgent)) {
-    window.location.replace(appLink);
-  } else {
-    // שומרים על המסלול שעבד באינסטגרם
-    window.location.replace(webLink);
-  }
+  window.location.replace(url);
 </script>
 </body>
 </html>
