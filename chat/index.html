@@ -5,153 +5,36 @@
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex">
   <title>שיחת התאמה עם מדלן</title>
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fff8fc;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      color: #30242e;
-    }
-
-    .card {
-      width: min(90%, 380px);
-      padding: 32px 22px;
-    }
-
-    h1 { font-size: 25px; }
-
-    p {
-      line-height: 1.7;
-      color: #746776;
-    }
-
-    .button {
-      display: block;
-      margin-top: 22px;
-      padding: 17px;
-      border-radius: 16px;
-      background: #a65c8a;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      text-decoration: none;
-      border: none;
-      width: 100%;
-      cursor: pointer;
-    }
-
-    .secondary {
-      background: transparent;
-      color: #865374;
-      border: 1px solid #ddc5d4;
-    }
-
-    .hint { font-size: 13px; }
-
-    #manual { display: none; }
-  </style>
 </head>
-
 <body>
-  <main class="card" id="manual">
-    <h1>בואו נכיר!</h1>
-    <p>
-      שיחת התאמה אישית ללא עלות עם מדלן.
-    </p>
+<script>
+  const phone = "972524073915";
 
-    <button class="button" id="open">
-      פתיחת שיחה בוואטסאפ
-    </button>
+  const message =
+    "\u05D4\u05D9\u05D9 \u05DE\u05D3\u05DC\u05DF! " +
+    "\u05D0\u05E9\u05DE\u05D7 \u05DC\u05E7\u05D1\u05D5\u05E2 " +
+    "\u05D0\u05D9\u05EA\u05DA \u05E9\u05D9\u05D7\u05EA " +
+    "\u05D4\u05EA\u05D0\u05DE\u05D4 \u{1F60A}";
 
-    <a class="button secondary"
-       id="web-link">
-      מעבר דרך אתר WhatsApp
-    </a>
+  const text = encodeURIComponent(message);
 
-    <button class="button secondary"
-            id="copy">
-      העתקת ההודעה
-    </button>
+  const appLink =
+    "whatsapp://send?phone=" + phone +
+    "&text=" + text;
 
-    <p class="hint">
-      לא נפתח?
-      נסו לפתוח את הקישור
-      בדפדפן החיצוני דרך
-      התפריט של TikTok.
-    </p>
-  </main>
+  const webLink =
+    "https://wa.me/" + phone +
+    "?text=" + text;
 
-  <script>
-    const phone = "972524073915";
-
-    const message =
-      "\u05d4\u05d9\u05d9 \u05de\u05d3\u05dc\u05df! " +
-      "\u05d0\u05e9\u05de\u05d7 " +
-      "\u05dc\u05e7\u05d1\u05d5\u05e2 " +
-      "\u05d0\u05d9\u05ea\u05da " +
-      "\u05e9\u05d9\u05d7\u05ea " +
-      "\u05d4\u05ea\u05d0\u05de\u05d4 " +
-      "\u{1F60A}";
-
-    const encoded = encodeURIComponent(message);
-
-    const webUrl =
-      "https://wa.me/" + phone +
-      "?text=" + encoded;
-
-    const appUrl =
-      "whatsapp://send?phone=" +
-      phone + "&text=" + encoded;
-
-    const agent = navigator.userAgent;
-
-    const isTikTok =
-      /TikTok|musical_ly|Bytedance|trill/i
-        .test(agent);
-
-    const manual =
-      document.getElementById("manual");
-
-    document.getElementById(
-      "web-link"
-    ).href = webUrl;
-
-    document.getElementById(
-      "open"
-    ).addEventListener("click", () => {
-      window.location.href = appUrl;
-    });
-
-    document.getElementById(
-      "copy"
-    ).addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(message);
-        alert("ההודעה הועתקה!");
-      } catch (error) {
-        alert("לא ניתן להעתיק אוטומטית");
-      }
-    });
-
-    if (isTikTok) {
-      manual.style.display = "block";
-    } else {
-      setTimeout(() => {
-        manual.style.display = "block";
-      }, 1600);
-
-      window.location.replace(webUrl);
-    }
-  </script>
+  // ניסיון פתיחה ישירה מתוך TikTok
+  if (/TikTok|musical_ly|Bytedance/i.test(
+      navigator.userAgent)) {
+    window.location.replace(appLink);
+  } else {
+    // שומרים על המסלול שעבד באינסטגרם
+    window.location.replace(webLink);
+  }
+</script>
 </body>
 </html>
