@@ -5,22 +5,73 @@
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
   <title>שיחת התאמה עם מדלן</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff9fc;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #fallback {
+      display: none;
+      padding: 24px;
+    }
+
+    a {
+      display: inline-block;
+      padding: 14px 26px;
+      border-radius: 30px;
+      background: #b9709b;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
 </head>
+
 <body>
-  <p>מעבירים אותך לוואטסאפ...</p>
+  <div id="fallback">
+    <p>למעבר לשיחת התאמה עם מדלן</p>
+    <a id="whatsapp-link" href="#">
+      פתיחת וואטסאפ
+    </a>
+  </div>
 
   <script>
     const phone = "972524073915";
 
     const message =
-      "\u05D4\u05D9\u05D9 \u05DE\u05D3\u05DC\u05DF! " +
-      "\u05D0\u05E9\u05DE\u05D7 \u05DC\u05E7\u05D1\u05D5\u05E2 " +
-      "\u05D0\u05D9\u05EA\u05DA \u05E9\u05D9\u05D7\u05EA " +
-      "\u05D4\u05EA\u05D0\u05DE\u05D4 \u{1F60A}";
+      "\u05d4\u05d9\u05d9 \u05de\u05d3\u05dc\u05df! " +
+      "\u05d0\u05e9\u05de\u05d7 " +
+      "\u05dc\u05e7\u05d1\u05d5\u05e2 " +
+      "\u05d0\u05d9\u05ea\u05da " +
+      "\u05e9\u05d9\u05d7\u05ea " +
+      "\u05d4\u05ea\u05d0\u05de\u05d4 " +
+      "\u{1F60A}";
 
-    const url = "https://wa.me/" + phone +
-      "?text=" + encodeURIComponent(message);
+    const url =
+      "https://api.whatsapp.com/send?phone=" +
+      phone +
+      "&text=" +
+      encodeURIComponent(message);
+
+    document.getElementById(
+      "whatsapp-link"
+    ).href = url;
+
+    setTimeout(() => {
+      document.getElementById(
+        "fallback"
+      ).style.display = "block";
+    }, 1800);
 
     window.location.replace(url);
   </script>
